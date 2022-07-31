@@ -67,7 +67,7 @@ router.delete(
 
 router.get(
   '/:userId',
-  verifyTokenAndAuthorization,
+  verifyToken,
   async (request: Request, response: Response) => {
     let { userId } = request.params
 

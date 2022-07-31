@@ -80,7 +80,8 @@ router.get('/:id', async (request: Request, response: Response) => {
 // Get All Products
 
 router.get('/', async (request: Request, response: Response) => {
-  const { new: qNew, category, limit } = request.query
+  const { new: qNew, category, limit, filter } = request.query
+
   try {
     let products
 
@@ -100,6 +101,12 @@ router.get('/', async (request: Request, response: Response) => {
           },
         })
       }
+    } else if (filter) {
+      const { productTitle }: any = filter
+
+      products = await Product.find({
+        title: new RegExp(productTitle, 'gi'),
+      })
     } else {
       products = await Product.find()
     }
