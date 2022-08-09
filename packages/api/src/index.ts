@@ -10,7 +10,8 @@ import cartRoute from './app/routes/cart'
 import orderRoute from './app/routes/order'
 import productRoute from './app/routes/product'
 import categoryRoute from './app/routes/category'
-import stripeRoute from './app/routes/stripe'
+// import stripeRoute from './app/routes/stripe'
+import paymentRoute from './app/routes/payment'
 
 const app = express()
 
@@ -30,6 +31,6 @@ app.use('/api/carts', cartRoute)
 app.use('/api/orders', orderRoute)
 app.use('/api/products', productRoute)
 app.use('/api/categories', categoryRoute)
-app.use('/api/checkout', stripeRoute)
+app.use('/api/checkout', paymentRoute)
 
 app.listen(process.env.PORT || 3333, () => console.log('Backend is running!'))

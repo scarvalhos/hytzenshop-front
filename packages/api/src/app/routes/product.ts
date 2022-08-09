@@ -80,7 +80,7 @@ router.get('/:id', async (request: Request, response: Response) => {
 // Get All Products
 
 router.get('/', async (request: Request, response: Response) => {
-  const { new: qNew, category, limit, filter } = request.query
+  const { new: qNew, category, limit, filter, order } = request.query
 
   try {
     let products
@@ -107,6 +107,8 @@ router.get('/', async (request: Request, response: Response) => {
       products = await Product.find({
         title: new RegExp(productTitle, 'gi'),
       })
+    } else if (order === 'random') {
+      products = await Product.aggregate([{ $sample: { size: 5 } }])
     } else {
       products = await Product.find()
     }

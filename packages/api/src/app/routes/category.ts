@@ -15,7 +15,7 @@ router.post(
     try {
       const category = await Category.find(request.body)
 
-      if (category) {
+      if (category === []) {
         return response.status(400).json('Essa categoria já existe')
       }
 
