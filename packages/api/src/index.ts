@@ -25,7 +25,7 @@ export const io = new Server(httpServer, {
   },
 })
 
-app.use(cors())
+app.use(cors({ origin: '*' }))
 
 app.use(express.json())
 
