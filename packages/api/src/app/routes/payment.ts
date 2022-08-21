@@ -63,14 +63,14 @@ router.post('/payment', async (request: Request, response: Response) => {
 router.post(
   '/payment/webhooks',
   async (request: Request, response: Response) => {
-    const { data, type } = request.params as any
+    const { id, topic } = request.query as any
 
     try {
-      if (type === 'payment') {
-        const payment = await mercadopago.payment.findById(data.id)
+      if (topic === 'payment') {
+        const payment = await mercadopago.payment.findById(id)
 
         const mpResponse = await fetch(
-          `https://api.mercadopago.com/v1/payments/${data.id}`,
+          `https://api.mercadopago.com/v1/payments/${id}`,
           {
             method: 'GET',
             headers: {
@@ -84,12 +84,11 @@ router.post(
         const mpResponseParse = await mpResponse.json()
 
         io.emit('update.payment', { data: mpResponseParse })
-
         return response
           .status(200)
           .json({ payment: payment, response: mpResponseParse })
       }
-      // return response.status(200).json(data)
+      return response.status(200)
     } catch (error) {
       return response.status(400).json(error)
     }
