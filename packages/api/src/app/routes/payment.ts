@@ -45,9 +45,7 @@ router.post('/payment', async (request: Request, response: Response) => {
 router.post(
   '/payment/webhooks',
   async (request: Request, response: Response) => {
-    const {
-      data: { data },
-    } = request.body
+    const { data } = request.body
 
     try {
       if (data.type === 'payment') {
@@ -67,7 +65,7 @@ router.post(
 
         const mpResponseParse = await mpResponse.json()
 
-        io.emit('update_payment', mpResponseParse)
+        io.emit('update.payment', { data: mpResponseParse })
 
         return response
           .status(200)

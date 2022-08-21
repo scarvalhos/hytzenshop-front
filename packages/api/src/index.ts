@@ -4,6 +4,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import http from 'http'
+
 import { Server } from 'socket.io'
 
 import authRoute from './app/routes/auth'
@@ -18,14 +19,15 @@ import paymentRoute from './app/routes/payment'
 const app = express()
 const httpServer = http.createServer(app)
 
-export const io = new Server(httpServer)
+export const io = new Server(httpServer, {
+  cors: {
+    origin: '*',
+  },
+})
 
 app.use(cors())
-app.use(express.json())
 
-io.on('connection', (socket) => {
-  socket.emit('Hello', { name: 'Samara Carvalho' })
-})
+app.use(express.json())
 
 const MONGODB_URL = process.env.MONGODB_URL as string
 
