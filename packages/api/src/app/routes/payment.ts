@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import mercadopago from 'mercadopago'
+import { io } from '../..'
 
 mercadopago.configure({
   access_token: process.env.MERCADO_PAGO_ACCESS_TOKEN as string,
@@ -63,10 +64,10 @@ router.post(
             body: JSON.stringify(request.body),
           }
         )
+
         const mpResponseParse = await mpResponse.json()
 
-        console.log(payment)
-        console.log(mpResponseParse)
+        io.emit('update_payment', mpResponseParse)
 
         return response
           .status(200)
