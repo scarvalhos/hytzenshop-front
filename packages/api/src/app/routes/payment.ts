@@ -63,10 +63,10 @@ router.post('/payment', async (request: Request, response: Response) => {
 router.post(
   '/payment/webhooks',
   async (request: Request, response: Response) => {
-    const { data } = request.body
+    const { data, type } = request.params as any
 
     try {
-      if (data.type === 'payment') {
+      if (type === 'payment') {
         const payment = await mercadopago.payment.findById(data.id)
 
         const mpResponse = await fetch(
