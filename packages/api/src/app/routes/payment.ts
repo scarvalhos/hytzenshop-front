@@ -29,6 +29,24 @@ router.post('/payment', async (request: Request, response: Response) => {
     }
   }
 
+  if (method === 'pix') {
+    try {
+      const res = await fetch('https://api.mercadopago.com/v1/payments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(request.body),
+      })
+
+      const data = await res.json()
+
+      return response.status(200).json(data)
+    } catch (error) {
+      return response.status(400).json(error)
+    }
+  }
+
   try {
     const data = await mercadopago.payment.create(request.body)
 
