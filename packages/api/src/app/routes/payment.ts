@@ -70,16 +70,22 @@ router.post(
       if (topic === 'payment') {
         const payment = await mercadopago.payment.findById(id)
 
-        fetch(`https://api.mercadopago.com/v1/payments/${id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
-          },
-        }).then((res) => {
-          io.emit('update.payment', { data: res })
-          return response.status(200).json({ payment: payment, response: res })
-        })
+        const mpResponse = await fetch(
+          `https://api.mercadopago.com/v1/payments/${id}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
+            },
+          }
+        )
+
+        io.emit('update.payment', { data: mpResponse })
+
+        return response
+          .status(200)
+          .json({ payment: payment, response: mpResponse })
       }
       return response.status(200)
     } catch (error) {
