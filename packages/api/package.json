@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/index.ts",
     "build": "tsc",
@@ -23,6 +23,7 @@
     "jsonwebtoken": "^8.5.1",
     "mercadopago": "^1.5.14",
     "mongoose": "^6.4.4",
+    "node-fetch": "^3.2.10",
     "socket.io": "^4.5.1",
     "stripe": "^9.12.0",
     "typescript": "^4.7.4"

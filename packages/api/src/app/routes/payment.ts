@@ -81,11 +81,13 @@ router.post(
           }
         )
 
-        io.emit('update.payment', { data: mpResponse })
+        const mpResponseParsed = await mpResponse.json()
+
+        io.emit('update.payment', { data: mpResponseParsed })
 
         return response
           .status(200)
-          .json({ payment: payment, response: mpResponse })
+          .json({ payment: payment, response: mpResponseParsed })
       }
       return response.status(200)
     } catch (error) {
