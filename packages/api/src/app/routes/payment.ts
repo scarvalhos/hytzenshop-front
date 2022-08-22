@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express'
 import mercadopago from 'mercadopago'
+import fetch from 'cross-fetch'
 import { io } from '../..'
 
 mercadopago.configure({
@@ -69,24 +70,16 @@ router.post(
       if (topic === 'payment') {
         const payment = await mercadopago.payment.findById(id)
 
-        const mpResponse = await fetch(
-          `https://api.mercadopago.com/v1/payments/${id}`,
-          {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
-            },
-            body: JSON.stringify(request.body),
-          }
-        )
-
-        const mpResponseParse = await mpResponse.json()
-
-        io.emit('update.payment', { data: mpResponseParse })
-        return response
-          .status(200)
-          .json({ payment: payment, response: mpResponseParse })
+        fetch(`https://api.mercadopago.com/v1/payments/${id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
+          },
+        }).then((res) => {
+          io.emit('update.payment', { data: res })
+          return response.status(200).json({ payment: payment, response: res })
+        })
       }
       return response.status(200)
     } catch (error) {
