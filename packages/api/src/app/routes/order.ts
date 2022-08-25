@@ -56,6 +56,10 @@ router.patch(
     try {
       const order = await Order.where({ mpPaymentId: id })
 
+      if (!order) {
+        return response.status(500).json({ message: 'Pedido não encontrado!' })
+      }
+
       const updatedOrder = await Order.findByIdAndUpdate(
         order[0].id,
         {
@@ -63,7 +67,8 @@ router.patch(
         },
         { new: true }
       )
-      return response.status(200).json({ order, updatedOrder })
+
+      return response.status(200).json(updatedOrder)
     } catch (error) {
       return response.status(500).json(error)
     }
