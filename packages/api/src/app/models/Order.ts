@@ -13,6 +13,7 @@ interface IOrder {
   amount: number
   address: {}
   status: string
+  mpPaymentId: string
 }
 
 const OrderSchema = new mongoose.Schema<IOrder>(
@@ -49,6 +50,9 @@ const OrderSchema = new mongoose.Schema<IOrder>(
     status: {
       type: String,
       default: 'pending',
+    },
+    mpPaymentId: {
+      type: String,
     },
   },
   { timestamps: true }

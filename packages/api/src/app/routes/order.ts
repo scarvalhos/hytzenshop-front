@@ -45,6 +45,31 @@ router.put(
   }
 )
 
+// User Update Order
+
+router.patch(
+  '/:id',
+  verifyToken,
+  async (request: Request, response: Response) => {
+    let { id } = request.params
+
+    try {
+      const order = await Order.where({ mpPaymentId: id })
+
+      const updatedOrder = await Order.findByIdAndUpdate(
+        order[0].id,
+        {
+          $set: request.body,
+        },
+        { new: true }
+      )
+      return response.status(200).json({ order, updatedOrder })
+    } catch (error) {
+      return response.status(500).json(error)
+    }
+  }
+)
+
 // Delete Order
 
 router.delete(
