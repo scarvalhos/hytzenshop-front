@@ -83,7 +83,9 @@ router.post(
 
         const mpResponseParsed = await mpResponse.json()
 
-        io.emit('update.payment', { data: mpResponseParsed })
+        if (mpResponseParsed.status) {
+          io.emit('update.payment', { data: mpResponseParsed })
+        }
 
         return response
           .status(200)
