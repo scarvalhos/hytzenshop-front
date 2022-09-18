@@ -120,7 +120,7 @@ router.get(
     let { userId } = request.params
 
     try {
-      const orders = await Order.find({ userId })
+      const orders = await Order.find({ userId }).sort({ createdAt: -1 })
 
       return response.status(200).json(orders)
     } catch (error) {
@@ -136,7 +136,7 @@ router.get(
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
     try {
-      const orders = await Order.find()
+      const orders = await Order.find().sort({ createdAt: -1 })
 
       return response.status(200).json(orders)
     } catch (error) {
