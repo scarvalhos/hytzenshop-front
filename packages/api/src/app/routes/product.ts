@@ -1,8 +1,7 @@
 import express, { Request, Response } from 'express'
 
-import { Product } from '../models/Product'
-
 import { verifyTokenAndAdmin } from '../middlewares/verifyToken'
+import { Product } from '../models/Product'
 
 const router = express.Router()
 

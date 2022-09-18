@@ -1,9 +1,11 @@
 import 'dotenv/config'
 
-import express from 'express'
 import mongoose from 'mongoose'
+import express from 'express'
+import morgan from 'morgan'
 import cors from 'cors'
 import http from 'http'
+import path from 'path'
 
 import { Server } from 'socket.io'
 
@@ -13,8 +15,8 @@ import cartRoute from './app/routes/cart'
 import orderRoute from './app/routes/order'
 import productRoute from './app/routes/product'
 import categoryRoute from './app/routes/category'
-// import stripeRoute from './app/routes/stripe'
 import paymentRoute from './app/routes/payment'
+import filesRoute from './app/routes/files'
 
 const app = express()
 const httpServer = http.createServer(app)
@@ -26,8 +28,13 @@ export const io = new Server(httpServer, {
 })
 
 app.use(cors({ origin: '*' }))
-
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(morgan('dev'))
+app.use(
+  '/files',
+  express.static(path.resolve(__dirname, '..', 'tmp', 'uploads'))
+)
 
 const MONGODB_URL = process.env.MONGODB_URL as string
 
@@ -43,6 +50,7 @@ app.use('/api/orders', orderRoute)
 app.use('/api/products', productRoute)
 app.use('/api/categories', categoryRoute)
 app.use('/api/checkout', paymentRoute)
+app.use('/api/files', filesRoute)
 
 httpServer.listen(process.env.PORT || 3333, () =>
   console.log('Backend is running!')

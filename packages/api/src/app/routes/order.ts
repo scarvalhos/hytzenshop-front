@@ -93,6 +93,24 @@ router.delete(
   }
 )
 
+// Get User Order
+
+router.get(
+  '/order/:orderId',
+  verifyTokenAndAuthorization,
+  async (request: Request, response: Response) => {
+    let { orderId } = request.params
+
+    try {
+      const orders = await Order.findById(orderId)
+
+      return response.status(200).json(orders)
+    } catch (error) {
+      return response.status(500).json(error)
+    }
+  }
+)
+
 // Get User Orders
 
 router.get(

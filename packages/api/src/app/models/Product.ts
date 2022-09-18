@@ -3,7 +3,11 @@ import mongoose, { model } from 'mongoose'
 interface IProduct {
   title: string
   description: string
-  image: string
+  images: {
+    id: string
+    name: string
+    url: string
+  }[]
   categories: []
   size: []
   color: []
@@ -23,10 +27,20 @@ const ProductSchema = new mongoose.Schema<IProduct>(
       type: String,
       required: true,
     },
-    image: {
-      type: String,
-      required: true,
-    },
+    images: [
+      {
+        id: {
+          type: String,
+        },
+        name: {
+          type: String,
+        },
+
+        url: {
+          type: String,
+        },
+      },
+    ],
     categories: {
       type: [],
     },
