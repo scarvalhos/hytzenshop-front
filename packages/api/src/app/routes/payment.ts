@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 import mercadopago from 'mercadopago'
 import fetch from 'cross-fetch'
+
 import { io } from '../..'
 
 mercadopago.configure({
@@ -8,6 +9,17 @@ mercadopago.configure({
 })
 
 const router = express.Router()
+
+router.get('/:id', async (request: Request, response: Response) => {
+  const { id } = request.params as any
+  try {
+    const payment = await mercadopago.payment.findById(id)
+
+    return response.status(200).json(payment)
+  } catch (error) {
+    return response.status(400).json(error)
+  }
+})
 
 router.post('/payment', async (request: Request, response: Response) => {
   const { method } = request.params
