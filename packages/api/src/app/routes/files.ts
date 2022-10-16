@@ -17,6 +17,27 @@ router.get('/', async (request: Request, response: Response) => {
   }
 })
 
+// GET FILE
+
+router.get('/:id', async (request: Request, response: Response) => {
+  const { id } = request.params
+
+  try {
+    const file = await File.findById(id)
+
+    return response.status(200).json({
+      message: 'Arquivo encontrado com sucesso!',
+      data: {
+        file,
+      },
+    })
+  } catch (error) {
+    return response.status(500).json(error)
+  }
+})
+
+// CREATE FILES
+
 router.post(
   '/',
   multer(multerConfig).single('file'),
@@ -43,6 +64,8 @@ router.post(
     }
   }
 )
+
+// DELETE FILES
 
 router.delete('/:id', async (request: Request, response: Response) => {
   try {

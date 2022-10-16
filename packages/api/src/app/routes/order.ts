@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express'
 
+import { prismaClient } from '../../database/prismaClient'
+import { pagination } from '../middlewares/pagination'
 import { Order } from '../models/Order'
 
 import {
@@ -10,14 +12,34 @@ import {
 
 const router = express.Router()
 
+type PaymentStatus =
+  | 'pending'
+  | 'approved'
+  | 'authorized'
+  | 'in_process'
+  | 'in_mediation'
+  | 'rejected'
+  | 'cancelled'
+  | 'refunded'
+  | 'charged_back'
+
 // Create Order
 
 router.post('/', verifyToken, async (request: Request, response: Response) => {
+  const { user, ...payload } = request.body
   try {
-    const newOrder = await Order.create(request.body)
+    const newOrder = await prismaClient.order.create({
+      data: payload,
+    })
 
-    return response.status(201).json(newOrder)
+    return response.status(201).json({
+      message: 'Pedido criado com sucesso!',
+      data: {
+        order: newOrder,
+      },
+    })
   } catch (error) {
+    console.log(error)
     return response.status(500).json(error)
   }
 })
@@ -31,14 +53,19 @@ router.put(
     let { id } = request.params
 
     try {
-      const updatedOrder = await Order.findByIdAndUpdate(
-        id,
-        {
-          $set: request.body,
+      const updatedOrder = await prismaClient.order.update({
+        where: {
+          id,
         },
-        { new: true }
-      )
-      return response.status(200).json(updatedOrder)
+        data: request.body,
+      })
+
+      return response.status(200).json({
+        message: 'Pedido atualizado com sucesso!',
+        data: {
+          order: updatedOrder,
+        },
+      })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -48,27 +75,33 @@ router.put(
 // User Update Order
 
 router.patch(
-  '/:id',
+  '/:id/:status',
   verifyToken,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    let { id, status } = request.params as { id: string; status: PaymentStatus }
 
     try {
-      const order = await Order.where({ mpPaymentId: id })
+      const order = await prismaClient.order.findFirst({
+        where: { mpPaymentId: id },
+      })
 
       if (!order) {
         return response.status(500).json({ message: 'Pedido não encontrado!' })
       }
 
-      const updatedOrder = await Order.findByIdAndUpdate(
-        order[0].id,
-        {
-          $set: request.body,
+      const updatedOrder = await prismaClient.order.update({
+        where: { id: order.id },
+        data: {
+          status,
         },
-        { new: true }
-      )
+      })
 
-      return response.status(200).json(updatedOrder)
+      return response.status(200).json({
+        message: 'Pedido atualizado com sucesso!',
+        data: {
+          order: updatedOrder,
+        },
+      })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -84,9 +117,19 @@ router.delete(
     let { id } = request.params
 
     try {
-      await Order.findByIdAndDelete(id)
+      const order = await prismaClient.order.findUnique({ where: { id } })
 
-      return response.status(200).json('Order has been deleted!')
+      if (!order) {
+        return response.status(200).json({
+          message: 'Pedido não encontrado!',
+        })
+      }
+
+      await prismaClient.order.delete({ where: { id } })
+
+      return response.status(200).json({
+        message: 'Pedido excluído com sucesso!',
+      })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -102,9 +145,16 @@ router.get(
     let { orderId } = request.params
 
     try {
-      const orders = await Order.findById(orderId)
+      const order = await prismaClient.order.findUnique({
+        where: { id: orderId },
+      })
 
-      return response.status(200).json(orders)
+      return response.status(200).json({
+        message: 'Pedido encontrado com sucesso!',
+        data: {
+          order,
+        },
+      })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -120,9 +170,14 @@ router.get(
     let { userId } = request.params
 
     try {
-      const orders = await Order.find({ userId }).sort({ createdAt: -1 })
+      const orders = await prismaClient.order.findMany({ where: { userId } })
 
-      return response.status(200).json(orders)
+      return response.status(200).json({
+        message: 'Pedidos encontrados com sucesso!',
+        data: {
+          orders,
+        },
+      })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -133,13 +188,34 @@ router.get(
 
 router.get(
   '/',
+  pagination,
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    try {
-      const orders = await Order.find().sort({ createdAt: -1 })
+    const {
+      pagination: { take, sort, skip, order, filter },
+    } = request as any
 
-      return response.status(200).json(orders)
+    try {
+      const ordersCount = await prismaClient.order.count({
+        where: { ...filter },
+      })
+
+      const orders = await prismaClient.order.findMany({
+        where: { ...filter },
+        orderBy: { [sort]: order },
+        skip,
+        take,
+      })
+
+      return response.status(200).json({
+        message: 'Pedidos listados com sucesso!',
+        data: {
+          count: ordersCount,
+          orders,
+        },
+      })
     } catch (error) {
+      console.log(error)
       return response.status(500).json(error)
     }
   }
@@ -150,7 +226,7 @@ router.get(
 router.get(
   '/income',
   verifyTokenAndAdmin,
-  async (request: Request, response: Response) => {
+  async (_request: Request, response: Response) => {
     const date = new Date()
     const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
     const previousMonth = new Date(

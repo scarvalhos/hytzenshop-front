@@ -7,6 +7,7 @@ import cors from 'cors'
 import http from 'http'
 import path from 'path'
 
+import { testePrismaConnection } from './database/prismaClient'
 import { Server } from 'socket.io'
 
 import authRoute from './app/routes/auth'
@@ -17,6 +18,8 @@ import productRoute from './app/routes/product'
 import categoryRoute from './app/routes/category'
 import paymentRoute from './app/routes/payment'
 import filesRoute from './app/routes/files'
+
+testePrismaConnection()
 
 const app = express()
 const httpServer = http.createServer(app)

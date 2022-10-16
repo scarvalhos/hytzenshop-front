@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 
-import { Cart } from '../models/Cart'
+import { prismaClient } from '../../database/prismaClient'
 
 import {
   verifyToken,
@@ -14,7 +14,9 @@ const router = express.Router()
 
 router.post('/', verifyToken, async (request: Request, response: Response) => {
   try {
-    const newCart = await Cart.create(request.body)
+    const newCart = await prismaClient.cart.create({
+      data: { userId: request.body.userId },
+    })
 
     return response.status(201).json(newCart)
   } catch (error) {
@@ -31,13 +33,12 @@ router.put(
     let { id } = request.params
 
     try {
-      const updatedCart = await Cart.findByIdAndUpdate(
-        id,
-        {
-          $set: request.body,
+      const updatedCart = await prismaClient.cart.update({
+        where: { id },
+        data: {
+          products: request.body.products,
         },
-        { new: true }
-      )
+      })
       return response.status(200).json(updatedCart)
     } catch (error) {
       return response.status(500).json(error)
@@ -54,7 +55,7 @@ router.delete(
     let { id } = request.params
 
     try {
-      await Cart.findByIdAndDelete(id)
+      await prismaClient.cart.delete({ where: { id } })
 
       return response.status(200).json('Cart has been deleted!')
     } catch (error) {
@@ -72,7 +73,9 @@ router.get(
     let { userId } = request.params
 
     try {
-      const cart = await Cart.findOne({ userId })
+      const cart = await prismaClient.cart.findFirst({
+        where: { userId },
+      })
 
       return response.status(200).json(cart)
     } catch (error) {
@@ -88,7 +91,7 @@ router.get(
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
     try {
-      const carts = await Cart.find()
+      const carts = await prismaClient.cart.findMany()
 
       return response.status(200).json(carts)
     } catch (error) {

@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 
-import { hash } from '../../config/hash'
-import { User } from '../models/User'
+import { prismaClient } from '../../database/prismaClient'
+import { pagination } from '../middlewares/pagination'
 
 import {
   verifyTokenAndAdmin,
@@ -10,21 +10,37 @@ import {
 
 const router = express.Router()
 
-// Get all users
-
 router.get(
   '/',
   verifyTokenAndAdmin,
+  pagination,
   async (request: Request, response: Response) => {
-    const query = request.query.new
-    try {
-      const users = query
-        ? await User.find().sort({ _id: -1 }).limit(5)
-        : await User.find()
+    const {
+      pagination: { take, sort, skip, order, filter },
+    } = request as any
 
-      return response.status(200).json(users)
+    try {
+      const usersCount = await prismaClient.user.count({
+        where: { ...filter },
+      })
+
+      const users = await prismaClient.user.findMany({
+        where: { ...filter },
+        include: { userData: { include: { address: true } } },
+        orderBy: { [sort]: order },
+        skip,
+        take,
+      })
+
+      return response.status(200).json({
+        message: 'Usuários listados com sucesso!',
+        data: {
+          count: usersCount,
+          users,
+        },
+      })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({ error })
     }
   }
 )
@@ -35,28 +51,33 @@ router.get(
   '/stats',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
+    const { orderBy, counter } = request.query as any
+
     const date = new Date()
-    const lastYear = new Date(date.setFullYear(date.getFullYear() - 1))
+    const lastYear = new Date(date.setFullYear(date.getFullYear() - counter))
+
+    const lastMonth = new Date(date.setMonth(date.getMonth() - counter))
+    const previousMonth = new Date(
+      new Date().setMonth(lastMonth.getMonth() - counter)
+    )
 
     try {
-      const data = await User.aggregate([
-        { $match: { createdAt: { $gte: lastYear } } },
-        {
-          $project: {
-            month: { $month: '$createdAt' },
-          },
+      const stats = await prismaClient.user.groupBy({
+        by: ['email', 'createdAt'],
+        where: {
+          createdAt: { gte: orderBy === 'ano' ? lastYear : previousMonth },
         },
-        {
-          $group: {
-            _id: '$month',
-            total: { $sum: 1 },
-          },
-        },
-      ])
+      })
 
-      return response.status(200).json(data)
+      return response.status(200).json({
+        message: `Usuários cadastrados no último ${orderBy} listados com sucesso!`,
+        data: {
+          count: stats.length,
+          stats,
+        },
+      })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({ error })
     }
   }
 )
@@ -70,11 +91,14 @@ router.get(
     let { id } = request.params
 
     try {
-      const user = await User.findById(id)
+      const user = await prismaClient.user.findUnique({
+        where: { id },
+        include: { userData: { include: { address: true } } },
+      })
 
-      return response.status(200).json(user)
+      return response.status(200).json({ user })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({ error })
     }
   }
 )
@@ -86,23 +110,40 @@ router.put(
   verifyTokenAndAuthorization,
   async (request: Request, response: Response) => {
     let { id } = request.params
-    let { user, ...rest } = request.body
+    let { userData } = request.body
 
-    if (rest.password) {
-      rest.password = CryptoJS.AES.encrypt(rest.password, hash).toString()
-    }
+    const address = userData.address || {}
+
+    let updatedUser
 
     try {
-      const updatedUser = await User.findByIdAndUpdate(
-        id,
-        {
-          $set: rest,
+      const user = await prismaClient.user.findUnique({
+        where: { id },
+        include: { userData: { include: { address: true } } },
+      })
+
+      if (address) {
+        updatedUser = await prismaClient.userAddress.update({
+          where: { id: user?.userData?.userAddressId || '' },
+          data: { ...address },
+        })
+      }
+
+      if (userData) {
+        updatedUser = await prismaClient.userData.update({
+          where: { id: user?.userDataId || '' },
+          data: { ...userData },
+        })
+      }
+
+      return response.status(200).json({
+        message: 'Usuário atualizado com sucesso!',
+        data: {
+          userData: updatedUser,
         },
-        { new: true }
-      )
-      return response.status(200).json(updatedUser)
+      })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({ error })
     }
   }
 )
@@ -116,11 +157,16 @@ router.delete(
     let { id } = request.params
 
     try {
-      await User.findByIdAndDelete(id)
+      const user = await prismaClient.user.findUnique({ where: { id } })
 
-      return response.status(200).json('User has been deleted!')
+      if (!user)
+        return response.status(401).json({ message: 'User not founded!' })
+
+      await prismaClient.user.delete({ where: { id } })
+
+      return response.status(200).json({ message: 'User deleted succesfully!' })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({ error })
     }
   }
 )

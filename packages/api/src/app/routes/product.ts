@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express'
-
 import { verifyTokenAndAdmin } from '../middlewares/verifyToken'
-import { Product } from '../models/Product'
+import { prismaClient } from '../../database/prismaClient'
+import { pagination } from '../middlewares/pagination'
+import { File } from '../models/File'
+import { searchFile } from '../../utils/files'
 
 const router = express.Router()
 
@@ -11,10 +13,37 @@ router.post(
   '/',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    try {
-      const newProduct = await Product.create(request.body)
+    const {
+      title,
+      description,
+      images,
+      categories,
+      sizes,
+      colors,
+      price,
+      stock,
+    } = request.body
 
-      return response.status(201).json(newProduct)
+    try {
+      const newProduct = await prismaClient.product.create({
+        data: {
+          title,
+          description,
+          images,
+          categories,
+          sizes,
+          colors,
+          price,
+          stock,
+        },
+      })
+
+      return response.status(201).json({
+        message: 'Produto cadastrado com sucesso!',
+        data: {
+          product: newProduct,
+        },
+      })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -28,16 +57,22 @@ router.put(
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
     let { id } = request.params
+    const { user, ...payload } = request.body
 
     try {
-      const updatedProduct = await Product.findByIdAndUpdate(
-        id,
-        {
-          $set: request.body,
+      const updatedProduct = await prismaClient.product.update({
+        where: { id },
+        data: {
+          ...payload,
         },
-        { new: true }
-      )
-      return response.status(200).json(updatedProduct)
+      })
+
+      return response.status(201).json({
+        message: 'Produto atualizado com sucesso!',
+        data: {
+          product: updatedProduct,
+        },
+      })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -53,9 +88,16 @@ router.delete(
     let { id } = request.params
 
     try {
-      await Product.findByIdAndDelete(id)
+      const product = await prismaClient.product.findUnique({ where: { id } })
 
-      return response.status(200).json('Product has been deleted!')
+      if (!product)
+        return response.status(401).json({ message: 'Product not founded!' })
+
+      await prismaClient.product.delete({ where: { id } })
+
+      return response
+        .status(200)
+        .json({ message: 'Product deleted succesfully!' })
     } catch (error) {
       return response.status(500).json(error)
     }
@@ -68,9 +110,19 @@ router.get('/:id', async (request: Request, response: Response) => {
   let { id } = request.params
 
   try {
-    const product = await Product.findById(id)
+    const product = await prismaClient.product.findUnique({ where: { id } })
 
-    return response.status(200).json(product)
+    const images = await searchFile(product?.images || '')
+
+    return response.status(201).json({
+      message: 'Produto encontrado com sucesso!',
+      data: {
+        product: {
+          ...product,
+          images,
+        },
+      },
+    })
   } catch (error) {
     return response.status(500).json(error)
   }
@@ -78,44 +130,58 @@ router.get('/:id', async (request: Request, response: Response) => {
 
 // Get All Products
 
-router.get('/', async (request: Request, response: Response) => {
-  const { new: qNew, category, limit, filter, order } = request.query
+router.get('/', pagination, async (request: Request, response: Response) => {
+  const {
+    pagination: { take, sort, skip, order, filter },
+  } = request as any
 
   try {
-    let products
+    const productsCount = await prismaClient.product.count({
+      where: { ...filter },
+    })
 
-    if (qNew) {
-      products = await Product.find().sort({ createdAt: -1 }).limit(5)
-    } else if (category) {
-      if (limit) {
-        products = await Product.find({
-          categories: {
-            $in: [category],
-          },
-        }).limit(Number(limit))
-      } else {
-        products = await Product.find({
-          categories: {
-            $in: [category],
-          },
-        })
-      }
-    } else if (filter) {
-      const { productTitle }: any = filter
+    const products = await prismaClient.product.findMany({
+      where: { ...filter },
+      orderBy: { [sort]: order },
+      skip,
+      take,
+    })
 
-      products = await Product.find({
-        title: new RegExp(productTitle, 'gi'),
+    const productsParsed = await Promise.all(
+      products.map(async (product): Promise<any> => {
+        const images = await searchFile(product?.images)
+
+        return { ...product, images }
       })
-    } else if (order === 'random') {
-      products = await Product.aggregate([{ $sample: { size: 5 } }])
-    } else {
-      products = await Product.find()
-    }
+    )
 
-    return response.status(200).json(products)
+    return response.status(200).json({
+      message: 'Produtos listados com sucesso!',
+      data: {
+        count: productsCount,
+        products: productsParsed,
+      },
+    })
   } catch (error) {
     return response.status(500).json(error)
   }
 })
 
 export default router
+
+// Filter by category example
+
+// const params = new URLSearchParams()
+
+// const filterString = JSON.stringify({
+//   categories: { hasSome: ['t-shirts'] },
+// })
+
+// params.set('limit', '10')
+// params.set('page', '1')
+// params.set('sort', 'createdAt')
+// params.set('order', 'desc')
+
+// params.set('filter', filterString)
+
+// (`http://localhost:3333/api/products?${params}`)

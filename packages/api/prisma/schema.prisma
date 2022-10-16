@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PaymentStatus {
+  pending
+  approved
+  authorized
+  in_process
+  in_mediation
+  rejected
+  cancelled
+  refunded
+  charged_back
+}
+
+// USERS
+
+model UserAddress {
+  id         String     @id @default(uuid())
+  street     String
+  number     String
+  district   String
+  city       String
+  uf         String
+  cep        String
+  country    String
+  complement String?
+  UserData   UserData[]
+  Order      Order[]
+
+  @@map("usersAddress")
+}
+
+model UserData {
+  id            String       @id @default(uuid())
+  completeName  String
+  cpf           String
+  phone         String
+  birthDate     String
+  userAddressId String?
+  address       UserAddress? @relation(fields: [userAddressId], references: [id])
+  User          User[]
+  createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("usersDatas")
+}
+
+model User {
+  id                 String    @id @default(uuid())
+  username           String    @unique
+  email              String    @unique
+  password           String
+  passwordResetToken String?
+  isAdmin            Boolean   @default(false)
+  avatar             String?
+  userDataId         String?
+  userData           UserData? @relation(fields: [userDataId], references: [id])
+  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  Cart               Cart[]
+  Order              Order[]
+
+  @@map("users")
+}
+
+// CATEGORIES
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+
+  @@map("categories")
+}
+
+// FILES
+
+model File {
+  id        String   @id @default(uuid())
+  name      String
+  size      Float
+  key       String
+  url       String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("files")
+}
+
+// PRODUCTS
+
+model Product {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  sizes       String[]
+  colors      String[]
+  price       Float
+  stock       Float
+  categories  String[]
+  images      String[]
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+  orderId     String?
+
+  @@map("products")
+}
+
+// CARTS
+
+model Cart {
+  id        String   @id @default(uuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  products  String[]
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("carts")
+}
+
+// ORDER
+
+model Order {
+  id            String        @id @default(uuid())
+  user          User          @relation(fields: [userId], references: [id])
+  userId        String
+  products      String[]
+  amount        Float
+  address       UserAddress   @relation(fields: [userAddressId], references: [id])
+  status        PaymentStatus
+  mpPaymentId   String
+  userAddressId String
+  createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("orders")
+}
