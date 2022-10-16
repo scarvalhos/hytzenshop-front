@@ -6,8 +6,16 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules --respawn src/index.ts",
     "build": "tsc",
-    "start": "node src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prisma:generate": "npx prisma generate",
+    "migrate:latest": "prisma migrate dev",
+    "migrate:rollback": "prisma migrate reset",
+    "migrate:make": "prisma migrate dev --name",
+    "migrate:make:only": "prisma migrate dev --create-only --name",
+    "migrate:updb": "prisma db push",
+    "prisma:seeds": "prisma db seed",
+    "prisma:studio": "prisma studio --port $PRISMA_PORT"
   },
   "keywords": [],
   "author": "",
@@ -33,7 +41,7 @@
     "nodemailer": "^6.8.0",
     "socket.io": "^4.5.1",
     "stripe": "^9.12.0",
-    "typescript": "^4.7.4",
+    "typescript": "^4.8.4",
     "yup": "^0.32.11",
     "yup-password": "^0.2.2"
   },

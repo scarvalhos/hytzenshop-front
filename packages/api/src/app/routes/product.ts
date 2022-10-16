@@ -1,11 +1,30 @@
 import express, { Request, Response } from 'express'
+
 import { verifyTokenAndAdmin } from '../middlewares/verifyToken'
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
-import { File } from '../models/File'
 import { searchFile } from '../../utils/files'
 
 const router = express.Router()
+
+type Product = {
+  id: string
+  title: string
+  description: string
+  sizes: string[]
+  colors: string[]
+  price: number
+  stock: number
+  categories: string[]
+  createdAt: Date
+  updatedAt: Date
+  orderId: string | null
+  images: string[]
+}
+
+type ProductsAll = Omit<Product, 'images'> & {
+  images: unknown
+}
 
 // Create Product
 
@@ -148,7 +167,7 @@ router.get('/', pagination, async (request: Request, response: Response) => {
     })
 
     const productsParsed = await Promise.all(
-      products.map(async (product): Promise<any> => {
+      products.map(async (product: Product): Promise<ProductsAll> => {
         const images = await searchFile(product?.images)
 
         return { ...product, images }
