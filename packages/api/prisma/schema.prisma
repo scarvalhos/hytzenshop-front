@@ -79,20 +79,6 @@ model Category {
   @@map("categories")
 }
 
-// FILES
-
-model File {
-  id        String   @id @default(uuid())
-  name      String
-  size      Float
-  key       String
-  url       String
-  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
-
-  @@map("files")
-}
-
 // PRODUCTS
 
 model Product {

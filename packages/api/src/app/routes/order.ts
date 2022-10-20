@@ -2,7 +2,6 @@ import express, { Request, Response } from 'express'
 
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
-import { Order } from '../models/Order'
 
 import {
   verifyToken,
@@ -26,10 +25,19 @@ type PaymentStatus =
 // Create Order
 
 router.post('/', verifyToken, async (request: Request, response: Response) => {
-  const { user, ...payload } = request.body
+  const { userAddressId, products, userId, amount, mpPaymentId, status } =
+    request.body
+
   try {
     const newOrder = await prismaClient.order.create({
-      data: payload,
+      data: {
+        amount,
+        mpPaymentId,
+        status,
+        address: { connect: { id: userAddressId } },
+        products,
+        user: { connect: { id: userId } },
+      },
     })
 
     return response.status(201).json({
@@ -39,7 +47,6 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
       },
     })
   } catch (error) {
-    console.log(error)
     return response.status(500).json(error)
   }
 })
@@ -223,40 +230,38 @@ router.get(
 
 // Get Monthly Income
 
-router.get(
-  '/income',
-  verifyTokenAndAdmin,
-  async (_request: Request, response: Response) => {
-    const date = new Date()
-    const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
-    const previousMonth = new Date(
-      new Date().setMonth(lastMonth.getMonth() - 1)
-    )
+// router.get(
+//   '/income',
+//   verifyTokenAndAdmin,
+//   async (_request: Request, response: Response) => {
+//     const date = new Date()
+//     const lastMonth = new Date(date.setMonth(date.getMonth() - 1))
+//     const previousMonth = new Date(
+//       new Date().setMonth(lastMonth.getMonth() - 1)
+//     )
 
-    try {
-      const income = await Order.aggregate([
-        { $match: { createdAt: { $gte: previousMonth } } },
-        {
-          $project: {
-            month: { $month: '$createdAt' },
-            sales: '$amount',
-          },
-        },
-        {
-          $group: {
-            _id: '$month',
-            total: { $sum: '$sales' },
-          },
-        },
-      ])
+//     try {
+//       const income = await Order.aggregate([
+//         { $match: { createdAt: { $gte: previousMonth } } },
+//         {
+//           $project: {
+//             month: { $month: '$createdAt' },
+//             sales: '$amount',
+//           },
+//         },
+//         {
+//           $group: {
+//             _id: '$month',
+//             total: { $sum: '$sales' },
+//           },
+//         },
+//       ])
 
-      return response.status(200).json(income)
-    } catch (error) {
-      return response.status(500).json(error)
-    }
-  }
-)
+//       return response.status(200).json(income)
+//     } catch (error) {
+//       return response.status(500).json(error)
+//     }
+//   }
+// )
 
 export default router
-
-// 1h 39m 10s

@@ -42,6 +42,8 @@ router.post(
   '/',
   multer(multerConfig).single('file'),
   async (request: Request, response: Response) => {
+    console.log(request.file)
+
     try {
       const {
         originalname: name,

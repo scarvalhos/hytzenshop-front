@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 
 import { verifyTokenAndAdmin } from '../middlewares/verifyToken'
+import { Document, ObjectId } from 'mongoose'
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
 import { searchFile } from '../../utils/files'
@@ -15,7 +16,7 @@ type Product = {
   colors: string[]
   price: number
   stock: number
-  categories: string[]
+  categories?: string[]
   createdAt: Date
   updatedAt: Date
   orderId: string | null
@@ -23,7 +24,7 @@ type Product = {
 }
 
 type ProductsAll = Omit<Product, 'images'> & {
-  images: unknown
+  images: (Document<unknown, any, any> & any & { _id: ObjectId }) | null
 }
 
 // Create Product
@@ -79,6 +80,11 @@ router.put(
     const { user, ...payload } = request.body
 
     try {
+      const product = await prismaClient.product.findUnique({ where: { id } })
+
+      if (!product)
+        return response.status(401).json({ message: 'Product not founded!' })
+
       const updatedProduct = await prismaClient.product.update({
         where: { id },
         data: {
@@ -131,6 +137,9 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const product = await prismaClient.product.findUnique({ where: { id } })
 
+    if (!product)
+      return response.status(401).json({ message: 'Product not founded!' })
+
     const images = await searchFile(product?.images || '')
 
     return response.status(201).json({
@@ -170,7 +179,20 @@ router.get('/', pagination, async (request: Request, response: Response) => {
       products.map(async (product: Product): Promise<ProductsAll> => {
         const images = await searchFile(product?.images)
 
-        return { ...product, images }
+        return {
+          images,
+          id: product.id,
+          title: product.title,
+          description: product.description,
+          colors: product.colors,
+          sizes: product.sizes,
+          stock: product.stock,
+          categories: product.categories,
+          price: product.price,
+          orderId: product.orderId,
+          createdAt: product.createdAt,
+          updatedAt: product.updatedAt,
+        }
       })
     )
 
