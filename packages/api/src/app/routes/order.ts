@@ -1,13 +1,8 @@
 import express, { Request, Response } from 'express'
 
+import { verifyToken, verifyTokenAndAdmin } from '../middlewares/verifyToken'
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
-
-import {
-  verifyToken,
-  verifyTokenAndAdmin,
-  verifyTokenAndAuthorization,
-} from '../middlewares/verifyToken'
 
 const router = express.Router()
 
@@ -86,6 +81,7 @@ router.patch(
   verifyToken,
   async (request: Request, response: Response) => {
     let { id, status } = request.params as { id: string; status: PaymentStatus }
+    const { user } = request.body
 
     try {
       const order = await prismaClient.order.findFirst({
@@ -95,6 +91,9 @@ router.patch(
       if (!order) {
         return response.status(500).json({ message: 'Pedido não encontrado!' })
       }
+
+      if (!user.isAdmin && user.id !== order?.userId)
+        return response.status(403).json('Not alowed to do that!')
 
       const updatedOrder = await prismaClient.order.update({
         where: { id: order.id },
@@ -147,14 +146,18 @@ router.delete(
 
 router.get(
   '/order/:orderId',
-  verifyTokenAndAuthorization,
+  verifyToken,
   async (request: Request, response: Response) => {
     let { orderId } = request.params
+    const { user } = request.body
 
     try {
       const order = await prismaClient.order.findUnique({
         where: { id: orderId },
       })
+
+      if (!user.isAdmin && user.id !== order?.userId)
+        return response.status(403).json('Not alowed to do that!')
 
       return response.status(200).json({
         message: 'Pedido encontrado com sucesso!',
@@ -172,9 +175,13 @@ router.get(
 
 router.get(
   '/:userId',
-  verifyTokenAndAuthorization,
+  verifyToken,
   async (request: Request, response: Response) => {
-    let { userId } = request.params
+    const { userId } = request.params
+    const { user } = request.body
+
+    if (!user.isAdmin && user.id !== userId)
+      return response.status(403).json('Not alowed to do that!')
 
     try {
       const orders = await prismaClient.order.findMany({ where: { userId } })
@@ -222,7 +229,6 @@ router.get(
         },
       })
     } catch (error) {
-      console.log(error)
       return response.status(500).json(error)
     }
   }
