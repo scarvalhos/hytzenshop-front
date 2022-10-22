@@ -114,9 +114,6 @@ router.put(
 
     const address = userData.address
 
-    // let updatedUser
-    // let updatedUserAddress
-
     try {
       const user = await prismaClient.user.findUnique({
         where: { id },
@@ -143,7 +140,7 @@ router.put(
           birthDate: userData.birthDate,
           completeName: userData.completeName,
           cpf: userData.cpf,
-          phone: userData.cpf,
+          phone: userData.phone,
           address: {
             connect: { id: updatedUserAddress.id },
           },
@@ -152,7 +149,7 @@ router.put(
           birthDate: userData.birthDate,
           completeName: userData.completeName,
           cpf: userData.cpf,
-          phone: userData.cpf,
+          phone: userData.phone,
           address: {
             connect: { id: updatedUserAddress.id },
           },
@@ -175,7 +172,6 @@ router.put(
         user: userUpdated,
       })
     } catch (error) {
-      console.log(error)
       return response.status(500).json({ error })
     }
   }
