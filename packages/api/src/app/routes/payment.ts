@@ -64,7 +64,10 @@ router.post('/payment', async (request: Request, response: Response) => {
     const data = await mercadopago.payment.create(request.body)
 
     if (data.response.status === 'rejected') {
-      return response.status(400).json(data)
+      return response.status(400).json({
+        message: 'Pagamento recusado!',
+        data,
+      })
     }
 
     return response.status(200).json(data)
