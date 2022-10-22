@@ -23,7 +23,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.168.0",
     "@prisma/client": "^4.4.0",
-    "aws-sdk": "2.390.0",
+    "aws-sdk": "2.814.0",
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "cpf-cnpj-validator": "^1.0.3",
