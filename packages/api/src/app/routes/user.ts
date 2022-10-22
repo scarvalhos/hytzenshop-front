@@ -112,9 +112,10 @@ router.put(
     let { id } = request.params
     let { userData } = request.body
 
-    const address = userData.address || {}
+    const address = userData.address
 
-    let updatedUser
+    // let updatedUser
+    // let updatedUserAddress
 
     try {
       const user = await prismaClient.user.findUnique({
@@ -122,27 +123,59 @@ router.put(
         include: { userData: { include: { address: true } } },
       })
 
-      if (address) {
-        updatedUser = await prismaClient.userAddress.update({
-          where: { id: user?.userData?.userAddressId || '' },
-          data: { ...address },
-        })
+      if (!user) {
+        return response.status(401).json('Usuário não encontrado!')
       }
 
-      if (userData) {
-        updatedUser = await prismaClient.userData.update({
-          where: { id: user?.userDataId || '' },
-          data: { ...userData },
-        })
-      }
+      const updatedUserAddress = await prismaClient.userAddress.upsert({
+        where: { id: user?.userData?.userAddressId || '' },
+        create: {
+          ...address,
+        },
+        update: {
+          ...address,
+        },
+      })
+
+      const userDataUpdated = await prismaClient.userData.upsert({
+        where: { id: user?.userDataId || '' },
+        update: {
+          birthDate: userData.birthDate,
+          completeName: userData.completeName,
+          cpf: userData.cpf,
+          phone: userData.cpf,
+          address: {
+            connect: { id: updatedUserAddress.id },
+          },
+        },
+        create: {
+          birthDate: userData.birthDate,
+          completeName: userData.completeName,
+          cpf: userData.cpf,
+          phone: userData.cpf,
+          address: {
+            connect: { id: updatedUserAddress.id },
+          },
+          User: { connect: { id: user?.id } },
+        },
+      })
+
+      const userUpdated = await prismaClient.user.update({
+        where: { id },
+        data: {
+          userData: {
+            connect: { id: userDataUpdated.id },
+          },
+        },
+        include: { userData: { include: { address: true } } },
+      })
 
       return response.status(200).json({
         message: 'Usuário atualizado com sucesso!',
-        data: {
-          userData: updatedUser,
-        },
+        user: userUpdated,
       })
     } catch (error) {
+      console.log(error)
       return response.status(500).json({ error })
     }
   }
