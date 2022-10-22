@@ -154,6 +154,7 @@ router.get(
     try {
       const order = await prismaClient.order.findUnique({
         where: { id: orderId },
+        include: { address: true },
       })
 
       if (!user.isAdmin && user.id !== order?.userId)
@@ -184,7 +185,10 @@ router.get(
       return response.status(403).json('Not alowed to do that!')
 
     try {
-      const orders = await prismaClient.order.findMany({ where: { userId } })
+      const orders = await prismaClient.order.findMany({
+        where: { userId },
+        include: { address: true },
+      })
 
       return response.status(200).json({
         message: 'Pedidos encontrados com sucesso!',
@@ -216,6 +220,7 @@ router.get(
 
       const orders = await prismaClient.order.findMany({
         where: { ...filter },
+        include: { address: true },
         orderBy: { [sort]: order },
         skip,
         take,
