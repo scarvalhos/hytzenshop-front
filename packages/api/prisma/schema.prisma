@@ -19,6 +19,15 @@ enum PaymentStatus {
   charged_back
 }
 
+enum OrderStatus {
+  pending
+  approved
+  processing
+  sending
+  delivered
+  canceled
+}
+
 // Address
 
 model Address {
@@ -150,7 +159,7 @@ model Order {
   amount             Float
   address            Address          @relation(fields: [addressId], references: [id])
   addressId          String
-  status             PaymentStatus
+  status             OrderStatus
   mpPaymentId        String
   createdAt          DateTime         @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt          DateTime         @updatedAt @map("updated_at") @db.Timestamptz()
