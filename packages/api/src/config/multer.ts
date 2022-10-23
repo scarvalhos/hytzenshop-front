@@ -1,19 +1,18 @@
 import 'dotenv/config'
 
-import multer from 'multer'
-import path from 'path'
-import crypto from 'crypto'
+import { S3Client } from '@aws-sdk/client-s3'
+
 import multerS3 from 'multer-s3'
-import S3 from 'aws-sdk/clients/s3'
+import multer from 'multer'
+import crypto from 'crypto'
+import path from 'path'
 
 type StorageType = 'production' | 'development'
 
 const STORAGE_TYPE = process.env.STORAGE_TYPE as StorageType
 
-const ClienteS3 = new S3({
+const ClienteS3 = new S3Client({
   region: process.env.AWS_DEFAULT_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 })
 
 const storageType = {

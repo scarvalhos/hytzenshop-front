@@ -78,11 +78,9 @@ router.post(
         url,
       })
 
-      return response.status(200).json({
-        message: 'Upload do arquivo efetuado com sucesso!',
-        file,
-      })
+      return response.status(200).json(file)
     } catch (error) {
+      console.log(error)
       return sendInternalServerError(
         request,
         response,
