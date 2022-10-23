@@ -64,18 +64,13 @@ router.post(
   multer(multerConfig).single('file'),
   async (request: Request, response: Response) => {
     try {
-      const {
-        originalname: name,
-        size,
-        key,
-        location: url = '',
-      } = request.file as any
+      const { originalname: name, size, key } = request.file as any
 
       const file = await File.create({
         name,
         size,
         key,
-        url,
+        url: `https://hytzenshop.s3.amazonaws.com/${key}`,
       })
 
       return response.status(200).json(file)
