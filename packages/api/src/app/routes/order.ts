@@ -29,7 +29,7 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
     const orderedProductsIds = await Promise.all(
       orderedProducts.map(async (item: any): Promise<any> => {
         const orderedProduct = await prismaClient.orderedProduct.upsert({
-          where: { id: item.id },
+          where: { id: item.id || '' },
           update: {
             product: { connect: { id: item.productId } },
             quantity: item.quantity,
