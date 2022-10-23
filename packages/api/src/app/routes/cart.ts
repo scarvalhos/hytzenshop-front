@@ -1,7 +1,6 @@
 import express, { Request, Response } from 'express'
 
 import { sendInternalServerError } from '../errors/InternalServerError'
-import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 
 import {
@@ -102,14 +101,6 @@ router.get(
       const cart = await prismaClient.cart.findFirst({
         where: { userId },
       })
-
-      if (!cart) {
-        return sendBadRequest(
-          request,
-          response,
-          'Nenhum carrinho não encontrado para esse usuário.'
-        )
-      }
 
       return response.status(200).json({
         message: 'Carrinho encontrado!',
