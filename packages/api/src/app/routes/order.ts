@@ -20,7 +20,7 @@ type PaymentStatus =
 // Create Order
 
 router.post('/', verifyToken, async (request: Request, response: Response) => {
-  const { userAddressId, products, userId, amount, mpPaymentId, status } =
+  const { addressId, orderedProducts, userId, amount, mpPaymentId, status } =
     request.body
 
   try {
@@ -29,8 +29,8 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
         amount,
         mpPaymentId,
         status,
-        address: { connect: { id: userAddressId } },
-        products,
+        address: { connect: { id: addressId } },
+        orderedProducts,
         user: { connect: { id: userId } },
       },
     })

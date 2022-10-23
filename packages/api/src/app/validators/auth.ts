@@ -8,7 +8,7 @@ import { OPCOES_ESTADO } from '../../utils/enums'
 
 import { cpf } from 'cpf-cnpj-validator'
 
-interface UserAddress {
+interface Address {
   street: string
   number: string
   district: string
@@ -19,7 +19,8 @@ interface UserAddress {
   complement?: string
 }
 
-interface UserData {
+interface Profile {
+  avatar?: string
   completeName: string
   cpf: string
   phone: string
@@ -31,7 +32,6 @@ interface User {
   email: string
   password: string
   isAdmin: Boolean
-  avatar?: string
 }
 
 const validateUser = (body: User) =>
@@ -62,11 +62,10 @@ const validateUser = (body: User) =>
         .notRequired()
         .default(false)
         .required('Necessário preencher o campo admin'),
-      avatar: yup.string().optional(),
     })
     .validate(body, { abortEarly: false, stripUnknown: true })
 
-const validateUserAddress = (body: UserAddress) =>
+const validateAddress = (body: Address) =>
   yup
     .object()
     .shape({
@@ -104,10 +103,11 @@ const validateUserAddress = (body: UserAddress) =>
     })
     .validate(body, { abortEarly: false, stripUnknown: true })
 
-const validateUserData = (body: UserData) =>
+const validateProfile = (body: Profile) =>
   yup
     .object()
     .shape({
+      avatar: yup.string().optional(),
       completeName: yup
         .string()
         .min(3, 'Nome muito curto')
@@ -131,4 +131,4 @@ const validateUserData = (body: UserData) =>
     })
     .validate(body, { abortEarly: false, stripUnknown: true })
 
-export { validateUser, validateUserAddress, validateUserData }
+export { validateUser, validateAddress, validateProfile }

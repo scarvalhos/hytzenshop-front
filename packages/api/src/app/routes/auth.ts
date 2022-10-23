@@ -5,28 +5,27 @@ import jwt from 'jsonwebtoken'
 import { ValidationError } from 'yup'
 import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
+import { URL_FRONTEND } from '../../config'
 import { verifyToken } from '../middlewares/verifyToken'
 import { secret } from '../../config/auth'
 import { hash } from '../../config/hash'
 
 import {
   validateUser,
-  validateUserAddress,
-  validateUserData,
+  validateAddress,
+  validateProfile,
 } from '../validators/auth'
 
 import mailer from '../../modules/mailer'
-
-import { URL_FRONTEND } from '../../config'
 
 const router = express.Router()
 
 // Register
 
 router.post('/register', async (request: Request, response: Response) => {
-  const { username, email, password, avatar, isAdmin, userData } = request.body
+  const { username, email, password, isAdmin, profile } = request.body
 
-  let userAddressId
+  let addressId
 
   try {
     const user =
@@ -41,37 +40,37 @@ router.post('/register', async (request: Request, response: Response) => {
       username,
       email,
       password,
-      avatar,
       isAdmin,
     })
 
-    if (userData?.address) {
-      await validateUserAddress({
-        ...userData?.address,
+    if (profile?.address) {
+      await validateAddress({
+        ...profile?.address,
       })
     }
 
-    if (userData) {
-      await validateUserData({
-        ...userData,
+    if (profile) {
+      await validateProfile({
+        ...profile,
       })
     }
 
-    if (userData?.address) {
-      userAddressId = await prismaClient.userAddress.create({
-        data: { ...userData?.address },
+    if (profile?.address) {
+      addressId = await prismaClient.address.create({
+        data: { ...profile?.address },
       })
     }
 
-    const userDataId =
-      userData &&
-      (await prismaClient.userData.create({
+    const profileId =
+      profile &&
+      (await prismaClient.profile.create({
         data: {
-          birthDate: userData?.birthDate,
-          completeName: userData?.completeName,
-          cpf: userData?.cpf,
-          phone: userData?.phone,
-          userAddressId: userAddressId?.id || undefined,
+          avatar: profile?.avatar,
+          birthDate: profile?.birthDate,
+          completeName: profile?.completeName,
+          cpf: profile?.cpf,
+          phone: profile?.phone,
+          addressId: addressId?.id || undefined,
         },
       }))
 
@@ -80,10 +79,9 @@ router.post('/register', async (request: Request, response: Response) => {
         username,
         email,
         password: CryptoJS.AES.encrypt(password, hash).toString(),
-        avatar,
         isAdmin,
-        ...(userDataId && {
-          userDataId: userDataId.id || undefined,
+        ...(profileId && {
+          profileId: profileId.id || undefined,
         }),
       },
     })
@@ -147,7 +145,7 @@ router.get('/me', verifyToken, async (request: Request, response: Response) => {
   try {
     const data = await prismaClient.user.findUnique({
       where: { id: user.id },
-      include: { userData: { include: { address: true } } },
+      include: { profile: { include: { address: true } } },
     })
 
     delete (data as any).password

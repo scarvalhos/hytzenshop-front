@@ -26,7 +26,7 @@ router.get(
 
       const users = await prismaClient.user.findMany({
         where: { ...filter },
-        include: { userData: { include: { address: true } } },
+        include: { profile: { include: { address: true } } },
         orderBy: { [sort]: order },
         skip,
         take,
@@ -93,11 +93,12 @@ router.get(
     try {
       const user = await prismaClient.user.findUnique({
         where: { id },
-        include: { userData: { include: { address: true } } },
+        include: { profile: { include: { address: true } } },
       })
 
       return response.status(200).json({ user })
     } catch (error) {
+      console.log(error)
       return response.status(500).json({ error })
     }
   }
@@ -110,22 +111,22 @@ router.put(
   verifyTokenAndAuthorization,
   async (request: Request, response: Response) => {
     let { id } = request.params
-    let { userData } = request.body
+    let { profile } = request.body
 
-    const address = userData.address
+    const address = profile.address
 
     try {
       const user = await prismaClient.user.findUnique({
         where: { id },
-        include: { userData: { include: { address: true } } },
+        include: { profile: { include: { address: true } } },
       })
 
       if (!user) {
         return response.status(401).json('Usuário não encontrado!')
       }
 
-      const updatedUserAddress = await prismaClient.userAddress.upsert({
-        where: { id: user?.userData?.userAddressId || '' },
+      const updatedAddress = await prismaClient.address.upsert({
+        where: { id: user?.profile?.addressId || '' },
         create: {
           ...address,
         },
@@ -134,37 +135,39 @@ router.put(
         },
       })
 
-      const userDataUpdated = await prismaClient.userData.upsert({
-        where: { id: user?.userDataId || '' },
+      const profileUpdated = await prismaClient.profile.upsert({
+        where: { id: user?.profileId || '' },
         update: {
-          birthDate: userData.birthDate,
-          completeName: userData.completeName,
-          cpf: userData.cpf,
-          phone: userData.phone,
+          avatar: profile.avatar,
+          birthDate: profile.birthDate,
+          completeName: profile.completeName,
+          cpf: profile.cpf,
+          phone: profile.phone,
           address: {
-            connect: { id: updatedUserAddress.id },
+            connect: { id: updatedAddress.id },
           },
         },
         create: {
-          birthDate: userData.birthDate,
-          completeName: userData.completeName,
-          cpf: userData.cpf,
-          phone: userData.phone,
+          avatar: profile.avatar,
+          birthDate: profile.birthDate,
+          completeName: profile.completeName,
+          cpf: profile.cpf,
+          phone: profile.phone,
           address: {
-            connect: { id: updatedUserAddress.id },
+            connect: { id: updatedAddress.id },
           },
-          User: { connect: { id: user?.id } },
+          user: { connect: { id: user?.id } },
         },
       })
 
       const userUpdated = await prismaClient.user.update({
         where: { id },
         data: {
-          userData: {
-            connect: { id: userDataUpdated.id },
+          profile: {
+            connect: { id: profileUpdated.id },
           },
         },
-        include: { userData: { include: { address: true } } },
+        include: { profile: { include: { address: true } } },
       })
 
       return response.status(200).json({

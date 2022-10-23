@@ -19,10 +19,10 @@ enum PaymentStatus {
   charged_back
 }
 
-// USERS
+// Address
 
-model UserAddress {
-  id         String     @id @default(uuid())
+model Address {
+  id         String    @id @default(uuid())
   street     String
   number     String
   district   String
@@ -31,100 +31,128 @@ model UserAddress {
   cep        String
   country    String
   complement String?
-  UserData   UserData[]
-  Order      Order[]
+  profile    Profile[]
+  order      Order[]
+  createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
 
-  @@map("usersAddress")
+  @@map("addresses")
 }
 
-model UserData {
-  id            String       @id @default(uuid())
-  completeName  String
-  cpf           String
-  phone         String
-  birthDate     String
-  userAddressId String?
-  address       UserAddress? @relation(fields: [userAddressId], references: [id])
-  User          User[]
-  createdAt     DateTime     @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt     DateTime     @updatedAt @map("updated_at") @db.Timestamptz()
+// Profile
 
-  @@map("usersDatas")
+model Profile {
+  id           String   @id @default(uuid())
+  avatar       String?
+  completeName String
+  cpf          String
+  phone        String
+  birthDate    String
+  addressId    String?
+  address      Address? @relation(fields: [addressId], references: [id])
+  user         User[]
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("profiles")
 }
+
+// User
 
 model User {
-  id                 String    @id @default(uuid())
-  username           String    @unique
-  email              String    @unique
+  id                 String   @id @default(uuid())
+  username           String   @unique
+  email              String   @unique
   password           String
   passwordResetToken String?
-  isAdmin            Boolean   @default(false)
-  avatar             String?
-  userDataId         String?
-  userData           UserData? @relation(fields: [userDataId], references: [id])
-  createdAt          DateTime  @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt          DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
-  Cart               Cart[]
-  Order              Order[]
+  isAdmin            Boolean  @default(false)
+  profileId          String?
+  profile            Profile? @relation(fields: [profileId], references: [id])
+  cart               Cart[]
+  order              Order[]
+  createdAt          DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt          DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("users")
 }
 
-// CATEGORIES
+// Category
 
 model Category {
-  id   String @id @default(uuid())
-  name String
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("categories")
 }
 
-// PRODUCTS
+// Product
 
 model Product {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  sizes       String[]
-  colors      String[]
-  price       Float
-  stock       Float
-  categories  String[]
-  images      String[]
-  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt   DateTime @updatedAt @map("updated_at") @db.Timestamptz()
-  orderId     String?
+  id             String           @id @default(uuid())
+  title          String
+  description    String
+  sizes          String[]
+  colors         String[]
+  price          Float
+  stock          Float
+  categories     String[]
+  images         String[]
+  orderId        String?
+  orderedProduct OrderedProduct[]
+  createdAt      DateTime         @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt      DateTime         @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("products")
 }
 
-// CARTS
+// OrderedProduct
 
-model Cart {
+model OrderedProduct {
   id        String   @id @default(uuid())
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String
-  products  String[]
+  product   Product  @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Float
+  sizes     String[]
+  colors    String[]
+  order     Order?   @relation(fields: [orderId], references: [id])
+  orderId   String?
+  cart      Cart?    @relation(fields: [cartId], references: [id])
+  cartId    String?
   createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz()
+
+  @@map("ordered_products")
+}
+
+// Cart
+
+model Cart {
+  id        String           @id @default(uuid())
+  user      User             @relation(fields: [userId], references: [id])
+  userId    String
+  products  OrderedProduct[]
+  createdAt DateTime         @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime         @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("carts")
 }
 
-// ORDER
+// Order
 
 model Order {
-  id            String        @id @default(uuid())
-  user          User          @relation(fields: [userId], references: [id])
-  userId        String
-  products      String[]
-  amount        Float
-  address       UserAddress   @relation(fields: [userAddressId], references: [id])
-  status        PaymentStatus
-  mpPaymentId   String
-  userAddressId String
-  createdAt     DateTime      @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt     DateTime      @updatedAt @map("updated_at") @db.Timestamptz()
+  id              String           @id @default(uuid())
+  user            User             @relation(fields: [userId], references: [id])
+  userId          String
+  orderedProducts OrderedProduct[]
+  amount          Float
+  address         Address          @relation(fields: [addressId], references: [id])
+  addressId       String
+  status          PaymentStatus
+  mpPaymentId     String
+  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("orders")
 }
