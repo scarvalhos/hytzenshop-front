@@ -8,16 +8,12 @@ import { pagination } from '../middlewares/pagination'
 
 const router = express.Router()
 
-type PaymentStatus =
+export type OrderStatus =
   | 'pending'
   | 'approved'
-  | 'authorized'
-  | 'in_process'
-  | 'in_mediation'
-  | 'rejected'
-  | 'cancelled'
-  | 'refunded'
-  | 'charged_back'
+  | 'processing'
+  | 'sending'
+  | 'delivered'
 
 // Create Order
 
@@ -114,7 +110,7 @@ router.patch(
   '/:id/:status',
   verifyToken,
   async (request: Request, response: Response) => {
-    let { id, status } = request.params as { id: string; status: PaymentStatus }
+    let { id, status } = request.params as { id: string; status: OrderStatus }
     const { user } = request.body
 
     try {
