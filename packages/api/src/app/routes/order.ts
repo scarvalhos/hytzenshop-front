@@ -26,14 +26,36 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
     request.body
 
   try {
+    const orderedProductsIds = await Promise.all(
+      orderedProducts.map(async (item: any): Promise<any> => {
+        const orderedProduct = await prismaClient.orderedProduct.upsert({
+          where: { id: item.id },
+          update: {
+            product: { connect: { id: item.productId } },
+            quantity: item.quantity,
+            colors: item.colors,
+            sizes: item.sizes,
+          },
+          create: {
+            product: { connect: { id: item.productId } },
+            quantity: item.quantity,
+            colors: item.colors,
+            sizes: item.sizes,
+          },
+        })
+
+        return orderedProduct.id
+      })
+    )
+
     const newOrder = await prismaClient.order.create({
       data: {
         amount,
         mpPaymentId,
         status,
         address: { connect: { id: addressId } },
-        orderedProducts,
         user: { connect: { id: userId } },
+        orderedProductsIds: orderedProductsIds,
       },
     })
 
@@ -41,13 +63,8 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
       message: 'Pedido criado com sucesso!',
       order: newOrder,
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao criar novo pedido!',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 

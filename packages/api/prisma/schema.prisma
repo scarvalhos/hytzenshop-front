@@ -32,9 +32,9 @@ model Address {
   country    String
   complement String?
   profile    Profile[]
-  order      Order[]
   createdAt  DateTime  @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt  DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  order      Order[]
 
   @@map("addresses")
 }
@@ -142,17 +142,18 @@ model Cart {
 // Order
 
 model Order {
-  id              String           @id @default(uuid())
-  user            User             @relation(fields: [userId], references: [id])
-  userId          String
-  orderedProducts OrderedProduct[]
-  amount          Float
-  address         Address          @relation(fields: [addressId], references: [id])
-  addressId       String
-  status          PaymentStatus
-  mpPaymentId     String
-  createdAt       DateTime         @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt       DateTime         @updatedAt @map("updated_at") @db.Timestamptz()
+  id                 String           @id @default(uuid())
+  user               User             @relation(fields: [userId], references: [id])
+  userId             String
+  orderedProducts    OrderedProduct[]
+  orderedProductsIds String[]
+  amount             Float
+  address            Address          @relation(fields: [addressId], references: [id])
+  addressId          String
+  status             PaymentStatus
+  mpPaymentId        String
+  createdAt          DateTime         @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt          DateTime         @updatedAt @map("updated_at") @db.Timestamptz()
 
   @@map("orders")
 }
