@@ -85,6 +85,7 @@ router.post('/register', async (request: Request, response: Response) => {
           profileId: profileId.id || undefined,
         }),
       },
+      include: { profile: { include: { address: true } } },
     })
 
     delete (newUser as any).password
@@ -115,6 +116,7 @@ router.post('/login', async (request: Request, response: Response) => {
   try {
     const user = await prismaClient.user.findUnique({
       where: { username },
+      include: { profile: { include: { address: true } } },
     })
 
     if (!user) {
