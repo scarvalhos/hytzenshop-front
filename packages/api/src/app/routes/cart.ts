@@ -18,9 +18,15 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
       data: { userId: request.body.userId },
     })
 
-    return response.status(201).json(newCart)
+    return response.status(201).json({
+      message: 'Carrinho criado com sucesso!',
+      cart: newCart,
+    })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao criar carrinho',
+      error,
+    })
   }
 })
 
@@ -39,9 +45,16 @@ router.put(
           products: request.body.products,
         },
       })
-      return response.status(200).json(updatedCart)
+
+      return response.status(200).json({
+        message: 'Carrinho atualizado com sucesso!',
+        cart: updatedCart,
+      })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao atualizar carrinho',
+        error,
+      })
     }
   }
 )
@@ -57,9 +70,14 @@ router.delete(
     try {
       await prismaClient.cart.delete({ where: { id } })
 
-      return response.status(200).json('Cart has been deleted!')
+      return response.status(200).json({
+        message: 'Carrinho excluído com sucesso!',
+      })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao excluir carrinho',
+        error,
+      })
     }
   }
 )
@@ -77,9 +95,21 @@ router.get(
         where: { userId },
       })
 
-      return response.status(200).json(cart)
+      if (!cart) {
+        return response.status(401).json({
+          message: 'Nenhum carrinho não encontrado para esse usuário.',
+        })
+      }
+
+      return response.status(200).json({
+        message: 'Carrinho encontrado!',
+        cart,
+      })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao buscar carrinho',
+        error,
+      })
     }
   }
 )
@@ -91,11 +121,21 @@ router.get(
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
     try {
+      const cartsCount = await prismaClient.cart.count()
       const carts = await prismaClient.cart.findMany()
 
-      return response.status(200).json(carts)
+      return response.status(200).json({
+        message: 'Carrinhos listados com sucesso!',
+        data: {
+          count: cartsCount,
+          carts,
+        },
+      })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao listar carrinhos',
+        error,
+      })
     }
   }
 )

@@ -37,12 +37,13 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
 
     return response.status(201).json({
       message: 'Pedido criado com sucesso!',
-      data: {
-        order: newOrder,
-      },
+      order: newOrder,
     })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao criar novo pedido!',
+      error,
+    })
   }
 })
 
@@ -55,6 +56,18 @@ router.put(
     let { id } = request.params
 
     try {
+      const order = await prismaClient.order.findUnique({
+        where: {
+          id,
+        },
+      })
+
+      if (!order) {
+        return response.status(400).json({
+          message: 'Pedido não encontrado',
+        })
+      }
+
       const updatedOrder = await prismaClient.order.update({
         where: {
           id,
@@ -64,12 +77,13 @@ router.put(
 
       return response.status(200).json({
         message: 'Pedido atualizado com sucesso!',
-        data: {
-          order: updatedOrder,
-        },
+        order: updatedOrder,
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao atualizar pedido!',
+        error,
+      })
     }
   }
 )
@@ -89,7 +103,7 @@ router.patch(
       })
 
       if (!order) {
-        return response.status(500).json({ message: 'Pedido não encontrado!' })
+        return response.status(400).json({ message: 'Pedido não encontrado!' })
       }
 
       if (!user.isAdmin && user.id !== order?.userId)
@@ -104,12 +118,13 @@ router.patch(
 
       return response.status(200).json({
         message: 'Pedido atualizado com sucesso!',
-        data: {
-          order: updatedOrder,
-        },
+        order: updatedOrder,
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao atualizar status do pedido!',
+        error,
+      })
     }
   }
 )
@@ -126,7 +141,7 @@ router.delete(
       const order = await prismaClient.order.findUnique({ where: { id } })
 
       if (!order) {
-        return response.status(200).json({
+        return response.status(400).json({
           message: 'Pedido não encontrado!',
         })
       }
@@ -137,7 +152,10 @@ router.delete(
         message: 'Pedido excluído com sucesso!',
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao excluir pedido!',
+        error,
+      })
     }
   }
 )
@@ -157,17 +175,24 @@ router.get(
         include: { address: true },
       })
 
+      if (!order) {
+        return response.status(400).json({
+          message: 'Pedido não encontrado!',
+        })
+      }
+
       if (!user.isAdmin && user.id !== order?.userId)
         return response.status(403).json('Not alowed to do that!')
 
       return response.status(200).json({
         message: 'Pedido encontrado com sucesso!',
-        data: {
-          order,
-        },
+        order,
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao buscar pedido!',
+        error,
+      })
     }
   }
 )
@@ -185,6 +210,10 @@ router.get(
       return response.status(403).json('Not alowed to do that!')
 
     try {
+      const ordersCount = await prismaClient.order.count({
+        where: { userId },
+      })
+
       const orders = await prismaClient.order.findMany({
         where: { userId },
         include: { address: true },
@@ -193,11 +222,15 @@ router.get(
       return response.status(200).json({
         message: 'Pedidos encontrados com sucesso!',
         data: {
+          count: ordersCount,
           orders,
         },
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao listar pedidos!',
+        error,
+      })
     }
   }
 )
@@ -234,7 +267,10 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao listar pedidos!',
+        error,
+      })
     }
   }
 )

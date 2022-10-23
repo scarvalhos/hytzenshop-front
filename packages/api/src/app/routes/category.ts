@@ -19,7 +19,9 @@ router.post(
       })
 
       if (category) {
-        return response.status(400).json('Essa categoria já existe')
+        return response.status(400).json({
+          message: 'Essa categoria já existe',
+        })
       }
 
       const newCategory = await prismaClient.category.create({ data: { name } })
@@ -29,7 +31,10 @@ router.post(
         data: { category: newCategory },
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao cadastrar nova categoria',
+        error,
+      })
     }
   }
 )
@@ -46,7 +51,9 @@ router.delete(
       const category = await prismaClient.category.findUnique({ where: { id } })
 
       if (!category)
-        return response.status(401).json({ message: 'Category not founded!' })
+        return response
+          .status(401)
+          .json({ message: 'Categoria não encontrada!' })
 
       await prismaClient.category.delete({ where: { id } })
 
@@ -54,7 +61,10 @@ router.delete(
         message: 'Categoria excluida com sucesso!',
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao tentar excluir categoria',
+        error,
+      })
     }
   }
 )
@@ -78,7 +88,10 @@ router.get('/:id', async (request: Request, response: Response) => {
       data: { category },
     })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao buscar categoria',
+      error,
+    })
   }
 })
 
@@ -86,17 +99,21 @@ router.get('/:id', async (request: Request, response: Response) => {
 
 router.get('/', async (request: Request, response: Response) => {
   try {
+    const categoriesCount = await prismaClient.category.count()
     const categories = await prismaClient.category.findMany()
 
     return response.status(200).json({
       message: 'Categorias encontradas com sucesso!',
       data: {
-        count: categories.length,
+        count: categoriesCount,
         categories,
       },
     })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao listar categorias',
+      error,
+    })
   }
 })
 

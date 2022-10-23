@@ -88,13 +88,19 @@ router.post('/register', async (request: Request, response: Response) => {
 
     delete (newUser as any).password
 
-    return response.status(201).json(newUser)
+    return response.status(201).json({
+      message: 'Usuário cadastrado com sucesso!',
+      user: newUser,
+    })
   } catch (error) {
     if (error instanceof ValidationError) {
       return sendBadRequest(request, response, error.errors)
     }
 
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao cadastrar novo usuário',
+      error,
+    })
   }
 })
 
@@ -131,9 +137,15 @@ router.post('/login', async (request: Request, response: Response) => {
 
     delete (user as any).password
 
-    return response.status(200).json({ ...user, accessToken })
+    return response.status(200).json({
+      message: 'Login efetuado com sucesso!',
+      user: { ...user, accessToken },
+    })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao efetuar login!',
+      error,
+    })
   }
 })
 
@@ -150,9 +162,15 @@ router.get('/me', verifyToken, async (request: Request, response: Response) => {
 
     delete (data as any).password
 
-    return response.status(200).json(data)
+    return response.status(200).json({
+      message: 'Usuário encontrado!',
+      user: data,
+    })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao buscar usuário!',
+      error,
+    })
   }
 })
 

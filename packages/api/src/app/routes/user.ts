@@ -40,7 +40,10 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json({ error })
+      return response.status(500).json({
+        message: 'Erro ao listar usuários!',
+        error,
+      })
     }
   }
 )
@@ -77,7 +80,10 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json({ error })
+      return response.status(500).json({
+        message: 'Erro ao buscar estatísticas de usuários!',
+        error,
+      })
     }
   }
 )
@@ -96,10 +102,20 @@ router.get(
         include: { profile: { include: { address: true } } },
       })
 
-      return response.status(200).json({ user })
+      if (!user) {
+        return response.status(400).json({
+          message: 'Usuário não encontrado!',
+        })
+      }
+
+      return response
+        .status(200)
+        .json({ message: 'Usuário encontrado com sucesso!', user })
     } catch (error) {
-      console.log(error)
-      return response.status(500).json({ error })
+      return response.status(500).json({
+        message: 'Erro ao buscar usuário!',
+        error,
+      })
     }
   }
 )
@@ -122,7 +138,9 @@ router.put(
       })
 
       if (!user) {
-        return response.status(401).json('Usuário não encontrado!')
+        return response.status(400).json({
+          message: 'Usuário não encontrado!',
+        })
       }
 
       const updatedAddress = await prismaClient.address.upsert({
@@ -175,7 +193,10 @@ router.put(
         user: userUpdated,
       })
     } catch (error) {
-      return response.status(500).json({ error })
+      return response.status(500).json({
+        message: 'Erro ao atualizar usuário!',
+        error,
+      })
     }
   }
 )
@@ -192,13 +213,18 @@ router.delete(
       const user = await prismaClient.user.findUnique({ where: { id } })
 
       if (!user)
-        return response.status(401).json({ message: 'User not founded!' })
+        return response.status(401).json({ message: 'Usuário não encontrado!' })
 
       await prismaClient.user.delete({ where: { id } })
 
-      return response.status(200).json({ message: 'User deleted succesfully!' })
+      return response
+        .status(200)
+        .json({ message: 'Usuário excluído com sucesso!' })
     } catch (error) {
-      return response.status(500).json({ error })
+      return response.status(500).json({
+        message: 'Erro ao excluir usuário!',
+        error,
+      })
     }
   }
 )

@@ -17,7 +17,10 @@ router.get('/:id', async (request: Request, response: Response) => {
 
     return response.status(200).json(payment)
   } catch (error) {
-    return response.status(400).json(error)
+    return response.status(500).json({
+      message: 'Erro ao buscar pagamento!',
+      error,
+    })
   }
 })
 
@@ -38,7 +41,10 @@ router.post('/payment', async (request: Request, response: Response) => {
 
       return response.status(200).json(data)
     } catch (error) {
-      return response.status(400).json(error)
+      return response.status(500).json({
+        message: 'Erro ao efetuar pagamento!',
+        error,
+      })
     }
   }
 
@@ -56,7 +62,10 @@ router.post('/payment', async (request: Request, response: Response) => {
 
       return response.status(200).json(data)
     } catch (error) {
-      return response.status(400).json(error)
+      return response.status(500).json({
+        message: 'Erro ao efetuar pagamento!',
+        error,
+      })
     }
   }
 
@@ -72,7 +81,10 @@ router.post('/payment', async (request: Request, response: Response) => {
 
     return response.status(200).json(data)
   } catch (error) {
-    return response.status(400).json(error)
+    return response.status(500).json({
+      message: 'Erro ao efetuar pagamento!',
+      error,
+    })
   }
 })
 

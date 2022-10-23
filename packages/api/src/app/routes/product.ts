@@ -60,12 +60,13 @@ router.post(
 
       return response.status(201).json({
         message: 'Produto cadastrado com sucesso!',
-        data: {
-          product: newProduct,
-        },
+        product: newProduct,
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao criar produto!',
+        error,
+      })
     }
   }
 )
@@ -83,7 +84,7 @@ router.put(
       const product = await prismaClient.product.findUnique({ where: { id } })
 
       if (!product)
-        return response.status(401).json({ message: 'Product not founded!' })
+        return response.status(401).json({ message: 'Product não encontrado!' })
 
       const updatedProduct = await prismaClient.product.update({
         where: { id },
@@ -94,12 +95,13 @@ router.put(
 
       return response.status(201).json({
         message: 'Produto atualizado com sucesso!',
-        data: {
-          product: updatedProduct,
-        },
+        product: updatedProduct,
       })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao atualizar produto!',
+        error,
+      })
     }
   }
 )
@@ -116,15 +118,18 @@ router.delete(
       const product = await prismaClient.product.findUnique({ where: { id } })
 
       if (!product)
-        return response.status(401).json({ message: 'Product not founded!' })
+        return response.status(401).json({ message: 'Product não encontrado!' })
 
       await prismaClient.product.delete({ where: { id } })
 
       return response
         .status(200)
-        .json({ message: 'Product deleted succesfully!' })
+        .json({ message: 'Produto excluido com sucesso!' })
     } catch (error) {
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao excluir produto!',
+        error,
+      })
     }
   }
 )
@@ -138,21 +143,22 @@ router.get('/:id', async (request: Request, response: Response) => {
     const product = await prismaClient.product.findUnique({ where: { id } })
 
     if (!product)
-      return response.status(401).json({ message: 'Product not founded!' })
+      return response.status(401).json({ message: 'Product não encontrado!' })
 
     const images = await searchFile(product?.images || '')
 
     return response.status(201).json({
       message: 'Produto encontrado com sucesso!',
-      data: {
-        product: {
-          ...product,
-          images,
-        },
+      product: {
+        ...product,
+        images,
       },
     })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao buscar produto!',
+      error,
+    })
   }
 })
 
@@ -204,7 +210,10 @@ router.get('/', pagination, async (request: Request, response: Response) => {
       },
     })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao listar produto!',
+      error,
+    })
   }
 })
 

@@ -11,9 +11,19 @@ const router = express.Router()
 router.get('/', async (request: Request, response: Response) => {
   try {
     const files = await File.find()
-    return response.status(200).json(files)
+
+    return response.status(200).json({
+      message: 'Arquivos encontrados',
+      data: {
+        count: files.length,
+        files,
+      },
+    })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao listar arquivos',
+      error,
+    })
   }
 })
 
@@ -25,14 +35,21 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const file = await File.findById(id)
 
+    if (!file) {
+      return response.status(400).json({
+        message: 'Arquivo não encontrado',
+      })
+    }
+
     return response.status(200).json({
       message: 'Arquivo encontrado com sucesso!',
-      data: {
-        file,
-      },
+      file,
     })
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao buscar arquivo',
+      error,
+    })
   }
 })
 
@@ -59,10 +76,15 @@ router.post(
         url,
       })
 
-      return response.status(200).json(file)
+      return response.status(200).json({
+        message: 'Upload do arquivo efetuado com sucesso!',
+        file,
+      })
     } catch (error) {
-      console.log(error)
-      return response.status(500).json(error)
+      return response.status(500).json({
+        message: 'Erro ao fazer upload do arquivo',
+        error,
+      })
     }
   }
 )
@@ -73,11 +95,20 @@ router.delete('/:id', async (request: Request, response: Response) => {
   try {
     const file = await File.findById(request.params.id)
 
+    if (!file) {
+      return response.status(400).json({
+        message: 'Arquivo não encontrado',
+      })
+    }
+
     await file?.remove()
 
     return response.send()
   } catch (error) {
-    return response.status(500).json(error)
+    return response.status(500).json({
+      message: 'Erro ao excluir arquivo',
+      error,
+    })
   }
 })
 
