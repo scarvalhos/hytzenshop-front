@@ -206,9 +206,14 @@ router.get(
           'Você não tem permissão para isso!'
         )
 
+      const orderedProducts = await searchOrder(order.orderedProductsIds)
+
       return response.status(200).json({
         message: 'Pedido encontrado com sucesso!',
-        order,
+        order: {
+          orderedProducts,
+          ...order,
+        },
       })
     } catch (error) {
       return sendInternalServerError(
@@ -253,7 +258,7 @@ router.get(
 
           return {
             orderedProducts,
-            ...orders,
+            ...order,
           }
         })
       )
@@ -300,11 +305,22 @@ router.get(
         take,
       })
 
+      const ordersParsed = await Promise.all(
+        orders.map(async (order: any): Promise<any> => {
+          const orderedProducts = await searchOrder(order.orderedProductsIds)
+
+          return {
+            orderedProducts,
+            ...order,
+          }
+        })
+      )
+
       return response.status(200).json({
         message: 'Pedidos listados com sucesso!',
         data: {
           count: ordersCount,
-          orders,
+          orders: ordersParsed,
         },
       })
     } catch (error) {
