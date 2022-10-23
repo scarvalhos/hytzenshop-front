@@ -5,6 +5,7 @@ import { sendInternalServerError } from '../errors/InternalServerError'
 import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
+import { searchOrder } from '../../utils/files'
 
 const router = express.Router()
 
@@ -246,11 +247,22 @@ router.get(
         include: { address: true },
       })
 
+      const ordersParsed = await Promise.all(
+        orders.map(async (order: any): Promise<any> => {
+          const orderedProducts = await searchOrder(order.orderedProductsIds)
+
+          return {
+            orderedProducts,
+            ...orders,
+          }
+        })
+      )
+
       return response.status(200).json({
         message: 'Pedidos encontrados com sucesso!',
         data: {
           count: ordersCount,
-          orders,
+          orders: ordersParsed,
         },
       })
     } catch (error) {
