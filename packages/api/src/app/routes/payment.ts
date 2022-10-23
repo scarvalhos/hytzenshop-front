@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import mercadopago from 'mercadopago'
 import fetch from 'cross-fetch'
 
+import { sendInternalServerError } from '../errors/InternalServerError'
 import { io } from '../..'
 
 mercadopago.configure({
@@ -17,10 +18,12 @@ router.get('/:id', async (request: Request, response: Response) => {
 
     return response.status(200).json(payment)
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao buscar pagamento!',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao buscar pagamento!',
+      error
+    )
   }
 })
 
@@ -41,10 +44,12 @@ router.post('/payment', async (request: Request, response: Response) => {
 
       return response.status(200).json(data)
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao efetuar pagamento!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao efetuar pagamento!',
+        error
+      )
     }
   }
 
@@ -62,10 +67,12 @@ router.post('/payment', async (request: Request, response: Response) => {
 
       return response.status(200).json(data)
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao efetuar pagamento!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao efetuar pagamento!',
+        error
+      )
     }
   }
 
@@ -81,10 +88,12 @@ router.post('/payment', async (request: Request, response: Response) => {
 
     return response.status(200).json(data)
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao efetuar pagamento!',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao efetuar pagamento!',
+      error
+    )
   }
 })
 

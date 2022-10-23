@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express'
 
+import { sendInternalServerError } from '../errors/InternalServerError'
+import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
 
@@ -40,10 +42,12 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao listar usuários!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao listar usuários!',
+        error
+      )
     }
   }
 )
@@ -80,10 +84,12 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao buscar estatísticas de usuários!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao buscar estatísticas de usuários!',
+        error
+      )
     }
   }
 )
@@ -102,20 +108,19 @@ router.get(
         include: { profile: { include: { address: true } } },
       })
 
-      if (!user) {
-        return response.status(400).json({
-          message: 'Usuário não encontrado!',
-        })
-      }
+      if (!user)
+        return sendBadRequest(request, response, 'Usuário não encontrado!')
 
       return response
         .status(200)
         .json({ message: 'Usuário encontrado com sucesso!', user })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao buscar usuário!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao buscar usuário!',
+        error
+      )
     }
   }
 )
@@ -137,11 +142,8 @@ router.put(
         include: { profile: { include: { address: true } } },
       })
 
-      if (!user) {
-        return response.status(400).json({
-          message: 'Usuário não encontrado!',
-        })
-      }
+      if (!user)
+        return sendBadRequest(request, response, 'Usuário não encontrado!')
 
       const updatedAddress = await prismaClient.address.upsert({
         where: { id: user?.profile?.addressId || '' },
@@ -193,10 +195,12 @@ router.put(
         user: userUpdated,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao atualizar usuário!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao atualizar usuário!',
+        error
+      )
     }
   }
 )
@@ -213,7 +217,7 @@ router.delete(
       const user = await prismaClient.user.findUnique({ where: { id } })
 
       if (!user)
-        return response.status(401).json({ message: 'Usuário não encontrado!' })
+        return sendBadRequest(request, response, 'Usuário não encontrado!')
 
       await prismaClient.user.delete({ where: { id } })
 
@@ -221,10 +225,12 @@ router.delete(
         .status(200)
         .json({ message: 'Usuário excluído com sucesso!' })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao excluir usuário!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao excluir usuário!',
+        error
+      )
     }
   }
 )

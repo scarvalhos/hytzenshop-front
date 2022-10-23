@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express'
 
 import { verifyToken, verifyTokenAndAdmin } from '../middlewares/verifyToken'
+import { sendInternalServerError } from '../errors/InternalServerError'
+import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
 
@@ -40,10 +42,12 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
       order: newOrder,
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao criar novo pedido!',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao criar novo pedido!',
+      error
+    )
   }
 })
 
@@ -62,11 +66,8 @@ router.put(
         },
       })
 
-      if (!order) {
-        return response.status(400).json({
-          message: 'Pedido não encontrado',
-        })
-      }
+      if (!order)
+        return sendBadRequest(request, response, 'Pedido não encontrado')
 
       const updatedOrder = await prismaClient.order.update({
         where: {
@@ -80,10 +81,12 @@ router.put(
         order: updatedOrder,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao atualizar pedido!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao atualizar pedido!',
+        error
+      )
     }
   }
 )
@@ -102,12 +105,15 @@ router.patch(
         where: { mpPaymentId: id },
       })
 
-      if (!order) {
-        return response.status(400).json({ message: 'Pedido não encontrado!' })
-      }
+      if (!order)
+        return sendBadRequest(request, response, 'Pedido não encontrado')
 
       if (!user.isAdmin && user.id !== order?.userId)
-        return response.status(403).json('Not alowed to do that!')
+        return sendBadRequest(
+          request,
+          response,
+          'Você não tem permissão para isso!'
+        )
 
       const updatedOrder = await prismaClient.order.update({
         where: { id: order.id },
@@ -121,10 +127,12 @@ router.patch(
         order: updatedOrder,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao atualizar status do pedido!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao atualizar status do pedido!',
+        error
+      )
     }
   }
 )
@@ -140,11 +148,8 @@ router.delete(
     try {
       const order = await prismaClient.order.findUnique({ where: { id } })
 
-      if (!order) {
-        return response.status(400).json({
-          message: 'Pedido não encontrado!',
-        })
-      }
+      if (!order)
+        return sendBadRequest(request, response, 'Pedido não encontrado')
 
       await prismaClient.order.delete({ where: { id } })
 
@@ -152,10 +157,12 @@ router.delete(
         message: 'Pedido excluído com sucesso!',
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao excluir pedido!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao excluir pedido!',
+        error
+      )
     }
   }
 )
@@ -175,24 +182,27 @@ router.get(
         include: { address: true },
       })
 
-      if (!order) {
-        return response.status(400).json({
-          message: 'Pedido não encontrado!',
-        })
-      }
+      if (!order)
+        return sendBadRequest(request, response, 'Pedido não encontrado')
 
       if (!user.isAdmin && user.id !== order?.userId)
-        return response.status(403).json('Not alowed to do that!')
+        return sendBadRequest(
+          request,
+          response,
+          'Você não tem permissão para isso!'
+        )
 
       return response.status(200).json({
         message: 'Pedido encontrado com sucesso!',
         order,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao buscar pedido!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao buscar pedido!',
+        error
+      )
     }
   }
 )
@@ -207,7 +217,11 @@ router.get(
     const { user } = request.body
 
     if (!user.isAdmin && user.id !== userId)
-      return response.status(403).json('Not alowed to do that!')
+      return sendBadRequest(
+        request,
+        response,
+        'Você não tem permissão para isso!'
+      )
 
     try {
       const ordersCount = await prismaClient.order.count({
@@ -227,10 +241,12 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao listar pedidos!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao listar pedidos!',
+        error
+      )
     }
   }
 )
@@ -267,10 +283,12 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao listar pedidos!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao listar pedidos!',
+        error
+      )
     }
   }
 )

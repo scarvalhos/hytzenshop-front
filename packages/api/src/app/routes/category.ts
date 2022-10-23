@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express'
 
+import { sendInternalServerError } from '../errors/InternalServerError'
 import { verifyTokenAndAdmin } from '../middlewares/verifyToken'
+import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 
 const router = express.Router()
@@ -19,9 +21,7 @@ router.post(
       })
 
       if (category) {
-        return response.status(400).json({
-          message: 'Essa categoria já existe',
-        })
+        return sendBadRequest(request, response, 'Essa categoria já existe')
       }
 
       const newCategory = await prismaClient.category.create({ data: { name } })
@@ -31,10 +31,12 @@ router.post(
         data: { category: newCategory },
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao cadastrar nova categoria',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao cadastrar nova categoria',
+        error
+      )
     }
   }
 )
@@ -51,9 +53,7 @@ router.delete(
       const category = await prismaClient.category.findUnique({ where: { id } })
 
       if (!category)
-        return response
-          .status(401)
-          .json({ message: 'Categoria não encontrada!' })
+        return sendBadRequest(request, response, 'Categoria não encontrada!')
 
       await prismaClient.category.delete({ where: { id } })
 
@@ -61,10 +61,12 @@ router.delete(
         message: 'Categoria excluida com sucesso!',
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao tentar excluir categoria',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao tentar excluir categoria',
+        error
+      )
     }
   }
 )
@@ -77,21 +79,20 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const category = await prismaClient.category.findUnique({ where: { id } })
 
-    if (!category) {
-      return response.status(401).json({
-        message: 'Categoria não encontrada!',
-      })
-    }
+    if (!category)
+      return sendBadRequest(request, response, 'Categoria não encontrada!')
 
     return response.status(200).json({
       message: 'Categoria encontrada com sucesso!',
       data: { category },
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao buscar categoria',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao buscar categoria',
+      error
+    )
   }
 })
 
@@ -110,10 +111,12 @@ router.get('/', async (request: Request, response: Response) => {
       },
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao listar categorias',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao listar categorias',
+      error
+    )
   }
 })
 

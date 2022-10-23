@@ -1,5 +1,7 @@
 import express, { Request, Response } from 'express'
 
+import { sendInternalServerError } from '../errors/InternalServerError'
+import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 
 import {
@@ -23,10 +25,12 @@ router.post('/', verifyToken, async (request: Request, response: Response) => {
       cart: newCart,
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao criar carrinho',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao criar carrinho',
+      error
+    )
   }
 })
 
@@ -51,10 +55,12 @@ router.put(
         cart: updatedCart,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao atualizar carrinho',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao atualizar carrinho',
+        error
+      )
     }
   }
 )
@@ -74,10 +80,12 @@ router.delete(
         message: 'Carrinho excluído com sucesso!',
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao excluir carrinho',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao excluir carrinho',
+        error
+      )
     }
   }
 )
@@ -96,9 +104,11 @@ router.get(
       })
 
       if (!cart) {
-        return response.status(401).json({
-          message: 'Nenhum carrinho não encontrado para esse usuário.',
-        })
+        return sendBadRequest(
+          request,
+          response,
+          'Nenhum carrinho não encontrado para esse usuário.'
+        )
       }
 
       return response.status(200).json({
@@ -106,10 +116,12 @@ router.get(
         cart,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao buscar carrinho',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao buscar carrinho',
+        error
+      )
     }
   }
 )
@@ -132,10 +144,12 @@ router.get(
         },
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao listar carrinhos',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao listar carrinhos',
+        error
+      )
     }
   }
 )

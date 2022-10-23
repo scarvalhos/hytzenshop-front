@@ -1,7 +1,9 @@
 import express, { Request, Response } from 'express'
 
+import { sendInternalServerError } from '../errors/InternalServerError'
 import { verifyTokenAndAdmin } from '../middlewares/verifyToken'
 import { Document, ObjectId } from 'mongoose'
+import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 import { pagination } from '../middlewares/pagination'
 import { searchFile } from '../../utils/files'
@@ -63,10 +65,12 @@ router.post(
         product: newProduct,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao criar produto!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao criar produto!',
+        error
+      )
     }
   }
 )
@@ -84,7 +88,7 @@ router.put(
       const product = await prismaClient.product.findUnique({ where: { id } })
 
       if (!product)
-        return response.status(401).json({ message: 'Product não encontrado!' })
+        return sendBadRequest(request, response, 'Product não encontrado!')
 
       const updatedProduct = await prismaClient.product.update({
         where: { id },
@@ -98,10 +102,12 @@ router.put(
         product: updatedProduct,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao atualizar produto!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao atualizar produto!',
+        error
+      )
     }
   }
 )
@@ -118,7 +124,7 @@ router.delete(
       const product = await prismaClient.product.findUnique({ where: { id } })
 
       if (!product)
-        return response.status(401).json({ message: 'Product não encontrado!' })
+        return sendBadRequest(request, response, 'Product não encontrado!')
 
       await prismaClient.product.delete({ where: { id } })
 
@@ -126,10 +132,12 @@ router.delete(
         .status(200)
         .json({ message: 'Produto excluido com sucesso!' })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao excluir produto!',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao excluir produto!',
+        error
+      )
     }
   }
 )
@@ -143,7 +151,7 @@ router.get('/:id', async (request: Request, response: Response) => {
     const product = await prismaClient.product.findUnique({ where: { id } })
 
     if (!product)
-      return response.status(401).json({ message: 'Product não encontrado!' })
+      return sendBadRequest(request, response, 'Product não encontrado!')
 
     const images = await searchFile(product?.images || '')
 
@@ -155,10 +163,12 @@ router.get('/:id', async (request: Request, response: Response) => {
       },
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao buscar produto!',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao buscar produto!',
+      error
+    )
   }
 })
 
@@ -210,10 +220,12 @@ router.get('/', pagination, async (request: Request, response: Response) => {
       },
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao listar produto!',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao listar produtos!',
+      error
+    )
   }
 })
 

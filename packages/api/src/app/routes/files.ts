@@ -1,4 +1,7 @@
 import express, { Request, Response } from 'express'
+
+import { sendInternalServerError } from '../errors/InternalServerError'
+import { sendBadRequest } from '../errors/BadRequest'
 import { File } from '../models/File'
 
 import multerConfig from '../../config/multer'
@@ -20,10 +23,12 @@ router.get('/', async (request: Request, response: Response) => {
       },
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao listar arquivos',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao listar arquivos',
+      error
+    )
   }
 })
 
@@ -35,21 +40,20 @@ router.get('/:id', async (request: Request, response: Response) => {
   try {
     const file = await File.findById(id)
 
-    if (!file) {
-      return response.status(400).json({
-        message: 'Arquivo não encontrado',
-      })
-    }
+    if (!file)
+      return sendBadRequest(request, response, 'Arquivo não encontrado!')
 
     return response.status(200).json({
       message: 'Arquivo encontrado com sucesso!',
       file,
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao buscar arquivo',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao buscar arquivo',
+      error
+    )
   }
 })
 
@@ -59,8 +63,6 @@ router.post(
   '/',
   multer(multerConfig).single('file'),
   async (request: Request, response: Response) => {
-    console.log(request.file)
-
     try {
       const {
         originalname: name,
@@ -81,10 +83,12 @@ router.post(
         file,
       })
     } catch (error) {
-      return response.status(500).json({
-        message: 'Erro ao fazer upload do arquivo',
-        error,
-      })
+      return sendInternalServerError(
+        request,
+        response,
+        'Erro ao fazer upload do arquivo',
+        error
+      )
     }
   }
 )
@@ -95,20 +99,19 @@ router.delete('/:id', async (request: Request, response: Response) => {
   try {
     const file = await File.findById(request.params.id)
 
-    if (!file) {
-      return response.status(400).json({
-        message: 'Arquivo não encontrado',
-      })
-    }
+    if (!file)
+      return sendBadRequest(request, response, 'Arquivo não encontrado!')
 
     await file?.remove()
 
     return response.send()
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao excluir arquivo',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao excluir arquivo',
+      error
+    )
   }
 })
 

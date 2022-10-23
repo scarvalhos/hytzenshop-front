@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import CryptoJS from 'crypto-js'
 import jwt from 'jsonwebtoken'
 
+import { sendInternalServerError } from '../errors/InternalServerError'
 import { ValidationError } from 'yup'
 import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
@@ -33,7 +34,7 @@ router.post('/register', async (request: Request, response: Response) => {
       (await prismaClient.user.findUnique({ where: { email } }))
 
     if (user) {
-      return response.status(401).json('User already exists!')
+      return sendBadRequest(request, response, 'Usuário já cadastrado!')
     }
 
     await validateUser({
@@ -97,10 +98,12 @@ router.post('/register', async (request: Request, response: Response) => {
       return sendBadRequest(request, response, error.errors)
     }
 
-    return response.status(500).json({
-      message: 'Erro ao cadastrar novo usuário',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao cadastrar novo usuário',
+      error
+    )
   }
 })
 
@@ -115,7 +118,7 @@ router.post('/login', async (request: Request, response: Response) => {
     })
 
     if (!user) {
-      return response.status(401).json('Wrong credentials')
+      return sendBadRequest(request, response, 'Usuário ou senha incorreta!')
     }
 
     const hashedPassword = CryptoJS.AES.decrypt(user?.password, hash).toString(
@@ -123,7 +126,7 @@ router.post('/login', async (request: Request, response: Response) => {
     )
 
     if (hashedPassword !== password) {
-      return response.status(401).json('Wrong password')
+      return sendBadRequest(request, response, 'Usuário ou senha incorreta!')
     }
 
     const accessToken = jwt.sign(
@@ -142,10 +145,12 @@ router.post('/login', async (request: Request, response: Response) => {
       user: { ...user, accessToken },
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao efetuar login!',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao efetuar login!',
+      error
+    )
   }
 })
 
@@ -167,10 +172,12 @@ router.get('/me', verifyToken, async (request: Request, response: Response) => {
       user: data,
     })
   } catch (error) {
-    return response.status(500).json({
-      message: 'Erro ao buscar usuário!',
-      error,
-    })
+    return sendInternalServerError(
+      request,
+      response,
+      'Erro ao buscar login!',
+      error
+    )
   }
 })
 
