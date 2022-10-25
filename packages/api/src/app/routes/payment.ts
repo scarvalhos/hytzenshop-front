@@ -43,13 +43,8 @@ router.post('/payment', async (request: Request, response: Response) => {
       const data = await res.json()
 
       return response.status(200).json(data)
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao efetuar pagamento!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 
@@ -66,13 +61,8 @@ router.post('/payment', async (request: Request, response: Response) => {
       const data = await res.json()
 
       return response.status(200).json(data)
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao efetuar pagamento!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 
@@ -87,13 +77,8 @@ router.post('/payment', async (request: Request, response: Response) => {
     }
 
     return response.status(200).json(data)
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao efetuar pagamento!',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
