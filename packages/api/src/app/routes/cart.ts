@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express'
 
 import { sendInternalServerError } from '../errors/InternalServerError'
+import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 
 import {
@@ -16,20 +17,15 @@ const router = express.Router()
 router.post('/', verifyToken, async (request: Request, response: Response) => {
   try {
     const newCart = await prismaClient.cart.create({
-      data: { userId: request.body.userId },
+      data: { userId: request.body.userId, products: request.body.products },
     })
 
     return response.status(201).json({
       message: 'Carrinho criado com sucesso!',
       cart: newCart,
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao criar carrinho',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -39,13 +35,14 @@ router.put(
   '/:id',
   verifyToken,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
+    const { products } = request.body
 
     try {
       const updatedCart = await prismaClient.cart.update({
         where: { id },
         data: {
-          products: request.body.products,
+          products,
         },
       })
 
@@ -53,13 +50,8 @@ router.put(
         message: 'Carrinho atualizado com sucesso!',
         cart: updatedCart,
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao atualizar carrinho',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -78,13 +70,8 @@ router.delete(
       return response.status(200).json({
         message: 'Carrinho excluído com sucesso!',
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao excluir carrinho',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -98,6 +85,13 @@ router.get(
     let { userId } = request.params
 
     try {
+      const user = await prismaClient.user.findUnique({
+        where: { id: userId },
+      })
+
+      if (!user)
+        return sendBadRequest(request, response, 'Usuário não encontrado!')
+
       const cart = await prismaClient.cart.findFirst({
         where: { userId },
       })
@@ -106,13 +100,8 @@ router.get(
         message: 'Carrinho encontrado!',
         cart,
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao buscar carrinho',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -134,13 +123,8 @@ router.get(
           carts,
         },
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao listar carrinhos',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
