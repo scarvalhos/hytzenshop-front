@@ -41,13 +41,8 @@ router.get(
           users,
         },
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao listar usuários!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -83,13 +78,8 @@ router.get(
           stats,
         },
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao buscar estatísticas de usuários!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -114,13 +104,8 @@ router.get(
       return response
         .status(200)
         .json({ message: 'Usuário encontrado com sucesso!', user })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao buscar usuário!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -194,13 +179,8 @@ router.put(
         message: 'Usuário atualizado com sucesso!',
         user: userUpdated,
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao atualizar usuário!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -224,13 +204,8 @@ router.delete(
       return response
         .status(200)
         .json({ message: 'Usuário excluído com sucesso!' })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao excluir usuário!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )

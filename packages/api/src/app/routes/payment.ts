@@ -113,8 +113,8 @@ router.post(
           .json({ payment: payment, response: mpResponseParsed })
       }
       return response.status(200)
-    } catch (error) {
-      return response.status(400).json(error)
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )

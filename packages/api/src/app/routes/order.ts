@@ -94,13 +94,8 @@ router.put(
         message: 'Pedido atualizado com sucesso!',
         order: updatedOrder,
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao atualizar pedido!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -140,13 +135,8 @@ router.patch(
         message: 'Pedido atualizado com sucesso!',
         order: updatedOrder,
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao atualizar status do pedido!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -170,13 +160,8 @@ router.delete(
       return response.status(200).json({
         message: 'Pedido excluído com sucesso!',
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao excluir pedido!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -215,13 +200,8 @@ router.get(
           ...order,
         },
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao buscar pedido!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -230,8 +210,13 @@ router.get(
 
 router.get(
   '/:userId',
+  pagination,
   verifyToken,
   async (request: Request, response: Response) => {
+    const {
+      pagination: { take, sort, skip, order, filter },
+    } = request as any
+
     const { userId } = request.params
     const { user } = request.body
 
@@ -241,15 +226,17 @@ router.get(
         response,
         'Você não tem permissão para isso!'
       )
-
     try {
       const ordersCount = await prismaClient.order.count({
-        where: { userId },
+        where: { userId, ...filter },
       })
 
       const orders = await prismaClient.order.findMany({
-        where: { userId },
+        where: { userId, ...filter },
         include: { address: true },
+        orderBy: { [sort]: order },
+        skip,
+        take,
       })
 
       const ordersParsed = await Promise.all(
@@ -270,13 +257,8 @@ router.get(
           orders: ordersParsed,
         },
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao listar pedidos!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -323,13 +305,8 @@ router.get(
           orders: ordersParsed,
         },
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao listar pedidos!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )

@@ -64,13 +64,8 @@ router.post(
         message: 'Produto cadastrado com sucesso!',
         product: newProduct,
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao criar produto!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -101,13 +96,8 @@ router.put(
         message: 'Produto atualizado com sucesso!',
         product: updatedProduct,
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao atualizar produto!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -131,13 +121,8 @@ router.delete(
       return response
         .status(200)
         .json({ message: 'Produto excluido com sucesso!' })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao excluir produto!',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -162,13 +147,8 @@ router.get('/:id', async (request: Request, response: Response) => {
         images,
       },
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao buscar produto!',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -219,13 +199,8 @@ router.get('/', pagination, async (request: Request, response: Response) => {
         products: productsParsed,
       },
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao listar produtos!',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 

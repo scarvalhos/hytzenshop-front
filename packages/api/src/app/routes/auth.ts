@@ -94,17 +94,12 @@ router.post('/register', async (request: Request, response: Response) => {
       message: 'Usuário cadastrado com sucesso!',
       user: newUser,
     })
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof ValidationError) {
       return sendBadRequest(request, response, error.errors)
     }
 
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao cadastrar novo usuário',
-      error
-    )
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -146,13 +141,8 @@ router.post('/login', async (request: Request, response: Response) => {
       message: 'Login efetuado com sucesso!',
       user: { ...user, accessToken },
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao efetuar login!',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -173,13 +163,8 @@ router.get('/me', verifyToken, async (request: Request, response: Response) => {
       message: 'Usuário encontrado!',
       user: data,
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao buscar login!',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -226,8 +211,8 @@ router.post('/forgot-password', async (req, res) => {
     return res
       .status(200)
       .send({ message: `E-mail de recuperação enviado para '${email}'` })
-  } catch (err) {
-    res.status(400).send({ error: 'Error on forgot password. Try again' })
+  } catch (error: any) {
+    return sendInternalServerError(req, res, error.message, error)
   }
 })
 
@@ -257,8 +242,8 @@ router.post('/reset-password', async (req, res) => {
     await prismaClient.user.update({ where: { id: user.id }, data: user })
 
     return res.status(200).send({ message: 'Nova senha definida com sucesso!' })
-  } catch (err) {
-    res.status(400).send({ error: 'Cannot reset password. Try again' })
+  } catch (error: any) {
+    return sendInternalServerError(req, req, error.message, error)
   }
 })
 

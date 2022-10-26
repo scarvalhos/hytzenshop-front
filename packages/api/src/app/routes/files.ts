@@ -22,13 +22,8 @@ router.get('/', async (request: Request, response: Response) => {
         files,
       },
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao listar arquivos',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -47,13 +42,8 @@ router.get('/:id', async (request: Request, response: Response) => {
       message: 'Arquivo encontrado com sucesso!',
       file,
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao buscar arquivo',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -74,14 +64,8 @@ router.post(
       })
 
       return response.status(200).json(file)
-    } catch (error) {
-      console.log(error)
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao fazer upload do arquivo',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -98,13 +82,8 @@ router.delete('/:id', async (request: Request, response: Response) => {
     await file?.remove()
 
     return response.send()
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao excluir arquivo',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 

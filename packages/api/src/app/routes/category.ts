@@ -30,13 +30,8 @@ router.post(
         message: 'Categoria criada com sucesso!',
         data: { category: newCategory },
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao cadastrar nova categoria',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -60,13 +55,8 @@ router.delete(
       return response.status(200).json({
         message: 'Categoria excluida com sucesso!',
       })
-    } catch (error) {
-      return sendInternalServerError(
-        request,
-        response,
-        'Erro ao tentar excluir categoria',
-        error
-      )
+    } catch (error: any) {
+      return sendInternalServerError(request, response, error.message, error)
     }
   }
 )
@@ -86,13 +76,8 @@ router.get('/:id', async (request: Request, response: Response) => {
       message: 'Categoria encontrada com sucesso!',
       data: { category },
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao buscar categoria',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 
@@ -110,13 +95,8 @@ router.get('/', async (request: Request, response: Response) => {
         categories,
       },
     })
-  } catch (error) {
-    return sendInternalServerError(
-      request,
-      response,
-      'Erro ao listar categorias',
-      error
-    )
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
 })
 

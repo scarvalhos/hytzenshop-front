@@ -39,6 +39,11 @@ router.put(
     const { products } = request.body
 
     try {
+      const cart = await prismaClient.cart.findUnique({ where: { id } })
+
+      if (!cart)
+        return sendBadRequest(request, response, 'Carrinho não encontrado!')
+
       const updatedCart = await prismaClient.cart.update({
         where: { id },
         data: {
@@ -65,6 +70,11 @@ router.delete(
     let { id } = request.params
 
     try {
+      const cart = await prismaClient.cart.findUnique({ where: { id } })
+
+      if (!cart)
+        return sendBadRequest(request, response, 'Carrinho não encontrado!')
+
       await prismaClient.cart.delete({ where: { id } })
 
       return response.status(200).json({
