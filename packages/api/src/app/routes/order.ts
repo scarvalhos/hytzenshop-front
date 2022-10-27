@@ -281,7 +281,18 @@ router.get(
 
       const orders = await prismaClient.order.findMany({
         where: { ...filter },
-        include: { address: true },
+        include: {
+          address: true,
+          user: {
+            select: {
+              profile: true,
+              id: true,
+              email: true,
+              isAdmin: true,
+              username: true,
+            },
+          },
+        },
         orderBy: { [sort]: order },
         skip,
         take,
