@@ -168,7 +168,7 @@ model Order {
 model SystemConfiguration {
   id               String   @id @default(uuid())
   sliderImages     String[] @default([])
-  announcement     String
+  announcement     String?
   showAnnouncement Boolean  @default(false)
 
   @@map("system_configurations")
