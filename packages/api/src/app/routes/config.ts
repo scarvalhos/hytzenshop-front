@@ -79,7 +79,6 @@ router.put(
 
 router.get(
   '/',
-  verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
     try {
       const systemConfiguration =
