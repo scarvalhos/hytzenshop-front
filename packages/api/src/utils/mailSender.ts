@@ -4,14 +4,23 @@ import { Request, Response } from 'express'
 import { sendBadRequest } from '../app/errors/BadRequest'
 import { mailerConfig } from '../config/mailer'
 
-const mailerSender = (
-  { to, html, subject }: { to: string; subject: string; html: string },
-  {
-    req,
-    res,
-    errorMenssage,
-  }: { req: Request; res: Response; errorMenssage?: string }
-) => {
+interface MailerSenderProps {
+  to: string
+  subject: string
+  html: string
+  req: Request
+  res: Response
+  errorMenssage?: string
+}
+
+const mailerSender = ({
+  to,
+  html,
+  subject,
+  req,
+  res,
+  errorMenssage,
+}: MailerSenderProps) => {
   return transport.sendMail(
     {
       to,
@@ -20,6 +29,8 @@ const mailerSender = (
       html,
     },
     (err) => {
+      console.log(err)
+
       if (err) return sendBadRequest(req, res, errorMenssage)
 
       return res.send()

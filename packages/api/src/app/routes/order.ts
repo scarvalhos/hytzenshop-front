@@ -143,22 +143,17 @@ router.patch(
         },
       })
 
-      mailerSender(
-        {
-          to: order.user.email,
-
-          subject: 'Seu pedido foi atualizado',
-          html: updateOrderStatusEmailTemplate(
-            order,
-            displayStatusOrders[status]
-          ),
-        },
-        {
-          req: request,
-          res: response,
-          errorMenssage: 'Erro ao atualizar pedido.',
-        }
-      )
+      mailerSender({
+        to: order.user.email,
+        subject: 'Seu pedido foi atualizado',
+        html: updateOrderStatusEmailTemplate(
+          order,
+          displayStatusOrders[status]
+        ),
+        req: request,
+        res: response,
+        errorMenssage: 'Erro ao atualizar pedido.',
+      })
 
       return response.status(200).json({
         message: 'Pedido atualizado com sucesso!',

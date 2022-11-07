@@ -36,6 +36,7 @@ const updateOrderStatusEmailTemplate = (
       width: 100%;
       padding: 0;
       color: #80808c;
+      background-color: #1c1c20;
     "
   >
     <div role="article" aria-roledescription="email" aria-label="" lang="en">
@@ -108,14 +109,14 @@ const updateOrderStatusEmailTemplate = (
                       display: block;
                       max-width: max-content;
                       border-radius: 9999px;
-                      background-color: #4fff70;
+                      background: #ffffff;
                       padding-left: 24px;
                       padding-right: 24px;
                       padding-top: 12px;
                       padding-bottom: 12px;
                       text-align: center;
                       font-weight: 500;
-                      color: #fff;
+                      color: rgb(0, 0, 0);
                       text-decoration-line: none;
                     "
                     >Acompanhar pedido</a
@@ -167,7 +168,6 @@ const updateOrderStatusEmailTemplate = (
     </div>
   </body>
 </html>
-
 `
 
 export { updateOrderStatusEmailTemplate }

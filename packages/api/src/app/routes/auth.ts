@@ -191,14 +191,14 @@ router.post('/forgot-password', async (req, res) => {
       data: { passwordResetToken: token },
     })
 
-    mailerSender(
-      {
-        to: email,
-        subject: 'Redefina sua senha',
-        html: resetPasswordEmailTemplate(URL_FRONTEND, token),
-      },
-      { req, res, errorMenssage: 'Cannot send forgot password email' }
-    )
+    mailerSender({
+      to: email,
+      subject: 'Redefina sua senha',
+      html: resetPasswordEmailTemplate(URL_FRONTEND, token),
+      req,
+      res,
+      errorMenssage: 'Cannot send forgot password email',
+    })
 
     return res
       .status(200)
