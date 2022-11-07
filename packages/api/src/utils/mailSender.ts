@@ -5,12 +5,7 @@ import { sendBadRequest } from '../app/errors/BadRequest'
 import { mailerConfig } from '../config/mailer'
 
 const mailerSender = (
-  {
-    to,
-
-    html,
-    subject,
-  }: { to: string; subject: string; html: string },
+  { to, html, subject }: { to: string; subject: string; html: string },
   {
     req,
     res,
