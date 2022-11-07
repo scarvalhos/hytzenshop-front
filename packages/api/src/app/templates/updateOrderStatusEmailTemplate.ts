@@ -75,7 +75,6 @@ const updateOrderStatusEmailTemplate = (
             <table
               class="sm-px-12"
               style="
-                width: 100%;
                 max-width: 480px;
                 border-radius: 8px;
                 background-color: #1c1c20;
