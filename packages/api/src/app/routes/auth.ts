@@ -2,11 +2,13 @@ import express, { Request, Response } from 'express'
 import CryptoJS from 'crypto-js'
 import jwt from 'jsonwebtoken'
 
+import { resetPasswordEmailTemplate } from '../templates/resetPasswordEmailTemplate'
 import { sendInternalServerError } from '../errors/InternalServerError'
 import { ValidationError } from 'yup'
 import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
 import { URL_FRONTEND } from '../../config'
+import { mailerSender } from '../../utils/mailSender'
 import { verifyToken } from '../middlewares/verifyToken'
 import { secret } from '../../config/auth'
 import { hash } from '../../config/hash'
@@ -16,8 +18,6 @@ import {
   validateAddress,
   validateProfile,
 } from '../validators/auth'
-
-import mailer from '../../modules/mailer'
 
 const router = express.Router()
 
@@ -191,21 +191,13 @@ router.post('/forgot-password', async (req, res) => {
       data: { passwordResetToken: token },
     })
 
-    mailer.sendMail(
+    mailerSender(
       {
         to: email,
-        from: 'samcarvalhos@hotmail.com',
         subject: 'Redefina sua senha',
-        html: `<a href="${URL_FRONTEND}/auth/reset-password?token=${token}">Definir a senha</a>`,
+        html: resetPasswordEmailTemplate(URL_FRONTEND, token),
       },
-      (err) => {
-        if (err)
-          return res
-            .status(400)
-            .send({ error: `Cannot send forgot password email ${err}` })
-
-        return res.send()
-      }
+      { req, res, errorMenssage: 'Cannot send forgot password email' }
     )
 
     return res

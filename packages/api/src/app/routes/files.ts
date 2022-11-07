@@ -87,4 +87,27 @@ router.delete('/:id', async (request: Request, response: Response) => {
   }
 })
 
+// DELETE MANY FILES
+
+router.delete('/', async (request: Request, response: Response) => {
+  const ids = request.body.ids as []
+
+  try {
+    ids.forEach(async (id) => {
+      const file = await File.findById(id)
+
+      if (!file)
+        return sendBadRequest(request, response, 'Arquivo não encontrado!')
+
+      await file.remove()
+    })
+
+    return response.status(200).json({
+      message: 'Arquivos excluídos com sucesso!',
+    })
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
+  }
+})
+
 export default router

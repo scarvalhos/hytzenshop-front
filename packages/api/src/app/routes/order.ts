@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express'
 
 import { verifyToken, verifyTokenAndAdmin } from '../middlewares/verifyToken'
+import { updateOrderStatusEmailTemplate } from '../templates/updateOrderStatusEmailTemplate'
 import { sendInternalServerError } from '../errors/InternalServerError'
 import { sendBadRequest } from '../errors/BadRequest'
+import { mailerSender } from '../../utils/mailSender'
 import { prismaClient } from '../../database/prismaClient'
-import { pagination } from '../middlewares/pagination'
 import { searchOrder } from '../../utils/files'
+import { pagination } from '../middlewares/pagination'
 
 const router = express.Router()
 
@@ -15,6 +17,15 @@ export type OrderStatus =
   | 'processing'
   | 'sending'
   | 'delivered'
+
+export const displayStatusOrders = {
+  pending: 'Pendente',
+  approved: 'Pagamento aprovado',
+  processing: 'Processando',
+  sending: 'Enviando',
+  delivered: 'Entregue',
+  canceled: 'Cancelado',
+}
 
 // Create Order
 
@@ -112,6 +123,7 @@ router.patch(
     try {
       const order = await prismaClient.order.findFirst({
         where: { mpPaymentId: id },
+        include: { user: true },
       })
 
       if (!order)
@@ -130,6 +142,23 @@ router.patch(
           status,
         },
       })
+
+      mailerSender(
+        {
+          to: order.user.email,
+
+          subject: 'Seu pedido foi atualizado',
+          html: updateOrderStatusEmailTemplate(
+            order,
+            displayStatusOrders[status]
+          ),
+        },
+        {
+          req: request,
+          res: response,
+          errorMenssage: 'Erro ao atualizar pedido.',
+        }
+      )
 
       return response.status(200).json({
         message: 'Pedido atualizado com sucesso!',

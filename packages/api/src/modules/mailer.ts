@@ -1,8 +1,8 @@
 import nodemailer from 'nodemailer'
 
-import { mailer } from '../config/mailer'
+import { mailerConfig } from '../config/mailer'
 
-const { host, port, user, pass } = mailer
+const { host, port, user, pass } = mailerConfig
 
 const transport = nodemailer.createTransport({
   host,
