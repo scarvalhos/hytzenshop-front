@@ -29,8 +29,6 @@ const mailerSender = ({
       html,
     },
     (err) => {
-      console.log(err)
-
       if (err) return sendBadRequest(req, res, errorMenssage)
 
       return res.send()
