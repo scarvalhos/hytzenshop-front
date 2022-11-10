@@ -7,7 +7,6 @@ import { sendInternalServerError } from '../errors/InternalServerError'
 import { ValidationError } from 'yup'
 import { sendBadRequest } from '../errors/BadRequest'
 import { prismaClient } from '../../database/prismaClient'
-import { URL_FRONTEND } from '../../config'
 import { mailerSender } from '../../utils/mailSender'
 import { verifyToken } from '../middlewares/verifyToken'
 import { secret } from '../../config/auth'
@@ -171,7 +170,7 @@ router.get('/me', verifyToken, async (request: Request, response: Response) => {
 // Forgot password
 
 router.post('/forgot-password', async (req, res) => {
-  const { email } = req.body
+  const email = req.body.email as string
 
   try {
     const user = await prismaClient.user.findUnique({ where: { email } })
@@ -194,7 +193,7 @@ router.post('/forgot-password', async (req, res) => {
     mailerSender({
       to: email,
       subject: 'Redefina sua senha',
-      html: resetPasswordEmailTemplate(URL_FRONTEND, token),
+      html: resetPasswordEmailTemplate(token),
       req,
       res,
       errorMenssage: 'Cannot send forgot password email',
@@ -202,7 +201,7 @@ router.post('/forgot-password', async (req, res) => {
 
     return res
       .status(200)
-      .send({ message: `E-mail de recuperação enviado para '${email}'` })
+      .json({ message: `E-mail de recuperação enviado para '${email}'` })
   } catch (error: any) {
     return sendInternalServerError(req, res, error.message, error)
   }
