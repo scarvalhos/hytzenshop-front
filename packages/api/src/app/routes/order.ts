@@ -202,7 +202,18 @@ router.get(
     try {
       const order = await prismaClient.order.findUnique({
         where: { id: orderId },
-        include: { address: true },
+        include: {
+          address: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              username: true,
+              profile: true,
+              isAdmin: true,
+            },
+          },
+        },
       })
 
       if (!order)
@@ -257,7 +268,18 @@ router.get(
 
       const orders = await prismaClient.order.findMany({
         where: { userId, ...filter },
-        include: { address: true },
+        include: {
+          address: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              username: true,
+              profile: true,
+              isAdmin: true,
+            },
+          },
+        },
         orderBy: { [sort]: order },
         skip,
         take,
@@ -309,11 +331,11 @@ router.get(
           address: true,
           user: {
             select: {
-              profile: true,
               id: true,
               email: true,
-              isAdmin: true,
               username: true,
+              profile: true,
+              isAdmin: true,
             },
           },
         },
