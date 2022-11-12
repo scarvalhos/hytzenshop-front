@@ -159,8 +159,7 @@ router.get('/', pagination, async (request: Request, response: Response) => {
     pagination: { take, sort, skip, order, filter },
   } = request as any
 
-  const { many } = request.query
-  const { ids } = request.body
+  const { many, ids } = request.query as { many: string; ids: string[] }
 
   try {
     if (many === 'true') {
