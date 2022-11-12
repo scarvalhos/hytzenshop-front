@@ -159,7 +159,44 @@ router.get('/', pagination, async (request: Request, response: Response) => {
     pagination: { take, sort, skip, order, filter },
   } = request as any
 
+  const { many } = request.query
+  const { ids } = request.body
+
   try {
+    if (many === 'true') {
+      const products = await Promise.all(
+        ids.map(async (id: string): Promise<ProductsAll> => {
+          const product = await prismaClient.product.findUnique({
+            where: { id },
+          })
+          const images = await searchFile(product?.images || [])
+
+          return {
+            images: images!,
+            id: product?.id || '',
+            title: product?.title || '',
+            description: product?.description || '',
+            colors: product?.colors || [],
+            sizes: product?.sizes || [],
+            stock: product?.stock || 0,
+            categories: product?.categories,
+            price: product?.price || 0,
+            orderId: product?.orderId || '',
+            createdAt: product?.createdAt || ('' as any),
+            updatedAt: product?.updatedAt || ('' as any),
+          }
+        })
+      )
+
+      return response.status(200).json({
+        message: 'Produtos encontrados com sucesso!',
+        data: {
+          count: products.length,
+          products: products,
+        },
+      })
+    }
+
     const productsCount = await prismaClient.product.count({
       where: { ...filter },
     })

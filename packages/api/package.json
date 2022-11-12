@@ -15,7 +15,9 @@
     "migrate:make:only": "prisma migrate dev --create-only --name",
     "migrate:updb": "prisma db push",
     "prisma:seeds": "prisma db seed",
-    "prisma:studio": "prisma studio --port $PRISMA_PORT"
+    "prisma:studio": "prisma studio --port $PRISMA_PORT",
+    "lint:staged": "lint-staged",
+    "lint:fix": "eslint . --ext .js --fix"
   },
   "keywords": [],
   "author": "",
