@@ -19,6 +19,7 @@ import categoryRoute from './app/routes/category'
 import paymentRoute from './app/routes/payment'
 import filesRoute from './app/routes/files'
 import configRoute from './app/routes/config'
+import newsletterRoute from './app/routes/newsletter'
 
 testePrismaConnection()
 
@@ -56,6 +57,7 @@ app.use('/api/categories', categoryRoute)
 app.use('/api/checkout', paymentRoute)
 app.use('/api/files', filesRoute)
 app.use('/api/config', configRoute)
+app.use('/api/newsletter', newsletterRoute)
 
 httpServer.listen(process.env.PORT || 3333, () =>
   console.log('Backend is running!')
