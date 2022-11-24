@@ -4,7 +4,7 @@ import * as React from 'react'
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { useConfig } from '@contexts/ConfigContext'
 import { styled } from '@stitches/react'
-import { theme } from '../../../tailwind.config'
+import { theme } from '@hooks/useTheme'
 import { c } from '@utils/helpers'
 
 // import Lottie from 'react-lottie'
