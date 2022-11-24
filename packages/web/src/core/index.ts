@@ -1,6 +1,7 @@
 import * as Divide from './Divide'
 import * as Icons from './icons'
 
+import { LoadAnimated } from './LoadAnimated'
 import { trucate } from './Truncate'
 
 import GlassContainer from './GlassContainer'
@@ -24,4 +25,5 @@ export {
   Chip,
   Icons,
   StepperBar,
+  LoadAnimated,
 }
