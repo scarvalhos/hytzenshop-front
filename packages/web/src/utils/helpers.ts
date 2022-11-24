@@ -127,7 +127,7 @@ export const defaultToastError = (r: any) => {
       ? r.response.data.message
       : 'Não foi possível executar essa operação'
 
-  return toast.error(message)
+  toast.error(message)
 }
 
 export const getFirstLetters = (value: string) => {
