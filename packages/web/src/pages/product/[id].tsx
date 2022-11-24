@@ -1,7 +1,7 @@
-import * as React from 'react'
+import React from 'react'
 
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next'
 import { ProductGetDto, ProductGetAllDto } from '@utils/dtos/productDto'
-import { GetServerSideProps, NextPage } from 'next'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { getProductList } from '@hooks/useProducts'
 import { useBreakpoint } from '@hooks/useBreakpoint'
@@ -48,10 +48,17 @@ const ProductPage: NextPage<ProductPageProps> = ({ product }) => {
 
 export default ProductPage
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getStaticPaths: GetStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
   const {
     data: { product },
-  } = await api.get<ProductGetDto>(`/products/${ctx.query.id}`)
+  } = await api.get<ProductGetDto>(`/products/${ctx.params?.id}`)
 
   return {
     props: {
