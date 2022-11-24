@@ -38,7 +38,7 @@ const ProductCard: React.FC<ProductProps> = ({
         )}
       </button>
 
-      <Link href={`/product/${id}`}>
+      <Link as={`/product/${id}`} href={`/product/${id}`}>
         <Image
           src={encodeURI(images[0]?.url)}
           alt={images[0]?.name}
@@ -46,7 +46,7 @@ const ProductCard: React.FC<ProductProps> = ({
         />
       </Link>
 
-      <Link href={`/product/${id}`}>
+      <Link as={`/product/${id}`} href={`/product/${id}`}>
         <div className="flex flex-col h-[140px] justify-between px-4 py-4">
           <div className="space-y-1">
             <EvaluationStars />
