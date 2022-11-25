@@ -1,24 +1,18 @@
-import { setUpAPIClient } from '@services/api'
 import { withSSRAuth } from '@hocs/withSSRAuth'
-import { UserGetDto } from '@utils/dtos/userDto'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { User } from '@utils/types/auth'
+import { useAuth } from '@contexts/AuthContext'
 
 import UserProfileFormSection from '@features/user/UserProfileFormSection'
 import ProfileLayout from '@layouts/ProfileLayout'
 import React from 'react'
 
-type ProfileDadosPessoaisPageProps = {
-  user: User
-}
+const ProfileDadosPessoaisPage: NextPage = () => {
+  const { user } = useAuth()
 
-const ProfileDadosPessoaisPage: NextPage<ProfileDadosPessoaisPageProps> = ({
-  user,
-}) => {
   return (
     <>
-      <NextSeo title={user.profile?.completeName || user.username} />
+      <NextSeo title={user?.profile?.completeName || user?.username} />
 
       <ProfileLayout>
         {/* <SiderbarProfile /> */}
@@ -30,15 +24,8 @@ const ProfileDadosPessoaisPage: NextPage<ProfileDadosPessoaisPageProps> = ({
 
 export default ProfileDadosPessoaisPage
 
-export const getServerSideProps = withSSRAuth(async (ctx) => {
-  const apiClient = setUpAPIClient(ctx)
-  const {
-    data: { user },
-  } = await apiClient.get<UserGetDto>('/auth/me')
-
+export const getServerSideProps = withSSRAuth(async () => {
   return {
-    props: {
-      user,
-    },
+    props: {},
   }
 })

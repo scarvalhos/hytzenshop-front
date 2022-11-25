@@ -35,7 +35,7 @@ const ProductPage: NextPage = () => {
     }
   ) as UseQueryResult<ProductGetAllDto, unknown>
 
-  if (!productQuery.data?.product) {
+  if (!productQuery.data?.product && !productQuery.isLoading) {
     return (
       <HeaderFooterLayout
         {...(sm && {
@@ -67,7 +67,7 @@ const ProductPage: NextPage = () => {
       <ProductPageSection
         product={productQuery.data?.product}
         products={data?.data.products}
-        loading={productQuery.isLoading}
+        loading={productQuery.isLoading && !productQuery.data}
       />
     </HeaderFooterLayout>
   )
