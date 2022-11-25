@@ -13,17 +13,16 @@ const SignInPage: NextPage = () => {
 
       <Header />
 
-      <div className="my-24 mx-8">
-        <LoginFormSection
-          title={
-            <span>
-              Faça login
-              <br />
-              para começar
-            </span>
-          }
-        />
-      </div>
+      <LoginFormSection
+        containerClassName="my-32"
+        title={
+          <span>
+            Faça login
+            <br />
+            para começar
+          </span>
+        }
+      />
     </>
   )
 }

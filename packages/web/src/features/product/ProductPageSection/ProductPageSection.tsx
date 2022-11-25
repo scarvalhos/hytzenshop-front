@@ -5,24 +5,26 @@ import { ReactMinimalGallery } from 'react-minimal-gallery'
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { c, money } from '@utils/helpers'
 import { TbSearch } from 'react-icons/tb'
-import { Product } from '@utils/types'
 import { trucate } from '@core'
+import { Product } from '@utils/types'
 import { Divide } from 'core'
 
+import ProductPageSectionSkeleton from './ProductPageSectionSkeleton'
 import EvaluationStars from '@components/EvaluationStars'
 import ProductSection from '@features/product/ProductSection'
 import IconModal from '@components/Modal/IconModal'
 import Button from '@components/Button'
 import React from 'react'
 
-interface ProductPageSectionProps {
-  product: Product
-  products: Product[]
+interface ProductPageSection {
+  product?: Product
+  products?: Product[]
+  loading?: boolean
 }
-
-const ProductPageSection: React.FC<ProductPageSectionProps> = ({
+const ProductPageSection: React.FC<ProductPageSection> = ({
   product,
   products,
+  loading,
 }) => {
   const { md } = useBreakpoint()
 
@@ -38,6 +40,8 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
     register,
     setValue,
   } = useProductPageSection({ product })
+
+  if (loading) return <ProductPageSectionSkeleton />
 
   return (
     <>
@@ -89,13 +93,13 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
           <div className="flex flex-col items-start space-y-2">
             <EvaluationStars />
             <h2 className="text-2xl text-light-gray-100 font-semibold">
-              {product.title}
+              {product?.title}
             </h2>
           </div>
 
           <div className="flex flex-row items-center space-x-2">
             <p className="text-2xl font-semibold text-success-300">
-              {money(product.price)}
+              {money(product?.price)}
             </p>
 
             <p className="text-sm">
@@ -103,7 +107,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             </p>
           </div>
 
-          <p>{trucate(product.description)}</p>
+          <p>{trucate(product?.description || '')}</p>
 
           {!md && (
             <ReactMinimalGallery
@@ -118,7 +122,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             <Input.Select.Default
               label="Cor:"
               placeholder="Cor"
-              options={product.colors?.map((c) => {
+              options={product?.colors?.map((c) => {
                 return {
                   label: c,
                   value: c,
@@ -136,7 +140,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             <Input.Select.Default
               label="Tamanho:"
               placeholder="Tamanho"
-              options={product.sizes?.map((s) => {
+              options={product?.sizes?.map((s) => {
                 return {
                   label: s,
                   value: s,
@@ -192,18 +196,19 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
 
       <div
         id="description"
-        className={c(
-          !md ? 'px-8 max-w-full' : 'px-16 max-w-screen-lg',
-          'space-y-2'
-        )}
+        className={c('space-y-2 px-8 max-w-full md:px-16 md:max-w-screen-lg')}
       >
         <h2 className="text-xl text-light-gray-100">Descrição</h2>
-        <p>{product.description}</p>
+        <p>{product?.description}</p>
       </div>
 
       <Divide.DivideLine dividerClassName="mx-8 md:mx-16" />
 
-      <ProductSection title="Você Também Pode Gostar" products={products} />
+      <ProductSection
+        title="Você Também Pode Gostar"
+        products={products || []}
+        isLoading={loading}
+      />
     </>
   )
 }

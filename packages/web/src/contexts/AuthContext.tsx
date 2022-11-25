@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User } from '@utils/types/auth'
 import { defaultToastError } from '@utils/helpers'
@@ -7,6 +5,7 @@ import { UserGetDto } from '@utils/dtos/userDto'
 import { api } from '@services/apiClient'
 
 import Router, { useRouter } from 'next/router'
+import React from 'react'
 
 interface CreateUserCredentials extends SignInCredentials {
   email: string
@@ -160,6 +159,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           signOut()
         })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   React.useEffect(() => {

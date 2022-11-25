@@ -6,6 +6,7 @@ import { getProductList } from '@hooks/useProducts'
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { Pagination } from '@components/Pagination'
 import { useRouter } from 'next/router'
+import { NextSeo } from 'next-seo'
 
 import HeaderFooterLayout, {
   LinksCategories,
@@ -74,6 +75,8 @@ const Category = () => {
         renderAfterLogo: () => <LinksCategories />,
       })}
     >
+      <NextSeo title={categoryTitle} />
+
       <Slider imageUrl={imageByCategory} short />
 
       <ProductSection

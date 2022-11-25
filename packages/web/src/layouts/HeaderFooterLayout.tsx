@@ -1,11 +1,11 @@
-import React from 'react'
-import Header from '@components/Header'
-import Footer from '@components/Footer'
-
 import { useConfig } from '@contexts/ConfigContext'
 import { useRouter } from 'next/router'
 import { Link } from '@core'
 import { c } from '@utils/helpers'
+
+import Footer from '@components/Footer'
+import Header from '@components/Header'
+import React from 'react'
 
 interface HeaderFooterLayoutProps {
   children: React.ReactNode

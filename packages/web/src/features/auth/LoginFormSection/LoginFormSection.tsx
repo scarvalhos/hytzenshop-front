@@ -10,11 +10,13 @@ import { c } from '@utils/helpers'
 interface LoginFormSectionProps {
   title?: string | React.ReactNode
   checkoutNextStep?: () => void
+  containerClassName?: string
 }
 
 const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   title,
   checkoutNextStep,
+  containerClassName,
 }) => {
   const [loading, setLoading] = React.useState(false)
 
@@ -52,7 +54,8 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
         'flex',
         md
           ? 'flex-row items-center justify-center'
-          : 'flex-col items-start justify-start'
+          : 'flex-col items-start justify-start',
+        containerClassName
       )}
     >
       <div className={c(md ? 'mr-20' : 'mr-0 mb-6')}>

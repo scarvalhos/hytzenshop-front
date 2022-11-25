@@ -12,7 +12,7 @@ import HeaderFooterLayout, {
   LinksCategories,
 } from '@layouts/HeaderFooterLayout'
 
-import ProductSection from '../features/product/ProductSection/ProductSection'
+import ProductSection from '@features/product/ProductSection/ProductSection'
 import Slider from '@components/Slider'
 import Head from 'next/head'
 

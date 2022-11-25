@@ -70,6 +70,7 @@ export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
     console.log(status)
     setLoading(false)
     buttonClick(paymentStatus)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handlePixResponse = React.useCallback(
@@ -125,6 +126,7 @@ export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
         callback: paymentMethodResponse,
       })
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [paymentMethod, totalAmount, totalQuantity]
   )
 

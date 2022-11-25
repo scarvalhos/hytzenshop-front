@@ -91,16 +91,23 @@ export const useProductPageSection = ({
         return push('/checkout/cart')
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [cart.products, product?.id, product?.price, product?.stock]
   )
 
-  const handleAddToCart = React.useCallback(async (values: FieldValues) => {
-    onSubmit(values, 'addToCart')
-  }, [])
+  const handleAddToCart = React.useCallback(
+    async (values: FieldValues) => {
+      onSubmit(values, 'addToCart')
+    },
+    [onSubmit]
+  )
 
-  const handleBuyNow = React.useCallback(async (values: FieldValues) => {
-    onSubmit(values, 'buyNow')
-  }, [])
+  const handleBuyNow = React.useCallback(
+    async (values: FieldValues) => {
+      onSubmit(values, 'buyNow')
+    },
+    [onSubmit]
+  )
 
   const images = React.useMemo(
     () =>

@@ -2,7 +2,7 @@ import * as Dialog from '@radix-ui/react-dialog'
 
 import { c } from '@utils/helpers'
 
-import React from 'react'
+import React, { useRef } from 'react'
 
 export interface BaseModalProps {
   children?: React.ReactElement
@@ -21,7 +21,7 @@ const BaseModal: React.FC<BaseModalProps> = ({
   renderActions,
   customWidth,
 }) => {
-  const openTime = React.useRef<number>()
+  const openTime = useRef<number>()
 
   const close = React.useCallback(() => {
     const now = Date.now()

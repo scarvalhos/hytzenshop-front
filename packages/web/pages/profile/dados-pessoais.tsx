@@ -1,6 +1,3 @@
-// import { PersonalDataBox } from '@features/profile/PersonalDataBox'
-
-// import { SiderbarProfile } from '@features/profile/Siderbar'
 import { setUpAPIClient } from '@services/api'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { UserGetDto } from '@utils/dtos/userDto'
@@ -24,10 +21,8 @@ const ProfileDadosPessoaisPage: NextPage<ProfileDadosPessoaisPageProps> = ({
       <NextSeo title={user.profile?.completeName || user.username} />
 
       <ProfileLayout>
-        <main className="my-20 max-w-screen-md mx-auto">
-          {/* <SiderbarProfile /> */}
-          <UserProfileFormSection />
-        </main>
+        {/* <SiderbarProfile /> */}
+        <UserProfileFormSection />
       </ProfileLayout>
     </>
   )

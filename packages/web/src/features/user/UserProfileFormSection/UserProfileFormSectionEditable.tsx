@@ -78,6 +78,7 @@ const UserProfileFormSectionEditable: React.FC<
       updateUser(newUser)
       dispatch({ readonly: true })
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [updateUser, user]
   )
 

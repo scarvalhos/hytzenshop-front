@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 type Breakpoint = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type BreakpointStore = Record<Breakpoint, boolean>

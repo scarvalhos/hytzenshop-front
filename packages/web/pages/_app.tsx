@@ -11,10 +11,10 @@ import { DefaultSeo } from 'next-seo'
 import { TbX } from 'react-icons/tb'
 
 import Script from 'next/script'
-import seo from '../../next-seo.config'
+import seo from '../next-seo.config'
 
 import 'react-toastify/dist/ReactToastify.css'
-import '../styles/globals.css'
+import '../src/styles/globals.css'
 
 const queryClient = new QueryClient()
 
