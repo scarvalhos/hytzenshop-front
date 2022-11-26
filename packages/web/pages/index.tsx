@@ -2,17 +2,15 @@ import React from 'react'
 
 import { useDebounceCallback } from '@react-hook/debounce'
 import { makePrismaWhere } from '@utils/helpers'
-import { useBreakpoint } from '@hooks/useBreakpoint'
+import { useConfigTypes } from '@utils/types/config'
 import { useProducts } from '@hooks/useProducts'
 import { Pagination } from '@components/Pagination'
 import { useConfig } from '@contexts/ConfigContext'
 import { NextPage } from 'next'
 
-import HeaderFooterLayout, {
-  LinksCategories,
-} from '@layouts/HeaderFooterLayout'
-
+import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection/ProductSection'
+import TabsFilters from '@components/TabsFilters'
 import Slider from '@components/Slider'
 import Head from 'next/head'
 
@@ -29,9 +27,8 @@ const Home: NextPage = () => {
     filter: undefined,
   })
 
+  const { categoriesTabs } = useConfigTypes()
   const { announcement } = useConfig()
-
-  const { sm } = useBreakpoint()
 
   const {
     getProducts: { data, isLoading },
@@ -62,12 +59,7 @@ const Home: NextPage = () => {
   const onFilterChangeDebounce = useDebounceCallback(onFilterChange, 500)
 
   return (
-    <HeaderFooterLayout
-      onFilterChange={onFilterChangeDebounce}
-      {...(sm && {
-        renderAfterLogo: () => <LinksCategories />,
-      })}
-    >
+    <HeaderFooterLayout onFilterChange={onFilterChangeDebounce}>
       <Head>
         <title>Hytzen Shop {announcement}</title>
 
@@ -106,6 +98,8 @@ const Home: NextPage = () => {
       </Head>
 
       <Slider />
+
+      <TabsFilters className="px-8 sm:px-16" tabs={categoriesTabs} />
 
       <ProductSection
         products={data?.data.products || []}

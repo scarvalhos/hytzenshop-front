@@ -1,20 +1,15 @@
-import * as React from 'react'
-
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { ProductGetAllDto } from '@utils/dtos/productDto'
 import { getProductList } from '@hooks/useProducts'
-import { useBreakpoint } from '@hooks/useBreakpoint'
 import { useWishlist } from '@contexts/WishlistContext'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { TbHeart } from 'react-icons/tb'
 
-import HeaderFooterLayout, {
-  LinksCategories,
-} from '@layouts/HeaderFooterLayout'
-
+import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'
 import Image from 'next/image'
+import React from 'react'
 
 const WishlistPage: NextPage = () => {
   const { wishlist } = useWishlist()
@@ -27,14 +22,8 @@ const WishlistPage: NextPage = () => {
     }
   ) as UseQueryResult<ProductGetAllDto, unknown>
 
-  const { sm } = useBreakpoint()
-
   return (
-    <HeaderFooterLayout
-      {...(sm && {
-        renderAfterLogo: () => <LinksCategories />,
-      })}
-    >
+    <HeaderFooterLayout>
       <NextSeo title="Wishlist" />
 
       <div className="my-20">

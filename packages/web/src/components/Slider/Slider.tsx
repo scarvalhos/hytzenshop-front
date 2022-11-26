@@ -65,7 +65,7 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
   })
 
   return (
-    <div className={c('w-full relative mb-4', short ? 'h-[36vh]' : 'h-[74vh]')}>
+    <div className={c('w-full relative', short ? 'h-[36vh]' : 'h-[74vh]')}>
       <div className="w-full h-full flex">
         <Slide>
           <div

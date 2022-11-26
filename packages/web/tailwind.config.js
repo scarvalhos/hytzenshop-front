@@ -156,6 +156,13 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar')({
+      nocompatible: true,
+    }),
+  ],
+  variants: {
+    scrollbar: ['rounded'],
+  },
   mode: 'jit',
 }

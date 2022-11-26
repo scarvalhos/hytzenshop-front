@@ -32,7 +32,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
     <>
       <div
         className={c(
-          'flex flex-row items-center justify-between mx-8 sm:mx-16 my-8'
+          'flex flex-row items-center justify-between mx-8 sm:mx-16 my-4'
         )}
       >
         {title && (

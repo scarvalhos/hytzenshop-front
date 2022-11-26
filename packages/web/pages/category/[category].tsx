@@ -2,17 +2,16 @@ import * as React from 'react'
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { ProductGetAllDto } from '@utils/dtos/productDto'
+import { useConfigTypes } from '@utils/types/config'
 import { getProductList } from '@hooks/useProducts'
-import { useBreakpoint } from '@hooks/useBreakpoint'
 import { Pagination } from '@components/Pagination'
 import { useRouter } from 'next/router'
+import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 
-import HeaderFooterLayout, {
-  LinksCategories,
-} from '@layouts/HeaderFooterLayout'
-
+import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'
+import TabsFilters from '@components/TabsFilters'
 import Slider from '@components/Slider'
 
 interface PaginationStateProps {
@@ -20,11 +19,12 @@ interface PaginationStateProps {
   limit: number
 }
 
-const Category = () => {
-  const { sm } = useBreakpoint()
+const Category: NextPage = () => {
   const {
     query: { category },
   } = useRouter()
+
+  const { categoriesTabs } = useConfigTypes()
 
   const [state, dispatch] = React.useState<PaginationStateProps>({
     page: 1,
@@ -70,17 +70,14 @@ const Category = () => {
   React.useEffect(() => dispatch({ page: 1, limit: 30 }), [category])
 
   return (
-    <HeaderFooterLayout
-      {...(sm && {
-        renderAfterLogo: () => <LinksCategories />,
-      })}
-    >
+    <HeaderFooterLayout>
       <NextSeo title={categoryTitle} />
 
       <Slider imageUrl={imageByCategory} short />
 
+      <TabsFilters className="px-8 sm:px-16" tabs={categoriesTabs} />
+
       <ProductSection
-        title={categoryTitle}
         products={data?.data.products || []}
         isLoading={isLoading}
       />

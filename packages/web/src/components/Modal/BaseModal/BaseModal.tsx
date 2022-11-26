@@ -36,7 +36,7 @@ const BaseModal: React.FC<BaseModalProps> = ({
   return (
     <Dialog.Dialog open={open} onOpenChange={close}>
       <Dialog.Portal className="relative z-50">
-        <Dialog.Overlay className="fixed inset-0 bg-black/30 flex items-center justify-center p-6 z-[999]">
+        <Dialog.Overlay className="fixed inset-0 bg-black/30 flex items-center justify-center p-6 z-[999999999]">
           <Dialog.Content
             className={c(
               'container',
