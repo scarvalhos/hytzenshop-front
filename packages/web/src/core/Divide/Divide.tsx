@@ -11,7 +11,7 @@ export interface DivideProps {
   children?: React.ReactNode
 }
 
-const Divide: React.FC<DivideProps> = ({
+export const DivideY: React.FC<DivideProps> = ({
   as,
   children,
   className,
@@ -47,8 +47,6 @@ const Divide: React.FC<DivideProps> = ({
     </Wrapper>
   )
 }
-
-export default Divide
 
 export const DivideLine: React.FC<DivideProps> = ({ dividerClassName }) => {
   return <hr className={c('my-10 border-dark-gray-300', dividerClassName)} />

@@ -25,7 +25,9 @@ const ProductPage: NextPage = () => {
   const { sm } = useBreakpoint()
 
   const id = useSearchParams().get('id')
-  const productQuery = useQuery(['product', id], () => getProductDetails(id))
+  const productQuery = useQuery(['product', id], () => getProductDetails(id), {
+    staleTime: 1000 * 60 * 10, // 10 minutes
+  }) as UseQueryResult<ProductGetDto, unknown>
 
   const { data } = useQuery(
     ['products-product', productQuery.data?.product.id],

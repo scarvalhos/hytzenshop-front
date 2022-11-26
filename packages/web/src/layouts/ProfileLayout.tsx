@@ -10,7 +10,7 @@ import { c } from '@utils/helpers'
 import Header from '@components/Header'
 
 interface ProfileLayoutProps {
-  children?: React.ReactElement
+  children?: React.ReactNode
 }
 
 const ProfileLayout: React.FC<ProfileLayoutProps> = ({ children }) => {
@@ -41,7 +41,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({ children }) => {
                 <p
                   className={c(
                     'capitalize relative p-4 text-sm flex flex-row items-center justify-center',
-                    pathname === '/profile/pedidos'
+                    pathname.startsWith('/profile/pedidos')
                       ? "text-success-300 before:content-[''] before:rounded-t-sm before:w-[100%] before:h-[3px] before:bg-success-300 before:absolute before:bottom-0 before:left-0"
                       : 'text-light-gray-300'
                   )}
@@ -55,10 +55,7 @@ const ProfileLayout: React.FC<ProfileLayoutProps> = ({ children }) => {
                 <Link href="http://localhost:3001/">
                   <p
                     className={c(
-                      'capitalize relative p-4 text-sm flex flex-row items-center justify-center',
-                      pathname === '/profile/pedidos'
-                        ? "text-success-300 before:content-[''] before:rounded-t-sm before:w-[100%] before:h-[3px] before:bg-success-300 before:absolute before:bottom-0 before:left-0"
-                        : 'text-light-gray-300'
+                      'capitalize relative p-4 text-sm flex flex-row items-center justify-center'
                     )}
                   >
                     <TbDashboard size={18} style={{ marginRight: 6 }} />

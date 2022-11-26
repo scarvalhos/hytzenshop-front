@@ -1,8 +1,4 @@
 import { PaymentStatus, PaymentWebhookResponse } from '@utils/types'
-
-// import { PaymentStep } from '@features/checkout/PaymentStep'
-// import { InfosStep } from '@features/checkout/InfosStep'
-
 import { useFetchers } from '@hooks/useFetchers'
 import { StepperBar } from '@core'
 import { CartList } from '@features/cart/CartList'
@@ -11,12 +7,12 @@ import { socket } from '@services/socket'
 import { toast } from 'react-toastify'
 
 import {
-  // TbShoppingCart,
-  // TbUserCheck,
-  // TbCreditCard,
-  // TbLogout,
-  // TbX,
   TbCheck,
+  TbCreditCard,
+  TbLogout,
+  TbShoppingCart,
+  TbUserCheck,
+  TbX,
 } from 'react-icons/tb'
 
 import PaymentCheckoutStep from '../PaymentCheckoutStep'
@@ -31,15 +27,12 @@ const CheckoutStepper = () => {
   const { updateOrder } = useFetchers()
   const { user } = useAuth()
 
-  const steps = {
-    true: ['Detalhes do pedido', 'Informações', 'Pagamento', 'Confirmação'],
-    false: [
-      'Faça login/Cadastre-se',
-      'Informações',
-      'Pagamento',
-      'Confirmação',
-    ],
-  }[`${!!user}`]
+  const steps = React.useMemo(() => {
+    return {
+      true: ['Detalhes pedido', 'Informações', 'Pagamento', 'Confirmação'],
+      false: ['Login/Cadastro', 'Informações', 'Pagamento', 'Confirmação'],
+    }[`${!!user}`]
+  }, [user])
 
   const handleSetActiveStep = React.useCallback(
     (payment?: PaymentStatus) => {
@@ -58,54 +51,25 @@ const CheckoutStepper = () => {
     [activeStep, steps.length, user?.profile]
   )
 
-  // const stepIcon = React.useCallback(
-  //   (props: StepIconProps) => {
-  //     const { active, completed, className } = props
+  const stepIcon = React.useMemo(() => {
+    const icons: { [index: string]: React.ReactElement } = {
+      1: user ? (
+        <TbShoppingCart className="text-light-gray-100" />
+      ) : (
+        <TbLogout />
+      ),
+      2: <TbUserCheck className="text-light-gray-100" />,
+      3: <TbCreditCard className="text-light-gray-100" />,
+      4:
+        paymentStatus === 'rejected' ? (
+          <TbX className="text-light-gray-100" />
+        ) : (
+          <TbCheck className="text-light-gray-100" />
+        ),
+    }
 
-  //     const icons: { [index: string]: React.ReactElement } = {
-  //       1: user ? <TbShoppingCart /> : <TbLogout />,
-  //       2: <TbUserCheck />,
-  //       3: <TbCreditCard />,
-  //       4: paymentStatus === 'rejected' ? <TbX /> : <TbCheck />,
-  //     }
-
-  //     return (
-  //       <ColorlibStepIconRoot
-  //         ownerState={{ completed, active }}
-  //         className={className}
-  //         paymentStatus={paymentStatus}
-  //       >
-  //         {icons[String(props.icon)]}
-  //       </ColorlibStepIconRoot>
-  //     )
-  //   },
-  //   [paymentStatus, user]
-  // )
-
-  // const mobileStepIcon = React.useCallback(
-  //   (props: StepIconProps) => {
-  //     const { active, completed, className } = props
-
-  //     const icons: { [index: string]: React.ReactElement } = {
-  //       1: user ? <TbShoppingCart /> : <TbLogout />,
-  //       2: <TbUserCheck />,
-  //       3: <TbCreditCard />,
-  //       4: paymentStatus === 'rejected' ? <TbX /> : <TbCheck />,
-  //     }
-
-  //     return (
-  //       <ColorlibStepIconRoot
-  //         ownerState={{ completed, active }}
-  //         className={className}
-  //         paymentStatus={paymentStatus}
-  //         sx={{ width: 60, height: 60 }}
-  //       >
-  //         {icons[String(props.icon)]}
-  //       </ColorlibStepIconRoot>
-  //     )
-  //   },
-  //   [paymentStatus, user]
-  // )
+    return icons
+  }, [paymentStatus, user])
 
   const content: { [index: number]: React.ReactElement } = {
     1: user ? (
@@ -152,7 +116,7 @@ const CheckoutStepper = () => {
 
   return (
     <main className="w-full mt-12 flex flex-col">
-      <StepperBar steps={steps} activeStep={activeStep} />
+      <StepperBar steps={steps} activeStep={activeStep} stepIcon={stepIcon} />
 
       {content[activeStep + 1]}
     </main>

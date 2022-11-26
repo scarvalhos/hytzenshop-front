@@ -1,8 +1,8 @@
 import React from 'react'
 
-import { DivideLine } from 'core/Divide'
 import { useRouter } from 'next/router'
 import { useCart } from '@contexts/CartContext'
+import { Divide } from '@core'
 
 import Button from '@components/Button'
 
@@ -27,7 +27,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
   }
 
   return (
-    <div className="flex flex-col space-y-8 flex-1 h-fit bg-dark-gray-400 px-8 py-6 rounded-md">
+    <div className="flex flex-col space-y-8 max-w-md flex-1 h-fit bg-dark-gray-400 px-8 py-6 rounded-md">
       <p className="text-xl font-medium text-light-gray-100">
         Resumo do pedido
       </p>
@@ -55,7 +55,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
           </div>
         </div>
 
-        <DivideLine />
+        <Divide.DivideLine />
 
         <div className="flex flex-row justify-between">
           <p>Total:</p>

@@ -1,11 +1,16 @@
 import { styled } from '@stitches/react'
 
-const Image = styled('img', {
-  // width: '100%',
-  // height: '200px',
-  borderRadius: ' 4px',
-  objectFit: 'cover',
+import Image from 'next/image'
+
+const ImageCore = styled(Image, {
   objectPosition: 'center',
+  borderRadius: '4px',
+  objectFit: 'cover',
 })
 
-export default Image
+ImageCore.defaultProps = {
+  width: 200,
+  height: 200,
+}
+
+export default ImageCore

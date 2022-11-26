@@ -1,2 +1,1 @@
-export { default } from './Divide'
-export { DivideLine } from './Divide'
+export * from './Divide'

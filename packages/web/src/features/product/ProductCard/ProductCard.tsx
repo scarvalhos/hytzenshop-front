@@ -1,8 +1,8 @@
 import React from 'react'
 
+import { Image, Link, trucate } from '@core'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { useWishlist } from '@contexts/WishlistContext'
-import { Image, Link } from '@core'
 import { c, money } from '@utils/helpers'
 import { Product } from '@utils/types'
 
@@ -52,7 +52,7 @@ const ProductCard: React.FC<ProductProps> = ({
             <EvaluationStars />
 
             <p className="text-md text-light-gray-100 capitalize">
-              {title.toLowerCase()}
+              {trucate({ text: title.toLowerCase(), line: 2 })}
             </p>
             <p className="text-lg text-success-300 font-semibold">
               {money(price)}

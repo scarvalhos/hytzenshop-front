@@ -2,12 +2,11 @@ import * as Input from '@components/Input'
 
 import { useProductPageSection } from './ProductPageSection.hook'
 import { ReactMinimalGallery } from 'react-minimal-gallery'
+import { trucate, Divide } from '@core'
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { c, money } from '@utils/helpers'
 import { TbSearch } from 'react-icons/tb'
-import { trucate } from '@core'
 import { Product } from '@utils/types'
-import { Divide } from 'core'
 
 import ProductPageSectionSkeleton from './ProductPageSectionSkeleton'
 import EvaluationStars from '@components/EvaluationStars'
@@ -107,7 +106,16 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
             </p>
           </div>
 
-          <p>{trucate(product?.description || '')}</p>
+          <p>
+            {trucate({
+              text: product?.description || '',
+              etc: (
+                <a href="#description" style={{ color: 'white' }}>
+                  Ver tudo
+                </a>
+              ),
+            })}
+          </p>
 
           {!md && (
             <ReactMinimalGallery

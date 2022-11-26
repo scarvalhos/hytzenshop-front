@@ -1,19 +1,22 @@
+import TextTruncate from 'react-text-truncate'
 import React from 'react'
 
-import TextTruncate from 'react-text-truncate'
-
-export const trucate = (text: string) => {
+export const trucate = ({
+  text,
+  line = 3,
+  etc,
+}: {
+  text: string
+  line?: number
+  etc?: React.ReactNode
+}) => {
   return (
     <TextTruncate
-      line={3}
+      line={line}
       element="span"
       truncateText="…"
       text={text}
-      textTruncateChild={
-        <a href="#description" style={{ color: 'white' }}>
-          Ver tudo
-        </a>
-      }
+      textTruncateChild={etc}
     />
   )
 }

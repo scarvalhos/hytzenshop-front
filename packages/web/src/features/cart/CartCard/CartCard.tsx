@@ -38,12 +38,12 @@ const CartCard: React.FC<CartCardProps> = ({
   })
 
   return (
-    <div className="flex relative flex-col sm:flex-row space-x-8 bg-dark-gray-400 sm:w-fit sm:pr-8 rounded-md">
+    <div className="flex relative flex-col sm:flex-row space-x-8 bg-dark-gray-400 sm:pr-8 rounded-md">
       <Link href={`/product/${productData?.id}`}>
         <Image
           src={encodeURI(productData?.images[0]?.url || '')}
-          alt={productData?.images[0]?.name}
-          className="w-full h-[140px] sm:w-[140px] sm:h-full"
+          alt={productData?.images[0]?.name || ''}
+          className="w-full max-h-[140px] sm:w-[140px] sm:h-full"
         />
       </Link>
 

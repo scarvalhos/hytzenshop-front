@@ -56,7 +56,7 @@ export const CartList: React.FC<CartListProps> = ({
         containerClassName
       )}
     >
-      <div className="flex flex-col max-sm:flex-1 space-y-4">
+      <div className="flex flex-col flex-1 space-y-4">
         {cart &&
           cart.products?.map((item) => (
             <CartCard

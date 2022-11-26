@@ -14,13 +14,13 @@ const UserProfileFormSection: React.FC<UserProfileFormSectionProps> = (
   })
 
   return (
-    <main className="my-20 max-w-screen-md mx-auto">
+    <>
       {state[0].readonly ? (
         <UserProfileFormSectionReadonly state={state} {...props} />
       ) : (
         <UserProfileFormSectionEditable state={state} {...props} />
       )}
-    </main>
+    </>
   )
 }
 

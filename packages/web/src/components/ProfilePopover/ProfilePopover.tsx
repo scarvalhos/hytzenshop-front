@@ -1,8 +1,8 @@
 import * as Popover from '@radix-ui/react-popover'
 import * as Avatar from '@radix-ui/react-avatar'
 
+import { Can, Link, Divide } from '@core'
 import { useBreakpoint } from '@hooks/useBreakpoint'
-import { Can, Link } from '@core'
 import { useAuth } from '@contexts/AuthContext'
 
 import {
@@ -12,7 +12,6 @@ import {
   TbUserCircle,
 } from 'react-icons/tb'
 
-import Divide from 'core/Divide'
 import React from 'react'
 
 const ProfilePopover = () => {
@@ -38,7 +37,7 @@ const ProfilePopover = () => {
           <div className="bg-dark-gray-400 px-4 py-3 rounded-md space-y-2">
             <p className="text-sm">Conta</p>
 
-            <Divide dividerClassName="my-2">
+            <Divide.DivideY dividerClassName="my-2">
               {sm && (
                 <Link href="/profile" className="flex flex-row py-1">
                   <TbUserCircle size={20} style={{ marginRight: '10px' }} />
@@ -82,7 +81,7 @@ const ProfilePopover = () => {
                 />
                 Sair
               </button>
-            </Divide>
+            </Divide.DivideY>
           </div>
         </Popover.Content>
       </Popover.Portal>
