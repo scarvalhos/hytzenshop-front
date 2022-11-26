@@ -8,7 +8,7 @@ import Header from '@components/Header'
 import Button from '@components/Button'
 import Lottie from 'react-lottie'
 
-import * as errorAnimated from 'assets/error-animated.json'
+import * as errorAnimated from 'src/assets/error-animated.json'
 
 const Error404: React.FC = () => {
   const { back } = useRouter()
