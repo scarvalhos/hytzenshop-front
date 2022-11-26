@@ -1,5 +1,6 @@
+import * as shopAnimate from 'src/assets/shop-animated.json'
+
 import Lottie from 'react-lottie'
-import * as shopAnimate from 'assets/shop-animated.json'
 
 interface LoadAnimated {
   size?: number
