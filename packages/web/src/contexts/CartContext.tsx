@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 import { destroyCookie, parseCookies, setCookie } from 'nookies'
 import { Cart, CartProduct } from '@utils/types'

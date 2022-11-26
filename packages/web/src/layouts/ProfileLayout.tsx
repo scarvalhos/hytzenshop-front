@@ -1,5 +1,3 @@
-import * as React from 'react'
-
 import { TbDashboard, TbTruckDelivery, TbUserCircle } from 'react-icons/tb'
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { useRouter } from 'next/router'
@@ -8,6 +6,7 @@ import { useAuth } from '@contexts/AuthContext'
 import { c } from '@utils/helpers'
 
 import Header from '@components/Header'
+import React from 'react'
 
 interface ProfileLayoutProps {
   children?: React.ReactNode

@@ -1,4 +1,4 @@
-import { secret } from 'config/auth'
+import { secret } from 'src/config/auth'
 
 import jwt from 'jsonwebtoken'
 

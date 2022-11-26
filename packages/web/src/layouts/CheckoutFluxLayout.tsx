@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 import { CartSummary } from '@features/cart/CartSummary'
 import { c } from '@utils/helpers'

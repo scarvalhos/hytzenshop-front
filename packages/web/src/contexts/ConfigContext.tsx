@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 import { Category, FileRecord } from '@utils/types'
 import { CategoryGetAllDto } from '@utils/dtos/categoryDto'
