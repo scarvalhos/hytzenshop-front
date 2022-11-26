@@ -1,17 +1,13 @@
-import HeaderFooterLayout, {
-  LinksCategories,
-} from '@layouts/HeaderFooterLayout'
-
 import { ProductGetAllDto, ProductGetDto } from '@utils/dtos/productDto'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 import { getProductList } from '@hooks/useProducts'
-import { useBreakpoint } from '@hooks/useBreakpoint'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { api } from '@services/apiClient'
 
 import ProductPageSection from '@features/product/ProductPageSection'
+import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'
 import React from 'react'
 
@@ -22,8 +18,6 @@ async function getProductDetails(id?: string | null) {
 }
 
 const ProductPage: NextPage = () => {
-  const { sm } = useBreakpoint()
-
   const id = useSearchParams().get('id')
   const productQuery = useQuery(['product', id], () => getProductDetails(id), {
     staleTime: 1000 * 60 * 10, // 10 minutes
@@ -39,11 +33,7 @@ const ProductPage: NextPage = () => {
 
   if (!productQuery.data?.product && !productQuery.isLoading) {
     return (
-      <HeaderFooterLayout
-        {...(sm && {
-          renderAfterLogo: () => <LinksCategories />,
-        })}
-      >
+      <HeaderFooterLayout>
         <NextSeo title={productQuery.data?.product?.title} />
 
         <div className="my-20 mx-16 flex items-center">
@@ -59,11 +49,7 @@ const ProductPage: NextPage = () => {
   }
 
   return (
-    <HeaderFooterLayout
-      {...(sm && {
-        renderAfterLogo: () => <LinksCategories />,
-      })}
-    >
+    <HeaderFooterLayout>
       <NextSeo title={productQuery.data?.product?.title} />
 
       <ProductPageSection

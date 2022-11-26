@@ -1,4 +1,4 @@
-import { Divide } from 'core'
+import { Divide } from '@core'
 import { c } from '@utils/helpers'
 
 import ProductSectionSkeleton from '../ProductSection/ProductSectionSkeleton'
