@@ -1,6 +1,6 @@
-import React from 'react'
-
 import { useCan } from '@hooks/useCan'
+
+import React from 'react'
 
 interface CanProps {
   children: React.ReactNode
