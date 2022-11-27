@@ -90,7 +90,7 @@ router.get(
   '/:id',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
 
     try {
       const user = await prismaClient.user.findUnique({
@@ -116,8 +116,8 @@ router.put(
   '/:id',
   verifyTokenAndAuthorization,
   async (request: Request, response: Response) => {
-    let { id } = request.params
-    let { profile } = request.body
+    const { id } = request.params
+    const { profile } = request.body
 
     const address = profile.address
 
@@ -191,7 +191,7 @@ router.delete(
   '/:id',
   verifyTokenAndAuthorization,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
 
     try {
       const user = await prismaClient.user.findUnique({ where: { id } })

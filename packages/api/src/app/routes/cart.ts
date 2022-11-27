@@ -67,7 +67,7 @@ router.delete(
   '/:id',
   verifyTokenAndAuthorization,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
 
     try {
       const cart = await prismaClient.cart.findUnique({ where: { id } })
@@ -92,7 +92,7 @@ router.get(
   '/:userId',
   verifyToken,
   async (request: Request, response: Response) => {
-    let { userId } = request.params
+    const { userId } = request.params
 
     try {
       const user = await prismaClient.user.findUnique({

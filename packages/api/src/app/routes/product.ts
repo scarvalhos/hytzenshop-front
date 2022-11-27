@@ -76,7 +76,7 @@ router.put(
   '/:id',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
     const { user, ...payload } = request.body
 
     try {
@@ -108,7 +108,7 @@ router.delete(
   '/:id',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
 
     try {
       const product = await prismaClient.product.findUnique({ where: { id } })
@@ -130,7 +130,7 @@ router.delete(
 // Get Product
 
 router.get('/:id', async (request: Request, response: Response) => {
-  let { id } = request.params
+  const { id } = request.params
 
   try {
     const product = await prismaClient.product.findUnique({ where: { id } })

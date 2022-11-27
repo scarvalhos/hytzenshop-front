@@ -148,7 +148,7 @@ router.post('/login', async (request: Request, response: Response) => {
 // Me
 
 router.get('/me', verifyToken, async (request: Request, response: Response) => {
-  let { user, ...rest } = request.body
+  const { user, ...rest } = request.body
 
   try {
     const data = await prismaClient.user.findUnique({

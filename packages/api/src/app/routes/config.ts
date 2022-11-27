@@ -77,35 +77,32 @@ router.put(
 
 // GET SYSTEM CONFIGS
 
-router.get(
-  '/',
-  async (request: Request, response: Response) => {
-    try {
-      const systemConfiguration =
-        await prismaClient.systemConfiguration.findFirst({
-          select: {
-            id: true,
-            announcement: true,
-            showAnnouncement: true,
-            sliderImages: true,
-          },
-        })
-
-      const images = systemConfiguration?.sliderImages
-        ? await searchFile(systemConfiguration?.sliderImages || '')
-        : []
-
-      return response.status(201).json({
-        message: 'Configurações encontradas com sucesso!',
-        systemConfiguration: {
-          ...systemConfiguration,
-          sliderImages: images,
+router.get('/', async (request: Request, response: Response) => {
+  try {
+    const systemConfiguration =
+      await prismaClient.systemConfiguration.findFirst({
+        select: {
+          id: true,
+          announcement: true,
+          showAnnouncement: true,
+          sliderImages: true,
         },
       })
-    } catch (error: any) {
-      return sendInternalServerError(request, response, error.message, error)
-    }
+
+    const images = systemConfiguration?.sliderImages
+      ? await searchFile(systemConfiguration?.sliderImages || '')
+      : []
+
+    return response.status(201).json({
+      message: 'Configurações encontradas com sucesso!',
+      systemConfiguration: {
+        ...systemConfiguration,
+        sliderImages: images,
+      },
+    })
+  } catch (error: any) {
+    return sendInternalServerError(request, response, error.message, error)
   }
-)
+})
 
 export default router

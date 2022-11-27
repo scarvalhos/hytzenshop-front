@@ -82,7 +82,7 @@ router.put(
   '/:id',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
 
     try {
       const order = await prismaClient.order.findUnique({
@@ -117,7 +117,7 @@ router.patch(
   '/:id/:status',
   verifyToken,
   async (request: Request, response: Response) => {
-    let { id, status } = request.params as { id: string; status: OrderStatus }
+    const { id, status } = request.params as { id: string; status: OrderStatus }
     const { user } = request.body
 
     try {
@@ -171,7 +171,7 @@ router.delete(
   '/:id',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
 
     try {
       const order = await prismaClient.order.findUnique({ where: { id } })
@@ -196,7 +196,7 @@ router.get(
   '/order/:orderId',
   verifyToken,
   async (request: Request, response: Response) => {
-    let { orderId } = request.params
+    const { orderId } = request.params
     const { user } = request.body
 
     try {

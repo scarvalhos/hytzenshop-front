@@ -42,7 +42,7 @@ router.delete(
   '/:id',
   verifyTokenAndAdmin,
   async (request: Request, response: Response) => {
-    let { id } = request.params
+    const { id } = request.params
 
     try {
       const category = await prismaClient.category.findUnique({ where: { id } })
@@ -64,7 +64,7 @@ router.delete(
 // Get Category
 
 router.get('/:id', async (request: Request, response: Response) => {
-  let { id } = request.params
+  const { id } = request.params
 
   try {
     const category = await prismaClient.category.findUnique({ where: { id } })
