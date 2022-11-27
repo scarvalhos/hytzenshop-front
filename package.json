@@ -11,7 +11,7 @@
   "author": "Samara Carvalho <samcarvalhos@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint . --ext .ts,.tsx --fix",
+    "lint": "eslint . --ext .ts,.tsx",
     "prepare": "husky install"
   },
   "devDependencies": {
