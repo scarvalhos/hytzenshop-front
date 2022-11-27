@@ -1,2 +1,2 @@
 export { default } from './Button'
-export * from './Buttn'
+export * from './Button'
