@@ -78,7 +78,9 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
             {!short && (
               <>
                 <h1 className="text-center max-w-[620px] text-white text-[2rem] font-bold">
-                  As camisetas do seu personagem favorito você encontra aqui
+                  As camisetas do seu personagem{' '}
+                  <span className="text-success-300">favorito</span> você
+                  encontra aqui
                 </h1>
                 <p className="text-white">Toda a loja com até 50% OFF</p>
               </>
