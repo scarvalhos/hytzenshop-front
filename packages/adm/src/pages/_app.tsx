@@ -14,7 +14,6 @@ import seo from '../../next-seo.config'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-circular-progressbar/dist/styles.css'
-
 import '../styles/globals.css'
 
 type NextPageWithLayout = NextPage & {
