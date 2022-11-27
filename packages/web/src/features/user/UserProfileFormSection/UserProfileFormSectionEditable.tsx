@@ -40,7 +40,24 @@ const UserProfileFormSectionEditable: React.FC<
     setValue,
     getValues,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      completeName: user?.profile?.completeName,
+      username: user?.username,
+      email: user?.email,
+      cpf: user?.profile?.cpf,
+      phone: user?.profile?.phone,
+      birthDate: user?.profile?.birthDate,
+      cep: user?.profile?.address?.cep,
+      street: user?.profile?.address?.street,
+      number: user?.profile?.address?.number,
+      complement: user?.profile?.address?.complement,
+      district: user?.profile?.address?.district,
+      city: user?.profile?.address?.city,
+      uf: user?.profile?.address?.uf,
+      country: user?.profile?.address?.country,
+    },
+  })
 
   const handleSearchCep = React.useCallback(async () => {
     const { data } = await api.get<CepResponse>(
@@ -98,9 +115,8 @@ const UserProfileFormSectionEditable: React.FC<
         <div className={c('grid grid-cols-1 md:grid-cols-2 gap-8')}>
           <Input.Field
             type="text"
-            control={control}
+            control={control as any}
             label="Nome completo:"
-            defaultValue={user?.profile?.completeName}
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
             variant="outlined"
@@ -109,9 +125,8 @@ const UserProfileFormSectionEditable: React.FC<
 
           <Input.Field
             type="text"
-            control={control}
+            control={control as any}
             label="Username:"
-            defaultValue={user?.username}
             disabled
             variant="outlined"
             containerClassName="col-start-1 col-end-3 md:col-start-2"
@@ -121,9 +136,8 @@ const UserProfileFormSectionEditable: React.FC<
 
           <Input.Field
             type="email"
-            control={control}
+            control={control as any}
             label="E-mail:"
-            defaultValue={user?.email}
             disabled
             variant="outlined"
             containerClassName="col-start-1 col-end-3 md:col-end-2"
@@ -133,9 +147,8 @@ const UserProfileFormSectionEditable: React.FC<
 
           <Input.Field
             type="cpf"
-            control={control}
+            control={control as any}
             label="CPF:"
-            defaultValue={user?.profile?.cpf}
             containerClassName="col-start-1 col-end-3 md:col-start-2"
             isFullWidth
             variant="outlined"
@@ -144,9 +157,8 @@ const UserProfileFormSectionEditable: React.FC<
 
           <Input.Field
             type="cel"
-            control={control}
+            control={control as any}
             label="Celular:"
-            defaultValue={user?.profile?.phone}
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
             variant="outlined"
@@ -155,9 +167,8 @@ const UserProfileFormSectionEditable: React.FC<
 
           <Input.Field
             type="date"
-            control={control}
+            control={control as any}
             label="Data de nascimento:"
-            defaultValue={user?.profile?.birthDate}
             containerClassName="col-start-1 col-end-3 md:col-start-2"
             isFullWidth
             variant="outlined"
@@ -166,8 +177,7 @@ const UserProfileFormSectionEditable: React.FC<
 
           <Input.Cep
             label="CEP:"
-            control={control}
-            defaultValue={user?.profile?.address?.cep}
+            control={control as any}
             error={String(errors?.cep?.message || '')}
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
@@ -177,8 +187,7 @@ const UserProfileFormSectionEditable: React.FC<
           <Input.Field
             type="text"
             label="Rua:"
-            control={control}
-            defaultValue={user?.profile?.address?.street}
+            control={control as any}
             passthrough={{ placeholder: 'Nome da rua' }}
             error={String(errors?.street?.message || '')}
             containerClassName="col-start-1 col-end-3 md:col-start-2"
@@ -189,8 +198,7 @@ const UserProfileFormSectionEditable: React.FC<
           <Input.Field
             type="number"
             label="Número:"
-            control={control}
-            defaultValue={user?.profile?.address?.number}
+            control={control as any}
             error={String(errors?.number?.message || '')}
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
@@ -200,8 +208,7 @@ const UserProfileFormSectionEditable: React.FC<
           <Input.Field
             type="text"
             label="Complemento: (Opcional)"
-            control={control}
-            defaultValue={user?.profile?.address?.complement}
+            control={control as any}
             passthrough={{ placeholder: 'Se existir...' }}
             containerClassName="col-start-1 col-end-3 md:col-start-2"
             isFullWidth
@@ -211,8 +218,7 @@ const UserProfileFormSectionEditable: React.FC<
           <Input.Field
             type="text"
             label="Bairro:"
-            control={control}
-            defaultValue={user?.profile?.address?.district}
+            control={control as any}
             passthrough={{ placeholder: 'Nome do bairro' }}
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
@@ -223,8 +229,7 @@ const UserProfileFormSectionEditable: React.FC<
           <Input.Field
             type="text"
             label="Cidade:"
-            control={control}
-            defaultValue={user?.profile?.address?.city}
+            control={control as any}
             passthrough={{ placeholder: 'Nome da cidade' }}
             error={String(errors?.city?.message || '')}
             containerClassName="col-start-1 col-end-3 md:col-start-2"
@@ -235,8 +240,7 @@ const UserProfileFormSectionEditable: React.FC<
           <Input.Field
             type="text"
             label="Estado:"
-            control={control}
-            defaultValue={user?.profile?.address?.uf}
+            control={control as any}
             passthrough={{ placeholder: 'Nome do estado' }}
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
@@ -247,8 +251,7 @@ const UserProfileFormSectionEditable: React.FC<
           <Input.Field
             type="text"
             label="País:"
-            control={control}
-            defaultValue={user?.profile?.address?.country}
+            control={control as any}
             passthrough={{ placeholder: 'Nome do país' }}
             error={String(errors?.country?.message || '')}
             containerClassName="col-start-1 col-end-3 md:col-start-2"

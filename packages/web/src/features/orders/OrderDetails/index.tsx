@@ -77,7 +77,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
     <div className="relative">
       <Button
         onClick={back}
-        className="absolute top-0 pl-6 p-0 hover:text-light-gray-100"
+        className="sticky top-12 px-6 pt-6 hover:text-light-gray-100 bg-dark-gray-500 w-full justify-start z-50"
       >
         <TbArrowLeft className="absolute left-0" size={16} />
         Voltar

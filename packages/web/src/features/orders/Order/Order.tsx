@@ -18,7 +18,7 @@ const Order: React.FC<OrderProps> = ({ order }) => {
     useOrder(order)
 
   return (
-    <div className="flex flex-row justify-between items-center relative rounded-md bg-dark-gray-400 flex-nowrap px-8 py-6">
+    <div className="grid grid-cols-6 relative rounded-sm bg-dark-gray-400 px-6 py-4 hover:before:content-[''] hover:before:rounded-l-lg hover:before:w-0.5 hover:before:h-[100%] hover:before:bg-success-300 hover:before:absolute hover:before:bottom-0 hover:before:left-0 transition-all">
       {md && (
         <div className="overflow-hidden text-ellipsis whitespace-nowrap text-left space-y-1">
           <p className="text-sm">Data do pedido</p>
@@ -28,7 +28,7 @@ const Order: React.FC<OrderProps> = ({ order }) => {
         </div>
       )}
 
-      <div className="overflow-hidden text-ellipsis whitespace-nowrap text-left">
+      <div className="col-start-1 col-end-6 md:col-start-2 sm:col-end-3 overflow-hidden text-ellipsis whitespace-nowrap text-left">
         <p className="text-sm">Número do pedido</p>
         <p className="text-light-gray-100">#{order.mpPaymentId}</p>
         {!sm && (
@@ -38,7 +38,7 @@ const Order: React.FC<OrderProps> = ({ order }) => {
             <p
               className={c(
                 statusColor,
-                'flex flex-row items-center justify-center text-xs text-light-gray-100 select-none px-2 py-1 space-x-2 rounded-full'
+                'flex flex-row items-center justify-center w-fit text-xs text-light-gray-100 select-none px-2 py-1 space-x-2 rounded-full'
               )}
             >
               {statusLabel}
@@ -48,7 +48,7 @@ const Order: React.FC<OrderProps> = ({ order }) => {
         )}
       </div>
 
-      {sm && (
+      {md && (
         <>
           <div className="overflow-hidden text-ellipsis whitespace-nowrap text-left">
             <p className="text-sm">Quantidade</p>
@@ -65,13 +65,13 @@ const Order: React.FC<OrderProps> = ({ order }) => {
       )}
 
       {sm && (
-        <div className="overflow-hidden text-ellipsis whitespace-nowrap text-left">
+        <div className="col-start-3 col-end-5 md:col-start-5 md:col-end-6 overflow-hidden text-ellipsis whitespace-nowrap text-left">
           <p className="text-sm">Status</p>
 
           <p
             className={c(
               statusColor,
-              'flex flex-row items-center justify-center text-xs text-light-gray-100 select-none px-2 py-1 space-x-2 rounded-full'
+              'flex flex-row items-center justify-center w-fit text-xs text-light-gray-100 select-none px-2 py-1 space-x-2 rounded-full'
             )}
           >
             {statusLabel}
@@ -80,7 +80,7 @@ const Order: React.FC<OrderProps> = ({ order }) => {
         </div>
       )}
 
-      <div className="w-fit flex flex-col sm:flex-row items-center justify-center max-sm:space-y-2 sm:space-x-2">
+      <div className="col-start-6 col-end-7 flex flex-col sm:flex-row items-center justify-end max-sm:space-y-2 sm:space-x-2 max-sm:mt-3">
         {order.status === 'pending' ? (
           <button className={c(iconButtonColor, 'p-2 rounded-full')} disabled>
             <TbTruck size={16} color={iconTruckColor} />

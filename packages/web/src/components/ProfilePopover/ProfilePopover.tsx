@@ -2,6 +2,7 @@ import * as Popover from '@radix-ui/react-popover'
 import * as Avatar from '@radix-ui/react-avatar'
 
 import { Can, Link, Divide } from '@core'
+import { getFirstLetters } from '@utils/helpers'
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { useAuth } from '@contexts/AuthContext'
 
@@ -27,6 +28,10 @@ const ProfilePopover = () => {
             alt={user?.profile?.completeName}
             className="w-8 h-8 rounded-full border-[1.5px] border-success-300 bg-dark-gray-400"
           />
+
+          <Avatar.AvatarFallback className="text-light-gray-100 border border-success-300 rounded-full text-xs p-1">
+            {getFirstLetters(user?.username || '')}
+          </Avatar.AvatarFallback>
         </Avatar.Root>
       </Popover.Trigger>
 

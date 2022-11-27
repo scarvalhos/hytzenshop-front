@@ -62,6 +62,7 @@ const SelectDefault = <T,>({
           }}
         >
           <Select
+            name={name}
             options={options as any}
             className={className}
             styles={{

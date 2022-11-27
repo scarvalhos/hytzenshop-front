@@ -47,7 +47,7 @@ export const validateCreateAccountSchema = yup.object().shape({
     .minUppercase(1, PASS_MSG)
     .minSymbols(1, PASS_MSG)
     .required(PASS_MSG),
-  c_password: yup
+  cpassword: yup
     .string()
     .typeError('Confirmar senha inválido')
     .oneOf([yup.ref('password'), null], 'As senhas não coincidem')
