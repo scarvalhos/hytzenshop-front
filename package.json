@@ -12,6 +12,7 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "prepare": "husky install"
   },
   "devDependencies": {
