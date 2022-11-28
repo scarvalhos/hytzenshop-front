@@ -9,6 +9,7 @@
     "lint": "yarn next lint && tsc --pretty --noEmit"
   },
   "dependencies": {
+    "@luma/ui": "*",
     "@hookform/resolvers": "^2.9.7",
     "@radix-ui/react-avatar": "^1.0.1",
     "@radix-ui/react-dialog": "^1.0.2",
@@ -17,9 +18,6 @@
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.16.1",
     "@tanstack/react-query-devtools": "^4.16.1",
-    "@types/node": "18.11.9",
-    "@types/react": "18.0.25",
-    "@types/react-dom": "18.0.9",
     "axios": "^1.1.3",
     "copy-to-clipboard": "^3.3.3",
     "cpf-cnpj-validator": "^1.0.3",
@@ -44,7 +42,6 @@
     "react-toastify": "^9.1.1",
     "socket.io-client": "^4.5.3",
     "tailwind-scrollbar": "^2.0.1",
-    "typescript": "4.9.3",
     "yup": "^0.32.11",
     "yup-password": "^0.2.2"
   },
@@ -56,6 +53,10 @@
     "@types/react-text-truncate": "^0.14.1",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
-    "tailwindcss": "^3.2.4"
+    "tailwindcss": "^3.2.4",
+    "typescript": "4.9.3",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9"
   }
 }

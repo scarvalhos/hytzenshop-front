@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@hytzenshop/eslint": "*",
+    "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.2",
     "typescript": "^4.9.3"
   }
