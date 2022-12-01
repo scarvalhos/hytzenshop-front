@@ -8,20 +8,16 @@
   "types": "./dist/index.d.ts",
   "author": "Samara Carvalho",
   "scripts": {
-    "test": "npx jest --verbose",
-    "start:watch": "npm run build:pkg -- -w",
     "build": "rm -rf dist/ && tsc && rollup -c",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "start-storybook -p 6006"
   },
   "peerDependencies": {
     "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "dependencies": {
     "@babel/runtime": "^7.13.8",
-    "react-input-mask": "^2.0.4",
     "rollup": "^2.79.1"
   },
   "devDependencies": {
