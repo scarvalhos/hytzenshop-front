@@ -10,10 +10,11 @@ import {
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { Order as IOrder, Order } from '@utils/types'
-import { Divide, StepperBar } from '@core'
 import { c, date, money } from '@utils/helpers'
+import { StepperBar } from '@core'
 import { useRouter } from 'next/router'
 import { useOrder } from '../Order/Order.hook'
+import { DivideY } from '@luma/ui'
 import { api } from '@services/apiClient'
 
 import OrderedProductPreview from '../OrderedProductPreview'
@@ -123,7 +124,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         </div>
       </div>
 
-      <Divide.DivideY>
+      <DivideY>
         <div className="flex flex-col space-y-4 mt-4">
           <p className="text-light-gray-100">Informações:</p>
           <InfoCard
@@ -185,16 +186,16 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           <div className="flex flex-col space-y-4 flex-1">
             <p className="text-light-gray-100">Items do pedido:</p>
             <div className="flex flex-col space-y-2 bg-dark-gray-400 rounded-md px-6 py-4 flex-1 h-fit">
-              <Divide.DivideY>
+              <DivideY>
                 {order?.orderedProducts &&
                   order?.orderedProducts.map((item) => (
                     <OrderedProductPreview key={item.id} product={item} />
                   ))}
-              </Divide.DivideY>
+              </DivideY>
             </div>
           </div>
         </div>
-      </Divide.DivideY>
+      </DivideY>
     </div>
   )
 }

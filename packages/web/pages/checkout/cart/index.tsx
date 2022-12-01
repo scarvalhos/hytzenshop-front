@@ -5,15 +5,16 @@ import { ProductGetAllDto } from '@utils/dtos/productDto'
 import { withAuthValidate } from '@hocs/withAuthValidate'
 import { setUpAPIClient } from '@services/api'
 import { getProductList } from '@hooks/useProducts'
-import { Icons, Divide } from '@core'
 import { CartProduct } from '@utils/types'
 import { UserGetDto } from '@utils/dtos/userDto'
 import { CartGetDto } from '@utils/dtos/cartDto'
+import { DivideLine } from '@luma/ui'
 import { CartList } from '@features/cart/CartList'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
+import { Icons } from '@core'
 
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'
@@ -58,7 +59,7 @@ const CartPage: NextPage = () => {
         </div>
       )}
 
-      <Divide.DivideLine dividerClassName="mx-8 sm:mx-16 my-16" />
+      <DivideLine dividerClassName="mx-8 sm:mx-16 my-16" />
 
       <ProductSection
         title="Você Também Pode Gostar"

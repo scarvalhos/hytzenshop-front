@@ -1,4 +1,3 @@
-import * as Divide from './Divide'
 import * as Icons from './icons'
 
 import { LoadAnimated } from './LoadAnimated'
@@ -21,7 +20,6 @@ export {
   Badge,
   Can,
   trucate,
-  Divide,
   Chip,
   Icons,
   StepperBar,

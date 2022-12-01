@@ -2,10 +2,11 @@ import * as Input from '@components/Input'
 
 import { useProductPageSection } from './ProductPageSection.hook'
 import { ReactMinimalGallery } from 'react-minimal-gallery'
-import { trucate, Divide } from '@core'
 import { useBreakpoint } from '@hooks/useBreakpoint'
+import { DivideLine } from '@luma/ui'
 import { c, money } from '@utils/helpers'
 import { TbSearch } from 'react-icons/tb'
+import { trucate } from '@core'
 import { Product } from '@utils/types'
 
 import ProductPageSectionSkeleton from './ProductPageSectionSkeleton'
@@ -200,7 +201,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
         </div>
       </div>
 
-      <Divide.DivideLine dividerClassName="mx-8 md:mx-16" />
+      <DivideLine dividerClassName="mx-8 md:mx-16" />
 
       <div
         id="description"
@@ -210,7 +211,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
         <p>{product?.description}</p>
       </div>
 
-      <Divide.DivideLine dividerClassName="mx-8 md:mx-16" />
+      <DivideLine dividerClassName="mx-8 md:mx-16" />
 
       <ProductSection
         title="Você Também Pode Gostar"

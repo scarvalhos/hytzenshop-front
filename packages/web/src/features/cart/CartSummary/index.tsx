@@ -1,8 +1,8 @@
 import React from 'react'
 
+import { DivideLine } from '@luma/ui'
 import { useRouter } from 'next/router'
 import { useCart } from '@contexts/CartContext'
-import { Divide } from '@core'
 
 import Button from '@components/Button'
 
@@ -55,7 +55,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
           </div>
         </div>
 
-        <Divide.DivideLine />
+        <DivideLine />
 
         <div className="flex flex-row justify-between">
           <p>Total:</p>

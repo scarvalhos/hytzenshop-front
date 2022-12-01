@@ -1,4 +1,4 @@
-import { Divide } from '@core'
+import { DivideLine } from '@luma/ui'
 import { c } from '@utils/helpers'
 
 import ProductSectionSkeleton from '../ProductSection/ProductSectionSkeleton'
@@ -17,7 +17,7 @@ const ProductPageSectionSkeleton: React.FC = () => {
         <div className="space-y-4 bg-dark-gray-400 animate-pulse rounded-md" />
       </div>
 
-      <Divide.DivideLine dividerClassName="mx-8 md:mx-16" />
+      <DivideLine dividerClassName="mx-8 md:mx-16" />
 
       <div
         id="description"
@@ -26,7 +26,7 @@ const ProductPageSectionSkeleton: React.FC = () => {
         )}
       />
 
-      <Divide.DivideLine dividerClassName="mx-8 md:mx-16" />
+      <DivideLine dividerClassName="mx-8 md:mx-16" />
 
       <ProductSectionSkeleton />
     </>
