@@ -1,10 +1,11 @@
 import React from 'react'
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { Link, Chip, Image } from '@core'
 import { ProductGetDto } from '@utils/dtos/productDto'
+import { Link, Image } from '@core'
 import { CartProduct } from '@utils/types'
 import { money } from '@utils/helpers'
+import { Chip } from '@luma/ui'
 import { api } from '@services/apiClient'
 
 interface OrderedProductPreviewProps {

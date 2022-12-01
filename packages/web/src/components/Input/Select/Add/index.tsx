@@ -2,8 +2,9 @@ import React from 'react'
 
 import { TbCirclePlus, TbTrash } from 'react-icons/tb'
 import { FieldInputProps } from '@components/Input/Field'
-import { Chip, Error } from '@core'
 import { Controller } from 'react-hook-form'
+import { Error } from '@core'
+import { Chip } from '@luma/ui'
 import { c } from '@utils/helpers'
 
 import {

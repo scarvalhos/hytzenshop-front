@@ -1,11 +1,12 @@
 import React from 'react'
 
 import { c, money, numtostr } from '@utils/helpers'
-import { Chip, Image, Link } from '@core'
 import { MdFavoriteBorder } from 'react-icons/md'
+import { Image, Link } from '@core'
 import { useCartCard } from './CartCard.hook'
 import { CartProduct } from '@utils/types'
 import { TbTrash } from 'react-icons/tb'
+import { Chip } from '@luma/ui'
 
 interface CartCardProps {
   canUpdate?: boolean
