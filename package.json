@@ -14,7 +14,9 @@
   "scripts": {
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "web:dev": "yarn workspace @hytzenshop/web dev",
+    "luma:build": "yarn workspace @luma/ui build"
   },
   "devDependencies": {
     "@hytzenshop/eslint": "*",

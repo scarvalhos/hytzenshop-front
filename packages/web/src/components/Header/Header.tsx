@@ -1,10 +1,11 @@
 import { TbShoppingCart, TbHeart, TbUserCircle, TbSearch } from 'react-icons/tb'
-import { Badge, GlassContainer, Link } from '@core'
+import { GlassContainer, Link } from '@core'
 import { SearchContainer } from './styles'
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { useWishlist } from '@contexts/WishlistContext'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
+import { Badge } from '@luma/ui'
 
 import ProfilePopover from '@components/ProfilePopover'
 import React from 'react'

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { c } from '@utils/helpers'
 
-interface ChipProps {
+export interface ChipProps {
   label?: string
   variant?: 'filled' | 'outlined'
   size?: string | number
@@ -12,7 +12,7 @@ interface ChipProps {
   rounded?: boolean
 }
 
-const Chip: React.FC<ChipProps> = ({
+export const Chip: React.FC<ChipProps> = ({
   label,
   variant,
   // size,
@@ -35,5 +35,3 @@ const Chip: React.FC<ChipProps> = ({
     </div>
   )
 }
-
-export default Chip

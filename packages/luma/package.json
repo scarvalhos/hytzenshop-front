@@ -1,12 +1,11 @@
 {
   "name": "@luma/ui",
   "version": "1.0.0",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
   "license": "MIT",
   "private": true,
-
   "description": "Luma - User Interface",
-  "module": "dist/index.js",
+  "types": "./dist/index.d.ts",
   "author": "Samara Carvalho",
   "scripts": {
     "test": "npx jest --verbose",
