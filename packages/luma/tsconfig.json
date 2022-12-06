@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "sourceMap": true,
-    "outDir": "dist",
     "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     "jsx": "preserve" /* Specify what JSX code is generated. */,
     "moduleResolution": "node",
@@ -10,7 +9,7 @@
     "noEmit": true,
     "lib": ["ES5", "ES2015", "ES2016", "DOM", "ESNext"],
     "declaration": true,
-    "declarationDir": "dist",
+    "declarationDir": "src",
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,

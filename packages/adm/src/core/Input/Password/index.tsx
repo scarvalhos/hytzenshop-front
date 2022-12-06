@@ -25,8 +25,9 @@ const Password: React.FC<Password> = ({
   error,
   ...props
 }) => {
-  const [seePassword, setSeePassword] =
-    useState<'password' | 'text'>('password')
+  const [seePassword, setSeePassword] = useState<'password' | 'text'>(
+    'password'
+  )
 
   const handleSeePassword = () => {
     if (seePassword === 'password') {
