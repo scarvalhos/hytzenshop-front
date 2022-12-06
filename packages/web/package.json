@@ -9,7 +9,7 @@
     "lint": "yarn next lint && tsc --pretty --noEmit"
   },
   "dependencies": {
-    "@luma/ui": "*",
+    "@luma/ui": "1.0.0",
     "@hookform/resolvers": "^2.9.7",
     "@radix-ui/react-avatar": "^1.0.1",
     "@radix-ui/react-dialog": "^1.0.2",
