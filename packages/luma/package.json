@@ -7,6 +7,10 @@
   "description": "Luma - User Interface",
   "types": "./dist/index.d.ts",
   "author": "Samara Carvalho",
+  "files": [
+    "dist/**/*",
+    "src/**/*"
+  ],
   "scripts": {
     "build": "rm -rf dist/ && tsc && rollup -c",
     "storybook": "start-storybook -p 6006"
