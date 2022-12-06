@@ -1,13 +1,17 @@
 /** @type {import('next').NextConfig} */
 
+const withTM = require('next-transpile-modules')([
+    '@luma/ui',
+])
+
 const nextConfig = {
-  reactStrictMode: true,
+    reactStrictMode: true,
 
-  eslint: { dirs: ['src'] },
+    eslint: { dirs: ['src'] },
 
-  images: {
-    domains: ['images.pexels.com', 'hytzenshop.s3.amazonaws.com'],
-  },
+    images: {
+        domains: ['images.pexels.com', 'hytzenshop.s3.amazonaws.com'],
+    },
 }
 
-module.exports = nextConfig
+module.exports = withTM(nextConfig)
