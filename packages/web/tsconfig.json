@@ -1,11 +1,7 @@
 {
   "compilerOptions": {
     "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -18,41 +14,21 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "preserveSymlinks": true,
+    "declaration": true,
     "baseUrl": "./",
     "paths": {
-      "@components/*": [
-        "src/components/*"
-      ],
-      "@features/*": [
-        "src/features/*"
-      ],
-      "@core": [
-        "src/core"
-      ],
-      "@contexts/*": [
-        "src/contexts/*"
-      ],
-      "@services/*": [
-        "src/services/*"
-      ],
-      "@layouts/*": [
-        "src/layouts/*"
-      ],
-      "@styles/*": [
-        "src/styles/*"
-      ],
-      "@utils/*": [
-        "src/utils/*"
-      ],
-      "@hooks/*": [
-        "src/hooks/*"
-      ],
-      "@icons": [
-        "src/components/icons"
-      ],
-      "@hocs/*": [
-        "src/hocs/*"
-      ]
+      "@components/*": ["src/components/*"],
+      "@features/*": ["src/features/*"],
+      "@core": ["src/core"],
+      "@contexts/*": ["src/contexts/*"],
+      "@services/*": ["src/services/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@icons": ["src/components/icons"],
+      "@hocs/*": ["src/hocs/*"]
     },
     "plugins": [
       {
@@ -60,13 +36,6 @@
       }
     ]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }
