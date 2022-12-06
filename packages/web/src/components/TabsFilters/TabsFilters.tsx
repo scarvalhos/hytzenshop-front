@@ -78,7 +78,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({ tabs, className }) => {
           >
             {asPath === '/' || asPath === '/wishlist'
               ? 'Tudo'
-              : asPath.split('/')[2].replaceAll('-', ' ')}
+              : asPath.split('/')[2]?.replaceAll('-', ' ')}
           </p>
         )}
 
