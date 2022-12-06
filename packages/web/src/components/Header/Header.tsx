@@ -70,7 +70,12 @@ const Header: React.FC<HeaderProps> = ({
           )}
 
           <Link href="/wishlist">
-            <Badge content={wishlist?.length} className="bg-danger-300">
+            <Badge
+              content={
+                wishlist && wishlist?.length > 0 ? wishlist?.length : undefined
+              }
+              className="bg-danger-300"
+            >
               <TbHeart color="white" fontSize={20} />
             </Badge>
           </Link>

@@ -55,7 +55,7 @@ const RegisterFormSection: React.FC<RegisterFormSectionProps> = ({
         'flex',
         md
           ? 'flex-row items-center justify-center'
-          : 'flex-col items-start justify-start',
+          : 'flex-col items-start justify-center',
         containerClassName
       )}
     >

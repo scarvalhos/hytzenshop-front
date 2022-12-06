@@ -38,7 +38,8 @@ export const mountCreditCardForm = ({
   isMountingCreditCardForm = true
 
   creditCardForm = mercadopago?.cardForm({
-    amount: `${totalAmount.toFixed(2)}`,
+    // amount: `${totalAmount.toFixed(2)}`,
+    amount: '1',
     iframe: true,
     autoMount: true,
     form: {

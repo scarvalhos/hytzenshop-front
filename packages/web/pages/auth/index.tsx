@@ -14,7 +14,7 @@ const SignInPage: NextPage = () => {
       <Header />
 
       <LoginFormSection
-        containerClassName="my-32"
+        containerClassName="h-[100vh] max-md:mx-8"
         title={
           <span>
             Faça login
