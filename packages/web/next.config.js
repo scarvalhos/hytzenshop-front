@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const withTM = require('next-transpile-modules')([
-    '@luma/ui',
-])
+const withTM = require('next-transpile-modules')(['@luma/ui'])
 
 const nextConfig = {
     reactStrictMode: true,

@@ -81,7 +81,10 @@ const Header: React.FC<HeaderProps> = ({
           </Link>
 
           <Link href="/checkout/cart" passHref>
-            <Badge content={totalQuantity} className="bg-success-300">
+            <Badge
+              content={totalQuantity || undefined}
+              className="bg-success-300"
+            >
               <TbShoppingCart color="white" fontSize={20} />
             </Badge>
           </Link>
