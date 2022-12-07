@@ -26,7 +26,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({ tabs, className }) => {
   const categoryTitleByPath = React.useMemo(() => {
     const [_a, _b, categoryByPath] = asPath.split('/')
 
-    return categoryByPath.replace(/-/g, ' ')
+    return categoryByPath?.replace(/-/g, ' ')
   }, [asPath])
 
   return (
