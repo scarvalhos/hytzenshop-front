@@ -1,13 +1,10 @@
-import * as React from 'react'
-// import * as heartAnimated from 'assets/heart-animated.json'
+import React from 'react'
 
 import { useBreakpoint } from '@hooks/useBreakpoint'
 import { useConfig } from '@contexts/ConfigContext'
 import { styled } from '@stitches/react'
 import { theme } from '@hooks/useTheme'
 import { c } from '@utils/helpers'
-
-// import Lottie from 'react-lottie'
 
 interface SliderProps {
   imageUrl?: string
@@ -78,9 +75,7 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
             {!short && (
               <>
                 <h1 className="text-center max-w-[620px] text-white text-[2rem] font-bold">
-                  As camisetas do seu personagem{' '}
-                  <span className="text-success-300">favorito</span> você
-                  encontra aqui
+                  As camisetas do seu personagem favorito você encontra aqui
                 </h1>
                 <p className="text-white">Toda a loja com até 50% OFF</p>
               </>
@@ -93,21 +88,3 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
 }
 
 export default Slider
-
-// const defaultOptions = {
-//   loop: true,
-//   autoplay: true,
-//   animationData: heartAnimated,
-//   rendererSettings: {
-//     preserveAspectRatio: 'xMidYMid slice',
-//   },
-// }
-// ;<Lottie
-//   speed={0.6}
-//   options={defaultOptions}
-//   height={sm ? 42 : 52}
-//   width={sm ? 42 : 52}
-//   style={{
-//     marginBottom: '-2rem',
-//   }}
-// />

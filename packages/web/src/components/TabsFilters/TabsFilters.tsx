@@ -23,6 +23,12 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({ tabs, className }) => {
 
   const [isModalOpen, setIsModalOpen] = React.useState(false)
 
+  const categoryTitleByPath = React.useMemo(() => {
+    const [_a, _b, categoryByPath] = asPath.split('/')
+
+    return categoryByPath.replace(/-/g, ' ')
+  }, [asPath])
+
   return (
     <>
       <BaseModal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
@@ -78,7 +84,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({ tabs, className }) => {
           >
             {asPath === '/' || asPath === '/wishlist'
               ? 'Tudo'
-              : asPath.split('/')[2]?.replaceAll('-', ' ')}
+              : categoryTitleByPath}
           </p>
         )}
 
