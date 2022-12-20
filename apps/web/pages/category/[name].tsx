@@ -21,8 +21,10 @@ interface PaginationStateProps {
 
 const Category: NextPage = () => {
   const {
-    query: { category },
+    query: { name },
   } = useRouter()
+
+  const category = name
 
   const { categoriesTabs } = useConfigTypes()
 
