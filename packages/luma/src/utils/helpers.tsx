@@ -2,6 +2,8 @@
  * This function concatenates classnames
  */
 
+import { GlassContainer } from '../'
+
 export const dedupTailwind = (str: string) => {
   const nonCollidable = ['border-', 'rounded-']
   const speciallyCollidable: Record<string, string[]> = {
@@ -45,4 +47,25 @@ export const c = (...arr: (string | undefined | null | false)[]) => {
   )
 
   return classes.length < 1 ? undefined : classes
+}
+
+// withGlassEffect --------------------------------------------------------------------------------------------------
+
+export const withGlassEffect = (
+  children: React.ReactNode,
+  options?: {
+    glassEffect?: boolean
+    glassClassName?: string
+    divClassName?: string
+  }
+) => {
+  if (options?.glassEffect) {
+    return (
+      <GlassContainer className={c(options?.glassClassName)}>
+        {children}
+      </GlassContainer>
+    )
+  }
+
+  return <div className={c(options?.divClassName)}>{children}</div>
 }

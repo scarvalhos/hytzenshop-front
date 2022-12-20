@@ -1,4 +1,4 @@
-import { c } from '@utils/helpers'
+import { c } from '../../utils/helpers'
 
 import PropTypes from 'prop-types'
 import React from 'react'

@@ -1,0 +1,21 @@
+{
+  "name": "@hytzenshop/hooks",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "license": "MIT",
+  "private": true,
+  "description": "Hytzenshop Hooks",
+  "author": "Samara Carvalho",
+  "files": [
+    "src/**/*"
+  ],
+  "devDependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "typescript": "4.9.3",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9"
+  }
+}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { c } from '@utils/helpers'
+import { c } from '../../utils/helpers'
 
 export interface DivideProps {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

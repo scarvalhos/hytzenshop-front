@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 /** @type {import('tailwindcss').Config} */

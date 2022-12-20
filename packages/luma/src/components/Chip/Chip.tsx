@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { c } from '@utils/helpers'
+import { c } from '../../utils/helpers'
 
 export interface ChipProps {
   label?: string

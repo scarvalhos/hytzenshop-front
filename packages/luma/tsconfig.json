@@ -21,11 +21,7 @@
     "strict": true /* Enable all strict type-checking options. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "preserveWatchOutput": true,
-    "baseUrl": "./",
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@utils/*": ["src/utils/*"]
-    }
+    "baseUrl": "./"
   },
   "include": ["**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
