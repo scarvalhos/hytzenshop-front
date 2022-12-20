@@ -4,7 +4,7 @@ import React from 'react'
 
 import { CreatePaymentProps } from '@hooks/useFetchers'
 import { MercadoPago } from 'react-sdk-mercadopago/lib/protocols'
-import { DataProps } from '@features/checkout/PaymentCheckoutStep/PaymentCheckoutStep'
+import { PaymentResponseProps } from '@features/checkout/PaymentCheckoutStep/PaymentCheckoutStep'
 
 import {
   UseFormRegister,
@@ -20,7 +20,7 @@ interface MountCreditCardFormProps {
   setLoading: (value: React.SetStateAction<boolean>) => void
   createPayment: (props: CreatePaymentProps) => Promise<void>
   totalQuantity: number
-  handleResponse: ({ message, status }: DataProps) => void
+  handleResponse: ({ message, response }: PaymentResponseProps) => void
   mercadopago: MercadoPago | undefined
 }
 
