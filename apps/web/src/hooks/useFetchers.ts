@@ -84,7 +84,7 @@ export const useFetchers = () => {
 
       try {
         return api
-          .patch<OrderGetDto>(`/orders/${mpPaymentId}/${status}`)
+          .put<OrderGetDto>(`/orders/${mpPaymentId}/${status}`)
           .then(({ data }) => toast(data.message))
       } catch (error) {
         return defaultToastError(error)
