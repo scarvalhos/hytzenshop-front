@@ -6,10 +6,13 @@ import { c, date, money } from '@hytzenshop/helpers'
 import { TbLoader } from 'react-icons/tb'
 import { Image } from '@core'
 import { api } from '@services/apiClient'
+import { BrasilAPI } from 'brasilapi'
 
 export interface ShippingSimulationModalProps extends BaseModalProps {
   cep: string
 }
+
+const brasilapi = new BrasilAPI()
 
 const ShippingSimulationModal: React.FC<ShippingSimulationModalProps> = ({
   open,
@@ -48,9 +51,11 @@ const ShippingSimulationModal: React.FC<ShippingSimulationModalProps> = ({
   }, [cep])
 
   const searchCep = React.useCallback(async () => {
-    return api
-      .get<CepResponse>(`/cep/search?cep=${cep.replaceAll('-', '')}`)
-      .then(({ data }) => setCepDetails(data))
+    try {
+      return brasilapi.cep(cep).then((data) => setCepDetails(data))
+    } catch (error) {
+      console.error(error)
+    }
   }, [cep])
 
   React.useEffect(() => {
@@ -65,7 +70,7 @@ const ShippingSimulationModal: React.FC<ShippingSimulationModalProps> = ({
   }, [fetchShipping, open])
 
   React.useEffect(() => {
-    if (cep !== '') searchCep()
+    if (cep.length === 9) searchCep()
   }, [searchCep, cep])
 
   return (
@@ -85,7 +90,7 @@ const ShippingSimulationModal: React.FC<ShippingSimulationModalProps> = ({
         </h2>
         <p>
           Para o CEP <strong className="text-success-300">{cep}</strong> |{' '}
-          {cepDetails?.localidade}, {cepDetails?.uf}
+          {cepDetails?.city}, {cepDetails?.state}
         </p>
 
         <div className="my-6 border border-light-gray-500 border-opacity-30 rounded-md max-h-[50vh] overflow-auto">

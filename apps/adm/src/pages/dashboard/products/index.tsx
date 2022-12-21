@@ -33,7 +33,7 @@ const QuikMenuProducts: NextPage = () => {
     <>
       <NextSeo title="Produtos" />
 
-      <HeaderProductsList loading={isLoading} />
+      <HeaderProductsList loading={isLoading} products={data?.data.products} />
 
       <Stack spacing={4} mb={10}>
         <Stack

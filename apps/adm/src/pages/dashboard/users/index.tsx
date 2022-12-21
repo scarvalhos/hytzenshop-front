@@ -37,12 +37,6 @@ const getUsersList = async (
 }
 
 const DashboardUsers: NextPage = () => {
-  const router = useRouter()
-
-  const refreshData = () => {
-    router.replace(router.asPath)
-  }
-
   const [page, setPage] = React.useState(1)
 
   const limit = 10
@@ -61,7 +55,7 @@ const DashboardUsers: NextPage = () => {
     <>
       <NextSeo title="Usuários" />
 
-      <HeaderUsersTable refreshData={refreshData} />
+      <HeaderUsersTable />
 
       <Stack spacing={4} mb={10}>
         <Stack

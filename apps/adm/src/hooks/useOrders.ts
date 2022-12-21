@@ -33,7 +33,7 @@ const updatedOrderStatus = async ({
   id: string
   status: StatusOrders
 }) => {
-  return api.patch(`/orders/${id}/${status}`)
+  return api.put(`/orders/${id}/${status}`)
 }
 
 export function useOrders(page?: number, limit?: number, filter?: string) {

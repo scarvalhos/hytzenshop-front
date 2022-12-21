@@ -67,7 +67,7 @@ export const HeaderOrdersList: React.FC<HeaderOrdersListProps> = ({
       direction="row"
       justifyContent="space-between"
       alignItems="center"
-      bgcolor={palette.background.default}
+      bgcolor="black"
       py={3}
       sx={{
         position: 'sticky',

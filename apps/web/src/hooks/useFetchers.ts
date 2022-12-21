@@ -42,7 +42,7 @@ export interface CreatePaymentProps {
 }
 
 export const useFetchers = () => {
-  const { cart, totalAmount, resetCart, setShipping } = useCart()
+  const { cart, totalAmount, resetCart, setShipping, shipping } = useCart()
   const { user } = useAuth()
 
   const createOrder = React.useCallback(
@@ -58,9 +58,10 @@ export const useFetchers = () => {
           quantity: item.quantity,
         })),
         status,
-        amount: totalAmount,
+        amount: totalAmount + (shipping?.vlrFrete || 0),
         addressId: user.profile?.address?.id,
         mpPaymentId,
+        shipping: JSON.stringify(shipping),
       }
 
       try {
@@ -74,7 +75,7 @@ export const useFetchers = () => {
         return defaultToastError(error)
       }
     },
-    [cart.products, resetCart, setShipping, totalAmount, user]
+    [cart.products, resetCart, setShipping, shipping, totalAmount, user]
   )
 
   const updateOrder = React.useCallback(
@@ -98,7 +99,7 @@ export const useFetchers = () => {
         const {
           data: { response, status },
         } = await api.post(
-          `/checkout/payment?${paymentMethods[cardFormData.payment_method_id]}`,
+          `/checkout/payment${paymentMethods[cardFormData.payment_method_id]}`,
           cardFormData
         )
 

@@ -96,7 +96,8 @@ export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
       createPayment({
         cardFormData: {
           payment_method_id: paymentMethod,
-          transaction_amount: Number(totalAmount.toFixed(2)),
+          //   transaction_amount: Number(totalAmount.toFixed(2)),
+          transaction_amount: 1,
           description: `${totalQuantity} produtos`,
           payer: {
             email: values.email,

@@ -17,7 +17,6 @@ export const Container = styled(Box)<ContainerProps>`
 
   padding: 1rem;
   border-radius: 4px;
-  background: ${({ theme }) => theme.palette.secondary.dark};
 
   flex-wrap: nowrap;
 
@@ -25,8 +24,7 @@ export const Container = styled(Box)<ContainerProps>`
     content: ' ';
     width: 2px;
     height: 100%;
-    background: ${({ theme, barColor }) =>
-      barColor ? barColor : theme.palette.secondary.dark};
+    background: ${({ barColor }) => (barColor ? barColor : 'black')};
     border-radius: 4px 0 0 4px;
     position: absolute;
     bottom: 0;

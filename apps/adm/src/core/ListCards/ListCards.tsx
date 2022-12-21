@@ -50,10 +50,10 @@ const ListCards: React.FC<TableProps> = ({
           <Stack
             key={`r-${rowI}`}
             direction="row"
-            bgcolor={theme.palette.secondary.dark}
             alignItems="center"
             pr={2}
             borderRadius="4px"
+            className="bg-dark-gray-500"
           >
             {columns.map(
               ({ accessor, type, fileSize = 110, isfileRounded = false }) => {
@@ -130,13 +130,7 @@ const ListCards: React.FC<TableProps> = ({
             {deleteRow && (
               <IconButton
                 onClick={() => onDelete && onDelete(row)}
-                sx={{
-                  mr: 2,
-                  bgcolor: '#29292e',
-                  ':hover': {
-                    bgcolor: '#303036',
-                  },
-                }}
+                className="bg-dark-gray-400 hover:bg-dark-gray-300 transition-all mr-4"
               >
                 <TbTrash size={16} color={theme.palette.primary.main} />
               </IconButton>
@@ -145,13 +139,7 @@ const ListCards: React.FC<TableProps> = ({
             {details && (
               <IconButton
                 onClick={() => onDetails && onDetails(row)}
-                sx={{
-                  mr: 2,
-                  bgcolor: '#29292e',
-                  ':hover': {
-                    bgcolor: '#303036',
-                  },
-                }}
+                className="bg-dark-gray-400 hover:bg-dark-gray-300 transition-all"
               >
                 <TbEye size={16} color={theme.palette.success.main} />
               </IconButton>

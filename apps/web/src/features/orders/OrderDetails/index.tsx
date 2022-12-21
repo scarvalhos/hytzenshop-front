@@ -119,7 +119,10 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           </div>
           <div className="flex flex-row sm:items-center justify-between sm:justify-center space-x-1 max-sm:w-full">
             <p className="text-sm">Previsão de entrega:</p>
-            <p className="text-light-gray-100">30/09/2022</p>
+            <p className="text-light-gray-100">
+              {order?.shipping &&
+                date(JSON.parse(order?.shipping || '').dtPrevEnt)}
+            </p>
           </div>
         </div>
       </div>

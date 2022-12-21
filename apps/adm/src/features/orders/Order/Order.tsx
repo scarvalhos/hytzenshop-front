@@ -36,6 +36,7 @@ const Order: React.FC<OrderProps> = ({ order }) => {
       {...(md && {
         barColor: statusColor,
       })}
+      className="bg-dark-gray-500"
     >
       <Section>
         <Title>Cliente</Title>

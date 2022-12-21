@@ -75,6 +75,7 @@ export interface Order {
   status: OrderStatus
   mpPaymentId: string
   createdAt: string
+  shipping?: string
 }
 
 export interface SystemConfig {

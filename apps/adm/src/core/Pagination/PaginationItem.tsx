@@ -1,4 +1,4 @@
-import { IconButton, useTheme } from '@mui/material'
+import React from 'react'
 
 interface PaginationItemProps {
   number: number
@@ -11,46 +11,20 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
   number,
   onPageChange,
 }) => {
-  const theme = useTheme()
-
   if (isCurrent) {
     return (
-      <IconButton
-        sx={{
-          borderRadius: 1,
-          bgcolor: theme.palette.primary.dark,
-          width: '32px',
-          height: '32px',
-          p: 1,
-          fontSize: '1rem',
-          color: theme.palette.text.primary,
-          ':hover': {
-            bgcolor: theme.palette.secondary.dark,
-          },
-        }}
-      >
+      <button className="rounded-[4px] w-[32px] h-[32px] p-1 text-base text-light-gray-100 bg-dark-gray-400 hover:bg-dark-gray-300">
         {number}
-      </IconButton>
+      </button>
     )
   }
 
   return (
-    <IconButton
-      sx={{
-        borderRadius: 1,
-        bgcolor: theme.palette.primary.dark,
-        width: '32px',
-        height: '32px',
-        p: 1,
-        fontSize: '1rem',
-        color: theme.palette.text.disabled,
-        ':hover': {
-          bgcolor: theme.palette.secondary.dark,
-        },
-      }}
+    <button
+      className="rounded-[4px] w-[32px] h-[32px] p-1 text-base text-light-gray-500 bg-dark-gray-400 hover:bg-dark-gray-300"
       onClick={() => onPageChange(number)}
     >
       {number}
-    </IconButton>
+    </button>
   )
 }

@@ -8,10 +8,9 @@ import { useNewProduct } from '@hooks/useNewProduct'
 import { TbCirclePlus } from 'react-icons/tb'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import { Button } from '@core/Button'
+import { Button } from '@luma/ui'
 
 interface HeaderUsersListProps {
-  refreshData: () => void
   loading?: boolean
 }
 
@@ -28,7 +27,7 @@ export const HeaderUsersTable: React.FC<HeaderUsersListProps> = ({
   const onFiltersChange = React.useCallback(() => {
     const filterString = JSON.stringify({
       ...makePrismaWhere(search || '', {
-        OR: ['profile.completeName'],
+        OR: ['profile.completeName', 'email'],
       }),
     })
 
@@ -45,7 +44,7 @@ export const HeaderUsersTable: React.FC<HeaderUsersListProps> = ({
 
   return (
     <Stack
-      bgcolor={palette.background.default}
+      bgcolor="black"
       pb={3}
       spacing={1}
       sx={{
@@ -61,13 +60,14 @@ export const HeaderUsersTable: React.FC<HeaderUsersListProps> = ({
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack direction="row" alignItems="center" spacing={2}>
           <Button
-            title="Novo usuário"
-            icon={<TbCirclePlus size={20} style={{ marginRight: 4 }} />}
-            variant="contained"
+            variant="filled"
+            className="relative pl-10"
             onClick={() => push('/admin/quik/users/new-user')}
-            fullWidth={false}
             rounded
-          />
+          >
+            <TbCirclePlus size={20} className="absolute left-4" />
+            Novo usuário
+          </Button>
 
           {loading && (
             <CircularProgress
@@ -80,15 +80,6 @@ export const HeaderUsersTable: React.FC<HeaderUsersListProps> = ({
         </Stack>
 
         <Stack direction="row" spacing={1} width="25%">
-          {/* <Input.Select.Default
-            name="filter"
-            placeholder="Filtre por categoria"
-            variant="outlined"
-            options={options}
-            onChange={(e) => setCategory((e as any).value) as any}
-            rounded
-          /> */}
-
           <Input.Field
             placeholder="Pesquisar"
             variant="outlined"

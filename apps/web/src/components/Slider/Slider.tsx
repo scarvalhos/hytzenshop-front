@@ -18,7 +18,7 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
 
   const { sliderImages } = useConfig()
 
-  const images = sliderImages?.map((i) => i.url) || []
+  const images = sliderImages?.map((i) => i?.url) || []
 
   React.useEffect(() => {
     if (images.length > 1) {

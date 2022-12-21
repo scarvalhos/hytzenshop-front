@@ -11,10 +11,11 @@ export const Container = styled(Box)`
   align-items: center;
   justify-content: flex-end;
 
+  background: black;
+
   position: sticky;
   top: 0;
 
-  background: ${({ theme }) => theme.palette.background.default};
   z-index: 999;
 `
 

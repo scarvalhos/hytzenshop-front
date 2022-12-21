@@ -3,19 +3,24 @@ import * as Input from '@core/Input'
 
 import { CircularProgress, Stack, Typography, useTheme } from '@mui/material'
 import { useDebounceCallback } from '@react-hook/debounce'
-import { makePrismaWhere } from '@hytzenshop/helpers'
+import { date, makePrismaWhere } from '@hytzenshop/helpers'
 import { useConfigTypes } from '@utils/types/config'
 import { useNewProduct } from '@hooks/useNewProduct'
-import { TbCirclePlus } from 'react-icons/tb'
+import { TbCirclePlus, TbFileExport } from 'react-icons/tb'
 import { useForm } from 'react-hook-form'
+import { Product } from '@hytzenshop/types'
 import { Button } from '@luma/ui'
+
+import exportFromJSON from 'export-from-json'
 
 interface HeaderProductsListProps {
   loading?: boolean
+  products?: Product[]
 }
 
 export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
   loading,
+  products,
 }) => {
   const [category, setCategory] = React.useState('')
   const [search, setSearch] = React.useState('')
@@ -57,7 +62,6 @@ export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
 
   return (
     <Stack
-      bgcolor={palette.background.default}
       pb={3}
       spacing={1}
       sx={{
@@ -65,6 +69,7 @@ export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
         top: '60px',
         zIndex: 9999,
       }}
+      className="bg-black"
     >
       <Typography variant="h5" fontWeight="600" color={palette.text.primary}>
         Produtos
@@ -76,11 +81,35 @@ export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
             href="/dashboard/products/new-product"
             variant="filled"
             rounded
+            className="md:relative md:pl-10 max-md:p-2.5 bg-success-400"
           >
-            <span className="flex flex-row">
-              <TbCirclePlus size={20} style={{ marginRight: 4 }} />
-              Novo produto
-            </span>
+            <TbCirclePlus size={20} className="md:absolute md:left-4" />
+            <span className="max-md:hidden">Novo produto</span>
+          </Button>
+
+          <Button
+            variant="outlined"
+            rounded
+            className="sm:relative sm:pl-10 max-sm:p-2.5"
+            onClick={() =>
+              exportFromJSON({
+                data:
+                  products?.map((product) => {
+                    return {
+                      ...product,
+                      images: product.images.map((i) => i._id),
+                    }
+                  }) || [],
+                fileName: `produtos-${date(new Date().toString())}`.replaceAll(
+                  '_',
+                  '-'
+                ),
+                exportType: exportFromJSON.types.json,
+              })
+            }
+          >
+            <TbFileExport className="sm:absolute sm:left-4" />
+            <span className="max-sm:hidden">Exportar</span>
           </Button>
 
           {loading && (

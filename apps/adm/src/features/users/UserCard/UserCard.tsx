@@ -41,17 +41,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
   )
 
   return (
-    <Stack
-      direction={sm ? 'column' : 'row'}
-      spacing={2}
-      alignItems="center"
-      justifyContent="space-between"
-      bgcolor={theme.palette.secondary.dark}
-      borderRadius={1}
-      px={3}
-      py={2}
-      flex={1}
-    >
+    <div className="bg-dark-gray-500 px-6 py-4 rounded-md flex-1 flex flex-col sm:flex-row items-center justify-between">
       <Stack direction="row" spacing={1}>
         <Avatar
           src={user?.profile?.avatar || ''}
@@ -108,7 +98,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
           <TbEye size={16} color={theme.palette.success.main} />
         </IconButton>
       </Stack>
-    </Stack>
+    </div>
   )
 }
 
