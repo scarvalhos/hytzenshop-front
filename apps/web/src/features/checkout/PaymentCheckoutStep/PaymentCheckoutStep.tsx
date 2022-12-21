@@ -109,19 +109,13 @@ export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
             },
           },
           notification_url:
-            'https://hytzen-shop-api.herokuapp.com/api/checkout/payment/webhooks',
+            'https://api.hytzen.com/api/checkout/payment/webhooks',
         },
         callback: paymentMethodResponse,
       })
     },
 
-    [
-      createPayment,
-      paymentMethod,
-      paymentMethodResponse,
-      totalAmount,
-      totalQuantity,
-    ]
+    [createPayment, paymentMethod, paymentMethodResponse, totalQuantity]
   )
 
   React.useLayoutEffect(() => {

@@ -151,7 +151,7 @@ export const mountCreditCardForm = ({
               },
 
               notification_url:
-                'https://hytzen-shop-api.herokuapp.com/api/checkout/payment/webhooks',
+                'https://api.hytzen.com/api/checkout/payment/webhooks',
             },
             callback: handleResponse,
           })
