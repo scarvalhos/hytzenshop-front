@@ -12,6 +12,7 @@ import TabsFilters from '@components/TabsFilters'
 import Slider from '@components/Slider'
 import React from 'react'
 import Head from 'next/head'
+import { socket } from '@services/socket'
 
 interface PaginationStateProps {
   page: number
@@ -28,6 +29,10 @@ const Home: NextPage = () => {
 
   const { categoriesTabs } = useConfigTypes()
   const { announcement } = useConfig()
+
+  socket.on('Connection', (arg) => {
+    console.log(arg, 'Connection')
+  })
 
   const {
     getProducts: { data, isLoading },
