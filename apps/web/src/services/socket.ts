@@ -5,7 +5,12 @@ const websocketHost = process.env.NEXT_PUBLIC_WEBSOCKET_HOST || 'localhost'
 const websocketProtocol = process.env.NEXT_PUBLIC_WEBSOCKET_PROTOCOL || 'ws'
 
 export const webSocketUriDev = `${websocketProtocol}://${websocketHost}:${websocketPort}`
-export const webSocketUri = `${websocketProtocol}://hytzen-shop-api.herokuapp.com/`
+export const webSocketUriPro = `${websocketProtocol}://${websocketHost}`
+
+const webSocketUri =
+  process.env.NEXT_PUBLIC_ENV_TYPE === 'development'
+    ? webSocketUriDev
+    : webSocketUriPro
 
 export const socket = io(webSocketUri, {
   transports: ['websocket'],
