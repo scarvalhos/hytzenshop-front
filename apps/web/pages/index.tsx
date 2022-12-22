@@ -5,6 +5,7 @@ import { useProducts } from '@hooks/useProducts'
 import { Pagination } from '@components/Pagination'
 import { useConfig } from '@contexts/ConfigContext'
 import { NextPage } from 'next'
+import { socket } from '@services/socket'
 
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection/ProductSection'
@@ -12,7 +13,6 @@ import TabsFilters from '@components/TabsFilters'
 import Slider from '@components/Slider'
 import React from 'react'
 import Head from 'next/head'
-import { socket } from '@services/socket'
 
 interface PaginationStateProps {
   page: number
@@ -30,9 +30,13 @@ const Home: NextPage = () => {
   const { categoriesTabs } = useConfigTypes()
   const { announcement } = useConfig()
 
-  socket.on('Connection', (arg) => {
-    console.log(arg, 'Connection')
-  })
+  const call = useDebounceCallback((arg) => console.log(arg, 'Connection'))
+
+  React.useEffect(() => {
+    socket.on('Connection', (arg) => {
+      call(arg)
+    })
+  }, [])
 
   const {
     getProducts: { data, isLoading },

@@ -1,8 +1,9 @@
 import { PaymentStatus, PaymentWebhookResponse } from '@hytzenshop/types'
+import { useDebounceCallback } from '@react-hook/debounce'
 import { IoIosArrowForward } from 'react-icons/io'
 import { Button, Icons } from '@luma/ui'
-import { useFetchers } from '@hooks/useFetchers'
 import { StepperBar } from '@core'
+import { useOrders } from '@hooks/useOrders'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
 import { socket } from '@services/socket'
@@ -30,8 +31,8 @@ const CheckoutStepper = () => {
   const [activeStep, setActiveStep] = React.useState(0)
   const [paymentStatus, setPaymentStatus] = React.useState<PaymentStatus>()
 
+  const { updateOrderStatus } = useOrders({})
   const { shipping, cart } = useCart()
-  const { updateOrder } = useFetchers()
   const { user } = useAuth()
 
   const steps = React.useMemo(() => {
@@ -108,22 +109,34 @@ const CheckoutStepper = () => {
         summaryButtonTitle="Próximo passo"
       />
     ),
-    3: <PaymentCheckoutStep checkoutNextStep={handleSetActiveStep} />,
+    3: (
+      <PaymentCheckoutStep
+        checkoutNextStep={handleSetActiveStep}
+        paymentStatus={paymentStatus}
+      />
+    ),
     4: <PaymentConfirmationStep paymentStatus={paymentStatus} />,
   }
 
-  if (paymentStatus !== 'approved') {
-    socket.on('update.payment', ({ data }: PaymentWebhookResponse) => {
-      setPaymentStatus(data.status)
-      updateOrder(data.status, data.id)
-    })
-  }
+  const call = useDebounceCallback(({ data }: PaymentWebhookResponse) => {
+    console.log('Checkout Stepper', data.status)
+    setPaymentStatus(data.status)
+    updateOrderStatus({ status: data.status, mpPaymentId: data.id })
+  })
 
-  //   React.useEffect(() => {
-  //     if (paymentStatus === 'approved') {
-  //       setTimeout(() => handleSetActiveStep(paymentStatus), 2000)
-  //     }
-  //   }, [handleSetActiveStep, paymentStatus])
+  React.useEffect(() => {
+    if (paymentStatus !== 'approved') {
+      socket.on('update.payment', ({ data }: PaymentWebhookResponse) => {
+        call({ data })
+      })
+    }
+  }, [paymentStatus, call])
+
+  React.useEffect(() => {
+    if (paymentStatus === 'approved' && activeStep === 2) {
+      setTimeout(() => handleSetActiveStep(), 2000)
+    }
+  }, [handleSetActiveStep, paymentStatus, activeStep])
 
   if (!cart?.products) {
     return (

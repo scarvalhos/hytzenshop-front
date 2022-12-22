@@ -9,13 +9,21 @@ import {
   TbTruckDelivery,
 } from 'react-icons/tb'
 
+import {
+  Order as IOrder,
+  Order,
+  PaymentWebhookResponse,
+} from '@hytzenshop/types'
+
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { DivideY, CopyToClipboard } from '@luma/ui'
-import { Order as IOrder, Order } from '@hytzenshop/types'
-import { c, date, money } from '@hytzenshop/helpers'
+import { useDebounceCallback } from '@react-hook/debounce'
 import { Image, StepperBar } from '@core'
+import { c, date, money } from '@hytzenshop/helpers'
 import { useRouter } from 'next/router'
+import { useOrders } from '@hooks/useOrders'
 import { useOrder } from '../Order/Order.hook'
+import { socket } from '@services/socket'
 import { api } from '@services/apiClient'
 
 import OrderedProductPreview from '../OrderedProductPreview'
@@ -48,6 +56,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
     }
   ) as UseQueryResult<any, unknown>
 
+  const { updateOrderStatus } = useOrders({ order: order?.id })
   const { statusLabel, statusColor } = useOrder(order || ({} as Order))
   const { back } = useRouter()
 
@@ -72,6 +81,19 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
 
     return icons
   }, [])
+
+  const call = useDebounceCallback(({ data }: PaymentWebhookResponse) => {
+    console.log('Order Details', data.status)
+    updateOrderStatus({ mpPaymentId: data.id, status: data.status })
+  })
+
+  React.useEffect(() => {
+    if (order?.status !== 'approved') {
+      socket.on('update.payment', ({ data }: PaymentWebhookResponse) => {
+        call({ data })
+      })
+    }
+  }, [call])
 
   return (
     <div className="relative">
@@ -223,16 +245,16 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                 </a>
               ) : null}
 
-              {order?.status === 'approved' ? (
+              {order?.status !== 'pending' ? (
                 <a
-                  href="/icons/google.png"
-                  download="/icons/google.png"
+                  href={`https://www.mercadopago.com.br/money-out/transfer/api/receipt/pix_pdf/${order?.mpPaymentId}/pix_account/pix_payment.pdf`}
+                  download={`https://www.mercadopago.com.br/money-out/transfer/api/receipt/pix_pdf/${order?.mpPaymentId}/pix_account/pix_payment.pdf`}
                   target="_blank"
                   rel="noreferrer"
                 >
                   <span className="flex flex-row space-x-2 text-success-300">
                     <TbDownload />
-                    <p>Ver nota fiscal</p>
+                    <p>Ver comprovante</p>
                   </span>
                 </a>
               ) : null}

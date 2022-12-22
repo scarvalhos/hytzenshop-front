@@ -22,10 +22,12 @@ export interface PaymentResponseProps {
 
 interface PaymentStepProps {
   checkoutNextStep: (paymentStatus?: PaymentStatus) => void
+  paymentStatus?: PaymentStatus
 }
 
 export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
   checkoutNextStep,
+  paymentStatus,
 }) => {
   const [loading, setLoading] = React.useState(false)
   const [radioValue, setRadioValue] = React.useState<RadioValue | ''>('')
@@ -205,6 +207,7 @@ export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
           }}
           watch={watch}
           errors={errors}
+          paymentStatus={paymentStatus}
         />
       )}
     </PaymentCheckoutStepLayout>

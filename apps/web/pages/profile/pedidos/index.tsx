@@ -20,7 +20,7 @@ const ProfileOrdersPage: NextPage = () => {
 
   const {
     getOrders: { data, isLoading },
-  } = useOrders(page, limit, undefined, 'createdAt', 'desc')
+  } = useOrders({ page, limit, sort: 'createdAt', order: 'desc' })
 
   return (
     <ProfileLayout>

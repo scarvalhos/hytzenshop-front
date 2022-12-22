@@ -18,7 +18,7 @@ const Order: React.FC<OrderProps> = ({ order }) => {
     useOrder(order)
 
   return (
-    <div className="grid grid-cols-6 relative rounded-md bg-dark-gray-500 bg-opacity-70 px-6 py-4 hover:before:content-[''] hover:before:rounded-l-lg hover:before:w-0.5 hover:before:h-[100%] hover:before:bg-success-300 hover:before:absolute hover:before:bottom-0 hover:before:left-0 transition-all">
+    <div className="grid grid-cols-6 relative rounded-md bg-dark-gray-500    bg-opacity-70 px-6 py-4 hover:before:content-[''] hover:before:rounded-l-lg hover:before:w-0.5 hover:before:h-[100%] hover:before:bg-success-300 hover:before:absolute hover:before:bottom-0 hover:before:left-0 transition-all">
       {md && (
         <div className="overflow-hidden text-ellipsis whitespace-nowrap text-left space-y-1">
           <p className="text-sm">Data do pedido</p>

@@ -1,5 +1,13 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { OrderGetAllDto } from '@hytzenshop/types'
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseQueryResult,
+} from '@tanstack/react-query'
+
+import { OrderGetAllDto, OrderGetDto, PaymentStatus } from '@hytzenshop/types'
+import { defaultToastError } from '@hytzenshop/helpers'
+import { toast } from 'react-toastify'
 import { api } from '@services/apiClient'
 
 const getOrdersList = async (
@@ -22,13 +30,33 @@ const getOrdersList = async (
   return data
 }
 
-export function useOrders(
-  page?: number,
-  limit?: number,
-  filter?: string,
-  sort?: string,
+export const updateOrderStatus = async ({
+  mpPaymentId,
+  status,
+}: {
+  status: PaymentStatus
+  mpPaymentId: string
+}) => {
+  return api
+    .put<OrderGetDto>(`/orders/${mpPaymentId}/${status}`)
+    .then(({ data }) => data)
+}
+
+export function useOrders({
+  filter,
+  limit,
+  order,
+  page,
+  sort,
+}: {
+  page?: number
+  limit?: number
+  filter?: string
+  sort?: string
   order?: string
-) {
+}) {
+  const queryClient = useQueryClient()
+
   const getOrders = useQuery(
     ['orders', page, filter],
     () => getOrdersList(page || 1, limit || 10, filter, sort, order),
@@ -37,7 +65,17 @@ export function useOrders(
     }
   ) as UseQueryResult<OrderGetAllDto, unknown>
 
+  const updateOrderStatusMutation = useMutation(updateOrderStatus, {
+    onSuccess: (data) => {
+      toast.success(data.message)
+      queryClient.invalidateQueries(['order', order])
+      queryClient.invalidateQueries(['orders'])
+    },
+    onError: defaultToastError,
+  })
+
   return {
     getOrders,
+    updateOrderStatus: updateOrderStatusMutation.mutate,
   }
 }

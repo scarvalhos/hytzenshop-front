@@ -56,7 +56,6 @@ const RegisterFormSection: React.FC<RegisterFormSectionProps> = ({
     [createUser, push, query.backToCheckout]
   )
 
-  console.log(query)
   return (
     <div
       className={c(

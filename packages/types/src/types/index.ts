@@ -21,6 +21,13 @@ export type OrderStatus =
   | 'processing'
   | 'sending'
   | 'delivered'
+  | 'cancelled'
+  | 'authorized'
+  | 'in_process'
+  | 'in_mediation'
+  | 'rejected'
+  | 'refunded'
+  | 'charged_back'
 
 export interface FileRecord {
   _id: string
@@ -203,7 +210,13 @@ export const statusOrders = [
   'processing',
   'sending',
   'delivered',
-  'canceled',
+  'cancelled',
+  'authorized',
+  'in_process',
+  'in_mediation',
+  'rejected',
+  'refunded',
+  'charged_back',
 ] as const
 
 export type StatusOrders = typeof statusOrders[number]
@@ -214,7 +227,13 @@ export const displayStatusOrders: Record<StatusOrders, string> = {
   processing: 'Processando',
   sending: 'Enviando',
   delivered: 'Entregue',
-  canceled: 'Cancelado',
+  cancelled: 'Cancelado',
+  authorized: 'Autorizado',
+  in_process: 'Processando',
+  rejected: 'Recusado',
+  refunded: 'Devolvido',
+  charged_back: 'Cobrado de volta',
+  in_mediation: 'Em mediação',
 }
 
 export const statusOrdersColor = (s: StatusOrders) => {
@@ -234,7 +253,7 @@ export const statusOrdersColor = (s: StatusOrders) => {
     case 'delivered':
       return theme.colors.success[300]
 
-    case 'canceled':
+    case 'cancelled':
       return theme.colors.danger[300]
 
     default:

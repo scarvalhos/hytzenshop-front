@@ -1,6 +1,6 @@
 import * as Input from '@components/Input'
 
-import { RadioValue } from '@hytzenshop/types'
+import { PaymentStatus, RadioValue } from '@hytzenshop/types'
 
 import {
   UseFormRegister,
@@ -25,6 +25,7 @@ interface PaymentFormProps {
   control: Control<FieldValues, unknown>
   watch: UseFormWatch<FieldValues>
   paymentResponse: any
+  paymentStatus?: PaymentStatus
   setOpenModal: (
     value: React.SetStateAction<{
       pix: boolean
@@ -49,6 +50,7 @@ const PaymentFormSection: React.FC<PaymentFormProps> = React.forwardRef(
       setOpenModal,
       errors,
       watch,
+      paymentStatus,
     },
     _ref
   ) => {
@@ -59,6 +61,7 @@ const PaymentFormSection: React.FC<PaymentFormProps> = React.forwardRef(
             open={openModal.pix}
             onClose={() => setOpenModal({ boleto: false, pix: false })}
             paymentResponse={paymentResponse}
+            paymentStatus={paymentStatus}
           />
         )}
 

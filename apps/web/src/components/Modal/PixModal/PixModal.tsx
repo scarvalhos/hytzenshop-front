@@ -1,6 +1,5 @@
-import { PaymentStatus, PaymentWebhookResponse } from '@hytzenshop/types'
 import { TbCheck, TbCircleCheck, TbCopy } from 'react-icons/tb'
-import { socket } from '@services/socket'
+import { PaymentStatus } from '@hytzenshop/types'
 
 import BaseModal, { BaseModalProps } from '../BaseModal/BaseModal'
 import Image from 'next/image'
@@ -9,6 +8,7 @@ import copy from 'copy-to-clipboard'
 
 export interface PixModalProps extends BaseModalProps {
   paymentResponse: any
+  paymentStatus?: PaymentStatus
 }
 
 const PixModal: React.FC<PixModalProps> = ({
@@ -17,8 +17,8 @@ const PixModal: React.FC<PixModalProps> = ({
   onClose,
   renderActions,
   paymentResponse,
+  paymentStatus,
 }) => {
-  const [paymentStatus, setPaymentStatus] = React.useState<PaymentStatus>()
   const [copied, setCopied] = React.useState(false)
   const timer = React.useRef<NodeJS.Timeout>()
 
@@ -36,10 +36,6 @@ const PixModal: React.FC<PixModalProps> = ({
       }
     }
   }, [copied])
-
-  socket.on('update.payment', ({ data }: PaymentWebhookResponse) => {
-    setPaymentStatus(data.status)
-  })
 
   return (
     <BaseModal

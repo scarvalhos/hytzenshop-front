@@ -5,16 +5,14 @@ import {
   paymentMethodsMessage,
   Order,
   OrderStatus,
-  PaymentStatus,
   ProductGetDto,
   OrderGetDto,
 } from '@hytzenshop/types'
 
-import { PaymentResponseProps } from '@features/checkout/PaymentCheckoutStep/PaymentCheckoutStep'
 import { defaultToastError, numtostr } from '@hytzenshop/helpers'
+import { PaymentResponseProps } from '@features/checkout/PaymentCheckoutStep/PaymentCheckoutStep'
 import { useCart } from '@contexts/CartContext'
 import { useAuth } from '@contexts/AuthContext'
-import { toast } from 'react-toastify'
 import { api } from '@services/apiClient'
 
 export interface Payment {
@@ -78,21 +76,6 @@ export const useFetchers = () => {
     [cart.products, resetCart, setShipping, shipping, totalAmount, user]
   )
 
-  const updateOrder = React.useCallback(
-    async (status: PaymentStatus, mpPaymentId: string) => {
-      if (!user) return
-
-      try {
-        return api
-          .put<OrderGetDto>(`/orders/${mpPaymentId}/${status}`)
-          .then(({ data }) => toast(data.message))
-      } catch (error) {
-        return defaultToastError(error)
-      }
-    },
-    [user]
-  )
-
   const createPayment = React.useCallback(
     async ({ cardFormData, callback }: CreatePaymentProps) => {
       try {
@@ -146,7 +129,6 @@ export const useFetchers = () => {
   return {
     createPayment,
     createOrder,
-    updateOrder,
     getProductsFromOrder,
   }
 }
