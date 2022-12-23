@@ -5,7 +5,7 @@ import { ProductGetDto, CartProduct } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { money } from '@hytzenshop/helpers'
 import { Link } from '@core/Link'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 import Image from 'next/image'
 

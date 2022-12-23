@@ -3,10 +3,10 @@ import React from 'react'
 
 import { CepResponse, ShippingSimulationResponse } from '@hytzenshop/types'
 import { c, date, money } from '@hytzenshop/helpers'
+import { BrasilAPI } from 'brasilapi'
 import { TbLoader } from 'react-icons/tb'
 import { Image } from '@core'
-import { api } from '@services/apiClient'
-import { BrasilAPI } from 'brasilapi'
+import { api } from '@services/api'
 
 export interface ShippingSimulationModalProps extends BaseModalProps {
   cep: string

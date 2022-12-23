@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { defaultToastError } from '@hytzenshop/helpers'
 import { v4 as UUID } from 'uuid'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 import fileSize from 'filesize'
 

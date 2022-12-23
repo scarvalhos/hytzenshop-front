@@ -13,7 +13,7 @@ import { defaultToastError, numtostr } from '@hytzenshop/helpers'
 import { PaymentResponseProps } from '@features/checkout/PaymentCheckoutStep/PaymentCheckoutStep'
 import { useCart } from '@contexts/CartContext'
 import { useAuth } from '@contexts/AuthContext'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 export interface Payment {
   token?: string

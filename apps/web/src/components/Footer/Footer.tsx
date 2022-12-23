@@ -6,7 +6,7 @@ import { useBreakpoint } from '@hytzenshop/hooks'
 import { Field } from '@components/Input'
 import { toast } from 'react-toastify'
 import { Link } from '@core'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 import {
   TbArrowRight,

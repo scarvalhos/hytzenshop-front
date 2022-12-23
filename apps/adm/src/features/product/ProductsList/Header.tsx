@@ -2,11 +2,11 @@ import * as React from 'react'
 import * as Input from '@core/Input'
 
 import { CircularProgress, Stack, Typography, useTheme } from '@mui/material'
-import { useDebounceCallback } from '@react-hook/debounce'
+import { TbCirclePlus, TbDownload } from 'react-icons/tb'
 import { date, makePrismaWhere } from '@hytzenshop/helpers'
+import { useDebounceCallback } from '@react-hook/debounce'
 import { useConfigTypes } from '@utils/types/config'
 import { useNewProduct } from '@hooks/useNewProduct'
-import { TbCirclePlus, TbFileExport } from 'react-icons/tb'
 import { useForm } from 'react-hook-form'
 import { Product } from '@hytzenshop/types'
 import { Button } from '@luma/ui'
@@ -108,7 +108,7 @@ export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
               })
             }
           >
-            <TbFileExport className="sm:absolute sm:left-4" />
+            <TbDownload className="sm:absolute sm:left-4" />
             <span className="max-sm:hidden">Exportar</span>
           </Button>
 

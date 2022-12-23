@@ -11,9 +11,6 @@ import Divide from '@core/Divide'
 import Head from 'next/head'
 
 const Settings: NextPage = () => {
-  // const theme = useTheme()
-  // const md = useMediaQuery(theme.breakpoints.down('md'))
-
   return (
     <>
       <NextSeo title="Configurações" />

@@ -11,7 +11,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useDebounceCallback } from '@react-hook/debounce'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 interface ConfigContextType {
   categories?: Category[]

@@ -4,6 +4,7 @@ import { withSSRAuth } from '@hocs/withSSRAuth'
 import { Pagination } from '@components/Pagination'
 import { useOrders } from '@hooks/useOrders'
 import { NextPage } from 'next'
+import { useAuth } from '@contexts/AuthContext'
 import { NextSeo } from 'next-seo'
 import { Icons } from '@luma/ui'
 
@@ -14,13 +15,25 @@ import Button from '@components/Button'
 import React from 'react'
 
 const ProfileOrdersPage: NextPage = () => {
-  const [page, setPage] = React.useState(1)
+  const { user } = useAuth()
 
-  const limit = 10
+  const [listParams, setListParams] = React.useState({
+    page: 1,
+    limit: 10,
+    sort: 'createdAt',
+    order: 'desc',
+  })
+
+  const setPage = (page: number) => {
+    setListParams({
+      ...listParams,
+      page,
+    })
+  }
 
   const {
     getOrders: { data, isLoading },
-  } = useOrders({ page, limit, sort: 'createdAt', order: 'desc' })
+  } = useOrders({ ...listParams, userId: user?.id })
 
   return (
     <ProfileLayout>
@@ -63,10 +76,10 @@ const ProfileOrdersPage: NextPage = () => {
 
         {!isLoading && data?.data.count ? (
           <Pagination
-            currentPage={page}
+            currentPage={listParams.page}
             totalCountOfRegisters={data?.data.count || 0}
             onPageChange={setPage}
-            registersPerPage={limit}
+            registersPerPage={listParams.limit}
           />
         ) : null}
       </div>

@@ -5,7 +5,7 @@ import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { Link, Image } from '@core'
 import { money } from '@hytzenshop/helpers'
 import { Chip } from '@luma/ui'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 interface OrderedProductPreviewProps {
   product: CartProduct

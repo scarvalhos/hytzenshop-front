@@ -2,9 +2,7 @@ import * as React from 'react'
 
 import { ProductProvider } from '@contexts/NewProductContext'
 import { NewProductForm } from '@features/product/NewProductForm'
-import { setUpAPIClient } from '@services/api'
 import { withSSRAuth } from '@hocs/withSSRAuth'
-import { UserGetDto } from '@hytzenshop/types'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 
@@ -28,16 +26,9 @@ NewProduct.getLayout = (page: ReactElement) => {
 export default NewProduct
 
 export const getServerSideProps = withSSRAuth(
-  async (ctx) => {
-    const apiClient = setUpAPIClient(ctx)
-    const {
-      data: { user },
-    } = await apiClient.get<UserGetDto>('/auth/me')
-
+  async () => {
     return {
-      props: {
-        user,
-      },
+      props: {},
     }
   },
   {

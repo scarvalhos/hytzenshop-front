@@ -1,8 +1,16 @@
+import {
+  UseMutateAsyncFunction,
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseQueryResult,
+} from '@tanstack/react-query'
+
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 import Router, { useRouter } from 'next/router'
 import React from 'react'
@@ -17,119 +25,168 @@ type AuthProviderProps = {
 type AuthContextData = {
   isAuthenticated: boolean
   user: User | null
-  signIn: (credentials: SignInCredentials) => Promise<void>
+  signIn: UseMutateAsyncFunction<
+    {
+      data: UserGetDto
+      stayConnected: boolean
+      checkoutNextStep: (() => void) | undefined
+    },
+    any,
+    SignInCredentials,
+    unknown
+  >
   signOut: () => void
-  updateUser: (user: User) => Promise<void>
-  createUser({
-    username,
-    email,
-    password,
-  }: CreateUserCredentials): Promise<void>
+  updateUser: UseMutateAsyncFunction<UserGetDto, any, User, unknown>
+  createUser: UseMutateAsyncFunction<
+    {
+      data: UserGetDto
+      username: string
+      email: string
+      password: string
+    },
+    any,
+    CreateUserCredentials,
+    unknown
+  >
 }
 
 export const AuthContext = React.createContext({} as AuthContextData)
 
 let authChannel: BroadcastChannel
 
-export const signOut = () => {
-  destroyCookie(undefined, 'hytzenshop.token', { path: '/' })
-  authChannel.postMessage('signOut')
-  localStorage.removeItem('hytzenshop.stayConnected')
+// Functions
 
-  Router.push('/')
+const getMe = async () => {
+  return api.get<UserGetDto>('/auth/me').then(({ data }) => data)
 }
 
+const signIn = async ({
+  username,
+  password,
+  stayConnected = true,
+  checkoutNextStep,
+}: SignInCredentials) => {
+  const data = await api
+    .post<UserGetDto>('/auth/login', {
+      username,
+      password,
+    })
+    .then(({ data }) => data)
+
+  return {
+    data,
+    stayConnected,
+    checkoutNextStep,
+  }
+}
+
+const createUser = async ({
+  username,
+  email,
+  password,
+}: CreateUserCredentials) => {
+  const data = await api
+    .post<UserGetDto>('/auth/register', {
+      username,
+      email,
+      password,
+    })
+    .then(({ data }) => data)
+
+  return {
+    data,
+    username,
+    email,
+    password,
+  }
+}
+
+const updateUser = async (user: User) => {
+  return api.put<UserGetDto>(`/users/${user.id}`, user).then(({ data }) => data)
+}
+
+// Provider
+
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [user, setUser] = React.useState<User | null>(null)
-  const isAuthenticated = !!user
+  const [token, setToken] = React.useState<string | null>(null)
+  const isAuthenticated = React.useMemo(() => !!token, [token])
+
+  const queryClient = useQueryClient()
+  const queryKey = React.useMemo(() => ['me'], [])
 
   const { asPath } = useRouter()
 
-  async function signIn({
-    username,
-    password,
-    stayConnected = true,
-    checkoutNextStep,
-  }: SignInCredentials) {
-    try {
-      const response = await api.post<UserGetDto>('/auth/login', {
-        username,
-        password,
-      })
+  const meQuery = useQuery(queryKey, () => getMe(), {
+    staleTime: 1000 * 60 * 10, // 10 minutes
+  }) as UseQueryResult<UserGetDto, unknown>
 
-      const data: User = response.data.user
+  // SignIn
 
-      setCookie(undefined, 'hytzenshop.token', data.accessToken, {
+  const signInMutation = useMutation(signIn, {
+    onSuccess: ({ checkoutNextStep, data, stayConnected }) => {
+      setToken(data.user.accessToken)
+      queryClient.fetchQuery(queryKey)
+
+      api.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${data.user.accessToken}`
+
+      setCookie(undefined, 'hytzenshop.token', data.user.accessToken, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
         path: '/', // Whitch paths in my app has access to this cookie
       })
 
-      if (stayConnected) {
-        localStorage.setItem('hytzenshop.stayConnected', 'stayConnected')
-      }
-
-      setUser(data)
-
-      api.defaults.headers.common[
-        'Authorization'
-      ] = `Bearer ${data.accessToken}`
-
       authChannel.postMessage('signIn')
 
-      if (checkoutNextStep) {
-        return checkoutNextStep()
-      } else {
-        Router.push('/profile')
-      }
-    } catch (error: any) {
-      return defaultToastError(error)
-    }
-  }
+      if (stayConnected)
+        localStorage.setItem('hytzenshop.stayConnected', 'stayConnected')
 
-  const createUser = async ({
-    username,
-    email,
-    password,
-  }: CreateUserCredentials) => {
-    try {
-      await api.post<UserGetDto>('/auth/register', {
-        username,
-        email,
-        password,
-      })
+      if (checkoutNextStep) return checkoutNextStep()
 
-      signIn({
-        username: username,
-        password: password,
-      })
-    } catch (error) {
-      return defaultToastError(error)
-    }
-  }
+      return Router.push('/profile')
+    },
+    onError: defaultToastError,
+  })
+
+  // SignOut
 
   const signOut = React.useCallback(() => {
-    destroyCookie(null, 'hytzenshop.token', { path: '/' })
-    localStorage.removeItem('hytzenshop.stayConnected')
+    delete api.defaults.headers.common['Authorization']
 
-    setUser(null)
+    destroyCookie(null, 'hytzenshop.token', { path: '/' })
+    setToken(null)
+    queryClient.cancelQueries(queryKey)
+    queryClient.removeQueries(queryKey)
+
+    localStorage.removeItem('hytzenshop.stayConnected')
     authChannel.postMessage('signOut')
 
     Router.push('/')
-  }, [])
+  }, [queryClient, queryKey])
 
-  const updateUser = React.useCallback(async (user: User) => {
-    try {
-      return api.put<UserGetDto>(`/users/${user.id}`, user).then(({ data }) => {
-        toast.success(data.message)
+  // CreateUser
 
-        api.get<UserGetDto>('/auth/me').then(({ data }) => {
-          setUser(data.user)
-        })
+  const createUserMutation = useMutation(createUser, {
+    onSuccess: (data) => {
+      signInMutation.mutate({
+        username: data.username,
+        password: data.password,
       })
-    } catch (error: any) {
-      return defaultToastError(error)
-    }
-  }, [])
+    },
+    onError: defaultToastError,
+  })
+
+  // UpdateUser
+
+  const updateUserMutation = useMutation(updateUser, {
+    onSuccess: async (data) => {
+      queryClient.invalidateQueries(queryKey)
+      return toast.success(data.message)
+    },
+    onError: defaultToastError,
+  })
+
+  // Effects
 
   React.useEffect(() => {
     authChannel = new BroadcastChannel('auth')
@@ -137,32 +194,24 @@ export function AuthProvider({ children }: AuthProviderProps) {
     authChannel.onmessage = (message) => {
       switch (message.data) {
         case 'signOut':
+          delete api.defaults.headers.common['Authorization']
           destroyCookie(undefined, 'hytzenshop.token', { path: '/' })
           localStorage.removeItem('hytzenshop.stayConnected')
+          setToken(null)
+          queryClient.cancelQueries(queryKey)
+          queryClient.removeQueries(queryKey)
 
           Router.push('/')
           break
+
+        case 'signIn':
+          return Router.reload()
+
         default:
           break
       }
     }
   }, [asPath])
-
-  React.useEffect(() => {
-    const { 'hytzenshop.token': token } = parseCookies()
-
-    if (token) {
-      api
-        .get<UserGetDto>('/auth/me')
-        .then(({ data }) => {
-          setUser(data.user)
-        })
-        .catch(() => {
-          signOut()
-        })
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   React.useEffect(() => {
     if (window) {
@@ -178,9 +227,31 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }, [])
 
+  React.useEffect(() => {
+    const { 'hytzenshop.token': cookieToken } = parseCookies()
+    if (cookieToken) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${cookieToken}`
+
+      setToken(cookieToken)
+      setCookie(undefined, 'hytzenshop.token', cookieToken, {
+        maxAge: 60 * 60 * 24 * 30, // 30 days
+        path: '/', // Whitch paths in my app has access to this cookie
+      })
+
+      queryClient.invalidateQueries(queryKey)
+    }
+  }, [])
+
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, signIn, user, signOut, updateUser, createUser }}
+      value={{
+        isAuthenticated,
+        signIn: signInMutation.mutateAsync,
+        user: meQuery.data?.user || null,
+        signOut,
+        updateUser: updateUserMutation.mutateAsync,
+        createUser: createUserMutation.mutateAsync,
+      }}
     >
       {children}
     </AuthContext.Provider>

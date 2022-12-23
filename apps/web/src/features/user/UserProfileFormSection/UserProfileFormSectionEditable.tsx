@@ -6,7 +6,7 @@ import { CepResponse, User } from '@hytzenshop/types'
 import { TbCheck, TbX } from 'react-icons/tb'
 import { useAuth } from '@contexts/AuthContext'
 import { Loader } from '@luma/ui'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 import { c } from '@hytzenshop/helpers'
 
 import Button from '@components/Button'

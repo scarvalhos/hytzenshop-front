@@ -14,9 +14,9 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ renderInHeader, renderAfterLogo }) => {
-  const { isAuthenticated } = useAuth()
   const { totalQuantity } = useCart()
   const { wishlist } = useWishlist()
+  const { user } = useAuth()
 
   return (
     <GlassContainer className="px-8 sm:px-16 fixed top-0 left-0 right-0 z-40 flex flex-row items-center justify-between border-b border-opacity-20 border-light-gray-400">
@@ -53,7 +53,7 @@ const Header: React.FC<HeaderProps> = ({ renderInHeader, renderAfterLogo }) => {
           </Badge>
         </Link>
 
-        {isAuthenticated ? (
+        {user?.username ? (
           <ProfilePopover />
         ) : (
           <Link href="/auth" passHref>

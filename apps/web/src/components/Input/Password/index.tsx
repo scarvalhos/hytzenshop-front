@@ -37,13 +37,16 @@ const Password: React.FC<Password> = ({
       fieldVariant="password"
       error={error}
       renderInsideInput={
-        <button className="mr-3" onClick={handleSeePassword}>
+        <div
+          className="mr-1 px-3 cursor-pointer rounded-full flex items-center justify-center"
+          onClick={handleSeePassword}
+        >
           {seePassword ? (
             <TbEye color="inherit" />
           ) : (
             <TbEyeOff color="inherit" />
           )}
-        </button>
+        </div>
       }
     />
   )

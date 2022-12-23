@@ -1,6 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { ProductGetAllDto } from '@hytzenshop/types'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 export const getProductList = async (
   page: number,

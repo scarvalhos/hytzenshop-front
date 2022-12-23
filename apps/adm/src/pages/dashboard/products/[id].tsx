@@ -2,15 +2,16 @@ import * as React from 'react'
 
 import { Chip, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
 import { ProductGetDto, UserGetDto, Product } from '@hytzenshop/types'
-import { ReactMinimalGallery } from 'react-minimal-gallery'
-import { setUpAPIClient } from '@services/api'
-import { withSSRAuth } from '@hocs/withSSRAuth'
 import { TbArrowLeft, TbPencil } from 'react-icons/tb'
+import { ReactMinimalGallery } from 'react-minimal-gallery'
+import { parseCookies } from 'nookies'
+import { withSSRAuth } from '@hocs/withSSRAuth'
 import { useRouter } from 'next/router'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { Button } from '@core/Button'
 import { money } from '@hytzenshop/helpers'
+import { api } from '@services/api'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
 
@@ -157,17 +158,21 @@ export default ProductDetails
 
 export const getServerSideProps = withSSRAuth(
   async (ctx) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore-error
-    const apiClient = setUpAPIClient(ctx)
+    const cookies = parseCookies(ctx)
+
+    if (cookies) {
+      api.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${cookies['hytzenshopadm.token']}`
+    }
 
     const {
       data: { user },
-    } = await apiClient.get<UserGetDto>('/auth/me')
+    } = await api.get<UserGetDto>('/auth/me')
 
     const {
       data: { product },
-    } = await apiClient.get<ProductGetDto>(`/products/${ctx.params?.id}`)
+    } = await api.get<ProductGetDto>(`/products/${ctx.params?.id}`)
 
     return {
       props: {

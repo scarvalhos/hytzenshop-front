@@ -10,13 +10,13 @@ import {
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { DivideLine, Icons } from '@luma/ui'
 import { withAuthValidate } from '@hocs/withAuthValidate'
-import { setUpAPIClient } from '@services/api'
 import { getProductList } from '@hooks/useProducts'
 import { CartList } from '@features/cart/CartList'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
+import { api } from '@services/api'
 
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'
@@ -87,7 +87,13 @@ const CartPage: NextPage = () => {
 export default CartPage
 
 export const getServerSideProps = withAuthValidate(async (ctx) => {
-  const apiClient = setUpAPIClient(ctx)
+  const cookies = parseCookies(ctx)
+
+  if (cookies) {
+    api.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${cookies['hytzenshop.token']}`
+  }
 
   const { 'hytzenshop.token': token } = parseCookies(ctx)
   const { 'hytzenshop.cart': cartCookie } = parseCookies(ctx)
@@ -109,14 +115,14 @@ export const getServerSideProps = withAuthValidate(async (ctx) => {
   if (token) {
     const {
       data: { user },
-    } = await apiClient.get<UserGetDto>('/auth/me')
+    } = await api.get<UserGetDto>('/auth/me')
 
     const {
       data: { cart },
-    } = await apiClient.get<CartGetDto>(`/carts/${user.id}`)
+    } = await api.get<CartGetDto>(`/carts/${user.id}`)
 
     if (!cart && !cartCookie) {
-      const { data } = await apiClient.post('/carts', {
+      const { data } = await api.post('/carts', {
         userId: user.id,
         products: [],
       })
@@ -139,7 +145,7 @@ export const getServerSideProps = withAuthValidate(async (ctx) => {
     if (!cart && cartCookie) {
       const {
         data: { cart },
-      } = await apiClient.post<CartGetDto>('/carts', {
+      } = await api.post<CartGetDto>('/carts', {
         userId: user.id,
         products: JSON.parse(cartCookie).products.map(
           (product: CartProduct) => product.productId
@@ -162,7 +168,7 @@ export const getServerSideProps = withAuthValidate(async (ctx) => {
     }
 
     if (cart && cartCookie) {
-      await apiClient.put<CartGetDto>(`/carts/${cart.id}`, {
+      await api.put<CartGetDto>(`/carts/${cart.id}`, {
         userId: user.id,
         products: JSON.parse(cartCookie).products.map(
           (i: CartProduct) => i.productId

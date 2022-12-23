@@ -8,16 +8,28 @@ import {
 import { OrderGetAllDto, OrderGetDto, PaymentStatus } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
-const getOrdersList = async (
-  page: number,
-  limit: number,
-  filter?: string,
-  sort?: string,
+interface OrdersListParams {
+  page?: number
+  limit?: number
+  filter?: string
+  sort?: string
   order?: string
-): Promise<OrderGetAllDto> => {
-  const { data } = await api.get<OrderGetAllDto>('/orders', {
+  userId?: string
+}
+
+const getOrdersList = async ({
+  limit,
+  page,
+  filter,
+  order,
+  sort,
+  userId,
+}: OrdersListParams): Promise<OrderGetAllDto> => {
+  const url = userId ? `/orders/${userId}` : '/orders'
+
+  const { data } = await api.get<OrderGetAllDto>(url, {
     params: {
       page,
       limit,
@@ -48,18 +60,21 @@ export function useOrders({
   order,
   page,
   sort,
-}: {
-  page?: number
-  limit?: number
-  filter?: string
-  sort?: string
-  order?: string
-}) {
+  userId,
+}: OrdersListParams) {
   const queryClient = useQueryClient()
 
   const getOrders = useQuery(
-    ['orders', page, filter],
-    () => getOrdersList(page || 1, limit || 10, filter, sort, order),
+    ['orders', page, filter, userId],
+    () =>
+      getOrdersList({
+        limit,
+        page,
+        filter,
+        sort,
+        order,
+        userId,
+      }),
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     }

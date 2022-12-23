@@ -5,7 +5,7 @@ import { OrderGetDto } from '@hytzenshop/types'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 import ProfileLayout from '@layouts/ProfileLayout'
 

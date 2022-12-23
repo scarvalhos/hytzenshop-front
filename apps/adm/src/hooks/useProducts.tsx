@@ -8,7 +8,7 @@ import {
 import { ProductGetAllDto, ProductGetDto, Product } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 const getProductList = async (
   page: number,

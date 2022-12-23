@@ -24,7 +24,7 @@ import { useRouter } from 'next/router'
 import { useOrders } from '@hooks/useOrders'
 import { useOrder } from '../Order/Order.hook'
 import { socket } from '@services/socket'
-import { api } from '@services/apiClient'
+import { api } from '@services/api'
 
 import OrderedProductPreview from '../OrderedProductPreview'
 import InfoCard from './InfoCard'
