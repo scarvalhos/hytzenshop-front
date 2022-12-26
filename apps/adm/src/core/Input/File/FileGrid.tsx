@@ -58,12 +58,14 @@ export const FileGrid: React.FC<FileGridProps> = ({ files, onDelete }) => {
                 <Image
                   src={file.url}
                   alt={file.name}
-                  width="100%"
-                  height="100%"
-                  objectFit="cover"
-                  objectPosition="center"
+                  width={100}
+                  height={100}
                   style={{
                     borderRadius: '4px',
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
                   }}
                 />
               )}

@@ -40,12 +40,14 @@ export const FileList: React.FC<FileListProps> = ({
                 <Image
                   src={file.preview}
                   alt={file.name}
-                  width="40px"
-                  height="40px"
-                  objectFit="cover"
-                  objectPosition="center"
+                  width={40}
+                  height={40}
                   style={{
                     borderRadius: '4px',
+                    width: '40%',
+                    height: '40%',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
                   }}
                 />
               </Preview>
