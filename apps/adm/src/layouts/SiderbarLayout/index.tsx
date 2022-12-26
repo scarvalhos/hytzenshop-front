@@ -9,7 +9,7 @@ type SiderbarLayout = {
 }
 
 const SiderbarLayout: React.FC<SiderbarLayout> = ({ children }) => {
-  const [openSiderbar, setOpenSiderbar] = React.useState(true)
+  const [openSiderbar, setOpenSiderbar] = React.useState(false)
 
   const onDrawerOpen = React.useCallback(() => {
     setOpenSiderbar(true)

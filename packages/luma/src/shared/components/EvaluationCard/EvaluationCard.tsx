@@ -40,10 +40,11 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
             line: 3,
           })}
         </p>
+
         <EvaluationStars
           note={evaluation.note}
           show="note"
-          totalEvaluations={0}
+          totalEvaluations={1}
         />
       </div>
 
