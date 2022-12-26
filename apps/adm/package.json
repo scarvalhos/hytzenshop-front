@@ -48,7 +48,7 @@
     "react-icons": "^4.4.0",
     "react-imask": "^6.4.2",
     "react-lottie": "^1.2.3",
-    "react-minimal-gallery": "^1.2.1",
+    "react-minimal-gallery": "^1.2.2",
     "react-select": "^5.3.1",
     "react-toastify": "^9.0.5",
     "socket.io-client": "^4.5.1",
