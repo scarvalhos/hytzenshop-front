@@ -1,5 +1,7 @@
 import { IconButton, Stack, Typography, useTheme } from '@mui/material'
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import { Button, Tooltip } from '@luma/ui'
+import { useBreakpoint } from '@hytzenshop/hooks'
 import { useRouter } from 'next/router'
 
 import {
@@ -14,6 +16,7 @@ import {
   TbMessage,
   TbThumbUp,
   TbSettings,
+  TbMenu,
 } from 'react-icons/tb'
 
 import {
@@ -24,7 +27,6 @@ import {
   SubMenuTitle,
   Logo,
   LogoLink,
-  SiderbarCloseContainer,
   SubMenuClosedItem,
 } from './styles'
 
@@ -79,8 +81,8 @@ const linksMiddle = [
     Icon: () => <TbBell size={16} />,
   },
   {
-    title: 'Feedbacks',
-    path: '/dashboard/feedbacks',
+    title: 'Avaliações',
+    path: '/dashboard/evaluations',
     Icon: () => <TbThumbUp size={16} />,
   },
   {
@@ -106,6 +108,8 @@ export const Siderbar: React.FC<SiderbarProps> = ({
   const { push, pathname } = useRouter()
 
   const theme = useTheme()
+
+  const { sm } = useBreakpoint()
 
   return (
     <>
@@ -185,7 +189,7 @@ export const Siderbar: React.FC<SiderbarProps> = ({
           </Nav>
         </Container>
       ) : (
-        <SiderbarCloseContainer>
+        <div className="fixed top-0 left-0 bottom-0 flex flex-col justify-start items-center sm:bg-dark-gray-400 sm:border-r sm:border-r-dark-gray-200 z-[999]">
           <IconButton
             aria-label="open drawer"
             sx={{
@@ -204,55 +208,85 @@ export const Siderbar: React.FC<SiderbarProps> = ({
             }}
             onClick={onDrawerOpen}
             size="small"
+            className="max-sm:hidden"
           >
             <IoIosArrowForward size={14} color="inherit" />
           </IconButton>
 
-          <Stack my="1rem" p={2}>
-            <Logo href="/" passHref>
-              <LogoLink>
-                <Typography color="secondary.main" fontWeight="bold">
-                  H
-                </Typography>
-                <Typography color="text.primary">S </Typography>
-              </LogoLink>
-            </Logo>
-          </Stack>
+          <div className="flex items-center max-sm:space-x-2 p-4 max-sm:mt-2">
+            <Button
+              className="sm:hidden bg-dark-gray-500 p-2 ml-4"
+              rounded
+              onClick={onDrawerOpen}
+            >
+              <TbMenu size={16} />
+            </Button>
 
-          <SubMenu>
-            {linksTop.map((link) => (
-              <SubMenuClosedItem
-                key={link.title}
-                onClick={() => push(link.path)}
-                isActive={pathname.startsWith(link.path)}
-              >
-                <link.Icon />
-              </SubMenuClosedItem>
-            ))}
-          </SubMenu>
-          <SubMenu>
-            {linksMiddle.map((link) => (
-              <SubMenuClosedItem
-                key={link.title}
-                onClick={() => push(link.path)}
-                isActive={pathname.startsWith(link.path)}
-              >
-                <link.Icon />
-              </SubMenuClosedItem>
-            ))}
-          </SubMenu>
-          <SubMenu>
-            {linksBottom.map((link) => (
-              <SubMenuClosedItem
-                key={link.title}
-                onClick={() => push(link.path)}
-                isActive={pathname.startsWith(link.path)}
-              >
-                <link.Icon />
-              </SubMenuClosedItem>
-            ))}
-          </SubMenu>
-        </SiderbarCloseContainer>
+            <div className="flex items-center sm:mt-4">
+              {sm ? (
+                <>
+                  <Typography color="secondary.main" fontWeight="bold">
+                    H
+                  </Typography>
+                  <Typography color="text.primary">S </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography color="secondary.main" fontWeight="bold">
+                    Hero
+                  </Typography>
+                  <Typography color="text.primary">Shop </Typography>
+                  <Typography fontSize={12} ml={0.5} color="text.secondary">
+                    | ADM
+                  </Typography>
+                </>
+              )}
+            </div>
+          </div>
+
+          {sm ? (
+            <>
+              <SubMenu>
+                {linksTop.map((link) => (
+                  <Tooltip key={link.title} content={link.title}>
+                    <SubMenuClosedItem
+                      onClick={() => push(link.path)}
+                      isActive={pathname.startsWith(link.path)}
+                    >
+                      <link.Icon />
+                    </SubMenuClosedItem>
+                  </Tooltip>
+                ))}
+              </SubMenu>
+              <SubMenu>
+                {linksMiddle.map((link) => (
+                  <Tooltip key={link.title} content={link.title}>
+                    <SubMenuClosedItem
+                      key={link.title}
+                      onClick={() => push(link.path)}
+                      isActive={pathname.startsWith(link.path)}
+                    >
+                      <link.Icon />
+                    </SubMenuClosedItem>
+                  </Tooltip>
+                ))}
+              </SubMenu>
+              <SubMenu>
+                {linksBottom.map((link) => (
+                  <Tooltip key={link.title} content={link.title}>
+                    <SubMenuClosedItem
+                      key={link.title}
+                      onClick={() => push(link.path)}
+                      isActive={pathname.startsWith(link.path)}
+                    >
+                      <link.Icon />
+                    </SubMenuClosedItem>
+                  </Tooltip>
+                ))}
+              </SubMenu>
+            </>
+          ) : null}
+        </div>
       )}
     </>
   )

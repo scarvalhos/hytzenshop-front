@@ -4,7 +4,8 @@ const withTM = require('next-transpile-modules')([
     '@luma/ui',
     '@hytzenshop/hooks',
     '@hytzenshop/types',
-    '@hytzenshop/helpers'
+    '@hytzenshop/helpers',
+    '@hytzenshop/services'
 ])
 
 const nextConfig = {

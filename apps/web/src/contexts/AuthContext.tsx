@@ -10,7 +10,7 @@ import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 import Router, { useRouter } from 'next/router'
 import React from 'react'
@@ -143,7 +143,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       if (checkoutNextStep) return checkoutNextStep()
 
-      return Router.push('/profile')
+      return Router.push('/profile/dados-pessoais')
     },
     onError: defaultToastError,
   })
@@ -211,7 +211,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           break
       }
     }
-  }, [asPath])
+  }, [asPath, queryClient, queryKey])
 
   React.useEffect(() => {
     if (window) {
@@ -240,7 +240,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       queryClient.invalidateQueries(queryKey)
     }
-  }, [])
+  }, [queryClient, queryKey])
 
   return (
     <AuthContext.Provider

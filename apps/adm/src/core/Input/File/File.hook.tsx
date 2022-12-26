@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { defaultToastError } from '@hytzenshop/helpers'
 import { v4 as UUID } from 'uuid'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 import fileSize from 'filesize'
 
@@ -36,7 +36,7 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
         .post('/files', data, {
           onUploadProgress: (e) => {
             const progress = parseInt(
-              String(Math.round((e.loaded * 100) / e.total))
+              String(Math.round((e.loaded * 100) / (e.total || 0)))
             )
             return updateFile(
               uploadedFile.id,

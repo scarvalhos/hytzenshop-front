@@ -10,7 +10,7 @@ import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 import Router, { useRouter } from 'next/router'
 import React from 'react'
@@ -114,7 +114,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const queryClient = useQueryClient()
   const queryKey = React.useMemo(() => ['me'], [])
 
-  const { asPath } = useRouter()
+  const { asPath, query } = useRouter()
 
   const meQuery = useQuery(queryKey, () => getMe(), {
     staleTime: 1000 * 60 * 10, // 10 minutes
@@ -229,18 +229,27 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   React.useEffect(() => {
     const { 'hytzenshopadm.token': cookieToken } = parseCookies()
-    if (cookieToken) {
-      api.defaults.headers.common['Authorization'] = `Bearer ${cookieToken}`
+    const queryToken = query.token as string
 
-      setToken(cookieToken)
-      setCookie(undefined, 'hytzenshopadm.token', cookieToken, {
+    const savedToken = cookieToken ?? queryToken
+
+    if (savedToken) {
+      api.defaults.headers.common['Authorization'] = `Bearer ${savedToken}`
+
+      setToken(savedToken)
+
+      setCookie(undefined, 'hytzenshopadm.token', savedToken, {
         maxAge: 60 * 60 * 24 * 30, // 30 days
         path: '/', // Whitch paths in my app has access to this cookie
       })
 
       queryClient.invalidateQueries(queryKey)
     }
-  }, [])
+    if (queryToken) {
+      localStorage.setItem('hytzenshopadm.stayConnected', 'stayConnected')
+      Router.push('/dashboard')
+    }
+  }, [query.token])
 
   return (
     <AuthContext.Provider

@@ -2,33 +2,31 @@ import * as Input from '@components/Input'
 
 import { useProductPageSection } from './ProductPageSection.hook'
 import { ReactMinimalGallery } from 'react-minimal-gallery'
-import { useBreakpoint } from '@hytzenshop/hooks'
-import { DivideLine } from '@luma/ui'
+import { EvaluationStars } from '@luma/ui'
 import { c, money } from '@hytzenshop/helpers'
 import { TbSearch } from 'react-icons/tb'
 import { trucate } from '@core'
 import { Product } from '@hytzenshop/types'
 
+import ProductEvalutionQuestionsSection from '../ProductEvaluationQuestionsSection/ProductEvaluationQuestionsSection'
 import ProductPageSectionSkeleton from './ProductPageSectionSkeleton'
-import EvaluationStars from '@components/EvaluationStars'
+import ShippingSimulationModal from '@components/Modal/ShippingSimulationModal'
 import ProductSection from '@features/product/ProductSection'
 import IconModal from '@components/Modal/IconModal'
 import Button from '@components/Button'
 import React from 'react'
-import ShippingSimulationModal from '@components/Modal/ShippingSimulationModal'
 
-interface ProductPageSection {
+interface ProductPageSectionProps {
   product?: Product
   products?: Product[]
   loading?: boolean
 }
-const ProductPageSection: React.FC<ProductPageSection> = ({
+
+const ProductPageSection: React.FC<ProductPageSectionProps> = ({
   product,
   products,
   loading,
 }) => {
-  const { md } = useBreakpoint()
-
   const {
     control,
     errors,
@@ -43,6 +41,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
     onShippingSimulation,
     onShippingSimulationInputChange,
     shipping,
+    lg,
   } = useProductPageSection({ product })
 
   if (loading) return <ProductPageSectionSkeleton />
@@ -86,11 +85,11 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
 
       <div
         className={c(
-          'w-[100%] grid pt-20 space-x-8',
-          md ? 'grid-cols-[30%,1fr] px-16' : 'grid-cols-1 px-8'
+          'max-w-screen-2xl mx-auto grid pt-24 pb-8 space-x-8 px-8 md:px-16 ',
+          lg ? 'grid-cols-[30%,1fr]' : 'grid-cols-1'
         )}
       >
-        {md && (
+        {lg && (
           <ReactMinimalGallery
             images={images || []}
             width="100%"
@@ -101,7 +100,11 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
 
         <div className="space-y-4">
           <div className="flex flex-col items-start space-y-2">
-            <EvaluationStars />
+            <EvaluationStars
+              show="total"
+              note={product?.averageRating || 0}
+              totalEvaluations={product?.evaluation?.length || 0}
+            />
             <h2 className="text-2xl text-light-gray-100 font-semibold">
               {product?.title}
             </h2>
@@ -128,7 +131,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
             })}
           </p>
 
-          {!md && (
+          {!lg && (
             <ReactMinimalGallery
               images={images || []}
               width="100%"
@@ -169,7 +172,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
               variant="outlined"
               setValue={setValue}
               error={String(errors.size?.message || '')}
-              containerClassName="col-start-2 col-end-4 sm:col-end-3"
+              containerClassName="col-start-2 col-end-4 md:col-end-3"
               isFullWidth
               {...register('size')}
             />
@@ -180,7 +183,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
               label="Calcular Frete"
               control={control}
               variant="outlined"
-              containerClassName="col-start-1 col-end-4 sm:col-end-2"
+              containerClassName="col-start-1 col-end-4 md:col-end-2"
               isFullWidth
               renderAfter={
                 <Button
@@ -200,7 +203,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
           <div className={c('grid gap-2 grid-cols-3')}>
             <Button
               variant="filled"
-              className="col-start-1 col-end-4 sm:col-end-2 mt-4"
+              className="col-start-1 col-end-4 md:col-end-2 mt-4"
               onClick={handleSubmit(handleBuyNow)}
             >
               Comprar agora
@@ -208,7 +211,7 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
 
             <Button
               variant="outlined"
-              className="col-start-1 col-end-4 sm:col-end-2"
+              className="col-start-1 col-end-4 md:col-end-2"
               onClick={handleSubmit(handleAddToCart)}
             >
               Adicionar ao carrinho
@@ -217,23 +220,35 @@ const ProductPageSection: React.FC<ProductPageSection> = ({
         </div>
       </div>
 
-      <DivideLine dividerClassName="mx-8 md:mx-16" />
-
       <div
+        className={c('px-8 md:px-16 my-20 max-w-screen-2xl mx-auto')}
         id="description"
-        className={c('space-y-2 px-8 max-w-full md:px-16 md:max-w-screen-lg')}
       >
-        <h2 className="text-xl text-light-gray-100">Descrição</h2>
-        <p>{product?.description}</p>
+        <div className="mb-10 space-y-4">
+          <h2 className="text-xl text-light-gray-100 font-medium">Descrição</h2>
+          <p>{product?.description}</p>
+        </div>
+
+        {/* <div className="mb-20 space-y-4">
+          <h2 className="text-xl text-light-gray-100 font-medium">
+            Especificaçoes técnicas
+          </h2>
+
+          <div className="bg-dark-gray-500 bg-opacity-50 rounded-md p-6 flex flex-col sm:flex-row justify-between sm:items-center my-4 max-sm:space-y-4">
+            <p>{product?.description}</p>
+          </div>
+        </div> */}
       </div>
 
-      <DivideLine dividerClassName="mx-8 md:mx-16" />
+      <ProductEvalutionQuestionsSection product={product} />
 
-      <ProductSection
-        title="Você Também Pode Gostar"
-        products={products || []}
-        isLoading={loading}
-      />
+      <div className={c('my-20 max-w-screen-2xl mx-auto')}>
+        <ProductSection
+          title="Você Também Pode Gostar"
+          products={products || []}
+          isLoading={loading}
+        />
+      </div>
     </>
   )
 }

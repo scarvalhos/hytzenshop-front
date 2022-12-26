@@ -27,7 +27,7 @@ const SiderbarLayout: React.FC<SiderbarLayout> = ({ children }) => {
         onDrawerClose={onDrawerClose}
       />
 
-      <TopMenuLayout openSiderbar={openSiderbar}>{children}</TopMenuLayout>
+      <TopMenuLayout>{children}</TopMenuLayout>
     </>
   )
 }

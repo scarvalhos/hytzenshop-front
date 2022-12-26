@@ -11,6 +11,8 @@ import utc from 'dayjs/plugin/utc'
 
 import 'dayjs/locale/pt-br'
 
+export * from './validators'
+
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(duration)
@@ -218,4 +220,40 @@ export const c = (...arr: (string | undefined | null | false)[]) => {
   )
 
   return classes.length < 1 ? undefined : classes
+}
+
+// px2num
+
+export const px2num = (px: string) => {
+  return parseFloat(`${px}`.replace('px', ''))
+}
+
+// convertPXToREM
+
+export const FONT_BASE = 16
+
+export const convertPXToREM = (px: string) => {
+  return `${px2num(px) / FONT_BASE}rem`
+}
+
+// randonfy
+
+export const randonfy = (array: any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
+
+// generateArrayOfNumbers
+
+export const generateArrayOfNumbers = (from: number, to: number) => {
+  const array: number[] = []
+
+  for (let i = from; i < to; i++) {
+    array.push(i)
+  }
+
+  return array
 }

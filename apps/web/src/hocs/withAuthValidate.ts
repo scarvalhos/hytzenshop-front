@@ -1,6 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
 import { AuthTokenError } from '@services/errors/AuthTokenError'
-import { validateToken } from '@utils/validators/validateUserPermission'
+import { validateToken } from '@hytzenshop/helpers'
 
 import nookies, { destroyCookie, parseCookies } from 'nookies'
 

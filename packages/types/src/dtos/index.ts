@@ -9,3 +9,7 @@ export type { ProductGetAllDto, ProductGetDto } from './productDto'
 export type { SystemConfigDto } from './systemConfigDto'
 
 export type { UserErrorDto, UserGetAllDto, UserGetDto } from './userDto'
+
+export type { EvaluationGetAllDto, EvaluationGetDto } from './evaluationDto'
+
+export type { QuestionGetAllDto, QuestionGetDto } from './questionDto'

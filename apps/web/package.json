@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^2.9.7",
+    "@hytzenshop/services": "*",
     "@hytzenshop/helpers": "*",
     "@hytzenshop/hooks": "*",
     "@hytzenshop/types": "*",

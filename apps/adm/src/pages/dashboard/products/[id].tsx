@@ -11,7 +11,7 @@ import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { Button } from '@core/Button'
 import { money } from '@hytzenshop/helpers'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
 

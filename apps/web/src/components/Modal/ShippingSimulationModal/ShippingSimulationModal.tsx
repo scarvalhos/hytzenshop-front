@@ -6,7 +6,7 @@ import { c, date, money } from '@hytzenshop/helpers'
 import { BrasilAPI } from 'brasilapi'
 import { TbLoader } from 'react-icons/tb'
 import { Image } from '@core'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 export interface ShippingSimulationModalProps extends BaseModalProps {
   cep: string

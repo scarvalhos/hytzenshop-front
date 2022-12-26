@@ -8,7 +8,7 @@ import {
 import { OrderGetAllDto, StatusOrders } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 const getOrdersList = async (
   page: number,

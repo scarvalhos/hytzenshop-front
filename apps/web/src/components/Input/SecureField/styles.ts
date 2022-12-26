@@ -1,4 +1,4 @@
-import { theme } from '@hooks/useTheme'
+import { theme } from '@luma/ui'
 import { styled } from '@stitches/react'
 
 export const Field = styled('div', {

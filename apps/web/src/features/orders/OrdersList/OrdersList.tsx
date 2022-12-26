@@ -1,6 +1,5 @@
 import { Order as IOrder } from '@hytzenshop/types'
-
-import Order from '../Order'
+import { Shared } from '@luma/ui'
 
 interface OrdersListProps {
   orders?: IOrder[]
@@ -10,7 +9,7 @@ const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
   return (
     <>
       {orders?.map((order) => (
-        <Order key={order.id} order={order} />
+        <Shared.OrderCard key={order.id} order={order} application="web" />
       ))}
     </>
   )

@@ -3,7 +3,7 @@ import * as React from 'react'
 import { CartProduct, Product, ProductGetDto } from '@hytzenshop/types'
 import { useWishlist } from '@contexts/WishlistContext'
 import { useCart } from '@contexts/CartContext'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 interface UseCartCard {
   canUpdate?: boolean

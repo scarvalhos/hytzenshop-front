@@ -38,6 +38,31 @@ export interface FileRecord {
   url: string
 }
 
+// Answers
+
+export interface Answers {
+  id: string
+  answer: string
+  question: Question
+  questionId: string
+  createdAt: string
+  updatedAt: string
+}
+
+// Question
+
+export interface Question {
+  id: string
+  name: string
+  email: string
+  question: string
+  answers: Answers[]
+  product: Product
+  productId: string
+  createdAt: string
+  updatedAt: string
+}
+
 export interface Product {
   id: string
   images: FileRecord[]
@@ -48,6 +73,9 @@ export interface Product {
   sizes?: string[]
   colors?: string[]
   stock: number
+  evaluation?: Evaluation[]
+  averageRating?: number
+  questions: Question[]
 }
 
 export interface CartProduct {
@@ -83,6 +111,21 @@ export interface Order {
   mpPaymentId: string
   createdAt: string
   shipping?: string
+  evaluation?: Evaluation[]
+}
+
+export interface Evaluation {
+  id: string
+  user: User
+  order: Order
+  product: Product
+  note: number
+  comment?: string
+  userId: string
+  orderId: string
+  productId: string
+  approved?: boolean
+  createdAt?: string
 }
 
 export interface SystemConfig {
@@ -90,6 +133,14 @@ export interface SystemConfig {
   sliderImages?: FileRecord[]
   announcement?: string
   showAnnouncement?: boolean
+}
+
+export interface PaginationParams {
+  page?: number
+  limit?: number
+  filter?: string
+  sort?: string
+  order?: string
 }
 
 export interface PaymentWebhookResponse {

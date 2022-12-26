@@ -64,7 +64,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
                 onClick={
                   checkoutNextStep ? checkoutNextStep : handleSendToCheckout
                 }
-                className="w-full"
+                className="w-full bg-success-400"
               >
                 {summaryButtonTitle || 'Continuar'}
               </Button>

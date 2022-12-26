@@ -16,7 +16,7 @@ import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'

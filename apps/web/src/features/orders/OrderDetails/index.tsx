@@ -16,15 +16,15 @@ import {
 } from '@hytzenshop/types'
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { DivideY, CopyToClipboard } from '@luma/ui'
+import { DivideY, CopyToClipboard, Tooltip } from '@luma/ui'
 import { useDebounceCallback } from '@react-hook/debounce'
 import { Image, StepperBar } from '@core'
 import { c, date, money } from '@hytzenshop/helpers'
 import { useRouter } from 'next/router'
 import { useOrders } from '@hooks/useOrders'
-import { useOrder } from '../Order/Order.hook'
+import { Shared } from '@luma/ui'
 import { socket } from '@services/socket'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 import OrderedProductPreview from '../OrderedProductPreview'
 import InfoCard from './InfoCard'
@@ -56,8 +56,11 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
     }
   ) as UseQueryResult<any, unknown>
 
+  const { statusLabel, statusColor, statusTooltip } = Shared.useOrder(
+    order || ({} as Order)
+  )
+
   const { updateOrderStatus } = useOrders({ order: order?.id })
-  const { statusLabel, statusColor } = useOrder(order || ({} as Order))
   const { back } = useRouter()
 
   const statusBySteps = React.useMemo(() => {
@@ -93,13 +96,14 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         call({ data })
       })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [call])
 
   return (
     <div className="relative">
       <Button
         onClick={back}
-        className="sticky top-12 px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-50"
+        className="sticky top-[3.23rem] px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-50"
       >
         <TbArrowLeft className="absolute left-0" size={16} />
         Voltar
@@ -109,18 +113,18 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         <div className="flex flex-row space-x-2 items-center">
           <p className="text-xl text-light-gray-100">
             Pedido #{order?.mpPaymentId}
-          </p>{' '}
-          {/* <Tooltip title={statusTooltip}> */}
-          <p
-            className={c(
-              statusColor,
-              'flex flex-row items-center justify-center text-xs font-semibold min-w-max text-light-gray-100 select-none px-2 py-1 space-x-2 rounded-full'
-            )}
-          >
-            {statusLabel}
-            <TbInfoCircle style={{ marginLeft: 4 }} />
           </p>
-          {/* </Tooltip> */}
+          <Tooltip content={statusTooltip}>
+            <p
+              className={c(
+                statusColor,
+                'flex flex-row items-center justify-center text-xs font-semibold min-w-max text-light-gray-100 select-none px-2 py-1 space-x-2 rounded-full'
+              )}
+            >
+              {statusLabel}
+              <TbInfoCircle style={{ marginLeft: 4 }} />
+            </p>
+          </Tooltip>
         </div>
       </div>
 
@@ -159,17 +163,15 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                 <div>
                   <p className="text-sm">Forma de pagamento:</p>
                   <p className="text-light-gray-100 capitalize">
-                    {
-                      orderPaymentQuery.data?.response
-                        .payment_method_id as string
-                    }{' '}
+                    {(orderPaymentQuery.data?.response
+                      .payment_method_id as string) ?? '-'}{' '}
                     {orderPaymentQuery.data?.response.payment_type_id ===
                       'credit_card' &&
                       `${
                         orderPaymentQuery.data?.response.transaction_details
                           .total_paid_amount /
-                        orderPaymentQuery.data?.response.transaction_details
-                          .installment_amount
+                          orderPaymentQuery.data?.response.transaction_details
+                            .installment_amount ?? '-'
                       }x`}
                   </p>
                 </div>
@@ -246,17 +248,20 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
               ) : null}
 
               {order?.status !== 'pending' ? (
-                <a
+                <Button
                   href={`https://www.mercadopago.com.br/money-out/transfer/api/receipt/pix_pdf/${order?.mpPaymentId}/pix_account/pix_payment.pdf`}
-                  download={`https://www.mercadopago.com.br/money-out/transfer/api/receipt/pix_pdf/${order?.mpPaymentId}/pix_account/pix_payment.pdf`}
+                  className="max-sm:w-full bg-success-400"
+                  variant="filled"
                   target="_blank"
                   rel="noreferrer"
+                  download
+                  rounded
                 >
-                  <span className="flex flex-row space-x-2 text-success-300">
+                  <span className="flex flex-row max-sm:justify-center space-x-2 text-light-gray-100">
                     <TbDownload />
                     <p>Ver comprovante</p>
                   </span>
-                </a>
+                </Button>
               ) : null}
             </div>
           </div>
@@ -268,14 +273,14 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                 <div className="flex flex-col max-sm:w-full">
                   <p className="text-sm">Endereço do pedido:</p>
                   <p className="text-sm text-light-gray-100">
-                    {`${order?.address?.street}, ${order?.address?.number}` ||
-                      '-'}{' '}
-                    - {`${order?.address?.district}` || '-'}
+                    {order?.address
+                      ? `${order?.address?.street}, ${order?.address?.number} - ${order?.address?.district}`
+                      : '-'}
                   </p>
                   <p className="text-sm text-light-gray-100">
-                    {`${order?.address?.city}/${order?.address?.uf}` || '-'} -{' '}
-                    {order?.address?.cep || '-'},{' '}
-                    {order?.address?.country || '-'}
+                    {order?.address
+                      ? `${order?.address?.city}/${order?.address?.uf} - ${order?.address?.cep}, ${order?.address?.country}`
+                      : ''}
                   </p>
                 </div>
               )}
@@ -287,10 +292,14 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           <div className="flex flex-col space-y-4 flex-1">
             <p className="text-light-gray-100">Items do pedido:</p>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full h-fit">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-fit">
               {order?.orderedProducts &&
                 order?.orderedProducts.map((item) => (
-                  <OrderedProductPreview key={item.id} product={item} />
+                  <OrderedProductPreview
+                    key={item.id}
+                    product={item}
+                    order={order}
+                  />
                 ))}
             </div>
           </div>

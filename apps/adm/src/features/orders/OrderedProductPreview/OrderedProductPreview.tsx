@@ -1,12 +1,11 @@
-import * as React from 'react'
-
-import { Chip, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
-import { ProductGetDto, CartProduct } from '@hytzenshop/types'
+import { ProductGetDto, CartProduct, Order } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { money } from '@hytzenshop/helpers'
+import { c, money } from '@hytzenshop/helpers'
+import { Chip } from '@luma/ui'
 import { Link } from '@core/Link'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
+import React from 'react'
 import Image from 'next/image'
 
 interface OrderedProductPreviewProps {
@@ -20,10 +19,6 @@ const getProductDetails = async (id?: string): Promise<ProductGetDto> => {
 const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
   product,
 }) => {
-  const theme = useTheme()
-
-  const sm = useMediaQuery(theme.breakpoints.down('sm'))
-
   const { data } = useQuery(
     ['product', product?.productId],
     () => getProductDetails(product?.productId),
@@ -33,8 +28,12 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
   ) as UseQueryResult<ProductGetDto, unknown>
 
   return (
-    <Stack direction={sm ? 'column' : 'row'} spacing={2}>
-      <Link href={`/admin/dashboard/products/${product?.productId}`}>
+    <div
+      className={c(
+        'flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-2 rounded-md px-4 py-4 bg-dark-gray-500'
+      )}
+    >
+      <Link href={`/product/${product?.productId}`}>
         {data?.product && (
           <Image
             src={data?.product.images[0].url || ''}
@@ -45,60 +44,46 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
             objectPosition="center"
             style={{
               borderRadius: 4,
+              width: '70px',
+              height: '70px',
             }}
           />
         )}
       </Link>
 
-      <Stack spacing={1} direction="column" justifyContent="center">
-        <Link href={`/admin/dashboard/products/${product?.productId}`}>
-          <Typography>{data?.product.title}</Typography>
+      <div className="flex flex-col justify-center space-y-2">
+        <Link href={`/product/${product?.productId}`}>
+          {data?.product.title}
         </Link>
 
-        <Stack direction="row" sx={{ flexFlow: 'wrap', gap: 1 }}>
+        <div className="flex flex-row flex-wrap gap-2">
+          <Chip
+            key={product.quantity}
+            label={product.quantity?.toString()}
+            variant="outlined"
+            rounded
+          />
           <Chip
             key={product.colors?.[0]}
             label={product.colors?.[0]}
             variant="outlined"
-            size="small"
-            sx={{
-              color: theme.palette.text.primary,
-              borderColor: theme.palette.primary.dark,
-            }}
+            rounded
           />
           <Chip
             key={product.sizes?.[0]}
             label={product.sizes?.[0]}
             variant="outlined"
-            size="small"
-            sx={{
-              color: theme.palette.text.primary,
-              borderColor: theme.palette.primary.dark,
-            }}
-          />
-          <Chip
-            key={product.quantity}
-            label={product.quantity}
-            variant="outlined"
-            size="small"
-            sx={{
-              color: theme.palette.text.primary,
-              borderColor: theme.palette.primary.dark,
-            }}
+            rounded
           />
           <Chip
             key={data?.product.price}
             label={money(data?.product.price)}
             variant="outlined"
-            size="small"
-            sx={{
-              color: theme.palette.text.primary,
-              borderColor: theme.palette.primary.dark,
-            }}
+            rounded
           />
-        </Stack>
-      </Stack>
-    </Stack>
+        </div>
+      </div>
+    </div>
   )
 }
 

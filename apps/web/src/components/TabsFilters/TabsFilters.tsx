@@ -109,7 +109,9 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
                 "text-success-300 before:content-[''] before:rounded-t-sm before:w-[100%] before:h-[3px] before:bg-success-300 before:absolute before:bottom-0 before:left-0"
               )}
             >
-              {asPath === '/' || asPath === '/wishlist'
+              {asPath === '/' ||
+              asPath === '/wishlist' ||
+              asPath.startsWith('/product')
                 ? 'Tudo'
                 : categoryTitleByPath}
             </p>

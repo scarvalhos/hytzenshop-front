@@ -1,10 +1,6 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { AuthTokenError } from '../services/errors/AuthTokenError'
-
-import {
-  validateToken,
-  validateUserPermission,
-} from '@utils/validators/validateUserPermission'
+import { validateToken, validateUserPermission } from '@hytzenshop/helpers'
+import { AuthTokenError } from '@services/errors/AuthTokenError'
 
 import nookies, { destroyCookie, parseCookies } from 'nookies'
 import decode from 'jwt-decode'

@@ -1,6 +1,6 @@
 import { IMaskInput } from 'react-imask'
 import { styled } from '@stitches/react'
-import { theme } from '@hooks/useTheme'
+import { theme } from '@luma/ui'
 
 export const FieldWrapper = styled('div', {
   flexDirection: 'column',

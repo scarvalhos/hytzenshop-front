@@ -5,19 +5,32 @@ import {
   FileRecord,
   CategoryGetAllDto,
   SystemConfigDto,
+  OrderGetAllDto,
+  CartGetAllDto,
+  UserGetAllDto,
 } from '@hytzenshop/types'
 
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery,
+  useQueryClient,
+  UseQueryResult,
+} from '@tanstack/react-query'
+
 import { useDebounceCallback } from '@react-hook/debounce'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from 'react-toastify'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 interface ConfigContextType {
   categories?: Category[]
   sliderImages?: FileRecord[]
   announcement?: string
   showAnnouncement?: boolean
+  ordersDeliveredCountQuery?: UseQueryResult<number, unknown>
+  openCartsCountQuery?: UseQueryResult<number, unknown>
+  totalSalesCountQuery?: UseQueryResult<number, unknown>
+  totalUsersCountQuery?: UseQueryResult<number, unknown>
   updateSlideImages: (ids: string[]) => void
   updateAnnouncement: ({
     showAnnouncement,
@@ -63,6 +76,10 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     showAnnouncement: false,
     updateAnnouncement: () => null,
     updateSlideImages: () => null,
+    ordersDeliveredCountQuery: undefined,
+    openCartsCountQuery: undefined,
+    totalSalesCountQuery: undefined,
+    totalUsersCountQuery: undefined,
   })
 
   const queryClient = useQueryClient()
@@ -81,6 +98,66 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     queryFn: () =>
       api.get<SystemConfigDto>('/config').then(({ data }) => {
         return data
+      }),
+    staleTime: 60000,
+  })
+
+  const ordersDeliveredCountQuery = useQuery({
+    queryKey: ['orders-done-count'],
+    queryFn: () =>
+      api
+        .get<OrderGetAllDto>('/orders', {
+          params: {
+            filter: JSON.stringify({
+              status: 'delivered',
+            }),
+          },
+        })
+        .then(({ data }) => {
+          return data.data.count
+        }),
+    staleTime: 60000,
+  })
+
+  const openCartsCountQuery = useQuery({
+    queryKey: ['open-carts-count'],
+    queryFn: () =>
+      api.get<CartGetAllDto>('/carts').then(({ data }) => {
+        return data.data.count
+      }),
+    staleTime: 60000,
+  })
+
+  const totalSalesCountQuery = useQuery({
+    queryKey: ['total-sales-count'],
+    queryFn: () =>
+      api
+        .get<OrderGetAllDto>('/orders', {
+          params: {
+            filter: JSON.stringify({
+              status: {
+                in: [
+                  'approved',
+                  'processing',
+                  'sending',
+                  'delivered',
+                  'authorized',
+                ],
+              },
+            }),
+          },
+        })
+        .then(({ data }) => {
+          return data.data.count
+        }),
+    staleTime: 60000,
+  })
+
+  const totalUsersCountQuery = useQuery({
+    queryKey: ['total-users-count'],
+    queryFn: () =>
+      api.get<UserGetAllDto>('/users').then(({ data }) => {
+        return data.data.count
       }),
     staleTime: 60000,
   })
@@ -116,8 +193,19 @@ export function ConfigProvider({ children }: ConfigProviderType) {
       ),
       updateAnnouncement: updateAnnouncementMutation.mutate,
       updateSlideImages: updateSlideImagesDebounce,
+      ordersDeliveredCountQuery,
+      openCartsCountQuery,
+      totalSalesCountQuery,
+      totalUsersCountQuery,
     })
-  }, [configData, dataCategories])
+  }, [
+    configData,
+    dataCategories,
+    ordersDeliveredCountQuery.data,
+    openCartsCountQuery.data,
+    totalSalesCountQuery.data,
+    totalUsersCountQuery.data,
+  ])
 
   return (
     <ConfigContext.Provider value={state}>{children}</ConfigContext.Provider>

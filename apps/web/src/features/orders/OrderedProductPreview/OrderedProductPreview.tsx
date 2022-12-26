@@ -1,14 +1,17 @@
-import React from 'react'
-
-import { ProductGetDto, CartProduct } from '@hytzenshop/types'
+import { ProductGetDto, CartProduct, Order } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { Link, Image } from '@core'
-import { money } from '@hytzenshop/helpers'
+import { c, money } from '@hytzenshop/helpers'
+import { useAuth } from '@contexts/AuthContext'
 import { Chip } from '@luma/ui'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
+
+import EvaluateButtonModal from '@components/Modal/EvaluateButtonModal'
+import React from 'react'
 
 interface OrderedProductPreviewProps {
   product: CartProduct
+  order: Order
 }
 
 const getProductDetails = async (id?: string): Promise<ProductGetDto> => {
@@ -17,7 +20,10 @@ const getProductDetails = async (id?: string): Promise<ProductGetDto> => {
 
 const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
   product,
+  order,
 }) => {
+  const { user } = useAuth()
+
   const { data } = useQuery(
     ['product', product?.productId],
     () => getProductDetails(product?.productId),
@@ -26,19 +32,32 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
     }
   ) as UseQueryResult<ProductGetDto, unknown>
 
+  const isAlReadyAvaliated = React.useMemo(
+    () =>
+      Boolean(data?.product?.evaluation?.some((e) => e.userId === user?.id)),
+    [data?.product?.evaluation, user?.id]
+  )
+
   return (
-    <div className="flex flex-col sm:flex-row max-sm:space-y-2 sm:space-x-2 rounded-md px-6 py-8 bg-dark-gray-500">
+    <div
+      className={c(
+        'flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-2 rounded-md px-4 py-4 bg-dark-gray-500',
+        order.status === 'delivered' &&
+          !isAlReadyAvaliated &&
+          'sm:justify-between sm:items-center'
+      )}
+    >
       <Link href={`/product/${product?.productId}`}>
         {data?.product && (
           <Image
             src={data?.product.images[0].url || ''}
             alt={data?.product.title}
-            width={70}
-            height={70}
             objectFit="cover"
             objectPosition="center"
             style={{
               borderRadius: 4,
+              width: '70px',
+              height: '70px',
             }}
           />
         )}
@@ -76,6 +95,10 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
           />
         </div>
       </div>
+
+      {order.status === 'delivered' && data?.product && !isAlReadyAvaliated && (
+        <EvaluateButtonModal product={product.product} order={order} />
+      )}
     </div>
   )
 }

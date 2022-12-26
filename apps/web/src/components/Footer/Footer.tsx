@@ -6,7 +6,7 @@ import { useBreakpoint } from '@hytzenshop/hooks'
 import { Field } from '@components/Input'
 import { toast } from 'react-toastify'
 import { Link } from '@core'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 import {
   TbArrowRight,
@@ -114,26 +114,49 @@ const Footer: React.FC = () => {
       >
         <div className="flex flex-col space-y-4">
           <p className="text-light-gray-100 text-md font-semibold">
-            Informações da empresa
+            Informações
           </p>
 
           <div className="flex flex-col space-y-2">
-            <p className="text-light-gray-500 text-sm">Sobre a Hytzen Shop</p>
-            <p className="text-light-gray-500 text-sm">
+            <Link
+              href="/infos/privacy-policy"
+              className="text-light-gray-500 text-sm"
+            >
               Política de privacidade
-            </p>
-            <p className="text-light-gray-500 text-sm">Termos e condições</p>
-            <p className="text-light-gray-500 text-sm">Trabalhe conosco</p>
+            </Link>
+            <Link
+              href="/infos/refund-policy"
+              className="text-light-gray-500 text-sm"
+            >
+              Política de reembolso
+            </Link>
+            <Link
+              href="/infos/terms-conditions"
+              className="text-light-gray-500 text-sm"
+            >
+              Termos e condições
+            </Link>
           </div>
 
           <p className="text-light-gray-100 text-md font-semibold">
             Atendimento ao cliente
           </p>
           <div className="flex flex-col space-y-2">
-            <p className="text-light-gray-500 text-sm">Devolução</p>
-            <p className="text-light-gray-500 text-sm">Rastreamento</p>
-            <p className="text-light-gray-500 text-sm">Contate-nos</p>
-            <p className="text-light-gray-500 text-sm">Feedback</p>
+            <Link
+              href="/contact?subject=devolution"
+              className="text-light-gray-500 text-sm"
+            >
+              Devolução
+            </Link>
+            <Link href="/contact" className="text-light-gray-500 text-sm">
+              Contate-nos
+            </Link>
+            <Link
+              href="/contact?subject=feedback"
+              className="text-light-gray-500 text-sm"
+            >
+              Feedback
+            </Link>
           </div>
         </div>
 
@@ -186,6 +209,7 @@ const Footer: React.FC = () => {
               <Link
                 href="mailto:contato@hytzen.com"
                 className="flex flex-row items-center justify-center space-x-2"
+                target="_blank"
               >
                 <span className="bg-dark-gray-400 p-2 rounded-full">
                   <TbMail className="text-success-300" />

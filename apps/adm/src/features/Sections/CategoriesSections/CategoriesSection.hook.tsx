@@ -5,7 +5,7 @@ import { CategoryGetDto, Category } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 const onAdd = async (v: string) => {
   return api

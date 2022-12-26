@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 import { UserGetDto } from '@hytzenshop/types'
 
 export const useFetchers = () => {

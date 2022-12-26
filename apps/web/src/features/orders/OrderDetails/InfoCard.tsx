@@ -33,21 +33,22 @@ const InfoCard: React.FC<InfoCardProps> = ({ renderInsideCard }) => {
       <div className="flex flex-row items-center space-x-2 max-sm:w-full">
         <Button
           variant="filled"
-          className="max-sm:w-full bg-[#6b1bff] relative pl-10 font-medium text-sm py-2"
+          className="max-sm:w-full bg-[#6b1bff] relative pl-10 font-medium text-sm"
           rounded
+          disabled
         >
           <TbTruck className="absolute left-4" size={16} />
           Rastreie agora
         </Button>
 
         <Link href={link}>
-          <button className={c('bg-success-300 p-2 rounded-full')}>
+          <button className={c('bg-success-300 p-3 rounded-full')}>
             <TbBrandWhatsapp className="text-light-gray-100" size={16} />
           </button>
         </Link>
 
         <Link href={mail}>
-          <button className={c('bg-light-gray-100 p-2 rounded-full')}>
+          <button className={c('bg-light-gray-100 p-3 rounded-full')}>
             <TbMailForward size={16} />
           </button>
         </Link>

@@ -1,5 +1,5 @@
 import { GetServerSideProps, GetServerSidePropsContext } from 'next'
-import { AuthTokenError } from '../services/errors/AuthTokenError'
+import { AuthTokenError } from '@services/errors/AuthTokenError'
 
 import {
   validateToken,

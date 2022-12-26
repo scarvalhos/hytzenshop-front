@@ -1,3 +1,5 @@
+import { Evaluation } from '.'
+
 interface Address {
   id: string
   street: string
@@ -31,6 +33,7 @@ interface User {
   isAdmin: true
   profileId?: string
   profile?: Profile
+  evaluation?: Evaluation[]
   createdAt?: string
   updatedAt?: string
 }

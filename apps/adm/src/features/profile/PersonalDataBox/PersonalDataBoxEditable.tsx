@@ -9,7 +9,7 @@ import { Modal, Stack } from '@mui/material'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useAuth } from '@hooks/useAuth'
 import { Button } from '@core/Button'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 interface AdressBoxEditableProps {
   openModal: boolean

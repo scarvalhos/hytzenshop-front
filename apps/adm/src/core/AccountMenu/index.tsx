@@ -89,7 +89,9 @@ export default function AccountMenu() {
             borderRadius={1}
           >
             <Box>Conta</Box>
-            <Link href="/profile">
+            <Link
+              href={`${process.env.NEXT_PUBLIC_SHOP_URL_FRONTEND}/profile/dados-pessoais`}
+            >
               <Stack direction="row" py={1}>
                 <TbUserCircle size={20} style={{ marginRight: '10px' }} />
                 Minhas informações

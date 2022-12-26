@@ -3,7 +3,7 @@ import React from 'react'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { useConfig } from '@contexts/ConfigContext'
 import { styled } from '@stitches/react'
-import { theme } from '@hooks/useTheme'
+import { theme } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 interface SliderProps {

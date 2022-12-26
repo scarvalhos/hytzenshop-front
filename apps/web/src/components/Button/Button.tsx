@@ -43,6 +43,8 @@ export interface ButtonProps {
   variant?: 'filled' | 'outlined' | 'outlined-danger' | 'disabled'
   rounded?: boolean
   target?: string
+  download?: boolean
+  rel?: string
 
   onClick?: (evt: React.MouseEvent) => void
 }
@@ -61,6 +63,8 @@ const Button = React.forwardRef<any, React.PropsWithChildren<ButtonProps>>(
       target,
       variant,
       rounded,
+      download,
+      rel,
     },
     ref
   ) => {
@@ -96,7 +100,7 @@ const Button = React.forwardRef<any, React.PropsWithChildren<ButtonProps>>(
           className
         ),
         ...(href && !disabled
-          ? { ref, href, disabled, onClick: handleClick, target }
+          ? { ref, href, disabled, onClick: handleClick, target, download, rel }
           : { type, disabled, onClick: handleClick }),
       },
       <>

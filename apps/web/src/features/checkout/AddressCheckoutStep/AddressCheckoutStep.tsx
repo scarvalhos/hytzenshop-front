@@ -8,7 +8,7 @@ import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
 import { Loader } from '@luma/ui'
 import { Image } from '@core'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 interface AddressCheckoutStepProps {
   isReadonly?: boolean

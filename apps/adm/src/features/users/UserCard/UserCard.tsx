@@ -1,18 +1,10 @@
 import * as React from 'react'
 
-import {
-  Avatar,
-  Stack,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
-
-import { TbBrandWhatsapp, TbEye, TbMailForward } from 'react-icons/tb'
 import { getFirstLetters, getFirstName, numonly } from '@hytzenshop/helpers'
-import { IconButton } from '@features/orders/Order/styles'
+import { TbBrandWhatsapp, TbEye, TbMailForward } from 'react-icons/tb'
+import { Avatar, useTheme } from '@mui/material'
+import { Button } from '@luma/ui'
 import { User } from '@hytzenshop/types'
-import { Link } from '@core/Link'
 
 interface UserCardProps {
   user?: User
@@ -21,8 +13,6 @@ interface UserCardProps {
 
 const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
   const theme = useTheme()
-
-  const sm = useMediaQuery(theme.breakpoints.down('sm'))
 
   const link = React.useMemo(
     () =>
@@ -41,8 +31,8 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
   )
 
   return (
-    <div className="bg-dark-gray-500 px-6 py-4 rounded-md flex-1 flex flex-col sm:flex-row items-center justify-between">
-      <Stack direction="row" spacing={1}>
+    <div className="bg-dark-gray-500 px-6 py-4 rounded-md flex-1 flex flex-col md:flex-row md:items-center justify-between max-md:space-y-2">
+      <div className="flex flex-row items-center space-x-2">
         <Avatar
           src={user?.profile?.avatar || ''}
           sx={{
@@ -57,47 +47,49 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
             }),
           }}
         >
-          {!user?.profile?.avatar && (
-            <Typography color={theme.palette.text.secondary} fontSize="0.75rem">
+          {!user?.profile?.avatar ? (
+            <p className="text-sm text-light-gray-500">
               {getFirstLetters(user?.username || '')}
-            </Typography>
-          )}
+            </p>
+          ) : null}
         </Avatar>
 
-        <Stack>
-          <Typography
-            color={theme.palette.text.primary}
-            fontSize="1rem"
-            fontWeight="medium"
-            mb={-0.5}
-          >
+        <div>
+          <p className="text-light-gray-100 font-medium">
             {user?.profile?.completeName}
-          </Typography>
-          <Typography color={theme.palette.text.secondary} fontSize="0.75rem">
-            {user?.email}
-          </Typography>
-        </Stack>
-      </Stack>
+          </p>
+          <p className="text-sm">{user?.email}</p>
+        </div>
+      </div>
 
       {renderInsideCard && renderInsideCard()}
-      <Stack direction="row" spacing={1}>
-        <Link href={link} target="_blank">
-          <IconButton bg={theme.palette.secondary.main}>
+
+      <div className="flex space-x-2 justify-end items-center">
+        <Button
+          href={link}
+          target="_blank"
+          variant="filled"
+          rounded
+          className="max-md:w-full md:p-3"
+        >
+          <span className="flex items-center justify-center space-x-2">
             <TbBrandWhatsapp size={16} color={theme.palette.primary.light} />
-          </IconButton>
-        </Link>
-        <Link href={mail}>
-          <IconButton bg={theme.palette.primary.light}>
-            <TbMailForward
-              size={16}
-              color={theme.palette.primary.contrastText}
-            />
-          </IconButton>
-        </Link>
-        <IconButton bg={theme.palette.primary.dark}>
+            <p className="md:hidden">Whatsapp</p>
+          </span>
+        </Button>
+        <Button
+          href={mail}
+          target="_blank"
+          variant="filled"
+          rounded
+          className="p-3 bg-light-gray-100"
+        >
+          <TbMailForward size={16} color={theme.palette.primary.contrastText} />
+        </Button>
+        <Button variant="filled" rounded className="p-3 bg-dark-gray-300">
           <TbEye size={16} color={theme.palette.success.main} />
-        </IconButton>
-      </Stack>
+        </Button>
+      </div>
     </div>
   )
 }

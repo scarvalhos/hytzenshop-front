@@ -72,6 +72,8 @@ export const useNewProductForm = () => {
           description: values.description,
           price: strtonum(values.price),
           stock: strtonum(values.stock),
+          questions: [],
+          evaluation: [],
         },
         { onSuccess: () => handleOpenSuccessModal() }
       )

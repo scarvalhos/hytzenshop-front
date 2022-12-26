@@ -89,6 +89,7 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
 
     React.useEffect(() => {
       if (setValue) setValue(name, added)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [name, added])
 
     // React.useEffect(() => {

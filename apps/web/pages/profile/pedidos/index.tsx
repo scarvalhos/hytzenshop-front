@@ -1,4 +1,5 @@
 import { TbShoppingCartPlus } from 'react-icons/tb'
+import { PaginationParams } from '@hytzenshop/types'
 import { LoadAnimated } from '@core'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { Pagination } from '@components/Pagination'
@@ -17,7 +18,7 @@ import React from 'react'
 const ProfileOrdersPage: NextPage = () => {
   const { user } = useAuth()
 
-  const [listParams, setListParams] = React.useState({
+  const [state, dispatch] = React.useState<PaginationParams>({
     page: 1,
     limit: 10,
     sort: 'createdAt',
@@ -25,21 +26,21 @@ const ProfileOrdersPage: NextPage = () => {
   })
 
   const setPage = (page: number) => {
-    setListParams({
-      ...listParams,
+    dispatch({
+      ...state,
       page,
     })
   }
 
   const {
     getOrders: { data, isLoading },
-  } = useOrders({ ...listParams, userId: user?.id })
+  } = useOrders({ ...state, userId: user?.id })
 
   return (
     <ProfileLayout>
       <NextSeo title="Meus pedidos" />
 
-      <div className="mx-8 sm:mx-16 my-24 space-y-4">
+      <div className="mx-8 my-24 space-y-4 max-w-5xl lg:mx-auto">
         {data?.data.count ? <OrdersListHeader loading={isLoading} /> : null}
 
         <OrdersList orders={data?.data.orders} />
@@ -76,10 +77,10 @@ const ProfileOrdersPage: NextPage = () => {
 
         {!isLoading && data?.data.count ? (
           <Pagination
-            currentPage={listParams.page}
+            currentPage={state.page}
             totalCountOfRegisters={data?.data.count || 0}
             onPageChange={setPage}
-            registersPerPage={listParams.limit}
+            registersPerPage={state.limit}
           />
         ) : null}
       </div>

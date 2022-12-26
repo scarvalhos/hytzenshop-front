@@ -111,23 +111,3 @@ export const SubMenuClosedItem = styled.span<SubMenuItemProps>`
 export const SubMenuTitle = styled.span`
   margin-left: 0.25rem;
 `
-
-export const SiderbarCloseContainer = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-
-  /* width: 30px; */
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  background: ${({ theme }) => theme.palette.background.default};
-  color: ${({ theme }) => theme.palette.text.primary};
-  border-right: 1px solid ${({ theme }) => theme.palette.primary.dark};
-
-  z-index: 12000;
-`

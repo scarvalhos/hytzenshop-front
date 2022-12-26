@@ -3,7 +3,7 @@ import React from 'react'
 
 import { FieldInputProps } from '@components/Input/Field'
 import { Option } from '@hytzenshop/types'
-import { theme } from '@hooks/useTheme'
+import { theme } from '@luma/ui'
 import { Error } from '@core'
 import { c } from '@hytzenshop/helpers'
 

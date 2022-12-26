@@ -17,7 +17,7 @@ export function withSSRGuest<P extends { [key: string]: any }>(
     if (token) {
       return {
         redirect: {
-          destination: '/profile',
+          destination: '/profile/dados-pessoais',
           permanent: false,
         },
       }

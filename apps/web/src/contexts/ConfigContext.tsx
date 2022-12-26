@@ -8,7 +8,7 @@ import {
 } from '@hytzenshop/types'
 
 import { useQuery } from '@tanstack/react-query'
-import { api } from '@services/api'
+import { api } from '@hytzenshop/services'
 
 interface ConfigContextType {
   categories: Category[]

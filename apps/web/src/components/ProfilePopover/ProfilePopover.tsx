@@ -1,11 +1,11 @@
 import * as Popover from '@radix-ui/react-popover'
 import * as Avatar from '@radix-ui/react-avatar'
 
-import { DivideY, withGlassEffect } from '@luma/ui'
+import { Can, DivideLine, withGlassEffect } from '@luma/ui'
 import { getFirstLetters } from '@hytzenshop/helpers'
-import { useBreakpoint } from '@hytzenshop/hooks'
-import { Can, Link } from '@core'
+import { parseCookies } from 'nookies'
 import { useAuth } from '@contexts/AuthContext'
+import { Link } from '@core'
 
 import {
   TbDashboard,
@@ -17,8 +17,8 @@ import {
 import React from 'react'
 
 const ProfilePopover = () => {
-  const { signOut, user } = useAuth()
-  const { sm } = useBreakpoint()
+  const { signOut, user, isAuthenticated } = useAuth()
+  const { 'hytzenshop.token': token } = parseCookies()
 
   return (
     <Popover.Root>
@@ -44,60 +44,50 @@ const ProfilePopover = () => {
             <>
               <p className="text-sm">Conta</p>
 
-              <DivideY dividerClassName="my-2 border-light-gray-400 border-opacity-20">
-                {sm && (
-                  <Link href="/profile" className="flex flex-row py-1">
-                    <TbUserCircle size={20} style={{ marginRight: '10px' }} />
-                    Minhas informações
-                  </Link>
-                )}
+              <Link
+                href="/profile/dados-pessoais"
+                className="flex flex-row py-1 text-light-gray-100"
+              >
+                <TbUserCircle size={20} style={{ marginRight: '10px' }} />
+                Minhas informações
+              </Link>
 
-                {!sm && (
+              <DivideLine dividerClassName="my-2 border-light-gray-400 border-opacity-20" />
+
+              <Link
+                href="/profile/pedidos"
+                className="flex flex-row py-1 text-light-gray-100"
+              >
+                <TbTruckDelivery size={20} style={{ marginRight: '10px' }} />
+                Meus pedidos
+              </Link>
+
+              <Can isAdmin user={user} isAuthenticated={isAuthenticated}>
+                <>
+                  <DivideLine dividerClassName="my-2 border-light-gray-400 border-opacity-20" />
+
                   <Link
-                    href="/profile/dados-pessoais"
+                    href={`${process.env.NEXT_PUBLIC_ADM_URL_FRONTEND}/?token=${token}`}
                     className="flex flex-row py-1 text-light-gray-100"
                   >
-                    <TbUserCircle size={20} style={{ marginRight: '10px' }} />
-                    Dados pessoais
+                    <TbDashboard size={20} style={{ marginRight: '10px' }} />
+                    Dashboard
                   </Link>
-                )}
+                </>
+              </Can>
 
-                {!sm && (
-                  <Link
-                    href="/profile/pedidos"
-                    className="flex flex-row py-1 text-light-gray-100"
-                  >
-                    <TbTruckDelivery
-                      size={20}
-                      style={{ marginRight: '10px' }}
-                    />
-                    Meus pedidos
-                  </Link>
-                )}
+              <DivideLine dividerClassName="my-2 border-light-gray-400 border-opacity-20" />
 
-                {!sm && (
-                  <Can isAdmin={user?.isAdmin}>
-                    <Link
-                      href="http://localhost:3001/"
-                      className="flex flex-row py-1 text-light-gray-100"
-                    >
-                      <TbDashboard size={20} style={{ marginRight: '10px' }} />
-                      Dashboard
-                    </Link>
-                  </Can>
-                )}
-
-                <button
-                  className="flex flex-row py-1 text-light-gray-100"
-                  onClick={signOut}
-                >
-                  <TbLogout
-                    size={20}
-                    style={{ marginRight: '10px', marginLeft: 2 }}
-                  />
-                  Sair
-                </button>
-              </DivideY>
+              <button
+                className="flex flex-row py-1 text-light-gray-100"
+                onClick={signOut}
+              >
+                <TbLogout
+                  size={20}
+                  style={{ marginRight: '10px', marginLeft: 2 }}
+                />
+                Sair
+              </button>
             </>,
             {
               glassEffect: true,

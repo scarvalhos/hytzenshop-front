@@ -3,6 +3,7 @@ import * as yup from 'yup'
 
 import { generateMongoObjectId } from '@hytzenshop/helpers'
 import { useForm, FieldValues } from 'react-hook-form'
+import { useBreakpoint } from '@hytzenshop/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import { useCart } from '@contexts/CartContext'
@@ -21,6 +22,8 @@ interface UseProductPageSectionProps {
 export const useProductPageSection = ({
   product,
 }: UseProductPageSectionProps) => {
+  const { lg } = useBreakpoint()
+
   const [openModal, setOpenModal] = React.useState(false)
   const [shipping, setShipping] = React.useState({
     cep: '',
@@ -155,5 +158,6 @@ export const useProductPageSection = ({
     onShippingSimulation,
     onShippingSimulationInputChange,
     shipping,
+    lg,
   }
 }

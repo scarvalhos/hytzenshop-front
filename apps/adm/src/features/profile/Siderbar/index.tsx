@@ -12,11 +12,11 @@ import {
 import { useRouter } from 'next/router'
 import { useAuth } from '@hooks/useAuth'
 import { Link } from '@core/Link'
-import { Can } from '@core/Can'
+import { Can } from '@luma/ui'
 
 export const SiderbarProfile: React.FC = () => {
   const { pathname } = useRouter()
-  const { signOut } = useAuth()
+  const { signOut, user, isAuthenticated } = useAuth()
 
   return (
     <Container>
@@ -42,7 +42,7 @@ export const SiderbarProfile: React.FC = () => {
             Meus pedidos
           </CustomLink>
         </Link>
-        <Can isAdmin>
+        <Can isAdmin isAuthenticated={isAuthenticated} user={user}>
           <Link href="/admin">
             <CustomLink>Admin</CustomLink>
           </Link>

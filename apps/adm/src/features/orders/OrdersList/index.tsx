@@ -1,17 +1,16 @@
-import { Order as IOrder } from '@hytzenshop/types'
+import { Shared } from '@luma/ui'
+import { Order } from '@hytzenshop/types'
 import { List } from './styles'
 
-import Order from '../Order'
-
 interface OrdersListProps {
-  orders?: IOrder[]
+  orders?: Order[]
 }
 
 export const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
   return (
     <List>
       {orders?.map((order) => (
-        <Order key={order.id} order={order} />
+        <Shared.OrderCard key={order.id} order={order} application="adm" />
       ))}
     </List>
   )
