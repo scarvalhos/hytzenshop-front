@@ -7,6 +7,8 @@ const Chart = dynamic(() => import('react-apexcharts'), {
   ssr: false,
 })
 
+const colors = [theme.colors.success[300]]
+
 const options: ApexOptions = {
   chart: {
     toolbar: {
@@ -17,7 +19,7 @@ const options: ApexOptions = {
     },
     foreColor: theme.colors['light-gray'][500],
   },
-  colors: [theme.colors.success[300]] as any[],
+  colors,
   grid: {
     show: false,
   },
@@ -54,9 +56,9 @@ const options: ApexOptions = {
       opacityTo: 0.3,
     },
   },
-} as const
+}
 
-const series = [{ name: 'series1', data: [31, 120, 10, 28, 61, 18, 109] }]
+const series = [{ name: 'Series', data: [31, 120, 10, 28, 61, 18, 109] }]
 
 interface GraphicProps {
   title?: string

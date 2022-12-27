@@ -14,19 +14,25 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@features/*": ["features/*"],
-      "@contexts/*": ["contexts/*"],
-      "@services/*": ["services/*"],
-      "@layouts/*": ["layouts/*"],
-      "@styles/*": ["styles/*"],
-      "@utils/*": ["utils/*"],
-      "@hooks/*": ["hooks/*"],
-      "@core/*": ["core/*"],
-      "@hocs/*": ["hocs/*"],
-    }
+      "@components/*": ["src/components/*"],
+      "@features/*": ["src/features/*"],
+      "@contexts/*": ["src/contexts/*"],
+      "@providers/*": ["src/providers/*"],
+      "@services/*": ["src/services/*"],
+      "@layouts/*": ["src/layouts/*"],
+      "@styles/*": ["src/styles/*"],
+      "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@core/*": ["src/core/*"],
+      "@hocs/*": ["src/hocs/*"]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

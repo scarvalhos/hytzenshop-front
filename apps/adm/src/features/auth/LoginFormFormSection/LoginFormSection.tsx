@@ -16,7 +16,7 @@ interface LoginFormSectionProps {
   containerClassName?: string
 }
 
-const LoginFormSection: React.FC<LoginFormSectionProps> = ({
+export const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   title,
   checkoutNextStep,
   containerClassName,
@@ -141,5 +141,3 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
     </div>
   )
 }
-
-export default LoginFormSection

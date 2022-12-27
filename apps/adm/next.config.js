@@ -11,7 +11,7 @@ const withTM = require('next-transpile-modules')([
 const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
-    eslint: { dirs: ['src'] },
+    eslint: { dirs: ['src', 'pages'] },
     i18n: {
         locales: ['pt-BR'],
         defaultLocale: 'pt-BR',

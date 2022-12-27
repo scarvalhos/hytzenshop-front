@@ -10,9 +10,8 @@ const withTM = require('next-transpile-modules')([
 
 const nextConfig = {
     reactStrictMode: true,
-
-    eslint: { dirs: ['src'] },
-
+    swcMinify: true,
+    eslint: { dirs: ['src', 'pages'] },
     images: {
         domains: ['images.pexels.com', 'hytzenshop.s3.amazonaws.com', 'www.kangu.com.br'],
     },
