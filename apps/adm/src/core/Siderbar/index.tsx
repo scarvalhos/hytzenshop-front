@@ -1,8 +1,9 @@
-import { IconButton, Stack, Typography, useTheme } from '@mui/material'
-import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io'
+import { Nav, SubMenu, SubMenuItem, SubMenuClosedItem } from './styles'
 import { Button, Tooltip } from '@luma/ui'
+import { IoIosArrowBack } from 'react-icons/io'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { useRouter } from 'next/router'
+import { c } from '@hytzenshop/helpers'
 
 import {
   TbUser,
@@ -19,16 +20,7 @@ import {
   TbMenu,
 } from 'react-icons/tb'
 
-import {
-  Container,
-  Nav,
-  SubMenu,
-  SubMenuItem,
-  SubMenuTitle,
-  Logo,
-  LogoLink,
-  SubMenuClosedItem,
-} from './styles'
+import Link from '@core/Link'
 
 interface SiderbarProps {
   openSiderbar: boolean
@@ -40,37 +32,37 @@ const linksTop = [
   {
     title: 'Dashboard',
     path: '/dashboard/home',
-    Icon: () => <TbDashboard size={16} />,
+    Icon: () => <TbDashboard size={20} />,
   },
   {
     title: 'Usuários',
     path: '/dashboard/users',
-    Icon: () => <TbUser size={16} />,
+    Icon: () => <TbUser size={20} />,
   },
   {
     title: 'Produtos',
     path: '/dashboard/products',
-    Icon: () => <TbBuildingStore size={16} />,
+    Icon: () => <TbBuildingStore size={20} />,
   },
   {
     title: 'Pedidos',
     path: '/dashboard/orders',
-    Icon: () => <TbTruck size={16} />,
+    Icon: () => <TbTruck size={20} />,
   },
   {
     title: 'Transações',
     path: '/dashboard/transactions',
-    Icon: () => <TbCurrencyDollar size={16} />,
+    Icon: () => <TbCurrencyDollar size={20} />,
   },
   {
     title: 'Analytics',
     path: '/dashboard/analytics',
-    Icon: () => <TbDeviceAnalytics size={16} />,
+    Icon: () => <TbDeviceAnalytics size={20} />,
   },
   {
     title: 'Relatórios',
     path: '/dashboard/reports',
-    Icon: () => <TbReportAnalytics size={16} />,
+    Icon: () => <TbReportAnalytics size={20} />,
   },
 ]
 
@@ -78,17 +70,17 @@ const linksMiddle = [
   {
     title: 'Notificações',
     path: '/dashboard/notifications',
-    Icon: () => <TbBell size={16} />,
+    Icon: () => <TbBell size={20} />,
   },
   {
     title: 'Avaliações',
     path: '/dashboard/evaluations',
-    Icon: () => <TbThumbUp size={16} />,
+    Icon: () => <TbThumbUp size={20} />,
   },
   {
     title: 'Mensagens',
     path: '/dashboard/messages',
-    Icon: () => <TbMessage size={16} />,
+    Icon: () => <TbMessage size={20} />,
   },
 ]
 
@@ -96,7 +88,7 @@ const linksBottom = [
   {
     title: 'Settings',
     path: '/dashboard/settings',
-    Icon: () => <TbSettings size={16} />,
+    Icon: () => <TbSettings size={20} />,
   },
 ]
 
@@ -107,58 +99,47 @@ export const Siderbar: React.FC<SiderbarProps> = ({
 }) => {
   const { push, pathname } = useRouter()
 
-  const theme = useTheme()
-
   const { sm } = useBreakpoint()
 
   return (
     <>
       {openSiderbar ? (
-        <Container>
+        <div className="w-60 fixed top-0 left-0 bottom-0 flex bg-dark-gray-500 z-50">
           <Nav>
-            <IconButton
-              sx={{
-                position: 'absolute',
-                top: '16px',
-                right: '-14px',
-                background: theme.palette.secondary.dark,
-                border: '1.5px solid',
-                borderColor: theme.palette.primary.dark,
-                color: theme.palette.text.secondary,
-                ':hover': {
-                  background: theme.palette.secondary.main,
-                  color: theme.palette.text.primary,
-                },
-              }}
+            <Button
+              className="absolute top-[16px] -right-[14px] p-2 bg-dark-gray-400 border border-dark-gray-300 text-light-gray-500 hover:bg-dark-gray-300 hover:text-light-gray-100 drop-shadow-md"
               onClick={onDrawerClose}
-              size="small"
+              rounded
             >
               <IoIosArrowBack size={14} color="inherit" />
-            </IconButton>
+            </Button>
 
-            <Stack mb="2rem" ml="2rem">
-              <Logo href="/" passHref>
-                <LogoLink>
-                  <Typography color="secondary.main" fontWeight="bold">
-                    Hero
-                  </Typography>
-                  <Typography color="text.primary">Shop </Typography>
-                  <Typography fontSize={12} ml={0.5} color="text.secondary">
-                    | ADM
-                  </Typography>
-                </LogoLink>
-              </Logo>
-            </Stack>
+            <div className="mb-4 ml-8">
+              <Link href="/">
+                <span className="flex flex-row items-center justify-center">
+                  <p className="text-success-300 font-medium text-base">
+                    Hytzen
+                  </p>
+                  <p className="text-light-gray-100 text-base">Shop </p>
+                  <p className="text-xs ml-0.5">| ADM</p>
+                </span>
+              </Link>
+            </div>
 
             <SubMenu>
               {linksTop.map((link) => (
                 <SubMenuItem
                   key={link.title}
                   onClick={() => push(link.path)}
-                  isActive={pathname.startsWith(link.path)}
+                  className={c(
+                    'hover:bg-success-300 hover:bg-opacity-10 hover:text-success-300 space-x-2 rounded-r-full',
+                    pathname.startsWith(link.path)
+                      ? 'bg-success-300 bg-opacity-10 text-success-300'
+                      : 'bg-[transparent] text-light-gray-500'
+                  )}
                 >
                   <link.Icon />
-                  <SubMenuTitle>{link.title}</SubMenuTitle>
+                  <p className="text-base">{link.title}</p>
                 </SubMenuItem>
               ))}
             </SubMenu>
@@ -167,10 +148,15 @@ export const Siderbar: React.FC<SiderbarProps> = ({
                 <SubMenuItem
                   key={link.title}
                   onClick={() => push(link.path)}
-                  isActive={pathname.startsWith(link.path)}
+                  className={c(
+                    'hover:bg-success-300 hover:bg-opacity-10 hover:text-success-300 space-x-2 rounded-r-full',
+                    pathname.startsWith(link.path)
+                      ? 'bg-success-300 bg-opacity-10 text-success-300'
+                      : 'bg-[transparent] text-light-gray-500'
+                  )}
                 >
                   <link.Icon />
-                  <SubMenuTitle>{link.title}</SubMenuTitle>
+                  <p className="text-base">{link.title}</p>
                 </SubMenuItem>
               ))}
             </SubMenu>
@@ -179,69 +165,40 @@ export const Siderbar: React.FC<SiderbarProps> = ({
                 <SubMenuItem
                   key={link.title}
                   onClick={() => push(link.path)}
-                  isActive={pathname.startsWith(link.path)}
+                  className={c(
+                    'hover:bg-success-300 hover:bg-opacity-10 hover:text-success-300 space-x-2 rounded-r-full',
+                    pathname.startsWith(link.path)
+                      ? 'bg-success-300 bg-opacity-10 text-success-300'
+                      : 'bg-[transparent] text-light-gray-500'
+                  )}
                 >
                   <link.Icon />
-                  <SubMenuTitle>{link.title}</SubMenuTitle>
+                  <p className="text-base">{link.title}</p>
                 </SubMenuItem>
               ))}
             </SubMenu>
           </Nav>
-        </Container>
+        </div>
       ) : (
-        <div className="fixed top-0 left-0 bottom-0 flex flex-col justify-start items-center sm:bg-dark-gray-400 sm:border-r sm:border-r-dark-gray-200 z-[999]">
-          <IconButton
-            aria-label="open drawer"
-            sx={{
-              position: 'absolute',
-              top: '16px',
-              right: '-14px',
-              border: '1.5px solid',
-              borderColor: theme.palette.primary.dark,
-              background: theme.palette.primary.dark,
-              color: theme.palette.text.primary,
-              ':hover': {
-                background: theme.palette.secondary.main,
-                color: theme.palette.text.primary,
-              },
-              zIndex: 9999,
-            }}
-            onClick={onDrawerOpen}
-            size="small"
-            className="max-sm:hidden"
-          >
-            <IoIosArrowForward size={14} color="inherit" />
-          </IconButton>
-
+        <div className="fixed top-0 left-0 bottom-0 flex flex-col justify-start items-center sm:bg-dark-gray-500 z-[999]">
           <div className="flex items-center max-sm:space-x-2 p-4 max-sm:mt-2">
             <Button
               className="sm:hidden bg-dark-gray-500 p-2 ml-4"
               rounded
               onClick={onDrawerOpen}
             >
-              <TbMenu size={16} />
+              <TbMenu size={20} />
             </Button>
 
-            <div className="flex items-center sm:mt-4">
-              {sm ? (
-                <>
-                  <Typography color="secondary.main" fontWeight="bold">
-                    H
-                  </Typography>
-                  <Typography color="text.primary">S </Typography>
-                </>
-              ) : (
-                <>
-                  <Typography color="secondary.main" fontWeight="bold">
-                    Hero
-                  </Typography>
-                  <Typography color="text.primary">Shop </Typography>
-                  <Typography fontSize={12} ml={0.5} color="text.secondary">
-                    | ADM
-                  </Typography>
-                </>
-              )}
-            </div>
+            {sm ? (
+              <Button
+                className="p-2 hover:bg-dark-gray-300 drop-shadow-md mt-4"
+                onClick={onDrawerOpen}
+                rounded
+              >
+                <TbMenu />
+              </Button>
+            ) : null}
           </div>
 
           {sm ? (
@@ -251,7 +208,12 @@ export const Siderbar: React.FC<SiderbarProps> = ({
                   <Tooltip key={link.title} content={link.title}>
                     <SubMenuClosedItem
                       onClick={() => push(link.path)}
-                      isActive={pathname.startsWith(link.path)}
+                      className={c(
+                        'hover:bg-success-300 hover:bg-opacity-10 hover:text-success-300',
+                        pathname.startsWith(link.path)
+                          ? 'bg-success-300 bg-opacity-10 text-success-300'
+                          : 'bg-[transparent] text-light-gray-500'
+                      )}
                     >
                       <link.Icon />
                     </SubMenuClosedItem>
@@ -264,7 +226,12 @@ export const Siderbar: React.FC<SiderbarProps> = ({
                     <SubMenuClosedItem
                       key={link.title}
                       onClick={() => push(link.path)}
-                      isActive={pathname.startsWith(link.path)}
+                      className={c(
+                        'hover:bg-success-300 hover:bg-opacity-10 hover:text-success-300',
+                        pathname.startsWith(link.path)
+                          ? 'bg-success-300 bg-opacity-10 text-success-300'
+                          : 'bg-[transparent] text-light-gray-500'
+                      )}
                     >
                       <link.Icon />
                     </SubMenuClosedItem>
@@ -277,7 +244,12 @@ export const Siderbar: React.FC<SiderbarProps> = ({
                     <SubMenuClosedItem
                       key={link.title}
                       onClick={() => push(link.path)}
-                      isActive={pathname.startsWith(link.path)}
+                      className={c(
+                        'hover:bg-success-300 hover:bg-opacity-10 hover:text-success-300',
+                        pathname.startsWith(link.path)
+                          ? 'bg-success-300 bg-opacity-10 text-success-300'
+                          : 'bg-[transparent] text-light-gray-500'
+                      )}
                     >
                       <link.Icon />
                     </SubMenuClosedItem>

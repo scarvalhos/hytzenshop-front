@@ -2,10 +2,12 @@ import * as React from 'react'
 
 import { Status, StatusButton, StatusOptions } from './Status.styles'
 import { FieldInputProps } from '../Field'
-import { FieldController } from '../Field/styles'
 import { HiChevronDown } from 'react-icons/hi'
+import { Controller } from 'react-hook-form'
 import { Listbox } from '@headlessui/react'
+import { DivideY } from '@luma/ui'
 import { Option } from '@hytzenshop/types'
+import { c } from '@hytzenshop/helpers'
 
 export interface StatusInputProps<T> extends FieldInputProps {
   label?: string
@@ -37,7 +39,7 @@ const StatusInput = <T,>({
   }, [])
 
   return (
-    <FieldController
+    <Controller
       name={name}
       control={control}
       render={() => (
@@ -50,27 +52,24 @@ const StatusInput = <T,>({
           }}
         >
           <StatusButton>
-            <Status bgcolor={getColor(status?.value as any)} spacing={1}>
-              {status?.label}
+            <Status className={c(getColor(status?.value as any), 'space-x-2')}>
+              <p className="font-semibold text-sm">{status?.label}</p>
               <HiChevronDown size={16} />
             </Status>
           </StatusButton>
 
           <StatusOptions>
-            {options?.map((v) => (
-              <Listbox.Option
-                key={v?.label}
-                value={v}
-                style={{
-                  cursor: 'pointer',
-                  listStyle: 'none',
-                  margin: 0,
-                  padding: ' 0.25rem 0.75rem',
-                }}
-              >
-                {v?.label}
-              </Listbox.Option>
-            ))}
+            <DivideY dividerClassName="my-0">
+              {options?.map((v) => (
+                <Listbox.Option
+                  key={v?.label}
+                  value={v}
+                  className="cursor-pointer list-none m-0 px-6 py-2 hover:bg-dark-gray-300"
+                >
+                  {v?.label}
+                </Listbox.Option>
+              ))}
+            </DivideY>
           </StatusOptions>
         </Listbox>
       )}

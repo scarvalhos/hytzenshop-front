@@ -9,30 +9,24 @@ import {
   TbTruckDelivery,
 } from 'react-icons/tb'
 
-import {
-  Order as IOrder,
-  Order,
-  PaymentWebhookResponse,
-} from '@hytzenshop/types'
-
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { DivideY, CopyToClipboard, Tooltip } from '@luma/ui'
+import { Order, PaymentSocketResponse } from '@hytzenshop/types'
 import { useDebounceCallback } from '@react-hook/debounce'
-import { Image, StepperBar } from '@core'
+import { Shared, StepperBar } from '@luma/ui'
 import { c, date, money } from '@hytzenshop/helpers'
 import { useRouter } from 'next/router'
-import { useOrders } from '@hooks/useOrders'
-import { Shared } from '@luma/ui'
 import { socket } from '@services/socket'
 import { api } from '@hytzenshop/services'
 
 import OrderedProductPreview from '../OrderedProductPreview'
 import InfoCard from './InfoCard'
 import Button from '@components/Button'
+import Image from 'next/image'
 import React from 'react'
 
 interface OrderDetailsProps {
-  order?: IOrder
+  order?: Order
 }
 
 const steps = [
@@ -48,6 +42,10 @@ const getOrderPaymentDetails = async (order?: Order) => {
 }
 
 export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
+  const queryClient = useQueryClient()
+
+  const { back } = useRouter()
+
   const orderPaymentQuery = useQuery(
     ['order-payment', order?.mpPaymentId],
     () => getOrderPaymentDetails(order),
@@ -59,9 +57,6 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
   const { statusLabel, statusColor, statusTooltip } = Shared.useOrder(
     order || ({} as Order)
   )
-
-  const { updateOrderStatus } = useOrders({ order: order?.id })
-  const { back } = useRouter()
 
   const statusBySteps = React.useMemo(() => {
     return {
@@ -85,19 +80,22 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
     return icons
   }, [])
 
-  const call = useDebounceCallback(({ data }: PaymentWebhookResponse) => {
-    console.log('Order Details', data.status)
-    updateOrderStatus({ mpPaymentId: data.id, status: data.status })
-  })
+  const onSocketUpdatePayment = useDebounceCallback(
+    ({ data }: PaymentSocketResponse) => {
+      console.log('Order Details', data.status)
+      queryClient.invalidateQueries(['order-payment', order?.mpPaymentId])
+      queryClient.invalidateQueries(['order', order?.id])
+    }
+  )
 
   React.useEffect(() => {
     if (order?.status !== 'approved') {
-      socket.on('update.payment', ({ data }: PaymentWebhookResponse) => {
-        call({ data })
+      socket.on('update.payment', ({ data }: PaymentSocketResponse) => {
+        onSocketUpdatePayment({ data })
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [call])
+  }, [onSocketUpdatePayment])
 
   return (
     <div className="relative">

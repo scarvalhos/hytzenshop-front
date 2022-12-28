@@ -1,11 +1,10 @@
-import { Container, FileInfo, Preview } from './styles'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { MdError, MdLink } from 'react-icons/md'
-import { Stack, useTheme } from '@mui/material'
 import { TbTrash } from 'react-icons/tb'
-import { Link } from '@core/Link'
+import { theme } from '@luma/ui'
 
 import Image from 'next/image'
+import Link from '@core/Link'
 
 export interface IFile {
   id: string
@@ -29,39 +28,41 @@ export const FileList: React.FC<FileListProps> = ({
   onDelete,
   onError,
 }) => {
-  const theme = useTheme()
   return (
-    <Container>
+    <div className="w-full space-y-4">
       {files &&
         files.map((file) => (
-          <li key={file.id}>
-            <FileInfo>
-              <Preview style={{ marginRight: 8 }}>
+          <li
+            key={file.id}
+            className="w-full flex justify-between items-center text-light-gray-100 bg-dark-gray-500 p-2 rounded-sm"
+          >
+            <div className="flex items-center w-full">
+              <div
+                className="relative w-[42px] h-[42px] rounded-sm flex items-center justify-center"
+                style={{ marginRight: 8 }}
+              >
                 <Image
                   src={file.preview}
                   alt={file.name}
-                  width={40}
-                  height={40}
-                  style={{
-                    borderRadius: '4px',
-                    width: '40%',
-                    height: '40%',
-                    objectFit: 'cover',
-                    objectPosition: 'center',
-                  }}
+                  fill
+                  sizes="100%"
+                  priority
+                  className="rounded-sm object-cover object-center"
                 />
-              </Preview>
-              <Stack>
+              </div>
+
+              <div>
                 <strong>{file.name}</strong>
                 <span>{file.readableSize}</span>
-              </Stack>
-            </FileInfo>
-            <Stack direction="row">
+              </div>
+            </div>
+
+            <div className="flex flex-row space-x-2 pr-2">
               {!file.uploaded && !file.error && (
                 <CircularProgressbar
                   styles={{
                     root: { width: 18, marginRight: 6 },
-                    path: { stroke: theme.palette.success.main },
+                    path: { stroke: theme.colors.success[300] },
                   }}
                   strokeWidth={10}
                   value={file.progress}
@@ -70,7 +71,7 @@ export const FileList: React.FC<FileListProps> = ({
 
               {file.error && (
                 <>
-                  <MdError size={24} color={theme.palette.primary.main} />
+                  <MdError size={24} color={theme.colors.danger[300]} />
                   <button
                     type="button"
                     onClick={() => onError && onError(file.id)}
@@ -81,24 +82,19 @@ export const FileList: React.FC<FileListProps> = ({
               )}
 
               {file.url && (
-                <Link
-                  href={file.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  download
-                >
-                  <MdLink size={20} color={theme.palette.text.secondary} />
+                <Link href={file.url} target="_blank" download={true}>
+                  <MdLink size={20} color={theme.colors['light-gray'][500]} />
                 </Link>
               )}
 
               {file.uploaded && (
                 <button type="button" onClick={() => onDelete(file.id)}>
-                  <TbTrash size={16} />
+                  <TbTrash size={16} className="text-danger-300" />
                 </button>
               )}
-            </Stack>
+            </div>
           </li>
         ))}
-    </Container>
+    </div>
   )
 }

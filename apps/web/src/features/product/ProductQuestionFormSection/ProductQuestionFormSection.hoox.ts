@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Question, QuestionGetDto } from '@hytzenshop/types'
 import { FieldValues, useForm } from 'react-hook-form'
 import { defaultToastError } from '@hytzenshop/helpers'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 import React from 'react'
@@ -57,7 +57,7 @@ export const useProductQuestionFormSection = ({
         productId: product?.id,
       })
     },
-    [product?.id]
+    [createQuestionMutation, product?.id]
   )
 
   return {

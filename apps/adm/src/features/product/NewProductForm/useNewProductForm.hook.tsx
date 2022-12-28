@@ -38,7 +38,7 @@ export const useNewProductForm = () => {
     (clearForm?: boolean) => {
       if (clearForm) {
         reset({
-          title: 'asdasasasas',
+          title: 'asdasasa',
           price: '',
           description: '',
           stock: '',

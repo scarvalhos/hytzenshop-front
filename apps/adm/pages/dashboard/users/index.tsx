@@ -9,8 +9,8 @@ import { withSSRAuth } from '@hocs/withSSRAuth'
 import { Pagination } from '@core/Pagination'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { Stack } from '@mui/material'
 import { api } from '@hytzenshop/services'
+import { c } from '@hytzenshop/helpers'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
 import UsersList from '@features/users/UsersList'
@@ -56,21 +56,14 @@ const DashboardUsers: NextPage = () => {
 
       <HeaderUsersTable />
 
-      <Stack spacing={4} mb={10}>
-        <Stack
-          {...(isLoading
-            ? {
-                justifyContent: 'center',
-                alignItems: 'center',
-              }
-            : {})}
-        >
+      <div className="mb-20">
+        <div className={c(isLoading && 'flex justify-center items-center')}>
           {isLoading ? (
             <LoadAnimated size={160} />
           ) : (
             <UsersList users={data?.data.users || []} />
           )}
-        </Stack>
+        </div>
 
         {!isLoading && (
           <Pagination
@@ -80,7 +73,7 @@ const DashboardUsers: NextPage = () => {
             onPageChange={setPage}
           />
         )}
-      </Stack>
+      </div>
     </>
   )
 }

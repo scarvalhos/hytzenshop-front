@@ -5,8 +5,8 @@ import { CepResponse, ShippingSimulationResponse } from '@hytzenshop/types'
 import { c, date, money } from '@hytzenshop/helpers'
 import { BrasilAPI } from 'brasilapi'
 import { TbLoader } from 'react-icons/tb'
-import { Image } from '@core'
 import { api } from '@hytzenshop/services'
+import Image from 'next/image'
 
 export interface ShippingSimulationModalProps extends BaseModalProps {
   cep: string
@@ -118,11 +118,15 @@ const ShippingSimulationModal: React.FC<ShippingSimulationModalProps> = ({
                     )}
                   >
                     {item.url_logo ? (
-                      <Image
-                        src={item.url_logo}
-                        alt={item.transp_nome}
-                        className="w-8 h-8 mr-2 max-sm:mb-2 rounded-sm"
-                      />
+                      <div className="relative w-8 h-8 mr-2 max-sm:mb-2 rounded-sm basis-1/6">
+                        <Image
+                          src={item.url_logo}
+                          alt={item.transp_nome}
+                          sizes="100%"
+                          fill
+                          className="object-cover object-center rounded-sm"
+                        />
+                      </div>
                     ) : (
                       <div className="p-3 rounded-sm bg-dark-gray-400 animate-pulse">
                         <TbLoader className="text-dark-gray-400" />

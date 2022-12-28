@@ -1,16 +1,12 @@
 import * as React from 'react'
 
-import { Stack, Typography, useTheme, useMediaQuery } from '@mui/material'
 import { ErrorAnimation } from '@luma/ui'
 import { NextSeo } from 'next-seo'
-import { Link } from '@core/Link'
 
 import Lottie from 'react-lottie'
+import Link from '@core/Link'
 
 const NotAllow: React.FC = () => {
-  const theme = useTheme()
-  const sm = useMediaQuery(theme.breakpoints.down('md'))
-
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -23,7 +19,7 @@ const NotAllow: React.FC = () => {
     <>
       <NextSeo title="Acesso negado" />
 
-      <Stack
+      {/* <Stack
         direction={sm ? 'column' : 'row'}
         justifyContent="center"
         alignItems="center"
@@ -53,7 +49,7 @@ const NotAllow: React.FC = () => {
           </Typography>
           <Link href="https://localhost:3000">Voltar para a loja</Link>
         </Stack>
-      </Stack>
+      </Stack> */}
     </>
   )
 }

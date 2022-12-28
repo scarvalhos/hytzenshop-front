@@ -36,7 +36,7 @@ const Home: NextPage = () => {
     socket.on('Connection', (arg) => {
       call(arg)
     })
-  }, [])
+  }, [call])
 
   const {
     getProducts: { data, isLoading },

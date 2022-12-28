@@ -9,7 +9,7 @@ import {
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 import Router, { useRouter } from 'next/router'

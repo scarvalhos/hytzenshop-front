@@ -27,7 +27,7 @@ const options: ApexOptions = {
     enabled: false,
   },
   tooltip: {
-    enabled: true,
+    enabled: false,
   },
   xaxis: {
     type: 'datetime',
@@ -68,7 +68,13 @@ const Graphic: React.FC<GraphicProps> = ({ title }) => {
   return (
     <div className="rounded-md bg-dark-gray-500 bg-opacity-50 p-4">
       <h2 className="text-light-gray-100 text-xl pl-4">{title}</h2>
-      <Chart options={options} series={series} type="area" height={160} />
+      <Chart
+        options={options}
+        series={series}
+        type="area"
+        width="100%"
+        height={160}
+      />
     </div>
   )
 }

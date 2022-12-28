@@ -1,7 +1,7 @@
 import * as React from 'react'
 
-import { MdStarRate, MdStarHalf, MdStarOutline } from 'react-icons/md'
 import { c, generateArrayOfNumbers } from '@hytzenshop/helpers'
+import { MdStarRate, MdStarHalf } from 'react-icons/md'
 
 export interface EvaluationStarsProps {
   size?: string | number
@@ -19,7 +19,7 @@ const Star: React.FC<{
     filled: <MdStarRate className="text-secondary-300" size={size} />,
     half: <MdStarHalf className="text-secondary-300 -mb-[1px]" size={size} />,
     empyt: (
-      <MdStarOutline className="text-secondary-300 -mb-[1px]" size={size} />
+      <MdStarRate className="text-dark-gray-300 brightness-125" size={size} />
     ),
   }
 
@@ -43,7 +43,17 @@ export const EvaluationStars: React.FC<EvaluationStarsProps> = ({
     5 - (filledStars.length + halfStars.length)
   )
 
-  if (totalEvaluations === 0) return <></>
+  if (totalEvaluations === 0)
+    return (
+      <div className="flex flex-row items-center">
+        {generateArrayOfNumbers(1, 6).map((s) => (
+          <Star key={s} icon="empyt" size={size} />
+        ))}
+        <p className={c('text-sm ml-2 -mb-1', noteClassname)}>
+          {show === 'note' ? note : `(${totalEvaluations})`}
+        </p>
+      </div>
+    )
 
   return (
     <div className="flex flex-row items-center">

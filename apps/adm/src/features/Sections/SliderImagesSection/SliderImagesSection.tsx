@@ -24,24 +24,27 @@ const SliderImagesSection: React.FC = () => {
     [sliderImages]
   )
 
-  const onChange = React.useCallback((ids: string[]) => {
+  const onChange = React.useCallback(
+    (ids: string[]) => updateSlideImages(ids),
+    []
+  )
+
+  const onDelete = React.useCallback((id: string) => {
+    const ids = (sliderImages || [])
+      .map((i) => {
+        return {
+          id: i?._id,
+        }
+      })
+      .filter((v) => v.id !== id)
     return updateSlideImages(ids)
   }, [])
-
-  const onDelete = React.useCallback(
-    (id: string) => {
-      const ids = sliderImages?.map((i) => i._id).filter((v) => v !== id)
-
-      return updateSlideImages(ids || [])
-    },
-    [sliderImages]
-  )
 
   return (
     <BoxSection
       title="Slider"
       description="Adicione novas imagens ao slider da tela principal."
-      spacing
+      className="space-y-4"
     >
       <Input.File
         control={control}

@@ -1,6 +1,5 @@
 import { Shared } from '@luma/ui'
 import { Order } from '@hytzenshop/types'
-import { List } from './styles'
 
 interface OrdersListProps {
   orders?: Order[]
@@ -8,10 +7,10 @@ interface OrdersListProps {
 
 export const OrdersList: React.FC<OrdersListProps> = ({ orders }) => {
   return (
-    <List>
+    <div className="space-y-4">
       {orders?.map((order) => (
         <Shared.OrderCard key={order.id} order={order} application="adm" />
       ))}
-    </List>
+    </div>
   )
 }

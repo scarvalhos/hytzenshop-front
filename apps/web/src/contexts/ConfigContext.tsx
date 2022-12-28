@@ -5,9 +5,11 @@ import {
   FileRecord,
   CategoryGetAllDto,
   SystemConfigDto,
+  ProductGetAllDto,
 } from '@hytzenshop/types'
 
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { getProductList } from '@hooks/useProducts'
 import { api } from '@hytzenshop/services'
 
 interface ConfigContextType {
@@ -15,6 +17,7 @@ interface ConfigContextType {
   sliderImages?: FileRecord[]
   announcement?: string
   showAnnouncement?: boolean
+  productsSugestions?: ProductGetAllDto | undefined
 }
 
 type ConfigProviderType = {
@@ -31,6 +34,7 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     sliderImages: [],
     announcement: '',
     showAnnouncement: false,
+    productsSugestions: undefined,
   })
 
   const { data: dataCategories } = useQuery({
@@ -51,14 +55,23 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     staleTime: 60000,
   })
 
+  const { data: productsSugestions } = useQuery(
+    ['products-sugestions'],
+    () => getProductList(1, 30),
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    }
+  ) as UseQueryResult<ProductGetAllDto, unknown>
+
   React.useEffect(() => {
     setState({
       categories: dataCategories?.categories || [],
       sliderImages: configData?.systemConfiguration.sliderImages,
       announcement: configData?.systemConfiguration.announcement,
       showAnnouncement: configData?.systemConfiguration.showAnnouncement,
+      productsSugestions,
     })
-  }, [configData, dataCategories])
+  }, [configData, dataCategories, productsSugestions])
 
   return (
     <ConfigContext.Provider value={state}>{children}</ConfigContext.Provider>

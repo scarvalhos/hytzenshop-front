@@ -17,13 +17,14 @@ const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
 
   return (
     <BoxSection
+      key={`${ref}`}
       title="Categorias"
       description="Adicione novas categorias ao sistema."
-      spacing
-      key={`${ref}`}
+      className="space-y-3"
     >
       {categories && (
         <Input.Select.Add
+          variant="filled"
           placeholder="Nova categoria"
           control={control}
           setValue={setValue}
@@ -35,6 +36,7 @@ const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
           rounded
           isChipRounded
           chipDeleteIcon
+          isFullWidth
           {...register('categories')}
         />
       )}

@@ -31,7 +31,7 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
           <p className="text-lg text-light-gray-100 font-medium">
             {evaluation.user.profile?.completeName?.split(' ')[0]}
           </p>{' '}
-          <p>| Avaliado em {date(evaluation.createdAt || '')}</p>
+          <p>| {date(evaluation.createdAt || '')}</p>
         </span>
 
         <p>
@@ -53,28 +53,31 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
           <Button
             href={`/dashboard/products/${evaluation.productId}`}
             variant="filled"
-            className="bg-dark-gray-400 relative pl-10 text-light-gray-100 whitespace-nowrap"
+            className="bg-dark-gray-400 md:relative md:pl-10 max-md:p-3 text-light-gray-100 whitespace-nowrap"
             rounded
           >
-            <TbBuildingStore className="absolute left-4" /> Ver produto
+            <TbBuildingStore className="md:absolute md:left-4" />
+            <p className="max-md:hidden">Ver produto</p>
           </Button>
 
           <Button
             href={`/dashboard/orders/${evaluation.orderId}`}
             variant="filled"
-            className="bg-dark-gray-300 relative pl-10 text-light-gray-100 whitespace-nowrap"
+            className="bg-dark-gray-300 md:relative md:pl-10 max-md:p-3 text-light-gray-100 whitespace-nowrap"
             rounded
           >
-            <TbTruck className="absolute left-4" /> Ver pedido
+            <TbTruck className="md:absolute md:left-4" />
+            <p className="max-md:hidden">Ver pedido</p>
           </Button>
 
           {evaluation.approved ? (
             <Button
               variant="filled"
-              className="bg-success-400 relative pl-10 cursor-default whitespace-nowrap"
+              className="bg-success-400 md:relative md:pl-10 max-md:p-3 cursor-default whitespace-nowrap"
               rounded
             >
-              <TbCheck className="absolute left-4" /> Aprovado
+              <TbCheck className="md:absolute md:left-4" />
+              <p className="max-md:hidden">Aprovado</p>
             </Button>
           ) : (
             <>

@@ -1,34 +1,28 @@
-import { Stack, Typography } from '@mui/material'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
+import { DivideY } from '@luma/ui'
 
 import AnnouncementSection from '@features/Sections/AnnouncementSection'
 import SliderImagesSection from '@features/Sections/SliderImagesSection'
 import CategoriesSections from '@features/Sections/CategoriesSections'
 import SiderbarLayout from '@layouts/SiderbarLayout'
-import Divide from '@core/Divide'
-import Head from 'next/head'
 
 const Settings: NextPage = () => {
   return (
     <>
       <NextSeo title="Configurações" />
 
-      <Head>
-        <link rel="shortcut icon" href="/favicon.svg" type="image/x-icon" />
-      </Head>
-
-      <Stack spacing={4} mt={4} mb={10} width="50%">
-        <Typography variant="h5" color="white" fontWeight="bold">
+      <div className="space-y-8 w-full mb-20  md:w-[50%]">
+        <h1 className="text-light-gray-100 font-bold text-2xl">
           Configurações do sistema
-        </Typography>
-        <Divide>
+        </h1>
+        <DivideY>
           <CategoriesSections />
           <AnnouncementSection />
           <SliderImagesSection />
-        </Divide>
-      </Stack>
+        </DivideY>
+      </div>
     </>
   )
 }

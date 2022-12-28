@@ -7,7 +7,7 @@ import {
 
 import { OrderGetAllDto, OrderGetDto, PaymentStatus } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 interface OrdersListParams {

@@ -5,7 +5,7 @@ import { useForm, FieldValues } from 'react-hook-form'
 import { useMercadopago } from 'react-sdk-mercadopago/lib'
 import { useFetchers } from '@hooks/useFetchers'
 import { useCart } from '@contexts/CartContext'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 
 import {
   CreditPaymentFormSection,
@@ -66,7 +66,7 @@ export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
       setLoading(false)
       setPaymentResponse(response)
 
-      if (message) toast(message)
+      if (message) toast.primary(message)
       if (method === 'PIX') return setModal({ pix: true, boleto: false })
       if (method === 'BOLETO') return setModal({ pix: false, boleto: true })
 

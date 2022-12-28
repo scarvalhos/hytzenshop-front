@@ -1,20 +1,12 @@
-import {
-  RemoveRedEyeOutlined,
-  VisibilityOffOutlined,
-} from '@mui/icons-material'
+import React from 'react'
 
-import { UseFormRegister, FieldValues, Control } from 'react-hook-form'
-import { IconButton } from '@mui/material'
-import { useState } from 'react'
+import { UseFormRegister, FieldValues } from 'react-hook-form'
+import { TbEye, TbEyeOff } from 'react-icons/tb'
 
-import FieldInput, { SharedFieldInputProps } from '../Field'
+import FieldInput, { FieldInputProps } from '../Field'
 
-type Password = SharedFieldInputProps & {
-  name: string
+type Password = FieldInputProps & {
   register: UseFormRegister<FieldValues>
-  control?: Control<FieldValues, object>
-  label?: string
-  error?: string
 }
 
 const Password: React.FC<Password> = ({
@@ -25,42 +17,36 @@ const Password: React.FC<Password> = ({
   error,
   ...props
 }) => {
-  const [seePassword, setSeePassword] = useState<'password' | 'text'>(
-    'password'
-  )
+  const [seePassword, setSeePassword] = React.useState(false)
 
-  const handleSeePassword = () => {
-    if (seePassword === 'password') {
-      setSeePassword('text')
-    }
-    if (seePassword === 'text') {
-      setSeePassword('password')
-    }
-  }
+  const handleSeePassword = React.useCallback(
+    (e: React.MouseEvent) => {
+      e.preventDefault()
+      setSeePassword(!seePassword)
+    },
+    [seePassword]
+  )
 
   return (
     <FieldInput
       {...props}
       {...register(name)}
-      type={seePassword}
+      type={seePassword ? 'text' : 'password'}
       label={label}
       control={control}
-      variant="password"
+      fieldVariant="password"
       error={error}
       renderInsideInput={
-        <IconButton
-          sx={{ color: 'white', padding: 0 }}
+        <div
+          className="mr-1 px-3 cursor-pointer rounded-full flex items-center justify-center"
           onClick={handleSeePassword}
         >
-          {seePassword === 'password' ? (
-            <RemoveRedEyeOutlined
-              color="inherit"
-              sx={{ fontSize: '1.25rem' }}
-            />
+          {seePassword ? (
+            <TbEye color="inherit" />
           ) : (
-            <VisibilityOffOutlined sx={{ fontSize: '1.25rem' }} />
+            <TbEyeOff color="inherit" />
           )}
-        </IconButton>
+        </div>
       }
     />
   )

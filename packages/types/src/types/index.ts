@@ -143,10 +143,11 @@ export interface PaginationParams {
   order?: string
 }
 
-export interface PaymentWebhookResponse {
+export interface PaymentSocketResponse {
   data: {
     id: string
     status: PaymentStatus
+    orderId: string
   }
 }
 
@@ -290,22 +291,28 @@ export const displayStatusOrders: Record<StatusOrders, string> = {
 export const statusOrdersColor = (s: StatusOrders) => {
   switch (s) {
     case 'pending':
-      return theme.colors.warning[300]
+      return 'bg-warning-400'
 
     case 'approved':
-      return theme.colors.warning[300]
+    case 'delivered':
+    case 'authorized':
+    case 'in_process':
+      return 'bg-success-400'
 
     case 'processing':
-      return theme.colors.warning[300]
+      return 'bg-light-gray-500'
 
     case 'sending':
-      return theme.colors.warning[300]
-
-    case 'delivered':
-      return theme.colors.success[300]
+      return 'bg-primary-300'
 
     case 'cancelled':
-      return theme.colors.danger[300]
+    case 'rejected':
+    case 'refunded':
+      return 'bg-danger-300'
+
+    case 'charged_back':
+    case 'in_mediation':
+      return 'bg-dark-gray-100'
 
     default:
       return theme.colors['dark-gray'][400]

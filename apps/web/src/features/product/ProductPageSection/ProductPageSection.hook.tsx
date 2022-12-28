@@ -8,7 +8,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import { useCart } from '@contexts/CartContext'
 import { Product } from '@hytzenshop/types'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 
 const validateProductToCart = yup.object().shape({
   color: yup.string().required('Escolha uma cor'),
@@ -58,7 +58,7 @@ export const useProductPageSection = ({
         .reduce((prev, next) => prev + next, 0)
 
       if (quantities >= Number(product?.stock)) {
-        return toast(
+        return toast.primary(
           'Poxa! A quantidade escolhida está fora de estoque no momento! :('
         )
       }

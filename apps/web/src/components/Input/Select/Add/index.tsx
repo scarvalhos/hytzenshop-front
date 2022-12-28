@@ -2,9 +2,8 @@ import React from 'react'
 
 import { TbCirclePlus, TbTrash } from 'react-icons/tb'
 import { FieldInputProps } from '@components/Input/Field'
+import { Chip, Error } from '@luma/ui'
 import { Controller } from 'react-hook-form'
-import { Error } from '@core'
-import { Chip } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 import {
@@ -49,7 +48,7 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
       className,
       renderAfter,
       renderBefore,
-      variant,
+      variant = 'filled',
       fieldVariant,
     },
     _ref
@@ -155,7 +154,7 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
               {...(chipDeleteIcon
                 ? {
                     onDelete: () => deleteFromAdded(add),
-                    deleteIcon: <TbTrash size={16} />,
+                    deleteIcon: () => <TbTrash size={16} />,
                   }
                 : {
                     onClick: () => deleteFromAdded(add),

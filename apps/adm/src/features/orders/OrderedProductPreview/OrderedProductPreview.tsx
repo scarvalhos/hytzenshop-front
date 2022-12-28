@@ -1,12 +1,12 @@
-import { ProductGetDto, CartProduct, Order } from '@hytzenshop/types'
+import { ProductGetDto, CartProduct } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { c, money } from '@hytzenshop/helpers'
 import { Chip } from '@luma/ui'
-import { Link } from '@core/Link'
 import { api } from '@hytzenshop/services'
 
 import React from 'react'
 import Image from 'next/image'
+import Link from '@core/Link'
 
 interface OrderedProductPreviewProps {
   product: CartProduct
@@ -30,29 +30,28 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
   return (
     <div
       className={c(
-        'flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-2 rounded-md px-4 py-4 bg-dark-gray-500'
+        'flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 rounded-md px-4 py-4 bg-dark-gray-500'
       )}
     >
       <Link href={`/product/${product?.productId}`}>
         {data?.product && (
-          <Image
-            src={data?.product.images[0].url || ''}
-            alt={data?.product.title}
-            width={70}
-            height={70}
-            objectFit="cover"
-            objectPosition="center"
-            style={{
-              borderRadius: 4,
-              width: '70px',
-              height: '70px',
-            }}
-          />
+          <div className="relative w-[70px] h-[70px] rounded-sm">
+            <Image
+              src={data?.product.images[0].url || ''}
+              alt={data?.product.title}
+              fill
+              sizes="100%"
+              className="object-cover object-center rounded-sm"
+            />
+          </div>
         )}
       </Link>
 
       <div className="flex flex-col justify-center space-y-2">
-        <Link href={`/product/${product?.productId}`}>
+        <Link
+          href={`/product/${product?.productId}`}
+          className="text-light-gray-100 font-medium text-base"
+        >
           {data?.product.title}
         </Link>
 

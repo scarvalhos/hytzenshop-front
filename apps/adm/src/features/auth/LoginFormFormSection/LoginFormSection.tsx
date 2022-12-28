@@ -81,6 +81,7 @@ export const LoginFormSection: React.FC<LoginFormSectionProps> = ({
             label="Username:"
             control={control}
             error={errors?.username?.message?.toString()}
+            isFullWidth
             {...register('username')}
           />
           <Password
@@ -89,6 +90,7 @@ export const LoginFormSection: React.FC<LoginFormSectionProps> = ({
             passthrough={{ placeholder: 'Digite sua senha' }}
             register={register}
             control={control}
+            isFullWidth
             error={errors?.password?.message?.toString()}
           />
         </div>

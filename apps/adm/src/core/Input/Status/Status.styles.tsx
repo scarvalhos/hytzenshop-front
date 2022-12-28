@@ -1,31 +1,33 @@
-import styled from 'styled-components'
+import { styled } from '@stitches/react'
 
 import { Listbox } from '@headlessui/react'
-import { Stack } from '@mui/material'
+import { theme } from '@luma/ui'
 
-export const Status = styled(Stack)`
-  width: fit-content;
-  flex-direction: row;
-  align-items: center;
-  padding: 0.25rem 0.5rem;
-  border-radius: 50px;
-  color: ${({ theme }) => theme.palette.text.primary};
-  font-size: 0.75rem;
-  text-transform: capitalize;
-  user-select: none;
-`
+export const Status = styled('div', {
+  width: 'fit-content',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: '0.25rem 0.5rem',
+  borderRadius: '50px',
+  color: theme.colors['light-gray'][100],
+  fontSize: '0.75rem',
+  textRransform: 'capitalize',
+  userSelect: 'none',
+})
 
-export const StatusButton = styled(Listbox.Button)`
-  background: none;
-  padding: 0;
-`
+export const StatusButton = styled(Listbox.Button, {
+  background: 'none',
+  padding: 0,
+})
 
-export const StatusOptions = styled(Listbox.Options)`
-  position: absolute;
-  left: 0;
-  padding: 0.5rem 0px;
-  min-width: max-content;
-  border-radius: 6px;
-  background: ${({ theme }) => theme.palette.secondary.dark};
-  z-index: 99999;
-`
+export const StatusOptions = styled(Listbox.Options, {
+  position: 'absolute',
+  left: 0,
+  marginTop: 10,
+  padding: '0.5rem 0px',
+  minWidth: 'max-content',
+  borderRadius: '6px',
+  background: theme.colors['dark-gray'][400],
+  zIndex: 99999,
+})

@@ -42,20 +42,21 @@ export default function App({ Component, pageProps }: AppProps) {
           <CartProvider>
             <WishlistProvider>
               <ToastContainer
-                className="px-2"
+                rtl={false}
+                className="px-2 z-[1200000]"
                 position="top-right"
                 newestOnTop={false}
                 closeOnClick
-                rtl={false}
                 pauseOnFocusLoss
-                draggable
                 pauseOnHover
+                draggable
                 transition={Slide}
-                autoClose={3000}
+                autoClose={4000}
                 theme="dark"
-                style={{ zIndex: 99999999999 }}
-                toastStyle={{ background: '#1E1E1E' }}
-                closeButton={<TbX className="mt-2 mr-1 text-dark-gray-500" />}
+                toastClassName="bg-dark-gray-300"
+                closeButton={
+                  <TbX size={20} className="mt-2 mr-1 text-light-gray-500" />
+                }
               />
 
               <Component {...pageProps} />

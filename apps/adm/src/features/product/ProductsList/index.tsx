@@ -26,6 +26,8 @@ export const ProductsList: React.FC<ProductsListProps> = ({
         Header: '',
         type: 'file',
         accessor: ({ images }) => images[0]?.url,
+
+        fileClassName: 'w-[100px] h-[100px]',
       },
       {
         Header: 'Título',
@@ -34,22 +36,22 @@ export const ProductsList: React.FC<ProductsListProps> = ({
       {
         Header: 'Estoque',
         accessor: 'stock',
-        align: 'center',
+        align: 'items-center',
       },
       {
         Header: 'Vendas',
         accessor: 'stock',
-        align: 'center',
+        align: 'items-center',
       },
       {
         Header: 'Avaliação média',
         accessor: 'averageRating',
-        align: 'center',
+        align: 'items-center',
       },
       {
         Header: 'Preço',
         accessor: ({ price }) => money(price),
-        align: 'center',
+        align: 'items-center',
       },
     ],
     []

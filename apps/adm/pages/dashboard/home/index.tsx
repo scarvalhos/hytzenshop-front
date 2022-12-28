@@ -12,7 +12,7 @@ import {
 } from 'react-icons/tb'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
-// import Graphic from '@core/Graphic'
+import Graphic from '@core/Graphic'
 
 const DashboardHome: NextPage = () => {
   const {
@@ -101,10 +101,10 @@ const DashboardHome: NextPage = () => {
         </div>
       </div>
 
-      {/* <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Graphic title="Vendas 2022" />
         <Graphic title="Novos clientes" />
-      </div> */}
+      </div>
 
       <div className="mt-10 mb-20 space-y-4">
         <h2 className="text-light-gray-100 text-xl">

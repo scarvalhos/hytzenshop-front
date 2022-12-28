@@ -1,7 +1,6 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { ProductGetAllDto } from '@hytzenshop/types'
-import { getProductList } from '@hooks/useProducts'
 import { useWishlist } from '@contexts/WishlistContext'
+import { useConfig } from '@contexts/ConfigContext'
+import { randonfy } from '@hytzenshop/helpers'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { TbHeart } from 'react-icons/tb'
@@ -12,15 +11,8 @@ import Image from 'next/image'
 import React from 'react'
 
 const WishlistPage: NextPage = () => {
+  const { productsSugestions } = useConfig()
   const { wishlist } = useWishlist()
-
-  const { data: randomProducts } = useQuery(
-    ['products-random'],
-    () => getProductList(1, 5),
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    }
-  ) as UseQueryResult<ProductGetAllDto, unknown>
 
   return (
     <HeaderFooterLayout>
@@ -86,7 +78,10 @@ const WishlistPage: NextPage = () => {
 
         <ProductSection
           title="Você Também Pode Gostar"
-          products={randomProducts?.data.products || []}
+          products={randonfy(productsSugestions?.data.products || []).slice(
+            0,
+            5
+          )}
         />
       </div>
     </HeaderFooterLayout>

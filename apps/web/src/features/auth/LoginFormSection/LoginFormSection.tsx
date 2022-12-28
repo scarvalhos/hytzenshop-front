@@ -1,15 +1,15 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 
-import React from 'react'
-
 import { FieldValues, useForm } from 'react-hook-form'
 import { DivideY, Button } from '@luma/ui'
 import { Password, Field } from '@components/Input'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { CheckIcon } from '@radix-ui/react-icons'
 import { useAuth } from '@contexts/AuthContext'
-import { Image } from '@core'
 import { c } from '@hytzenshop/helpers'
+
+import Image from 'next/image'
+import React from 'react'
 
 interface LoginFormSectionProps {
   title?: string | React.ReactNode
@@ -155,31 +155,35 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
           <div className="space-y-4">
             <Button
               type="submit"
-              loading={loading}
               variant="filled"
               className="w-full bg-white text-dark-gray-500"
             >
               <span className="flex flex-row items-center">
-                <Image
-                  src="/icons/google.png"
-                  alt="Google"
-                  className="w-6 h-6 mr-2"
-                />
+                <div className="relative flex flex-row items-center w-6 h-6 mr-2">
+                  <Image
+                    src="/icons/google.png"
+                    alt="Google"
+                    fill
+                    sizes="100%"
+                  />
+                </div>
                 Entrar com Google
               </span>
             </Button>
             <Button
               type="submit"
-              loading={loading}
               variant="filled"
               className="w-full bg-primary-400"
             >
               <span className="flex flex-row items-center">
-                <Image
-                  src="/icons/facebook.png"
-                  alt="Google"
-                  className="w-6 h-6 mr-2"
-                />
+                <div className="relative w-6 h-6 mr-2">
+                  <Image
+                    src="/icons/facebook.png"
+                    alt="Google"
+                    fill
+                    sizes="100%"
+                  />
+                </div>
                 Entrar com Facebook
               </span>
             </Button>

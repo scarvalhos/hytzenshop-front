@@ -1,14 +1,13 @@
 import * as React from 'react'
 import * as Input from '@core/Input'
 
-import { CircularProgress, Stack, Typography, useTheme } from '@mui/material'
 import { useDebounceCallback } from '@react-hook/debounce'
 import { makePrismaWhere } from '@hytzenshop/helpers'
+import { Button, Loader } from '@luma/ui'
 import { useNewProduct } from '@hooks/useNewProduct'
 import { TbCirclePlus } from 'react-icons/tb'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import { Button } from '@luma/ui'
 
 interface HeaderUsersListProps {
   loading?: boolean
@@ -21,7 +20,6 @@ export const HeaderUsersTable: React.FC<HeaderUsersListProps> = ({
 
   const { control, register } = useForm()
   const { setFilter } = useNewProduct()
-  const { palette } = useTheme()
   const { push } = useRouter()
 
   const onFiltersChange = React.useCallback(() => {
@@ -36,61 +34,50 @@ export const HeaderUsersTable: React.FC<HeaderUsersListProps> = ({
     } else {
       setFilter(undefined)
     }
-  }, [search])
+  }, [search, setFilter])
 
   const onFiltersChangeDebounce = useDebounceCallback(onFiltersChange, 900)
 
-  React.useEffect(() => onFiltersChangeDebounce(), [search])
+  React.useEffect(
+    () => onFiltersChangeDebounce(),
+    [onFiltersChangeDebounce, search]
+  )
 
   return (
-    <Stack
-      bgcolor="black"
-      pb={3}
-      spacing={1}
-      sx={{
-        position: 'sticky',
-        top: '60px',
-        zIndex: 9999,
-      }}
-    >
-      <Typography variant="h5" fontWeight="600" color={palette.text.primary}>
+    <div className="sticky top-20 mb-8 z-40 bg-black">
+      <h1 className="text-light-gray-100 py-2 bg-black font-semibold text-2xl">
         Usuários
-      </Typography>
+      </h1>
 
-      <Stack direction="row" justifyContent="space-between" alignItems="center">
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Button
-            variant="filled"
-            className="relative pl-10"
-            onClick={() => push('/admin/quik/users/new-user')}
-            rounded
-          >
-            <TbCirclePlus size={20} className="absolute left-4" />
-            Novo usuário
-          </Button>
+      <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md">
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row items-center space-x-2">
+            <Button
+              variant="filled"
+              className="relative pl-10"
+              onClick={() => push('/admin/quik/users/new-user')}
+              rounded
+            >
+              <TbCirclePlus size={20} className="absolute left-4" />
+              Novo usuário
+            </Button>
 
-          {loading && (
-            <CircularProgress
-              size={18}
-              sx={{
-                color: palette.success.main,
-              }}
+            {loading && <Loader className="text-success-300" />}
+          </div>
+
+          <div className="flex flex-row w-[25%]">
+            <Input.Field
+              placeholder="Pesquisar"
+              variant="filled"
+              control={control}
+              {...register('search', {
+                onChange: (e) => setSearch(e.target.value),
+              })}
+              rounded
             />
-          )}
-        </Stack>
-
-        <Stack direction="row" spacing={1} width="25%">
-          <Input.Field
-            placeholder="Pesquisar"
-            variant="outlined"
-            control={control}
-            {...register('search', {
-              onChange: (e) => setSearch(e.target.value),
-            })}
-            rounded
-          />
-        </Stack>
-      </Stack>
-    </Stack>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

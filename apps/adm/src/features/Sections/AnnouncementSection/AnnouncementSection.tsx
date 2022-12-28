@@ -1,11 +1,11 @@
+import * as Switch from '@radix-ui/react-switch'
 import * as React from 'react'
 import * as Input from '@core/Input'
 
 import { TbDeviceFloppy, TbInfoCircle } from 'react-icons/tb'
-import { FormControlLabel, Switch } from '@mui/material'
 import { FieldValues, useForm } from 'react-hook-form'
 import { useConfig } from '@contexts/ConfigContext'
-import { Button } from '@core/Button'
+import { Button } from '@luma/ui'
 
 import BoxSection from '@core/BoxSection'
 
@@ -32,51 +32,50 @@ const AnnouncementSection: React.FC = () => {
     return updateAnnouncement({
       showAnnouncement: !showAnnouncement,
     })
-  }, [])
+  }, [showAnnouncement, updateAnnouncement])
 
   return (
     <BoxSection
       title="Announcement"
       description="Atualize a barra de announcement da tela principal."
       renderAfterTitle={() => <TbInfoCircle />}
-      spacing
+      className="space-y-3"
     >
-      <FormControlLabel
-        label="Ativo"
-        labelPlacement="start"
-        control={
-          <Switch
-            checked={showAnnouncement}
-            color="success"
-            onChange={handleChange}
-          />
-        }
-        sx={{
-          maxWidth: 'fit-content',
-        }}
-      />
+      <div className="flex flex-row items-center space-x-2">
+        <Switch.Root
+          className="SwitchRoot bg-dark-gray-300"
+          id="switch"
+          defaultChecked={showAnnouncement}
+          onClick={handleChange}
+        >
+          <Switch.Thumb className="SwitchThumb" />
+        </Switch.Root>
+        <label className="Label" htmlFor="switch" style={{ paddingRight: 15 }}>
+          Ativo
+        </label>
+      </div>
 
       <Input.Textarea
+        rows={2}
         control={control}
         defaultValue={announcement}
-        rows={2}
         disabled={!showAnnouncement}
+        variant="filled"
+        isFullWidth
         {...register('announcement')}
       />
 
       <Button
-        title="Salvar alterações"
-        variant="contained"
-        icon={<TbDeviceFloppy size={20} style={{ marginRight: 6 }} />}
-        fullWidth={false}
+        variant="filled"
         disabled={!showAnnouncement || !isDirty}
         onClick={handleSubmit(onClickSubmit)}
         rounded
-        sx={{
-          width: 'fit-content',
-          maxHeight: '40px',
-        }}
-      />
+      >
+        <span className="flex flex-row items-center space-x-1">
+          <TbDeviceFloppy size={20} style={{ marginRight: 6 }} />
+          <p>Salvar alterações</p>
+        </span>
+      </Button>
     </BoxSection>
   )
 }

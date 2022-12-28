@@ -3,7 +3,7 @@ import React from 'react'
 import { FieldContent, FieldLabel, FieldWrapper } from '../Field/styles'
 import { FieldInputProps } from '../Field'
 import { Controller } from 'react-hook-form'
-import { Error } from '@core'
+import { Error } from '@luma/ui'
 import { Field } from './styles'
 import { c } from '@hytzenshop/helpers'
 
@@ -25,7 +25,7 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
       defaultValue,
       renderAfter,
       renderInsideInput,
-      variant,
+      variant = 'filled',
       error,
       isFullWidth,
       containerClassName,

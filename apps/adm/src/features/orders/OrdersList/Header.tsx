@@ -1,12 +1,12 @@
 import * as React from 'react'
 import * as Input from '@core/Input'
 
-import { CircularProgress, Stack, Typography, useTheme } from '@mui/material'
 import { useDebounceCallback } from '@react-hook/debounce'
 import { statusOrdersOptions } from '@hytzenshop/types'
 import { makePrismaWhere } from '@hytzenshop/helpers'
 import { useNewProduct } from '@hooks/useNewProduct'
 import { useForm } from 'react-hook-form'
+import { Loader } from '@luma/ui'
 
 interface HeaderOrdersListProps {
   loading?: boolean
@@ -19,7 +19,6 @@ export const HeaderOrdersList: React.FC<HeaderOrdersListProps> = ({
   const [search, setSearch] = React.useState()
 
   const { setFilter } = useNewProduct()
-  const { palette } = useTheme()
 
   const { control, register } = useForm()
 
@@ -32,7 +31,6 @@ export const HeaderOrdersList: React.FC<HeaderOrdersListProps> = ({
     () =>
       JSON.stringify({
         status: status || undefined,
-
         OR: [
           {
             mpPaymentId: {
@@ -59,57 +57,45 @@ export const HeaderOrdersList: React.FC<HeaderOrdersListProps> = ({
 
   React.useEffect(
     () => onFiltersChangeDebounce(),
-    [status, search, onFiltersChange]
+    [status, search, onFiltersChange, onFiltersChangeDebounce]
   )
 
   return (
-    <Stack
-      direction="row"
-      justifyContent="space-between"
-      alignItems="center"
-      bgcolor="black"
-      py={3}
-      sx={{
-        position: 'sticky',
-        top: '2rem',
-        zIndex: 9999,
-      }}
-    >
-      <Stack direction="row" alignItems="center" spacing={2}>
-        <Typography variant="h5" fontWeight="600" color={palette.text.primary}>
+    <div className="sticky top-20 mb-8 z-40 bg-black">
+      <div className="flex flex-row items-center justify-center space-x-2 w-fit relative">
+        <h1 className="text-light-gray-100 py-2 bg-black font-semibold text-2xl">
           Pedidos
-        </Typography>
+        </h1>
 
-        {loading && (
-          <CircularProgress
-            size={18}
-            sx={{
-              color: palette.success.main,
-            }}
-          />
-        )}
-      </Stack>
+        {loading && <Loader className="sticky text-success-300" />}
+      </div>
 
-      <Stack direction="row" spacing={1} width="50%">
-        <Input.Select.Default
-          name="status"
-          placeholder="Filtre por status"
-          variant="outlined"
-          options={options}
-          onChange={(e) => setStatus((e as any).value) as any}
-          rounded
-        />
+      <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md">
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-row items-center space-x-2"></div>
 
-        <Input.Field
-          placeholder="Pesquisar"
-          variant="outlined"
-          control={control}
-          {...register('filter', {
-            onChange: (e) => setSearch(e.target.value),
-          })}
-          rounded
-        />
-      </Stack>
-    </Stack>
+          <div className="flex flex-row space-x-2 w-[50%]">
+            <Input.Select.Default
+              name="status"
+              placeholder="Filtre por status"
+              variant="filled"
+              options={options}
+              onChangeValue={(e) => setStatus((e as any).value) as any}
+              rounded
+            />
+
+            <Input.Field
+              placeholder="Pesquisar"
+              variant="filled"
+              control={control}
+              {...register('filter', {
+                onChange: (e) => setSearch(e.target.value),
+              })}
+              rounded
+            />
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

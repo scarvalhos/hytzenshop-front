@@ -1,10 +1,15 @@
 import * as React from 'react'
 
-import { FieldLabel, FieldContent } from '@core/Input/Field/styles'
+import {
+  FieldLabel,
+  FieldContent,
+  FieldWrapper,
+} from '@core/Input/Field/styles'
+
+import { Error, Chip, theme } from '@luma/ui'
 import { FieldInputProps } from '@core/Input/Field'
 import { Option } from '@hytzenshop/types'
-import { Chip, Stack, useTheme } from '@mui/material'
-import { Error } from '@core/Error'
+import { c } from '@hytzenshop/helpers'
 
 import Select, { SingleValue } from 'react-select'
 
@@ -22,11 +27,17 @@ const SelectMultiple = <T,>({
   error,
   label,
   name,
+  isFullWidth,
+  containerClassName,
+  renderAfterLabel,
+  inputWrapperClassName,
+  renderBefore,
+  renderAfter,
+  variant,
+  rounded,
 }: React.PropsWithChildren<SelectMultipleProps<T>>) => {
   const [selecteds, setSelecteds] =
     React.useState<SingleValue<Option<any>>[]>(defaultValues)
-
-  const theme = useTheme()
 
   const deleteFromSelecteds = React.useCallback(
     (value: string) => {
@@ -49,112 +60,110 @@ const SelectMultiple = <T,>({
   }, [clearErrors, error, name, selecteds, setValue])
 
   return (
-    <Stack flex={1} spacing={1}>
-      {label && <FieldLabel erro={error}>{label}</FieldLabel>}
-      <FieldContent
-        erro={error}
-        sx={{
-          padding: '0.25rem !important',
-        }}
-      >
-        <Select
-          options={options as any}
-          styles={{
-            input: (style) => ({
-              ...style,
-              color: theme.palette.text.primary,
-            }),
-            singleValue: (style) => ({
-              ...style,
-              fontWeight: 500,
-              color: theme.palette.text.primary,
-            }),
-            container: (style) => ({
-              ...style,
-              width: '100%',
-              background: theme.palette.primary.dark,
-            }),
-            control: (style) => ({
-              ...style,
-              background: theme.palette.primary.dark,
-              color: theme.palette.text.primary,
-              border: 'none',
-              boxShadow: 'none',
-              outline: 'none',
-            }),
-            menuList: (style) => ({
-              ...style,
-              padding: 0,
-              borderRadius: '3px',
-              backgroundColor: theme.palette.primary.dark,
-            }),
-            option: (style) => ({
-              ...style,
-              color: theme.palette.text.primary,
-              background: theme.palette.primary.dark,
-              paddingLeft: 16,
-              paddingRight: 16,
-              cursor: 'pointer',
-              fontWeight: 500,
-              fontSize: 14,
-              ':hover': {
-                background: theme.palette.primary.dark,
-                filter: 'brightness(1.2)',
-              },
-            }),
-            indicatorSeparator: () => ({}),
-            placeholder: (style) => ({
-              ...style,
-              color: theme.palette.text.secondary,
-            }),
-          }}
-          defaultValue={defaultValue}
-          onChange={(e) => {
-            setSelecteds((old) => {
-              if (
-                old.find(
-                  (i) => i?.value === (e as SingleValue<Option<any>>)?.value
-                )
-              ) {
-                return old
-              }
+    <FieldWrapper
+      width={isFullWidth ? 'full' : 'fit'}
+      className={c('space-y-2', containerClassName)}
+    >
+      {label && (
+        <FieldLabel color={error ? 'error' : 'initial'}>
+          {label}
+          {renderAfterLabel}
+        </FieldLabel>
+      )}
 
-              return [...old, e as SingleValue<Option<any>>]
-            })
-          }}
-        />
-      </FieldContent>
+      <div className={c('flex flex-row gap-2', inputWrapperClassName)}>
+        {renderBefore}
+
+        <FieldContent
+          variant={variant}
+          error={error ? 'true' : 'false'}
+          rounded={rounded ? 'true' : 'false'}
+          className="flex flex-row py-0.5"
+        >
+          <Select
+            options={options as any}
+            styles={{
+              input: (style) => ({
+                ...style,
+                color: theme.colors['light-gray'][100],
+              }),
+              singleValue: (style) => ({
+                ...style,
+                fontWeight: 500,
+                color: theme.colors['light-gray'][100],
+              }),
+              container: (style) => ({
+                ...style,
+                width: '100%',
+              }),
+              control: (style) => ({
+                ...style,
+                backgroundColor: 'transparent',
+                color: theme.colors['light-gray'][100],
+                border: 'none',
+                boxShadow: 'none',
+                outline: 'none',
+              }),
+              menuList: (style) => ({
+                ...style,
+                padding: 0,
+                borderRadius: '3px',
+                background: theme.colors['dark-gray'][500],
+              }),
+              option: (style) => ({
+                ...style,
+                color: theme.colors['light-gray'][100],
+                background: theme.colors['dark-gray'][500],
+                paddingLeft: 16,
+                paddingRight: 16,
+                cursor: 'pointer',
+                fontWeight: 500,
+                fontSize: 14,
+                ':hover': {
+                  background: theme.colors['dark-gray'][400],
+                  filter: 'brightness(1.2)',
+                },
+              }),
+              indicatorSeparator: () => ({}),
+              placeholder: (style) => ({
+                ...style,
+                color: theme.colors['light-gray'][400],
+              }),
+            }}
+            defaultValue={defaultValue}
+            onChange={(e) => {
+              setSelecteds((old) => {
+                if (
+                  old.find(
+                    (i) => i?.value === (e as SingleValue<Option<any>>)?.value
+                  )
+                ) {
+                  return old
+                }
+
+                return [...old, e as SingleValue<Option<any>>]
+              })
+            }}
+          />
+        </FieldContent>
+
+        {renderAfter}
+      </div>
 
       {error && <Error>{error}</Error>}
 
-      <Stack
-        direction="row"
-        marginTop="5px"
-        sx={{
-          flexFlow: 'wrap',
-          gap: 1,
-        }}
-      >
+      <div className="flex flex-row flex-wrap gap-2">
         {selecteds.map((selected) => (
           <Chip
             key={selected?.value}
             label={selected?.label}
             variant="filled"
             size="small"
-            sx={{
-              borderRadius: '6px',
-              color: theme.palette.text.secondary,
-              background: theme.palette.secondary.dark,
-              ':hover': {
-                color: theme.palette.text.primary,
-                background: theme.palette.primary.dark,
-              },
-            }}
             onClick={() => deleteFromSelecteds(selected?.value)}
           />
         ))}
-      </Stack>
-    </Stack>
+      </div>
+    </FieldWrapper>
   )
 }
 

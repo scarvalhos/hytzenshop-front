@@ -4,7 +4,7 @@ import { FieldContent, FieldLabel, FieldWrapper } from '../Field/styles'
 import { FieldInputProps } from '../Field'
 import { useFieldInput } from '../Field/Field.hook'
 import { Controller } from 'react-hook-form'
-import { Error } from '@core'
+import { Error } from '@luma/ui'
 import { Field } from './styles'
 import { c } from '@hytzenshop/helpers'
 

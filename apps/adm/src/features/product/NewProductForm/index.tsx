@@ -2,17 +2,16 @@ import * as Input from '@core/Input'
 import * as React from 'react'
 import * as Modal from '@core/Modal'
 
-import { Stack, Typography, useTheme, useMediaQuery } from '@mui/material'
 import { useNewProductForm } from './useNewProductForm.hook'
 import { useConfigTypes } from '@utils/types/config'
+import { useBreakpoint } from '@hytzenshop/hooks'
 import { sizesOptions } from '@hytzenshop/types'
-import { Button } from '@core/Button'
+import { Button } from '@luma/ui'
+import { c } from '@hytzenshop/helpers'
 
 export const NewProductForm: React.FC = () => {
-  const theme = useTheme()
-  const sm = useMediaQuery(theme.breakpoints.down('sm'))
-
   const { categoriesOptions } = useConfigTypes()
+  const { sm } = useBreakpoint()
 
   const {
     control,
@@ -30,7 +29,7 @@ export const NewProductForm: React.FC = () => {
 
   return (
     <>
-      <Modal.Succes
+      <Modal.SuccessModal
         open={openSuccessModal}
         handleClose={onCloseSuccessModal}
         title="Produto adicionado com sucesso!"
@@ -40,31 +39,21 @@ export const NewProductForm: React.FC = () => {
       />
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack
-          marginX={sm ? '2rem' : '5rem'}
-          pb="4rem"
-          spacing={1}
-          width="80%"
-          margin="0 auto"
-        >
-          <Typography
+        <div className="pb-8 space-y-4">
+          <p
             id="modal-modal-title"
-            variant="h6"
-            component="h2"
-            color="white"
-            fontWeight="bold"
-            mb={3}
+            className="text-light-gray-100 text-2xl font-semibold mb-6"
           >
             Novo produto
-          </Typography>
-
-          <Stack direction={sm ? 'column' : 'row'} spacing={1}>
+          </p>
+          <div className="flex flex-col sm:flex-row max-sm:space-y-2 sm:space-x-2">
             <Input.Field
               type="text"
               label="Título do produto"
               placeholder="Título do produto"
               control={control}
               error={String(errors.title?.message || '')}
+              isFullWidth
               {...register('title')}
             />
 
@@ -73,24 +62,29 @@ export const NewProductForm: React.FC = () => {
               label="Preço"
               control={control}
               error={String(errors.price?.message || '')}
+              isFullWidth
               {...register('price')}
             />
-          </Stack>
+          </div>
 
           <Input.Textarea
             label="Descrição"
             control={control}
             placeholder="Descrição do produto"
             error={String(errors.description?.message || '')}
+            isFullWidth
+            variant="filled"
+            rows={4}
             {...register('description')}
           />
 
-          <Stack direction={sm ? 'column' : 'row'} spacing={1}>
+          <div className="flex flex-col sm:flex-row max-sm:space-y-2 sm:space-x-2">
             <Input.Field
               type="number"
               label="Estoque"
               control={control}
               error={String(errors.stock?.message || '')}
+              isFullWidth
               {...register('stock')}
             />
 
@@ -103,11 +97,13 @@ export const NewProductForm: React.FC = () => {
               defaultValue={[]}
               clearErrors={clearErrors}
               chipVariant="filled"
+              variant="filled"
+              isFullWidth
               {...register('colors')}
             />
-          </Stack>
+          </div>
 
-          <Stack direction={sm ? 'column' : 'row'} spacing={1}>
+          <div className="flex flex-col sm:flex-row max-sm:space-y-2 sm:space-x-2">
             <Input.Select.Multiple
               label="Categorias"
               options={categoriesOptions}
@@ -116,6 +112,7 @@ export const NewProductForm: React.FC = () => {
               setValue={setValue}
               error={String(errors.categories?.message || '')}
               clearErrors={clearErrors}
+              isFullWidth
               {...register('categories')}
             />
 
@@ -127,9 +124,10 @@ export const NewProductForm: React.FC = () => {
               setValue={setValue}
               error={String(errors.sizes?.message || '')}
               clearErrors={clearErrors}
+              isFullWidth
               {...register('sizes')}
             />
-          </Stack>
+          </div>
 
           <Input.File
             label="Fotos do produto"
@@ -138,33 +136,31 @@ export const NewProductForm: React.FC = () => {
             error={String(errors.images?.message || '')}
             clearErrors={clearErrors}
             filesListDisplay="list"
+            variant="filled"
             {...register('images')}
+            isFullWidth
           />
 
-          <Stack
-            direction="row"
-            pt={2}
-            spacing={1}
-            justifyContent="end"
-            height={60}
-          >
-            <Button
-              type="button"
-              title="Cancelar"
-              variant="outlined"
-              onClick={onCancel}
-              fullWidth={sm}
-              rounded
-            />
+          <div className="flex flex-col sm:flex-row pt-4 max-sm:space-y-2 sm:space-x-2 justify-end">
             <Button
               type="submit"
-              title="Criar produto"
-              variant="contained"
-              fullWidth={sm}
+              variant="filled"
+              className={c(!sm && 'w-full')}
               rounded
-            />
-          </Stack>
-        </Stack>
+            >
+              Criar produto
+            </Button>
+            <Button
+              type="button"
+              variant="outlined"
+              onClick={onCancel}
+              className={c(!sm && 'w-full')}
+              rounded
+            >
+              Cancelar
+            </Button>
+          </div>
+        </div>
       </form>
     </>
   )

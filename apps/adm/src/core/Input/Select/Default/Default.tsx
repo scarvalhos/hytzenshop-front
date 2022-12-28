@@ -1,118 +1,137 @@
-import * as React from 'react'
-
-import { FieldLabel, FieldContent } from '@core/Input/Field/styles'
-import { FieldInputProps } from '@core/Input/Field'
-import { Option } from '@hytzenshop/types'
-import { Stack, useTheme } from '@mui/material'
-import { Error } from '@core/Error'
-
 import Select, { SingleValue } from 'react-select'
+import React from 'react'
+
+import { FieldInputProps } from '@core/Input/Field'
+import { theme, Error } from '@luma/ui'
+import { Option } from '@hytzenshop/types'
+import { c } from '@hytzenshop/helpers'
+
+import {
+  FieldContent,
+  FieldLabel,
+  FieldWrapper,
+} from '@core/Input/Field/styles'
 
 interface SelectDefaultProps<T> extends FieldInputProps {
   options?: Option<T>[]
   defaultValue?: string
+  onChangeValue?: (e: SingleValue<string>) => void
 }
 
-const SelectDefault = <T,>({
-  defaultValue,
-  clearErrors,
-  placeholder,
-  setValue,
-  options,
-  rounded,
-  variant,
-  error,
-  label,
-  name,
-  onChange,
-}: React.PropsWithChildren<SelectDefaultProps<T>>) => {
-  const theme = useTheme()
-
-  return (
-    <Stack flex={1} spacing={1}>
-      {label && <FieldLabel erro={error}>{label}</FieldLabel>}
-      <FieldContent
-        rounded={rounded ? 'true' : 'false'}
-        variant={variant}
-        erro={error}
-        sx={{
-          padding: '0.25rem !important',
-        }}
+const SelectDefault = React.forwardRef(
+  <T,>({
+    defaultValue,
+    clearErrors,
+    placeholder,
+    setValue,
+    options,
+    error,
+    variant,
+    rounded,
+    label,
+    name,
+    isFullWidth,
+    containerClassName,
+    renderAfterLabel,
+    className,
+    inputWrapperClassName,
+    renderBefore,
+    renderAfter,
+    onChangeValue,
+  }: React.PropsWithChildren<SelectDefaultProps<T>>) => {
+    return (
+      <FieldWrapper
+        width={isFullWidth ? 'full' : 'fit'}
+        className={c('space-y-2', containerClassName)}
       >
-        <Select
-          options={options as any}
-          styles={{
-            input: (style) => ({
-              ...style,
-              color: theme.palette.text.primary,
-              padding: 0,
-            }),
-            singleValue: (style) => ({
-              ...style,
-              fontWeight: 500,
-              color: theme.palette.text.primary,
-            }),
-            container: (style) => ({
-              ...style,
-              width: '100%',
-              background:
-                variant === 'outlined'
-                  ? 'transparent'
-                  : theme.palette.primary.dark,
-            }),
-            control: (style) => ({
-              ...style,
-              background:
-                variant === 'outlined'
-                  ? 'transparent'
-                  : theme.palette.primary.dark,
-              color: theme.palette.text.primary,
-              border: 'none',
-              boxShadow: 'none',
-              outline: 'none',
-            }),
-            menuList: (style) => ({
-              ...style,
-              padding: 0,
-              borderRadius: '2px',
-              backgroundColor: theme.palette.background.default,
-            }),
-            option: (style) => ({
-              ...style,
-              color: theme.palette.text.primary,
-              background: theme.palette.background.default,
-              paddingLeft: 16,
-              paddingRight: 16,
-              cursor: 'pointer',
-              fontWeight: 400,
-              fontSize: 14,
-              ':hover': {
-                background: theme.palette.primary.dark,
-                filter: 'brightness(1.2)',
-              },
-            }),
-            indicatorSeparator: () => ({}),
-            placeholder: (style) => ({
-              ...style,
-              color: theme.palette.text.secondary,
-            }),
-          }}
-          placeholder={placeholder}
-          defaultValue={defaultValue}
-          onChange={(e) => {
-            if (error && clearErrors) {
-              clearErrors(name)
-            }
+        {label && (
+          <FieldLabel color={error ? 'error' : 'initial'}>
+            {label}
+            {renderAfterLabel}
+          </FieldLabel>
+        )}
 
-            setValue && setValue(name, [(e as SingleValue<Option<any>>)?.value])
-            onChange && onChange(e as any)
-          }}
-        />
-      </FieldContent>
+        <div className={c('flex flex-row gap-2', inputWrapperClassName)}>
+          {renderBefore}
 
-      {error && <Error>{error}</Error>}
-    </Stack>
-  )
-}
+          <FieldContent
+            variant={variant}
+            error={error ? 'true' : 'false'}
+            rounded={rounded ? 'true' : 'false'}
+            className="flex flex-row py-0.5"
+          >
+            <Select
+              name={name}
+              options={options as any}
+              className={c(className, 'drop-shadow-lg')}
+              styles={{
+                input: (style) => ({
+                  ...style,
+                  color: theme.colors['light-gray'][100],
+                }),
+                singleValue: (style) => ({
+                  ...style,
+                  fontWeight: 500,
+                  color: theme.colors['light-gray'][100],
+                }),
+                container: (style) => ({
+                  ...style,
+                  width: '100%',
+                }),
+                control: (style) => ({
+                  ...style,
+                  backgroundColor: 'transparent',
+                  color: theme.colors['light-gray'][100],
+                  border: 'none',
+                  boxShadow: 'none',
+                  outline: 'none',
+                }),
+                menuList: (style) => ({
+                  ...style,
+                  padding: 0,
+                  borderRadius: '3px',
+                  background: theme.colors['dark-gray'][500],
+                }),
+                option: (style) => ({
+                  ...style,
+                  color: theme.colors['light-gray'][100],
+                  background: theme.colors['dark-gray'][500],
+                  paddingLeft: 16,
+                  paddingRight: 16,
+                  cursor: 'pointer',
+                  fontWeight: 500,
+                  fontSize: 14,
+                  ':hover': {
+                    background: theme.colors['dark-gray'][400],
+                    filter: 'brightness(1.2)',
+                  },
+                }),
+                indicatorSeparator: () => ({}),
+                placeholder: (style) => ({
+                  ...style,
+                  color: theme.colors['light-gray'][400],
+                }),
+              }}
+              placeholder={placeholder}
+              defaultValue={defaultValue}
+              onChange={(e) => {
+                if (error && clearErrors) clearErrors(name)
+                onChangeValue && onChangeValue(e)
+                return (
+                  setValue &&
+                  setValue(name, (e as SingleValue<Option<any>>)?.value)
+                )
+              }}
+            />
+          </FieldContent>
+
+          {renderAfter}
+        </div>
+
+        {error && <Error>{error}</Error>}
+      </FieldWrapper>
+    )
+  }
+)
 
 export default SelectDefault

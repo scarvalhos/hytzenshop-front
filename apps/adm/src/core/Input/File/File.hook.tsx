@@ -23,7 +23,7 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
         return newArr
       })
     },
-    []
+    [onChangeFiles]
   )
 
   const processUpload = React.useCallback(
@@ -68,26 +68,29 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
           )
         )
     },
-    [uploadedFiles]
+    [updateFile]
   )
 
-  const onUploadFiles = React.useCallback((files: File[]) => {
-    const uploaded = files.map((file) => ({
-      file,
-      id: UUID(),
-      name: file.name,
-      readableSize: fileSize(file.size),
-      preview: URL.createObjectURL(file),
-      progress: 0,
-      uploaded: false,
-      error: false,
-      url: null,
-    }))
+  const onUploadFiles = React.useCallback(
+    (files: File[]) => {
+      const uploaded = files.map((file) => ({
+        file,
+        id: UUID(),
+        name: file.name,
+        readableSize: fileSize(file.size),
+        preview: URL.createObjectURL(file),
+        progress: 0,
+        uploaded: false,
+        error: false,
+        url: null,
+      }))
 
-    setUploadedFiles((old) => old.concat(uploaded))
+      setUploadedFiles((old) => old.concat(uploaded))
 
-    return uploaded.forEach(processUpload)
-  }, [])
+      return uploaded.forEach(processUpload)
+    },
+    [processUpload]
+  )
 
   const removeFromState = React.useCallback(async (id: string) => {
     return setUploadedFiles((old) => {
@@ -106,9 +109,12 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
       .catch(defaultToastError)
   }, [])
 
-  const onDrop = React.useCallback((acceptedFiles: File[]) => {
-    onUploadFiles(acceptedFiles)
-  }, [])
+  const onDrop = React.useCallback(
+    (acceptedFiles: File[]) => {
+      onUploadFiles(acceptedFiles)
+    },
+    [onUploadFiles]
+  )
 
   const renderDragMessage = React.useCallback(
     (isDragActive: boolean, isDragReject: boolean, isDragAccept: boolean) => {

@@ -11,7 +11,7 @@ import {
 
 import { FieldWrapper, FieldLabel, FieldContent, Field } from './styles'
 import { InputTypes, useFieldInput } from './Field.hook'
-import { Error } from '@core'
+import { Error } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 export interface SharedFieldInputProps {

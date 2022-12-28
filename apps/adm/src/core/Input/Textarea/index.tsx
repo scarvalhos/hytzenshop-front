@@ -1,16 +1,11 @@
-import * as React from 'react'
+import React from 'react'
 
+import { FieldContent, FieldLabel, FieldWrapper } from '../Field/styles'
 import { FieldInputProps } from '../Field'
-import { TextArea } from './styles'
-import { Stack } from '@mui/material'
-import { Error } from '@core/Error'
-
-import {
-  FieldContent,
-  FieldController,
-  FieldLabel,
-  FieldWrapper,
-} from '../Field/styles'
+import { Controller } from 'react-hook-form'
+import { Error } from '@luma/ui'
+import { Field } from './styles'
+import { c } from '@hytzenshop/helpers'
 
 interface TextareaInputProps extends FieldInputProps {
   rows?: number
@@ -20,54 +15,86 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
   (
     {
       id,
-      name,
+      name: _name,
       label,
       passthrough,
+      placeholder,
       onFocus,
       disabled,
       control,
       defaultValue,
-      after,
+      renderAfter,
+      renderInsideInput,
       variant,
       error,
-      placeholder,
-      rows = 4,
+      isFullWidth,
+      containerClassName,
+      renderAfterLabel,
+      inputWrapperClassName,
+      renderBefore,
+      rounded,
+      fieldVariant,
+      className,
+      rows,
     },
-    ref
+    _ref
   ) => {
     return (
-      <FieldWrapper ref={ref}>
+      <FieldWrapper
+        width={isFullWidth ? 'full' : 'fit'}
+        className={c('space-y-2', containerClassName)}
+      >
         {label && (
-          <FieldLabel htmlFor={id} className="form-label" erro={error}>
+          <FieldLabel color={error ? 'error' : 'initial'}>
             {label}
+            {renderAfterLabel}
           </FieldLabel>
         )}
 
-        <Stack direction="row" spacing={1}>
-          <FieldController
-            name={name}
+        <div className={c('flex flex-row gap-2', inputWrapperClassName)}>
+          {renderBefore}
+
+          <Controller
+            name={_name}
             control={control}
             render={({ field: { onChange, name, value, onBlur, ref } }) => (
-              <FieldContent variant={variant} erro={error} disabled={disabled}>
-                <TextArea
+              <FieldContent
+                variant={variant}
+                error={error ? 'true' : 'false'}
+                rounded={rounded ? 'true' : 'false'}
+                className="flex flex-row"
+              >
+                <Field
                   id={id}
-                  name={name}
-                  disabled={disabled}
                   ref={ref}
+                  name={name}
+                  rows={rows}
+                  fieldVariant={fieldVariant}
+                  placeholder={placeholder}
+                  disabled={disabled}
                   onChange={onChange}
                   onBlur={onBlur}
                   onFocus={onFocus}
-                  placeholder={placeholder}
-                  defaultValue={defaultValue}
-                  rows={rows}
-                  {...(value !== undefined ? { value } : {})}
+                  className={c(
+                    className,
+                    disabled
+                      ? 'cursor-not-allowed text-light-gray-500'
+                      : 'text-light-gray-100',
+                    'px-3 py-3'
+                  )}
+                  {...(value !== undefined
+                    ? { value }
+                    : { value: defaultValue })}
                   {...(passthrough as any)}
                 />
+                {renderInsideInput}
               </FieldContent>
             )}
           />
-          {after}
-        </Stack>
+
+          {renderAfter}
+        </div>
+
         {error && <Error>{error}</Error>}
       </FieldWrapper>
     )

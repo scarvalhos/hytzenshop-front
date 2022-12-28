@@ -1,85 +1,118 @@
-import styled, { css } from 'styled-components'
-
-import { Stack, FormLabel } from '@mui/material'
-import { Controller } from 'react-hook-form'
 import { IMaskInput } from 'react-imask'
+import { styled } from '@stitches/react'
+import { theme } from '@luma/ui'
 
-interface Props {
-  variant?: string
-  erro?: string
-  rounded?: 'true' | 'false'
-  disabled?: boolean
-}
-
-export const FieldWrapper = styled(Stack).attrs({
-  direction: 'column',
-  spacing: 1,
+export const FieldWrapper = styled('div', {
+  flexDirection: 'column',
   flex: 1,
-})``
 
-export const FieldLabel = styled(FormLabel)<Props>`
-  color: ${({ theme }) => theme.palette.text.primary};
-  font-size: 1rem;
-  font-weight: 500;
+  variants: {
+    width: {
+      full: {
+        width: '100%',
+      },
+      fit: {
+        width: 'fit-content',
+      },
+    },
+  },
+})
 
-  ${({ erro }) =>
-    !!erro &&
-    css`
-      color: ${({ theme }) => theme.palette.primary.main};
-    `}
-`
+export const FieldLabel = styled('p', {
+  fontSize: '1rem',
+  fontWeight: '400',
 
-export const FieldContent = styled(Stack).attrs({
-  direction: 'row',
-})<Props>`
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: ${({ rounded }) => (rounded === 'true' ? '1000px' : '5px')};
+  variants: {
+    color: {
+      error: {
+        color: theme.colors['danger'][300],
+      },
+      initial: {
+        color: theme.colors['light-gray'][100],
+      },
+    },
+  },
+})
 
-  ${({ theme, variant, disabled }) =>
-    variant === 'outlined'
-      ? css`
-          background: 'transparent';
-        `
-      : disabled
-      ? css`
-          background: ${theme.palette.secondary.dark};
-        `
-      : css`
-          background: ${theme.palette.primary.dark};
-        `}
+export const FieldContent = styled('div', {
+  width: '100%',
 
-  ${({ variant }) =>
-    variant === 'outlined' &&
-    css`
-      border: 1px solid;
-      /* border-color: ${({ theme }) => theme.palette.secondary.dark}; */
-      filter: brightness(1.5);
+  variants: {
+    rounded: {
+      true: {
+        borderRadius: '100000px',
+      },
+      false: {
+        borderRadius: '4px',
+      },
+    },
 
-      border-color: ${({ theme }) => theme.palette.success.main};
-    `}
+    error: {
+      true: {
+        borderWidth: '1px',
+        borderStyle: 'solid',
+        borderColor: theme.colors.danger[300],
+      },
+      false: {
+        borderWidth: 'unset',
+        borderStyle: 'none',
+        borderColor: 'transparent',
+      },
+    },
 
-  ${({ erro }) =>
-    !!erro &&
-    css`
-      border: 1px solid;
-      border-color: ${({ theme }) => theme.palette.primary.main};
-    `}
-`
+    variant: {
+      bordeless: {
+        background: 'transparent',
+      },
+      filled: {
+        background: theme.colors['dark-gray'][500],
+      },
+      outlined: {
+        background: 'none',
+        border: `1px solid ${theme.colors['dark-gray'][300]}`,
 
-export const FieldController = styled(Controller)``
+        // border: `1px solid ${theme.colors.success[300]}`,
+      },
+      disabled: {
+        background: theme.colors['dark-gray'][400],
+        border: `1px solid ${theme.colors['dark-gray'][200]}`,
+        color: `${theme.colors['light-gray'][500]} !important`,
+        cursor: 'not-allowed',
+      },
+    },
+  },
+})
 
-export const Field = styled(IMaskInput)<Props>`
-  width: 100%;
-  border: none;
-  outline: none;
-  background: none;
-  color: ${({ theme }) => theme.palette.text.primary};
-  font-size: 1rem;
+export const Field = styled(IMaskInput, {
+  width: '100%',
+  border: 'none',
+  outline: 'none',
+  background: 'none',
+  fontSize: '1rem',
 
-  ${({ variant }) =>
-    variant === 'password' &&
-    css`
-      font: normal 100% sans-serif;
-    `}
-`
+  variants: {
+    fieldVariant: {
+      field: {},
+      password: {
+        font: 'normal 100% sans-serif',
+      },
+    },
+  },
+})
+
+export const FieldInput = styled('input', {
+  width: '100%',
+  border: 'none',
+  outline: 'none',
+  background: 'none',
+  fontSize: '1rem',
+
+  variants: {
+    variant: {
+      field: {},
+      password: {
+        font: 'normal 100% sans-serif',
+      },
+    },
+  },
+})

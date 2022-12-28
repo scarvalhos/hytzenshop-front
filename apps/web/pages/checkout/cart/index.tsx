@@ -1,17 +1,9 @@
-import React from 'react'
-
-import {
-  ProductGetAllDto,
-  CartProduct,
-  UserGetDto,
-  CartGetDto,
-} from '@hytzenshop/types'
-
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { CartProduct, UserGetDto, CartGetDto } from '@hytzenshop/types'
 import { DivideLine, Icons } from '@luma/ui'
 import { withAuthValidate } from '@hocs/withAuthValidate'
-import { getProductList } from '@hooks/useProducts'
+import { useConfig } from '@contexts/ConfigContext'
 import { CartList } from '@features/cart/CartList'
+import { randonfy } from '@hytzenshop/helpers'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { useAuth } from '@contexts/AuthContext'
@@ -22,14 +14,12 @@ import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'
 import nookies, { parseCookies } from 'nookies'
 import Button from '@components/Button'
+import React from 'react'
 
 const CartPage: NextPage = () => {
+  const { productsSugestions } = useConfig()
   const { cart } = useCart()
   const { user } = useAuth()
-
-  const { data } = useQuery(['products-cart'], () => getProductList(1, 5), {
-    staleTime: 1000 * 60 * 10, // 10 minutes
-  }) as UseQueryResult<ProductGetAllDto, unknown>
 
   return (
     <HeaderFooterLayout>
@@ -78,7 +68,7 @@ const CartPage: NextPage = () => {
 
       <ProductSection
         title="Você Também Pode Gostar"
-        products={data?.data.products || []}
+        products={randonfy(productsSugestions?.data.products || []).slice(0, 5)}
       />
     </HeaderFooterLayout>
   )

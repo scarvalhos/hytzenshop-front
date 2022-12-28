@@ -1,11 +1,12 @@
 import { withGlassEffect, EvaluationStars, trucate } from '@luma/ui'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { useWishlist } from '@contexts/WishlistContext'
-import { Image, Link } from '@core'
 import { c, money } from '@hytzenshop/helpers'
 import { Product } from '@hytzenshop/types'
+import { Link } from '@core'
 
 import React from 'react'
+import Image from 'next/image'
 
 interface ProductProps {
   product: Product
@@ -46,17 +47,23 @@ const ProductCard: React.FC<ProductProps> = ({
       </button>
 
       <Link as={`/product/${id}`} href={`/product/${id}`}>
-        <Image
-          src={encodeURI(images[0]?.url)}
-          alt={images[0]?.name}
-          className="w-full h-[200px]"
-        />
+        <div className="relative w-full h-[200px]">
+          <Image
+            src={encodeURI(images[0]?.url)}
+            alt={images[0]?.name}
+            className="object-cover object-center"
+            sizes="100%"
+            fill
+            priority
+          />
+        </div>
       </Link>
 
       <Link as={`/product/${id}`} href={`/product/${id}`}>
         <div className="flex flex-col h-40 justify-between px-6 py-6">
           <div className="space-y-1">
             <EvaluationStars
+              size={20}
               note={props?.averageRating || 0}
               totalEvaluations={props.evaluation?.length || 0}
               show="total"

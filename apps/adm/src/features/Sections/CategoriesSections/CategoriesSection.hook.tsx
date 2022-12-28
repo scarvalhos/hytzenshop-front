@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CategoryGetDto, Category } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { useForm } from 'react-hook-form'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 const onAdd = async (v: string) => {

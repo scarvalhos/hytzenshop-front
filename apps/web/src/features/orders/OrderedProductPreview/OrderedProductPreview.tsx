@@ -1,13 +1,14 @@
 import { ProductGetDto, CartProduct, Order } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { Link, Image } from '@core'
 import { c, money } from '@hytzenshop/helpers'
 import { useAuth } from '@contexts/AuthContext'
 import { Chip } from '@luma/ui'
+import { Link } from '@core'
 import { api } from '@hytzenshop/services'
 
 import EvaluateButtonModal from '@components/Modal/EvaluateButtonModal'
 import React from 'react'
+import Image from 'next/image'
 
 interface OrderedProductPreviewProps {
   product: CartProduct
@@ -49,17 +50,15 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
     >
       <Link href={`/product/${product?.productId}`}>
         {data?.product && (
-          <Image
-            src={data?.product.images[0].url || ''}
-            alt={data?.product.title}
-            objectFit="cover"
-            objectPosition="center"
-            style={{
-              borderRadius: 4,
-              width: '70px',
-              height: '70px',
-            }}
-          />
+          <div className="relative w-[70px] h-[70px] rounded-sm">
+            <Image
+              src={data?.product.images[0].url || ''}
+              alt={data?.product.title}
+              sizes="100%"
+              className="object-cover object-center rounded-sm"
+              fill
+            />
+          </div>
         )}
       </Link>
 

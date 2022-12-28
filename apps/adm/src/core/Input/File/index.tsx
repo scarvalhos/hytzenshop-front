@@ -1,14 +1,15 @@
 import * as React from 'react'
 
-import { FieldWrapper, FieldController } from '../Field/styles'
-import { AddPhotoAlternateOutlined } from '@mui/icons-material'
-import { DropContainer, FieldLabel } from './styles'
+import { FieldLabel, FieldWrapper } from '../Field/styles'
 import { Accept, useDropzone } from 'react-dropzone'
 import { FieldInputProps } from '../Field'
 import { useFileInput } from './File.hook'
+import { Controller } from 'react-hook-form'
 import { FileGrid } from './FileGrid'
 import { FileList } from './FileList'
-import { Error } from '@core/Error'
+import { TbPhoto } from 'react-icons/tb'
+import { Error } from '@luma/ui'
+import { c } from '@hytzenshop/helpers'
 
 interface FileInputProps extends FieldInputProps {
   filesListDisplay?: 'list' | 'grid'
@@ -34,11 +35,15 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
       filesListDisplay = 'list',
       onDelete,
       onChangeFiles,
+      renderAfterLabel,
+      isFullWidth,
+      containerClassName,
+      variant,
       accept = {
         'image/*': ['.pjpeg', '.jpeg', '.jpg', '.png', '.gif', '.webp'],
       },
     },
-    ref
+    _ref
   ) => {
     const {
       renderDragMessage,
@@ -81,23 +86,39 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
 
     return (
       <>
-        <FieldWrapper ref={ref}>
-          {label && <FieldLabel erro={error}>{label}</FieldLabel>}
+        <FieldWrapper
+          width={isFullWidth ? 'full' : 'fit'}
+          className={c('space-y-2', containerClassName)}
+        >
+          {label && (
+            <FieldLabel color={error ? 'error' : 'initial'}>
+              {label}
+              {renderAfterLabel}
+            </FieldLabel>
+          )}
 
-          <FieldController
+          <Controller
             name={name}
             control={control}
             render={() => (
-              <DropContainer
+              <div
                 {...getRootProps({ className: 'dropzone' })}
-                isDragActive={isDragActive}
-                isDragReject={isDragReject}
-                erro={error}
+                className={c(
+                  'border border-dashed rounded-lg cursor-pointer px-2 py-8 text-center flex flex-col items-center justify-center',
+                  isDragActive
+                    ? 'border-success-300'
+                    : isDragReject || !!error
+                    ? 'border-danger-300'
+                    : '',
+                  variant === 'filled'
+                    ? 'bg-dark-gray-500 bg-opacity-60 border-light-gray-500'
+                    : 'border-dark-gray-200'
+                )}
               >
                 <input {...getInputProps()} />
-                <AddPhotoAlternateOutlined />
+                <TbPhoto size={24} className="mb-4" />
                 {renderDragMessage(isDragActive, isDragReject, isDragAccept)}
-              </DropContainer>
+              </div>
             )}
           />
         </FieldWrapper>

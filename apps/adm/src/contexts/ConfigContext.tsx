@@ -19,7 +19,7 @@ import {
 
 import { useDebounceCallback } from '@react-hook/debounce'
 import { defaultToastError } from '@hytzenshop/helpers'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 interface ConfigContextType {
@@ -31,7 +31,7 @@ interface ConfigContextType {
   openCartsCountQuery?: UseQueryResult<number, unknown>
   totalSalesCountQuery?: UseQueryResult<number, unknown>
   totalUsersCountQuery?: UseQueryResult<number, unknown>
-  updateSlideImages: (ids: string[]) => void
+  updateSlideImages: (ids: any[]) => void
   updateAnnouncement: ({
     showAnnouncement,
     announcement,
@@ -74,8 +74,8 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     sliderImages: [],
     announcement: '',
     showAnnouncement: false,
-    updateAnnouncement: () => null,
-    updateSlideImages: () => null,
+    updateAnnouncement: () => undefined,
+    updateSlideImages: () => undefined,
     ordersDeliveredCountQuery: undefined,
     openCartsCountQuery: undefined,
     totalSalesCountQuery: undefined,

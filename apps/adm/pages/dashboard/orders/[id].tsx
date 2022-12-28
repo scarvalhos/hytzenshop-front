@@ -3,7 +3,6 @@ import { parseCookies } from 'nookies'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { Stack } from '@mui/material'
 import { api } from '@hytzenshop/services'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
@@ -18,9 +17,10 @@ const ProfilePedidosPage: NextPage<ProfilePedidosPageProps> = ({ order }) => {
     <>
       <NextSeo title={`Pedido #${order.mpPaymentId}`} />
 
-      <Stack spacing={4} mb={10}>
+      <div className="mb-20">
         <OrderDetails order={order} />
-      </Stack>
+      </div>
+      {/* <Stack spacing={4} mb={10}></Stack> */}
     </>
   )
 }

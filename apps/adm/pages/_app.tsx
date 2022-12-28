@@ -1,13 +1,12 @@
 import type { AppProps } from 'next/app'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Slide, ToastContainer } from 'react-toastify'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { ToastContainer } from 'react-toastify'
-import { TbCircleCheck } from 'react-icons/tb'
 import { DefaultSeo } from 'next-seo'
 import { NextPage } from 'next'
 import { useMemo } from 'react'
-import { theme } from '@styles/theme'
+import { TbX } from 'react-icons/tb'
 
 import DefaultProvider from '@providers/DefaultProvider'
 import seo from '../next-seo.config'
@@ -39,13 +38,21 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
         {getLayout(<Component {...pageProps} />)}
 
         <ToastContainer
-          autoClose={3000}
+          rtl={false}
+          className="px-2 z-[1200000]"
+          position="top-right"
+          newestOnTop={false}
+          closeOnClick
+          pauseOnFocusLoss
+          pauseOnHover
+          draggable
+          transition={Slide}
+          autoClose={4000}
           theme="dark"
-          toastStyle={{ background: '#1E1E1E' }}
-          icon={<TbCircleCheck size={20} color={theme.palette.success.main} />}
-          progressStyle={{
-            backgroundColor: theme.palette.success.main,
-          }}
+          toastClassName="bg-dark-gray-300"
+          closeButton={
+            <TbX size={20} className="mt-2 mr-1 text-light-gray-500" />
+          }
         />
       </DefaultProvider>
       <ReactQueryDevtools />

@@ -85,7 +85,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
 
       <div
         className={c(
-          'max-w-screen-2xl mx-auto grid pt-24 pb-8 space-x-8 px-8 md:px-16 ',
+          'max-w-screen-2xl mx-auto grid pt-20 pb-8 space-x-8 px-8 md:px-16 ',
           lg ? 'grid-cols-[30%,1fr]' : 'grid-cols-1'
         )}
       >

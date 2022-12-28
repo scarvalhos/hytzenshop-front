@@ -1,6 +1,6 @@
 import * as op from 'object-path'
 
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 
 import relativeTime from 'dayjs/plugin/relativeTime'
 import duration from 'dayjs/plugin/duration'
@@ -125,8 +125,8 @@ export const defaultToastError = (r: any) => {
   const message =
     typeof r.response.data === 'string'
       ? r.response.data
-      : typeof r.response.data.message === 'string'
-      ? r.response.data.message
+      : typeof r.response.data?.message === 'string'
+      ? r.response.data?.message
       : 'Não foi possível executar essa operação'
 
   toast.error(message)

@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { CepResponse, ShippingSimulationResponse } from '@hytzenshop/types'
 import { CheckoutFluxLayout } from '@layouts/CheckoutFluxLayout'
 import { c, date, money } from '@hytzenshop/helpers'
@@ -7,8 +5,10 @@ import { TbLoader } from 'react-icons/tb'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
 import { Loader } from '@luma/ui'
-import { Image } from '@core'
 import { api } from '@hytzenshop/services'
+
+import Image from 'next/image'
+import React from 'react'
 
 interface AddressCheckoutStepProps {
   isReadonly?: boolean
@@ -133,17 +133,21 @@ const AddressCheckoutStep: React.FC<AddressCheckoutStepProps> = ({
                     )}
                     onClick={() => setShipping && setShipping(item)}
                   >
-                    {item.url_logo ? (
-                      <Image
-                        src={item.url_logo}
-                        alt={item.transp_nome}
-                        className="w-8 h-8 mr-2 max-sm:mb-2 rounded-sm"
-                      />
-                    ) : (
-                      <div className="p-3 rounded-sm bg-dark-gray-400 animate-pulse">
-                        <TbLoader className="text-dark-gray-400" />
-                      </div>
-                    )}
+                    <div className="relative w-8 h-8 mr-2 max-sm:mb-2 rounded-sm">
+                      {item.url_logo ? (
+                        <Image
+                          src={item.url_logo}
+                          alt={item.transp_nome}
+                          fill
+                          sizes="100%"
+                          className="rounded-sm"
+                        />
+                      ) : (
+                        <div className="p-3 rounded-sm bg-dark-gray-400 animate-pulse">
+                          <TbLoader className="text-dark-gray-400" />
+                        </div>
+                      )}
+                    </div>
 
                     <p className="basis-2/3 sm:px-2 text-left select-none">
                       <span className="sm:hidden">Tipo: </span>

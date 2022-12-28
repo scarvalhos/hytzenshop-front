@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 
 const INPUT_TYPES = [
   'text',
@@ -19,7 +19,6 @@ const INPUT_TYPES = [
   'date',
   'search',
   'percentage',
-  'file',
 ] as const
 
 export type InputTypes = typeof INPUT_TYPES[number]
@@ -113,7 +112,6 @@ const realtypes: Record<InputTypes, string> = {
   date: 'date',
   search: 'text',
   percentage: 'text',
-  file: 'file',
 }
 
 const defaultPlaceholders: Record<InputTypes, string> = {
@@ -135,7 +133,6 @@ const defaultPlaceholders: Record<InputTypes, string> = {
   date: '00/00/0000',
   search: 'Pesquise aqui',
   percentage: '0,0%',
-  file: 'file',
 }
 
 export const useFieldInput = ({ name }: { name: string }) => {

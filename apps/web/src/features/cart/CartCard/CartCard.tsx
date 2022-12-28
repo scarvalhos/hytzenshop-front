@@ -1,12 +1,13 @@
-import React from 'react'
-
 import { c, money, numtostr } from '@hytzenshop/helpers'
 import { MdFavoriteBorder } from 'react-icons/md'
-import { Image, Link } from '@core'
 import { useCartCard } from './CartCard.hook'
 import { CartProduct } from '@hytzenshop/types'
 import { TbTrash } from 'react-icons/tb'
 import { Chip } from '@luma/ui'
+import { Link } from '@core'
+
+import Image from 'next/image'
+import React from 'react'
 
 interface CartCardProps {
   canUpdate?: boolean
@@ -39,22 +40,27 @@ const CartCard: React.FC<CartCardProps> = ({
   })
 
   return (
-    <div className="flex relative flex-col sm:flex-row space-x-8 bg-dark-gray-500 bg-opacity-30 sm:pr-8 rounded-md">
+    <div className="flex relative flex-col sm:flex-row bg-dark-gray-500 bg-opacity-30 sm:pr-8 rounded-md">
       <Link href={`/product/${productData?.id}`}>
-        {productData?.images[0]?.url ? (
-          <Image
-            src={encodeURI(productData?.images[0]?.url || '')}
-            alt={productData?.images[0]?.name || ''}
-            className="w-full max-h-[140px] sm:w-[140px] sm:h-full"
-          />
-        ) : (
-          <div className="w-full h-[140px] sm:w-[140px] bg-dark-gray-400 rounded-sm" />
-        )}
+        <div className="relative w-full sm:w-[100px] h-[300px] sm:h-full bg-dark-gray-400 rounded-sm">
+          {productData?.images[0]?.url && (
+            <Image
+              src={encodeURI(productData?.images[0]?.url || '')}
+              alt={productData?.images[0]?.name || ''}
+              className="object-cover object-center rounded-sm"
+              sizes="100%"
+              fill
+              priority
+            />
+          )}
+        </div>
       </Link>
 
-      <div className="flex flex-col justify-center items-start space-y-2 py-4">
+      <div className="flex flex-col justify-center items-start space-y-2 py-4 px-6">
         <Link href={`/product/${product?.productId}`}>
-          <p className="text-lg text-light-gray-100">{productData?.title}</p>
+          <p className="text-xl text-light-gray-100 font-medium">
+            {productData?.title}
+          </p>
         </Link>
 
         <div className="flex flex-col sm:flex-row items-start sm:items-center max-sm:space-y-2 sm:space-x-2">

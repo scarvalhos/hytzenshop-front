@@ -1,10 +1,10 @@
-import { ProductGetAllDto, ProductGetDto } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 import { useConfigTypes } from '@utils/types/config'
+import { ProductGetDto } from '@hytzenshop/types'
 import { Button, Icons } from '@luma/ui'
-import { getProductList } from '@hooks/useProducts'
 import { c, randonfy } from '@hytzenshop/helpers'
+import { useConfig } from '@contexts/ConfigContext'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { api } from '@hytzenshop/services'
@@ -24,26 +24,22 @@ async function getProductDetails(id?: string | null) {
 const ProductPage: NextPage = () => {
   const id = useSearchParams().get('id')
 
+  const { productsSugestions } = useConfig()
   const { categoriesTabs } = useConfigTypes()
 
   const productQuery = useQuery(['product', id], () => getProductDetails(id), {
     staleTime: 1000 * 60 * 10, // 10 minutes
   }) as UseQueryResult<ProductGetDto, unknown>
 
-  const { data } = useQuery(
-    ['products-sugestions'],
-    () => getProductList(1, 30),
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    }
-  ) as UseQueryResult<ProductGetAllDto, unknown>
-
   if (!productQuery.data?.product && !productQuery.isLoading) {
     return (
       <HeaderFooterLayout glassEffect={false}>
         <NextSeo title={productQuery.data?.product?.title} />
 
-        <TabsFilters className="px-8 sm:px-16 top-12" tabs={categoriesTabs} />
+        <TabsFilters
+          className="px-8 sm:px-16 top-12 max-sm:hidden"
+          tabs={categoriesTabs}
+        />
 
         <div className="flex flex-col items-center justify-center mt-10 h-[50vh] mx-6">
           <Icons.EmptyCart className="scale-75 text-dark-gray-400" />
@@ -69,7 +65,10 @@ const ProductPage: NextPage = () => {
 
         <ProductSection
           title="Você Também Pode Gostar"
-          products={data?.data.products || []}
+          products={randonfy(productsSugestions?.data.products || []).slice(
+            0,
+            5
+          )}
         />
       </HeaderFooterLayout>
     )
@@ -81,14 +80,14 @@ const ProductPage: NextPage = () => {
 
       <TabsFilters
         className={c(
-          'px-8 sm:px-16 max-w-screen-2xl top-[52px] mx-auto border-none'
+          'px-8 sm:px-16 max-w-screen-2xl top-[52px] mx-auto border-none max-sm:hidden'
         )}
         tabs={categoriesTabs}
       />
 
       <ProductPageSection
         product={productQuery.data?.product}
-        products={randonfy(data?.data.products || []).slice(0, 5)}
+        products={randonfy(productsSugestions?.data.products || []).slice(0, 5)}
         loading={productQuery.isLoading && !productQuery.data}
       />
     </HeaderFooterLayout>

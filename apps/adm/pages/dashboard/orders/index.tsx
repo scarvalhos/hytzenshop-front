@@ -8,7 +8,6 @@ import { Pagination } from '@core/Pagination'
 import { useOrders } from '@hooks/useOrders'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { Stack } from '@mui/material'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
 
@@ -29,7 +28,9 @@ const Orders: NextPage = () => {
 
       <HeaderOrdersList loading={isLoading} />
 
-      <Stack spacing={4} mb={10}>
+      <div
+      //   spacing={4} mb={10}
+      >
         <OrdersList orders={data?.data.orders} />
 
         {!isLoading && (
@@ -40,7 +41,7 @@ const Orders: NextPage = () => {
             onPageChange={setPage}
           />
         )}
-      </Stack>
+      </div>
     </>
   )
 }

@@ -77,7 +77,7 @@ const ProductEvalutionQuestionsSection: React.FC<
         {evaluations?.length === 0 ? (
           <Button
             variant="filled"
-            className="bg-warning-400 bg-opacity-10 text-warning-300 my-4 p-4 space-y-1 rounded-md text-center w-full cursor-default"
+            className="bg-dark-gray-400 bg-opacity-40 text-light-gray-500 my-4 p-4 space-y-1 rounded-md text-center w-full cursor-default"
           >
             Esse produto ainda não possui nenhuma avaliação.
           </Button>

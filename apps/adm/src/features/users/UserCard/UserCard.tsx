@@ -1,9 +1,8 @@
 import * as React from 'react'
 
-import { getFirstLetters, getFirstName, numonly } from '@hytzenshop/helpers'
 import { TbBrandWhatsapp, TbEye, TbMailForward } from 'react-icons/tb'
-import { Avatar, useTheme } from '@mui/material'
-import { Button } from '@luma/ui'
+import { getFirstName, numonly } from '@hytzenshop/helpers'
+import { Button, Avatar } from '@luma/ui'
 import { User } from '@hytzenshop/types'
 
 interface UserCardProps {
@@ -12,8 +11,6 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
-  const theme = useTheme()
-
   const link = React.useMemo(
     () =>
       `https://api.whatsapp.com/send?phone=${numonly(
@@ -35,24 +32,10 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
       <div className="flex flex-row items-center space-x-2">
         <Avatar
           src={user?.profile?.avatar || ''}
-          sx={{
-            width: 42,
-            height: 42,
-            border: user?.profile?.avatar
-              ? `1.5px solid ${theme.palette.success.main}`
-              : '',
-            background: theme.palette.primary.dark,
-            ...(!user?.profile?.avatar && {
-              filter: 'brightness(1.5)',
-            }),
-          }}
-        >
-          {!user?.profile?.avatar ? (
-            <p className="text-sm text-light-gray-500">
-              {getFirstLetters(user?.username || '')}
-            </p>
-          ) : null}
-        </Avatar>
+          name={user?.profile?.completeName || ''}
+          imageClassName="w-[42px] h-[42px]"
+          fallbackClassName="p-4"
+        />
 
         <div>
           <p className="text-light-gray-100 font-medium">
@@ -73,7 +56,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
           className="max-md:w-full md:p-3"
         >
           <span className="flex items-center justify-center space-x-2">
-            <TbBrandWhatsapp size={16} color={theme.palette.primary.light} />
+            <TbBrandWhatsapp size={16} className="text-light-gray-100" />
             <p className="md:hidden">Whatsapp</p>
           </span>
         </Button>
@@ -84,10 +67,10 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
           rounded
           className="p-3 bg-light-gray-100"
         >
-          <TbMailForward size={16} color={theme.palette.primary.contrastText} />
+          <TbMailForward size={16} className="text-light-gray-500" />
         </Button>
         <Button variant="filled" rounded className="p-3 bg-dark-gray-300">
-          <TbEye size={16} color={theme.palette.success.main} />
+          <TbEye size={16} className="text-success-300" />
         </Button>
       </div>
     </div>

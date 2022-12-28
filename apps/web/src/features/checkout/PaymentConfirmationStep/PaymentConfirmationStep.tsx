@@ -7,11 +7,13 @@ import { Button } from '@luma/ui'
 
 interface PaymentConfirmationStepProps {
   paymentStatus?: PaymentStatus
+  orderId?: string
   confirmation?: () => void
 }
 
 const PaymentConfirmationStep: React.FC<PaymentConfirmationStepProps> = ({
   paymentStatus,
+  orderId,
 }) => {
   const { reload } = useRouter()
 
@@ -28,20 +30,12 @@ const PaymentConfirmationStep: React.FC<PaymentConfirmationStepProps> = ({
 
         <span className="flex flex-col sm:flex-row mt-8 max-sm:space-y-2 sm:space-x-2 max-sm:w-full">
           <Button
-            href={`/profile/pedidos`}
+            href={`/profile/pedidos/${orderId}`}
             variant="filled"
             className="max-sm:w-full bg-success-400"
             rounded
           >
-            Acompanhar pedido
-          </Button>
-          <Button
-            href={`/profile/pedidos`}
-            variant="outlined"
-            className="max-sm:w-full"
-            rounded
-          >
-            Verificar chave pix
+            Ver pedido
           </Button>
         </span>
       </div>
@@ -87,7 +81,7 @@ const PaymentConfirmationStep: React.FC<PaymentConfirmationStepProps> = ({
 
       <span className="flex flex-col sm:flex-row mt-8 max-sm:space-y-2 sm:space-x-2 max-sm:w-full">
         <Button
-          href={`/profile/pedidos`}
+          href={`/profile/pedidos/${orderId}`}
           variant="filled"
           className="max-sm:w-full bg-success-400"
           rounded

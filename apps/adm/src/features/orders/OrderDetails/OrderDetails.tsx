@@ -10,17 +10,25 @@ import {
   statusOrdersOptions,
 } from '@hytzenshop/types'
 
+import {
+  TbArrowLeft,
+  TbBox,
+  TbCheck,
+  TbClock,
+  TbCreditCard,
+  TbTruckDelivery,
+  TbUpload,
+} from 'react-icons/tb'
+
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { TbArrowLeft, TbUpload } from 'react-icons/tb'
+import { Button, StepperBar } from '@luma/ui'
 import { date, money } from '@hytzenshop/helpers'
 import { useOrders } from '@hooks/useOrders'
 import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
-import { Button } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 import OrderedProductPreview from '../OrderedProductPreview'
-import StepperBar from '@core/StepperBar'
 import UserCard from '@features/users/UserCard'
 
 interface OrderDetailsProps {
@@ -69,11 +77,23 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
     }[(order.status as string) || '']
   }, [order.status])
 
+  const stepIcon = React.useMemo(() => {
+    const icons: { [index: string]: React.ReactElement } = {
+      1: <TbClock className="text-light-gray-100" />,
+      2: <TbCreditCard className="text-light-gray-100" />,
+      3: <TbBox className="text-light-gray-100" />,
+      4: <TbTruckDelivery className="text-light-gray-100" />,
+      5: <TbCheck className="text-light-gray-100" />,
+    }
+
+    return icons
+  }, [])
+
   return (
     <div className="relative">
       <Button
         onClick={back}
-        className="sticky top-[3.23rem] px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-50"
+        className="sticky top-[3.23rem] px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-40"
       >
         <TbArrowLeft className="absolute left-0" size={16} />
         Voltar
@@ -100,7 +120,12 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         </div>
       </div>
 
-      <StepperBar steps={steps} statusBySteps={statusBySteps} />
+      <StepperBar
+        steps={steps}
+        activeStep={statusBySteps}
+        activeColor="success"
+        stepIcon={stepIcon}
+      />
 
       <div className="flex flex-col-reverse sm:flex-row items-start sm:items-center justify-between max-sm:w-full my-8">
         <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 max-sm:w-full">

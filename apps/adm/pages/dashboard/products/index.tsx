@@ -9,7 +9,7 @@ import { useProducts } from '@hooks/useProducts'
 import { Pagination } from '@core/Pagination'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { Stack } from '@mui/material'
+import { c } from '@hytzenshop/helpers'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
 
@@ -35,15 +35,8 @@ const QuikMenuProducts: NextPage = () => {
 
       <HeaderProductsList loading={isLoading} products={data?.data.products} />
 
-      <Stack spacing={4} mb={10}>
-        <Stack
-          {...(isLoading
-            ? {
-                justifyContent: 'center',
-                alignItems: 'center',
-              }
-            : {})}
-        >
+      <div className="mb-20">
+        <div className={c(isLoading && 'flex justify-center items-center')}>
           {isLoading ? (
             <LoadAnimated size={160} />
           ) : (
@@ -52,7 +45,7 @@ const QuikMenuProducts: NextPage = () => {
               deleteProduct={deleteProduct}
             />
           )}
-        </Stack>
+        </div>
 
         {!isLoading && (
           <Pagination
@@ -62,7 +55,7 @@ const QuikMenuProducts: NextPage = () => {
             onPageChange={setPage}
           />
         )}
-      </Stack>
+      </div>
     </>
   )
 }

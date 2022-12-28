@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { EvaluationGetDto } from '@hytzenshop/types'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 const updateEvaluationApprovement = async ({

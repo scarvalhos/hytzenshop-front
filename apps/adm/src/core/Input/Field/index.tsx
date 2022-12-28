@@ -1,26 +1,23 @@
 import * as React from 'react'
 
 import {
-  Field,
-  FieldWrapper,
-  FieldLabel,
-  FieldController,
-  FieldContent,
-} from './styles'
-
-import {
   ChangeHandler,
   FieldValues,
   Control,
   UseFormSetValue,
   UseFormClearErrors,
+  Controller,
 } from 'react-hook-form'
 
+import { FieldWrapper, FieldLabel, FieldContent, Field } from './styles'
 import { InputTypes, useFieldInput } from './Field.hook'
-import { Stack } from '@mui/material'
-import { Error } from '@core/Error'
+import { Error } from '@luma/ui'
+import { c } from '@hytzenshop/helpers'
 
 export interface SharedFieldInputProps {
+  className?: string
+  containerClassName?: string
+  inputWrapperClassName?: string
   passthrough?: React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
@@ -38,16 +35,24 @@ export interface MustHaveProps extends SharedFieldInputProps {
 }
 
 export type FieldInputProps = MustHaveProps & {
-  error?: string
+  onBlur?: ChangeHandler
   onFocus?: ChangeHandler
   onChange?: ChangeHandler
-  control?: Control<FieldValues, object>
-  after?: React.ReactNode
+  control?: Control<FieldValues, unknown>
+
+  renderAfter?: React.ReactNode
+  renderBefore?: React.ReactNode
   renderInsideInput?: React.ReactNode
-  variant?: string
+  renderAfterLabel?: React.ReactNode
+
+  isFullWidth?: boolean
+  fieldVariant?: 'field' | 'password'
+  variant?: 'bordeless' | 'filled' | 'outlined' | 'disabled'
+  rounded?: boolean
+  error?: string
+
   setValue?: UseFormSetValue<FieldValues>
   clearErrors?: UseFormClearErrors<FieldValues>
-  rounded?: boolean
 }
 
 const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
@@ -63,41 +68,56 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
       disabled,
       control,
       defaultValue,
-      after,
+
+      renderAfter,
+      renderBefore,
       renderInsideInput,
-      variant,
-      error,
+      renderAfterLabel,
+
+      isFullWidth,
+      fieldVariant = 'field',
+      variant = 'filled',
       rounded,
+      error,
+
+      className,
+      containerClassName,
+      inputWrapperClassName,
     },
-    ref
+    _ref
   ) => {
     const { masks, realtypes, defaultPlaceholders } = useFieldInput({
       name: _name,
     })
 
     return (
-      <FieldWrapper ref={ref}>
+      <FieldWrapper
+        width={isFullWidth ? 'full' : 'fit'}
+        className={c('space-y-2', containerClassName)}
+      >
         {label && (
-          <FieldLabel htmlFor={id} className="form-label" erro={error}>
+          <FieldLabel color={error ? 'error' : 'initial'}>
             {label}
+            {renderAfterLabel}
           </FieldLabel>
         )}
 
-        <Stack direction="row" spacing={1}>
-          <FieldController
+        <div className={c('flex flex-row gap-2', inputWrapperClassName)}>
+          {renderBefore}
+
+          <Controller
             name={_name}
             control={control}
             defaultValue={defaultValue}
             render={({ field: { onChange, name, value, onBlur, ref } }) => (
               <FieldContent
                 variant={variant}
-                erro={error}
+                error={error ? 'true' : 'false'}
                 rounded={rounded ? 'true' : 'false'}
-                // sx={{ padding: '0.75rem !important' }}
+                className="flex flex-row"
               >
                 <Field
-                  variant={variant}
-                  color="white"
+                  fieldVariant={fieldVariant}
                   id={id}
                   mask={(masks[type] as never) || /^.*$/}
                   type={realtypes[type]}
@@ -108,15 +128,26 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
                   onChange={onChange}
                   onBlur={onBlur}
                   onFocus={onFocus}
-                  {...(value !== undefined ? { value } : {})}
+                  className={c(
+                    className,
+                    disabled
+                      ? 'cursor-not-allowed text-light-gray-500'
+                      : 'text-light-gray-100',
+                    'px-3 py-3'
+                  )}
+                  {...(value !== undefined
+                    ? { value }
+                    : { value: defaultValue })}
                   {...(passthrough as any)}
                 />
                 {renderInsideInput}
               </FieldContent>
             )}
           />
-          {after}
-        </Stack>
+
+          {renderAfter}
+        </div>
+
         {error && <Error>{error}</Error>}
       </FieldWrapper>
     )

@@ -35,11 +35,11 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
       {product?.questions.length === 0 && !formQuestion ? (
         <Button
           variant="filled"
-          className="bg-warning-400 bg-opacity-10 text-warning-300 my-4 p-4 space-y-1 rounded-md text-center w-full"
+          className="bg-warning-400 bg-opacity-10 text-warning-300 font-normal my-4 p-4 space-y-1 rounded-md text-center w-full"
           onClick={() => setFormQuestion(true)}
         >
-          Esse produto ainda não possui nenhuma dúvida. Seja o primeiro a
-          perguntar.
+          Esse produto ainda não possui nenhuma dúvida.{' '}
+          <strong>Seja o primeiro a perguntar.</strong>
         </Button>
       ) : product?.questions &&
         product?.questions.length > 0 &&

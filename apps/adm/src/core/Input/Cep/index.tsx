@@ -1,17 +1,8 @@
 import * as React from 'react'
 
-import FieldInput, { MustHaveProps } from '../Field'
+import FieldInput, { FieldInputProps } from '../Field'
 
-import { Control, FieldValues } from 'react-hook-form'
-
-export interface CepInputProps extends MustHaveProps {
-  name: string
-  error?: string
-  disabled?: boolean
-  label?: string
-  after?: React.ReactNode
-  control?: Control<FieldValues, object>
-  variant?: string
+type CepInputProps = FieldInputProps & {
   accessors?: {
     rua: string
     bairro: string
@@ -20,25 +11,24 @@ export interface CepInputProps extends MustHaveProps {
   }
 }
 
-const CepInput: React.FC<CepInputProps> = ({
-  name,
-  disabled,
-  after,
-  label = 'CEP',
-  variant,
-  ...props
-}) => {
-  return (
-    <FieldInput
-      name={name}
-      label={label}
-      type="cep"
-      disabled={disabled}
-      after={after}
-      variant={variant}
-      {...props}
-    />
-  )
-}
+const CepInput: React.FC<CepInputProps> = React.forwardRef(
+  (
+    { name, disabled, renderAfter, label = 'CEP', variant, rounded, ...props },
+    _ref
+  ) => {
+    return (
+      <FieldInput
+        name={name}
+        label={label}
+        type="cep"
+        disabled={disabled}
+        renderAfter={renderAfter}
+        variant={variant}
+        rounded={rounded}
+        {...props}
+      />
+    )
+  }
+)
 
 export default CepInput

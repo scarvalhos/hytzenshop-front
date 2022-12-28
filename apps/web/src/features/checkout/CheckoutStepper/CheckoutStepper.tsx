@@ -1,13 +1,11 @@
-import { PaymentStatus, PaymentWebhookResponse } from '@hytzenshop/types'
+import { PaymentStatus, PaymentSocketResponse } from '@hytzenshop/types'
 import { useDebounceCallback } from '@react-hook/debounce'
 import { IoIosArrowForward } from 'react-icons/io'
+import { toast, StepperBar } from '@luma/ui'
 import { Button, Icons } from '@luma/ui'
-import { StepperBar } from '@core'
-import { useOrders } from '@hooks/useOrders'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
 import { socket } from '@services/socket'
-import { toast } from 'react-toastify'
 import { c } from '@hytzenshop/helpers'
 
 import {
@@ -30,8 +28,8 @@ import React from 'react'
 const CheckoutStepper = () => {
   const [activeStep, setActiveStep] = React.useState(0)
   const [paymentStatus, setPaymentStatus] = React.useState<PaymentStatus>()
+  const [orderId, setOrderId] = React.useState<string>()
 
-  const { updateOrderStatus } = useOrders({})
   const { shipping, cart } = useCart()
   const { user } = useAuth()
 
@@ -115,22 +113,29 @@ const CheckoutStepper = () => {
         paymentStatus={paymentStatus}
       />
     ),
-    4: <PaymentConfirmationStep paymentStatus={paymentStatus} />,
+    4: (
+      <PaymentConfirmationStep
+        paymentStatus={paymentStatus}
+        orderId={orderId}
+      />
+    ),
   }
 
-  const call = useDebounceCallback(({ data }: PaymentWebhookResponse) => {
-    console.log('Checkout Stepper', data.status)
-    setPaymentStatus(data.status)
-    updateOrderStatus({ status: data.status, mpPaymentId: data.id })
-  })
+  const onSocketUpdatePayment = useDebounceCallback(
+    ({ data }: PaymentSocketResponse) => {
+      console.log('Checkout Stepper', data.status)
+      setOrderId(data.orderId)
+      setPaymentStatus(data.status)
+    }
+  )
 
   React.useEffect(() => {
     if (paymentStatus !== 'approved') {
-      socket.on('update.payment', ({ data }: PaymentWebhookResponse) => {
-        call({ data })
+      socket.on('update.payment', ({ data }: PaymentSocketResponse) => {
+        onSocketUpdatePayment({ data })
       })
     }
-  }, [paymentStatus, call])
+  }, [paymentStatus, onSocketUpdatePayment])
 
   React.useEffect(() => {
     if (paymentStatus === 'approved' && activeStep === 2) {

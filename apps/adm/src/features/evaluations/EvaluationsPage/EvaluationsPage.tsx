@@ -10,7 +10,7 @@ const EvaluationsPage: NextPage = () => {
   const { state, setPage, evaluationsQuery } = useEvaluationsPage()
 
   return (
-    <div className="mx-8 my-24 space-y-4 max-w-5xl lg:mx-auto">
+    <div className="my-24 space-y-4">
       <EvaluationsList evaluations={evaluationsQuery.data?.data.evaluations} />
 
       {evaluationsQuery.isLoading ? (

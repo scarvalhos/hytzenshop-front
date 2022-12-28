@@ -1,7 +1,7 @@
-import { Box, IconButton, Stack, useTheme } from '@mui/material'
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { TbTrash } from 'react-icons/tb'
-import { Preview } from './styles'
+import { Button, theme } from '@luma/ui'
+import { c } from '@hytzenshop/helpers'
 
 import Image from 'next/image'
 
@@ -23,37 +23,28 @@ interface FileGridProps {
 }
 
 export const FileGrid: React.FC<FileGridProps> = ({ files, onDelete }) => {
-  const theme = useTheme()
-
   return (
-    <Stack direction="row" sx={{ flexFlow: 'wrap', gap: 2 }}>
+    <div className="flex flex-row gap-4 flex-wrap">
       {files &&
         files.map((file) => (
-          <Box
-            key={`${file.id}${file.name}`}
-            position="relative"
-            width="fit-content"
-          >
+          <div key={`${file.id}${file.name}`} className="relative w-fit">
             {file.uploaded && (
-              <IconButton
+              <Button
                 onClick={() => onDelete(file.id)}
-                sx={{
-                  position: 'absolute',
-                  top: -10,
-                  right: -10,
-                  background: theme.palette.primary.dark,
-                  zIndex: 999,
-                  ':hover': {
-                    background: theme.palette.primary.dark,
-                    filter: 'brightness(1.2)',
-                  },
-                }}
+                className="absolute -top-2 -right-2 p-2 flex bg-dark-gray-300 z-50 hover:brightness-125"
+                rounded
               >
-                <TbTrash size={16} color={theme.palette.primary.main} />
-              </IconButton>
+                <TbTrash size={16} className="text-danger-300" />
+              </Button>
             )}
 
-            <Preview size="100px" loading={!file.uploaded}>
+            <div
+              className={c(
+                'w-[100px] h-[100px] rounded-sm flex items-center justify-center',
+                !file.uploaded &&
+                  "before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-sm before:opacity-60 before:bg-black before:z-10 transition-all"
+              )}
+            >
               {file.uploaded && (
                 <Image
                   src={file.url}
@@ -73,15 +64,15 @@ export const FileGrid: React.FC<FileGridProps> = ({ files, onDelete }) => {
                 <CircularProgressbar
                   styles={{
                     root: { width: 18, marginRight: 6, zIndex: 100 },
-                    path: { stroke: theme.palette.success.main },
+                    path: { stroke: theme.colors.success[300] },
                   }}
                   strokeWidth={10}
                   value={file.progress}
                 />
               )}
-            </Preview>
-          </Box>
+            </div>
+          </div>
         ))}
-    </Stack>
+    </div>
   )
 }

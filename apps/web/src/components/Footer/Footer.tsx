@@ -4,7 +4,7 @@ import { c, defaultToastError, numonly } from '@hytzenshop/helpers'
 import { FieldValues, useForm } from 'react-hook-form'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { Field } from '@components/Input'
-import { toast } from 'react-toastify'
+import { toast } from '@luma/ui'
 import { Link } from '@core'
 import { api } from '@hytzenshop/services'
 
