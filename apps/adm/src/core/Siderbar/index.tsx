@@ -1,4 +1,12 @@
-import { Nav, SubMenu, SubMenuItem, SubMenuClosedItem } from './styles'
+import {
+  Nav,
+  SubMenu,
+  SubMenuItem,
+  SubMenuClosedItem,
+  SiderBarContainer,
+} from './styles'
+
+import { useDebounceCallback } from '@react-hook/debounce'
 import { Button, Tooltip } from '@luma/ui'
 import { IoIosArrowBack } from 'react-icons/io'
 import { useBreakpoint } from '@hytzenshop/hooks'
@@ -21,6 +29,7 @@ import {
 } from 'react-icons/tb'
 
 import Link from '@core/Link'
+import React from 'react'
 
 interface SiderbarProps {
   openSiderbar: boolean
@@ -97,18 +106,40 @@ export const Siderbar: React.FC<SiderbarProps> = ({
   onDrawerOpen,
   onDrawerClose,
 }) => {
-  const { push, pathname } = useRouter()
+  const [isOpen, setIsOpen] = React.useState(openSiderbar)
 
+  const { push, pathname } = useRouter()
   const { sm } = useBreakpoint()
+
+  const onDrawerCloseDebounce = useDebounceCallback(onDrawerClose, 300)
+
+  const onOpen = React.useCallback(() => {
+    setIsOpen(true)
+    onDrawerOpen()
+  }, [onDrawerOpen])
+
+  const onClose = React.useCallback(() => {
+    setIsOpen(false)
+    onDrawerCloseDebounce()
+  }, [onDrawerCloseDebounce])
 
   return (
     <>
       {openSiderbar ? (
-        <div className="w-60 fixed top-0 left-0 bottom-0 flex bg-dark-gray-500 z-50">
+        <SiderBarContainer
+          {...(sm
+            ? {
+                animation: isOpen ? 'right' : 'left',
+              }
+            : {
+                animationMobile: isOpen ? 'right' : 'left',
+              })}
+          className="w-60 fixed top-0 left-0 bottom-0 flex bg-dark-gray-500 z-50 transition-all drop-shadow-md"
+        >
           <Nav>
             <Button
               className="absolute top-[16px] -right-[14px] p-2 bg-dark-gray-400 border border-dark-gray-300 text-light-gray-500 hover:bg-dark-gray-300 hover:text-light-gray-100 drop-shadow-md"
-              onClick={onDrawerClose}
+              onClick={onClose}
               rounded
             >
               <IoIosArrowBack size={14} color="inherit" />
@@ -178,14 +209,14 @@ export const Siderbar: React.FC<SiderbarProps> = ({
               ))}
             </SubMenu>
           </Nav>
-        </div>
+        </SiderBarContainer>
       ) : (
         <div className="fixed top-0 left-0 bottom-0 flex flex-col justify-start items-center sm:bg-dark-gray-500 z-[999]">
-          <div className="flex items-center max-sm:space-x-2 p-4 max-sm:mt-2">
+          <div className="flex items-center max-sm:space-x-2 p-3 max-sm:mt-2">
             <Button
               className="sm:hidden bg-dark-gray-500 p-2 ml-4"
               rounded
-              onClick={onDrawerOpen}
+              onClick={onOpen}
             >
               <TbMenu size={20} />
             </Button>
@@ -193,7 +224,7 @@ export const Siderbar: React.FC<SiderbarProps> = ({
             {sm ? (
               <Button
                 className="p-2 hover:bg-dark-gray-300 drop-shadow-md mt-4"
-                onClick={onDrawerOpen}
+                onClick={onOpen}
                 rounded
               >
                 <TbMenu />

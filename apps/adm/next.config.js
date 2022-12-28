@@ -16,9 +16,6 @@ const nextConfig = {
         locales: ['pt-BR'],
         defaultLocale: 'pt-BR',
     },
-    compiler: {
-        styledComponents: true,
-    },
     images: {
         domains: [
             'images.pexels.com',
