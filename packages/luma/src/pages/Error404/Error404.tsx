@@ -32,11 +32,12 @@ export const Error404: React.FC<Error404Props> = ({ onButtonClick }) => {
         style={{ margin: 0 }}
       />
 
-      <div className="flex flex-col items-center sm:items-start space-y-2 sm:mt-10">
+      <div className="flex flex-col items-center sm:items-start space-y-4 sm:mt-10">
         <p className="text-2xl font-semibold text-light-gray-100">
           Ops! Página não encontrada...
         </p>
-        <Button onClick={onButtonClick} className="p-0">
+
+        <Button onClick={onButtonClick} variant="filled" rounded>
           <span className="flex flex-row space-x-2">
             <TbArrowLeft />
             <p>Voltar à página anterior</p>
