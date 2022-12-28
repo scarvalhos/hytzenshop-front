@@ -1,12 +1,14 @@
 import * as React from 'react'
 
-import { ErrorAnimation } from '@luma/ui'
+import { Button, ErrorAnimation } from '@luma/ui'
+import { useBreakpoint } from '@hytzenshop/hooks'
 import { NextSeo } from 'next-seo'
 
 import Lottie from 'react-lottie'
-import Link from '@core/Link'
 
 const NotAllow: React.FC = () => {
+  const { sm } = useBreakpoint()
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -19,41 +21,25 @@ const NotAllow: React.FC = () => {
     <>
       <NextSeo title="Acesso negado" />
 
-      {/* <Stack
-        direction={sm ? 'column' : 'row'}
-        justifyContent="center"
-        alignItems="center"
-        height="80vh"
-      >
+      <div className="flex flex-col sm:flex-row items-center justify-center h-[80vh] mx-8 sm:space-x-4">
         <Lottie
           options={defaultOptions}
-          height={sm ? '18rem' : 420}
-          width={sm ? '18rem' : 420}
+          height={!sm ? '18rem' : 420}
+          width={!sm ? '18rem' : 420}
           style={{ margin: 0 }}
         />
 
-        <Stack
-          marginTop={sm ? 0 : 10}
-          zIndex={9999}
-          alignItems={sm ? 'center' : 'flex-start'}
-          maxWidth={600}
-          spacing={2}
-        >
-          <Typography
-            textAlign={sm ? 'center' : 'left'}
-            fontWeight="bold"
-            fontSize="1.875rem"
-            color="#FFF"
-          >
+        <div className="flex flex-col items-center sm:items-start max-w-xl space-y-4 sm:mt-12">
+          <p className="text-center sm:text-left text-light-gray-100 font-semibold text-2xl">
             Ops! Parace que você não tem permissão para acessar essa área...
-          </Typography>
-          <Link href="https://localhost:3000">Voltar para a loja</Link>
-        </Stack>
-      </Stack> */}
+          </p>
+          <Button href="https://localhost:3000" variant="filled" rounded>
+            Voltar para a loja
+          </Button>
+        </div>
+      </div>
     </>
   )
 }
 
 export default NotAllow
-
-// FF1D32
