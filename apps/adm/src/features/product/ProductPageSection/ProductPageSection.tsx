@@ -4,8 +4,8 @@ import { EvaluationStars, trucate, Chip } from '@luma/ui'
 import { TbBuildingStore, TbDashboard } from 'react-icons/tb'
 import { useProductPageSection } from './ProductPageSection.hook'
 import { ReactMinimalGallery } from 'react-minimal-gallery'
+import { c, money, numtostr } from '@hytzenshop/helpers'
 import { IoIosArrowForward } from 'react-icons/io'
-import { c, money } from '@hytzenshop/helpers'
 import { Product } from '@hytzenshop/types'
 
 import ProductPageSectionSkeleton from './ProductPageSectionSkeleton'
@@ -132,8 +132,23 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             </div>
           </div>
 
+          <div className="space-y-2">
+            <p>Estoque:</p>
+
+            <Chip
+              key={product?.stock}
+              label={numtostr(product?.stock)}
+              rounded
+              variant="filled"
+              className="w-fit"
+            />
+          </div>
+
           <div className={c('grid gap-2 grid-cols-3')}>
-            <Modal.EditProductButtonModal buttonClassName="col-start-1 col-end-4 md:col-end-2 mt-4" />
+            <Modal.EditProductButtonModal
+              buttonClassName="col-start-1 col-end-4 md:col-end-2 mt-4"
+              product={product}
+            />
           </div>
         </div>
       </div>
@@ -155,6 +170,8 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             <p>{product?.description}</p>
           </div>
         </div> */}
+
+        {/* <ProductEvalutionQuestionsSection product={product} /> */}
       </div>
     </>
   )

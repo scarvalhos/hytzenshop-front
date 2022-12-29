@@ -26,19 +26,24 @@ const SliderImagesSection: React.FC = () => {
 
   const onChange = React.useCallback(
     (ids: string[]) => updateSlideImages(ids),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
-  const onDelete = React.useCallback((id: string) => {
-    const ids = (sliderImages || [])
-      .map((i) => {
-        return {
-          id: i?._id,
-        }
-      })
-      .filter((v) => v.id !== id)
-    return updateSlideImages(ids)
-  }, [])
+  const onDelete = React.useCallback(
+    (id: string) => {
+      const ids = (sliderImages || [])
+        .map((i) => {
+          return {
+            id: i?._id,
+          }
+        })
+        .filter((v) => v.id !== id)
+      return updateSlideImages(ids)
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [sliderImages]
+  )
 
   return (
     <BoxSection

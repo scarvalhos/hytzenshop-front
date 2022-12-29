@@ -198,6 +198,7 @@ export function ConfigProvider({ children }: ConfigProviderType) {
       totalSalesCountQuery,
       totalUsersCountQuery,
     })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     configData,
     dataCategories,

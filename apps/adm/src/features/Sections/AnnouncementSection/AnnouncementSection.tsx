@@ -69,7 +69,7 @@ const AnnouncementSection: React.FC = () => {
         variant="filled"
         disabled={!showAnnouncement || !isDirty}
         onClick={handleSubmit(onClickSubmit)}
-        rounded
+        className="max-sm:w-full"
       >
         <span className="flex flex-row items-center space-x-1">
           <TbDeviceFloppy size={20} style={{ marginRight: 6 }} />

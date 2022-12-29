@@ -20,7 +20,6 @@ const ProfilePedidosPage: NextPage<ProfilePedidosPageProps> = ({ order }) => {
       <div className="mb-20">
         <OrderDetails order={order} />
       </div>
-      {/* <Stack spacing={4} mb={10}></Stack> */}
     </>
   )
 }

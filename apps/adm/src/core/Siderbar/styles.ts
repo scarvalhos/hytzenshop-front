@@ -62,18 +62,19 @@ export const SubMenuItem = styled('span', {
   fontSize: '0.75rem',
   display: 'flex',
   alignItems: 'center',
-  padding: '0.5rem 2rem',
-  marginRight: '1rem',
   marginBottom: '0.25rem',
   cursor: 'pointer',
-})
 
-export const SubMenuClosedItem = styled('span', {
-  fontSize: '0.75rem',
-  display: 'flex',
-  alignItems: 'center',
-  padding: '0.5rem',
-  marginBottom: '0.25rem',
-  cursor: 'pointer',
-  borderRadius: '1rem',
+  variants: {
+    open: {
+      true: {
+        padding: '0.5rem 2rem',
+        marginRight: '1rem',
+      },
+
+      false: {
+        padding: '0.5rem',
+      },
+    },
+  },
 })

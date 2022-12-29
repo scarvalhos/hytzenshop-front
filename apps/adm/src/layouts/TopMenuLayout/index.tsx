@@ -26,7 +26,9 @@ const TopMenuLayout: React.FC<TopMenuLayout> = ({ children }) => {
         </div>
       </div>
 
-      <div className="max-w-screen-xl mx-8 sm:mx-24 xl:mx-auto">{children}</div>
+      <div className="max-w-screen-lg xl:max-w-screen-xl mx-8 sm:mx-24 xl:mx-auto">
+        {children}
+      </div>
     </>
   )
 }

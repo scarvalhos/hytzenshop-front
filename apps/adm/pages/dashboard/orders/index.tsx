@@ -1,43 +1,81 @@
 import * as React from 'react'
 
 import { HeaderOrdersList } from '@features/orders/OrdersList/Header'
-import { useNewProduct } from '@hooks/useNewProduct'
+import { PaginationParams } from '@hytzenshop/types'
+import { LoadAnimated } from '@core/LoadAnimated'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { OrdersList } from '@features/orders/OrdersList'
 import { Pagination } from '@core/Pagination'
 import { useOrders } from '@hooks/useOrders'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
+import { c } from '@hytzenshop/helpers'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
 
 const Orders: NextPage = () => {
-  const [page, setPage] = React.useState(1)
-
-  const limit = 10
-
-  const { filter } = useNewProduct()
+  const [state, dispatch] = React.useState<PaginationParams>({
+    page: 1,
+    limit: 10,
+    filter: '',
+    sort: 'createdAt',
+    order: 'desc',
+  })
 
   const {
     getOrders: { data, isLoading },
-  } = useOrders(page, limit, filter)
+  } = useOrders({
+    page: state.page,
+    limit: state.limit,
+    filter: state.filter,
+    order: state.order,
+    sort: state.sort,
+  })
+
+  const setPage = React.useCallback(
+    (page: number) => {
+      dispatch({
+        ...state,
+        page,
+      })
+    },
+    [state]
+  )
+
+  const onFilterChange = React.useCallback(
+    (filter?: string) => {
+      dispatch({
+        ...state,
+        filter,
+      })
+    },
+    [state]
+  )
 
   return (
     <>
       <NextSeo title="Pedidos" />
 
-      <HeaderOrdersList loading={isLoading} />
+      <HeaderOrdersList
+        orders={data?.data.orders}
+        loading={isLoading}
+        onFilterChange={onFilterChange}
+      />
 
-      <div
-      //   spacing={4} mb={10}
-      >
-        <OrdersList orders={data?.data.orders} />
+      <div className="mb-20">
+        <div className={c(isLoading && 'flex justify-center items-center')}>
+          {isLoading ? (
+            <LoadAnimated size={160} />
+          ) : (
+            <OrdersList orders={data?.data.orders} />
+          )}
+        </div>
 
         {!isLoading && (
           <Pagination
-            currentPage={page}
+            currentPage={state.page}
             totalCountOfRegisters={data?.data.count || 0}
-            registersPerPage={limit}
+            registersPerPage={state.limit}
             onPageChange={setPage}
           />
         )}

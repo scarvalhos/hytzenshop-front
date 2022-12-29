@@ -21,6 +21,7 @@ interface SelectAddProps extends FieldInputProps {
   maxInputHeight?: string
   onAdd?: (v: string) => void
   onDelete?: (v: string) => void
+  defaultValues?: unknown[]
 }
 
 const Add: React.FC<SelectAddProps> = React.forwardRef(
@@ -33,7 +34,7 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
       placeholder,
       clearErrors,
       rounded,
-      defaultValue = [],
+      defaultValues = [],
       isChipRounded = false,
       chipSize = 'small',
       chipVariant = 'outlined',
@@ -92,10 +93,10 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
     }, [name, added])
 
     React.useEffect(() => {
-      if (defaultValue) {
-        setAdded(defaultValue as any)
+      if (defaultValues?.length > 0) {
+        setAdded(defaultValues as any)
       }
-    }, [defaultValue])
+    }, [defaultValues])
 
     return (
       <FieldWrapper

@@ -33,8 +33,6 @@ const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
           chipVariant="filled"
           onAdd={onAdd}
           onDelete={onDelete}
-          rounded
-          isChipRounded
           chipDeleteIcon
           isFullWidth
           {...register('categories')}

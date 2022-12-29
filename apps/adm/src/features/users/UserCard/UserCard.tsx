@@ -3,6 +3,7 @@ import * as React from 'react'
 import { TbBrandWhatsapp, TbEye, TbMailForward } from 'react-icons/tb'
 import { getFirstName, numonly } from '@hytzenshop/helpers'
 import { Button, Avatar } from '@luma/ui'
+import { useBreakpoint } from '@hytzenshop/hooks'
 import { User } from '@hytzenshop/types'
 
 interface UserCardProps {
@@ -11,6 +12,8 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
+  const { sm } = useBreakpoint()
+
   const link = React.useMemo(
     () =>
       `https://api.whatsapp.com/send?phone=${numonly(
@@ -28,7 +31,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
   )
 
   return (
-    <div className="bg-dark-gray-500 px-6 py-4 rounded-md flex-1 flex flex-col md:flex-row md:items-center justify-between max-md:space-y-2">
+    <div className="bg-dark-gray-500 px-6 py-4 rounded-md flex-1 flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-6">
       <div className="flex flex-row items-center space-x-2">
         <Avatar
           src={user?.profile?.avatar || ''}
@@ -47,17 +50,17 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
 
       {renderInsideCard && renderInsideCard()}
 
-      <div className="flex space-x-2 justify-end items-center">
+      <div className="flex space-x-2 justify-end items-center max-sm:mt-4">
         <Button
           href={link}
           target="_blank"
-          variant="filled"
+          variant={sm ? 'filled' : 'outlined'}
           rounded
-          className="max-md:w-full md:p-3"
+          className="max-sm:w-full sm:p-3"
         >
           <span className="flex items-center justify-center space-x-2">
-            <TbBrandWhatsapp size={16} className="text-light-gray-100" />
-            <p className="md:hidden">Whatsapp</p>
+            <TbBrandWhatsapp size={16} className="sm:text-light-gray-100" />
+            <p className="sm:hidden">Whatsapp</p>
           </span>
         </Button>
         <Button

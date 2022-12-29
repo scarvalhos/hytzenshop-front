@@ -49,7 +49,7 @@ const getOrderPaymentDetails = async (order?: Order) => {
 
 const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
   const { register, control, setValue, getValues } = useForm()
-  const { updatedOrderStatus } = useOrders()
+  const { updatedOrderStatus } = useOrders({})
   const { back } = useRouter()
 
   const orderPaymentQuery = useQuery(

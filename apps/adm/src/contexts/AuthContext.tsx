@@ -211,7 +211,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
           break
       }
     }
-  }, [asPath])
+  }, [asPath, queryClient, queryKey])
 
   React.useEffect(() => {
     if (window) {
@@ -249,7 +249,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       localStorage.setItem('hytzenshopadm.stayConnected', 'stayConnected')
       Router.push('/dashboard')
     }
-  }, [query.token])
+  }, [query.token, queryClient, queryKey])
 
   return (
     <AuthContext.Provider

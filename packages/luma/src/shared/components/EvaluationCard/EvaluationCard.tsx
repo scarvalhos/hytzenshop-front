@@ -49,25 +49,25 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
       </div>
 
       {application === 'adm' ? (
-        <div className="flex flex-row items-center space-x-2">
+        <div className="flex flex-col sm:flex-row items-center max-sm:space-y-2 sm:space-x-2">
           <Button
             href={`/dashboard/products/${evaluation.productId}`}
             variant="filled"
-            className="bg-dark-gray-400 md:relative md:pl-10 max-md:p-3 text-light-gray-100 whitespace-nowrap"
+            className="bg-dark-gray-400 lg:relative lg:pl-10 max-lg:p-3 text-light-gray-100 whitespace-nowrap"
             rounded
           >
-            <TbBuildingStore className="md:absolute md:left-4" />
-            <p className="max-md:hidden">Ver produto</p>
+            <TbBuildingStore className="lg:absolute lg:left-4" />
+            <p className="max-lg:hidden">Ver produto</p>
           </Button>
 
           <Button
             href={`/dashboard/orders/${evaluation.orderId}`}
             variant="filled"
-            className="bg-dark-gray-300 md:relative md:pl-10 max-md:p-3 text-light-gray-100 whitespace-nowrap"
+            className="bg-dark-gray-300 lg:relative lg:pl-10 max-lg:p-3 text-light-gray-100 whitespace-nowrap"
             rounded
           >
-            <TbTruck className="md:absolute md:left-4" />
-            <p className="max-md:hidden">Ver pedido</p>
+            <TbTruck className="lg:absolute lg:left-4" />
+            <p className="max-lg:hidden">Ver pedido</p>
           </Button>
 
           {evaluation.approved ? (

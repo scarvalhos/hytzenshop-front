@@ -76,12 +76,14 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
       if (setValue) {
         setValue(name, uploadedFiles)
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [name, uploadedFiles])
 
     React.useEffect(() => {
       if (defaultValue) {
         setUploadedFiles(defaultValue as any)
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [defaultValue])
 
     return (

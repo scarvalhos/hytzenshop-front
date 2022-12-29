@@ -1,14 +1,14 @@
 import React from 'react'
 
-import { TbEye, TbInfoCircle } from 'react-icons/tb'
-import { Order as IOrder } from '@hytzenshop/types'
 import { c, date, money } from '@hytzenshop/helpers'
+import { TbInfoCircle } from 'react-icons/tb'
 import { useRouter } from 'next/router'
 import { useOrder } from './OrderCard.hook'
 import { Button } from '@luma/ui'
+import { Order } from '@hytzenshop/types'
 
 export interface OrderCardProps {
-  order: IOrder
+  order: Order
   application: 'adm' | 'web'
 }
 
@@ -86,10 +86,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, application }) => {
           )}
           rounded
         >
-          <span className="flex justify-center items-center space-x-2">
-            <TbEye className="text-success-300 lg:text-light-gray-100" />
-            <p className="lg:hidden text-success-300">Ver pedido</p>
-          </span>
+          <p className="lg:hidden text-success-300">Ver pedido</p>
         </Button>
       </div>
     </div>

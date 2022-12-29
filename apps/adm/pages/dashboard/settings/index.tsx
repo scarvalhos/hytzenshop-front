@@ -13,7 +13,7 @@ const Settings: NextPage = () => {
     <>
       <NextSeo title="Configurações" />
 
-      <div className="space-y-8 w-full mb-20  md:w-[50%]">
+      <div className="space-y-8 w-full mb-20 lg:w-[50%]">
         <h1 className="text-light-gray-100 font-bold text-2xl">
           Configurações do sistema
         </h1>

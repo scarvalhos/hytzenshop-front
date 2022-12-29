@@ -38,6 +38,10 @@ const createProduct = async (product: Omit<Product, 'id'>) => {
   return api.post<ProductGetDto>('/products', product)
 }
 
+const updateProduct = async (product: Partial<Product>) => {
+  return api.put<ProductGetDto>(`/products/${product.id}`, product)
+}
+
 export function useProducts({
   page,
   limit,
@@ -79,9 +83,20 @@ export function useProducts({
     onError: defaultToastError,
   })
 
+  const updateProductMutation = useMutation(updateProduct, {
+    onSuccess: ({ data }) => {
+      toast.success(data.message)
+      queryClient.invalidateQueries(['products', page, filter])
+      queryClient.invalidateQueries(['product', data.product.id])
+    },
+
+    onError: defaultToastError,
+  })
+
   return {
     getProducts,
     deleteProduct: deleteProductMutation.mutate,
     createProduct: createProductMutation.mutate,
+    updateProduct: updateProductMutation.mutate,
   }
 }

@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { HeaderProductsList } from '@features/product/ProductsList/Header'
-import { useNewProduct } from '@hooks/useNewProduct'
+import { PaginationParams } from '@hytzenshop/types'
 import { ProductsList } from '@features/product/ProductsList'
 import { LoadAnimated } from '@core/LoadAnimated'
 import { withSSRAuth } from '@hocs/withSSRAuth'
@@ -14,26 +14,51 @@ import { c } from '@hytzenshop/helpers'
 import SiderbarLayout from '@layouts/SiderbarLayout'
 
 const QuikMenuProducts: NextPage = () => {
-  const [page, setPage] = React.useState(1)
-
-  const limit = 10
-
-  const { filter } = useNewProduct()
+  const [state, dispatch] = React.useState<PaginationParams>({
+    page: 1,
+    limit: 10,
+    filter: '',
+    sort: 'createdAt',
+    order: 'desc',
+  })
 
   const {
     getProducts: { data, isLoading },
     deleteProduct,
   } = useProducts({
-    page,
-    limit,
-    filter,
+    page: state.page,
+    limit: state.limit,
+    filter: state.filter,
   })
+
+  const setPage = React.useCallback(
+    (page: number) => {
+      dispatch({
+        ...state,
+        page,
+      })
+    },
+    [state]
+  )
+
+  const onFilterChange = React.useCallback(
+    (filter?: string) => {
+      dispatch({
+        ...state,
+        filter,
+      })
+    },
+    [state]
+  )
 
   return (
     <>
       <NextSeo title="Produtos" />
 
-      <HeaderProductsList loading={isLoading} products={data?.data.products} />
+      <HeaderProductsList
+        products={data?.data.products}
+        onFilterChange={onFilterChange}
+      />
 
       <div className="mb-20">
         <div className={c(isLoading && 'flex justify-center items-center')}>
@@ -49,9 +74,9 @@ const QuikMenuProducts: NextPage = () => {
 
         {!isLoading && (
           <Pagination
-            currentPage={page}
+            currentPage={state.page}
             totalCountOfRegisters={data?.data.count || 0}
-            registersPerPage={limit}
+            registersPerPage={state.limit}
             onPageChange={setPage}
           />
         )}

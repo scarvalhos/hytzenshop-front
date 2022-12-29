@@ -5,21 +5,30 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import { OrderGetAllDto, StatusOrders } from '@hytzenshop/types'
+import {
+  OrderGetAllDto,
+  PaginationParams,
+  StatusOrders,
+} from '@hytzenshop/types'
+
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
-const getOrdersList = async (
-  page: number,
-  limit: number,
-  filter?: string
-): Promise<OrderGetAllDto> => {
+const getOrdersList = async ({
+  filter,
+  limit,
+  order,
+  page,
+  sort,
+}: PaginationParams): Promise<OrderGetAllDto> => {
   const { data } = await api.get<OrderGetAllDto>('/orders', {
     params: {
-      page,
-      limit,
       filter,
+      limit,
+      order,
+      page,
+      sort,
     },
   })
 
@@ -36,12 +45,25 @@ const updatedOrderStatus = async ({
   return api.put(`/orders/${id}/${status}`)
 }
 
-export function useOrders(page?: number, limit?: number, filter?: string) {
+export function useOrders({
+  filter,
+  limit,
+  order,
+  page,
+  sort,
+}: PaginationParams) {
   const queryClient = useQueryClient()
 
   const getOrders = useQuery(
     ['orders', page, filter],
-    () => getOrdersList(page || 1, limit || 10, filter),
+    () =>
+      getOrdersList({
+        filter,
+        limit,
+        order,
+        page,
+        sort,
+      }),
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     }

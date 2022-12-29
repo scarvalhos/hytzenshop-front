@@ -1,9 +1,8 @@
 import * as React from 'react'
 
+import { PaginationParams, UserGetAllDto } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { HeaderUsersTable } from '@features/users/UsersList/Header'
-import { UserGetAllDto } from '@hytzenshop/types'
-import { useNewProduct } from '@hooks/useNewProduct'
 import { LoadAnimated } from '@core/LoadAnimated'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { Pagination } from '@core/Pagination'
@@ -15,13 +14,13 @@ import { c } from '@hytzenshop/helpers'
 import SiderbarLayout from '@layouts/SiderbarLayout'
 import UsersList from '@features/users/UsersList'
 
-const getUsersList = async (
-  page: number,
-  limit: number,
-  filter?: string,
-  sort?: string,
-  order?: string
-): Promise<UserGetAllDto> => {
+const getUsersList = async ({
+  filter,
+  limit,
+  order,
+  page,
+  sort,
+}: PaginationParams): Promise<UserGetAllDto> => {
   const { data } = await api.get<UserGetAllDto>('/users', {
     params: {
       page,
@@ -36,25 +35,57 @@ const getUsersList = async (
 }
 
 const DashboardUsers: NextPage = () => {
-  const [page, setPage] = React.useState(1)
-
-  const limit = 10
-
-  const { filter } = useNewProduct()
+  const [state, dispatch] = React.useState<PaginationParams>({
+    page: 1,
+    limit: 10,
+    filter: '',
+    sort: 'createdAt',
+    order: 'desc',
+  })
 
   const { data, isLoading } = useQuery(
-    ['products', page, filter],
-    () => getUsersList(page || 1, limit || 10, filter),
+    ['users', state.page, state.filter],
+    () =>
+      getUsersList({
+        filter: state.filter,
+        limit: state.limit,
+        page: state.page,
+        order: state.order,
+        sort: state.sort,
+      }),
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     }
   ) as UseQueryResult<UserGetAllDto, unknown>
 
+  const setPage = React.useCallback(
+    (page: number) => {
+      dispatch({
+        ...state,
+        page,
+      })
+    },
+    [state]
+  )
+
+  const onFilterChange = React.useCallback(
+    (filter?: string) => {
+      dispatch({
+        ...state,
+        filter,
+      })
+    },
+    [state]
+  )
+
   return (
     <>
       <NextSeo title="Usuários" />
 
-      <HeaderUsersTable />
+      <HeaderUsersTable
+        onFilterChange={onFilterChange}
+        users={data?.data.users || []}
+      />
 
       <div className="mb-20">
         <div className={c(isLoading && 'flex justify-center items-center')}>
@@ -67,9 +98,9 @@ const DashboardUsers: NextPage = () => {
 
         {!isLoading && (
           <Pagination
-            currentPage={page}
+            currentPage={state.page}
             totalCountOfRegisters={data?.data.count || 0}
-            registersPerPage={limit}
+            registersPerPage={state.limit}
             onPageChange={setPage}
           />
         )}

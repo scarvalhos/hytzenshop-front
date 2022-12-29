@@ -30,13 +30,17 @@ const StatusInput = <T,>({
 }: React.PropsWithChildren<StatusInputProps<T>>) => {
   const [status, setStatus] = React.useState(defaultValue)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => setValue && setValue(name, status), [status, name])
 
-  const onChange = React.useCallback((e: Option<T>) => {
-    setStatus(e)
+  const onChange = React.useCallback(
+    (e: Option<T>) => {
+      setStatus(e)
 
-    onChangeValue && onChangeValue(e)
-  }, [])
+      onChangeValue && onChangeValue(e)
+    },
+    [onChangeValue]
+  )
 
   return (
     <Controller

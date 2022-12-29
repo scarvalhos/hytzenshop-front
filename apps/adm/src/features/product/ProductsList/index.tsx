@@ -1,8 +1,5 @@
-// @refresh reset
-
 import * as React from 'react'
 
-import { useRouter } from 'next/router'
 import { Product } from '@hytzenshop/types'
 import { Column } from '@core/ListCards'
 import { money } from '@hytzenshop/helpers'
@@ -14,56 +11,46 @@ interface ProductsListProps {
   deleteProduct: (id: string) => void
 }
 
+const columns: Column<Product>[] = [
+  {
+    Header: '',
+    type: 'file',
+    accessor: ({ images }) => images[0]?.url,
+    fileClassName: 'w-16 md:w-[100px] h-16 md:h-[100px]',
+  },
+  {
+    Header: 'Título',
+    accessor: 'title',
+  },
+  {
+    Header: 'Estoque',
+    accessor: 'stock',
+  },
+  {
+    Header: 'Vendas',
+    accessor: 'stock',
+  },
+  {
+    Header: 'Avaliação',
+    accessor: 'averageRating',
+  },
+  {
+    Header: 'Preço',
+    accessor: ({ price }) => money(price),
+  },
+]
+
 export const ProductsList: React.FC<ProductsListProps> = ({
   products,
   deleteProduct,
 }) => {
-  const { push } = useRouter()
-
-  const columns = React.useMemo<Column<Product>[]>(
-    () => [
-      {
-        Header: '',
-        type: 'file',
-        accessor: ({ images }) => images[0]?.url,
-
-        fileClassName: 'w-[100px] h-[100px]',
-      },
-      {
-        Header: 'Título',
-        accessor: 'title',
-      },
-      {
-        Header: 'Estoque',
-        accessor: 'stock',
-        align: 'items-center',
-      },
-      {
-        Header: 'Vendas',
-        accessor: 'stock',
-        align: 'items-center',
-      },
-      {
-        Header: 'Avaliação média',
-        accessor: 'averageRating',
-        align: 'items-center',
-      },
-      {
-        Header: 'Preço',
-        accessor: ({ price }) => money(price),
-        align: 'items-center',
-      },
-    ],
-    []
-  )
-
   return (
     <ListCards
       rows={products}
       columns={columns}
       details
       deleteRow
-      onDetails={(row) => push(`/dashboard/products/${(row as Product).id}`)}
+      onDetails={(row) => `/dashboard/products/${(row as Product).id}`}
       onDelete={(row) => {
         deleteProduct((row as Product).id)
       }}
