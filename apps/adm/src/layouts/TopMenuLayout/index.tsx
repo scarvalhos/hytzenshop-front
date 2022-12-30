@@ -15,7 +15,9 @@ const TopMenuLayout: React.FC<TopMenuLayout> = ({ children }) => {
 
   const newNotifications = React.useMemo(
     () =>
-      user?.notificationsViews.filter((n) => !n.visualized).length || undefined,
+      user?.notificationsViews
+        .filter((n) => n.notification.application === 'adm')
+        .filter((n) => !n.visualized).length || undefined,
     [user]
   )
 

@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   })
 
   React.useEffect(() => {
-    socket.on('notification', (arg) => {
+    socket.on('notification-adm', (arg) => {
       onNotification(arg)
     })
   }, [onNotification])
