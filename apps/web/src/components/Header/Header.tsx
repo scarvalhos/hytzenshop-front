@@ -1,9 +1,8 @@
-import { TbShoppingCart, TbHeart, TbUserCircle } from 'react-icons/tb'
-import { Badge, withGlassEffect } from '@luma/ui'
+import { TbShoppingCart, TbHeart, TbUserCircle, TbBell } from 'react-icons/tb'
+import { Badge, Button, withGlassEffect, Link } from '@luma/ui'
 import { useWishlist } from '@contexts/WishlistContext'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
-import { Link } from '@core'
 
 import ProfilePopover from '@components/ProfilePopover'
 import React from 'react'
@@ -23,6 +22,14 @@ const Header: React.FC<HeaderProps> = ({
   const { wishlist } = useWishlist()
   const { user } = useAuth()
 
+  const newNotifications = React.useMemo(
+    () =>
+      user?.notificationsViews
+        .filter((n) => n.notification.application === 'shop')
+        .filter((n) => !n.visualized).length || undefined,
+    [user]
+  )
+
   return (
     <>
       {withGlassEffect(
@@ -39,28 +46,43 @@ const Header: React.FC<HeaderProps> = ({
 
           {renderInHeader && renderInHeader()}
 
-          <div className="flex flex-row items-center">
-            <Link href="/wishlist">
-              <Badge
-                content={
-                  wishlist && wishlist?.length > 0
-                    ? wishlist?.length
-                    : undefined
-                }
-                className="bg-danger-300"
-              >
-                <TbHeart color="white" fontSize={20} />
-              </Badge>
-            </Link>
+          <div className="flex flex-row items-center space-x-2">
+            <div className="flex flex-row items-center space-x-1">
+              <Button href="/wishlist" rounded className="p-1">
+                <Badge
+                  className="bg-danger-300"
+                  content={
+                    wishlist && wishlist?.length > 0
+                      ? wishlist?.length
+                      : undefined
+                  }
+                >
+                  <TbHeart color="white" fontSize={20} />
+                </Badge>
+              </Button>
 
-            <Link href="/checkout/cart" passHref className="mx-4">
-              <Badge
-                content={totalQuantity || undefined}
-                className="bg-success-400"
-              >
-                <TbShoppingCart color="white" fontSize={20} />
-              </Badge>
-            </Link>
+              <Button href="/checkout/cart" rounded className="p-1">
+                <Badge
+                  content={totalQuantity || undefined}
+                  className="bg-success-400"
+                >
+                  <TbShoppingCart color="white" fontSize={20} />
+                </Badge>
+              </Button>
+
+              {user && (
+                <Button href="/profile/notifications" rounded className="p-1">
+                  <Badge
+                    className="bg-danger-300"
+                    content={
+                      (newNotifications || 0) <= 99 ? newNotifications : '+99'
+                    }
+                  >
+                    <TbBell color="white" size={20} />
+                  </Badge>
+                </Button>
+              )}
+            </div>
 
             {user?.username ? (
               <ProfilePopover />

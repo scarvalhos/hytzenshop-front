@@ -1,12 +1,12 @@
 import * as React from 'react'
 
+import { GetServerSideProps, NextPage } from 'next'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { ProductGetAllDto } from '@hytzenshop/types'
 import { useConfigTypes } from '@utils/types/config'
 import { getProductList } from '@hooks/useProducts'
 import { Pagination } from '@components/Pagination'
 import { useRouter } from 'next/router'
-import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
@@ -102,3 +102,11 @@ const Category: NextPage = () => {
 }
 
 export default Category
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  console.log('Alou server!')
+
+  return {
+    props: {},
+  }
+}

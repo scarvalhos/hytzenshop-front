@@ -1,7 +1,7 @@
+import { Link } from '../Link'
 import { c } from '../../utils/helpers'
 
 import React from 'react'
-import Link from 'next/link'
 
 // --------------------------------------------------------------------------------------------
 

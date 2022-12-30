@@ -12,6 +12,10 @@ const nextConfig = {
     reactStrictMode: true,
     swcMinify: true,
     eslint: { dirs: ['src', 'pages'] },
+    i18n: {
+        locales: ['pt-BR'],
+        defaultLocale: 'pt-BR',
+    },
     images: {
         domains: ['images.pexels.com', 'hytzenshop.s3.amazonaws.com', 'www.kangu.com.br'],
     },
