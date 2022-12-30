@@ -2,6 +2,8 @@ import { HiCheckCircle, HiInformationCircle } from 'react-icons/hi'
 import { IoMdWarning } from 'react-icons/io'
 import { toast } from 'react-toastify'
 
+import React from 'react'
+
 export const success = (message: string) =>
   toast.success(message, {
     progressClassName: 'bg-success-300',
@@ -26,7 +28,12 @@ export const info = (message: string) =>
     icon: <HiInformationCircle size={20} className="text-primary-300" />,
   })
 
-export const primary = (message: string) =>
+export const primary = (message: string, options?: { icon: React.ReactNode }) =>
   toast(message, {
-    progressClassName: 'bg-light-gray-100',
+    progressClassName: 'bg-primary-300',
+    hideProgressBar: true,
+    autoClose: 6000,
+    ...(options?.icon && {
+      icon: options.icon,
+    }),
   })

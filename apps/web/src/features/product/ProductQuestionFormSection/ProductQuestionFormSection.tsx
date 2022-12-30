@@ -3,7 +3,7 @@ import * as Input from '@components/Input'
 import { useProductQuestionFormSection } from './ProductQuestionFormSection.hoox'
 import { Pagination } from '@components/Pagination'
 import { Product } from '@hytzenshop/types'
-import { trucate } from '@core'
+import { trucate } from '@luma/ui'
 import { c, date } from '@hytzenshop/helpers'
 
 import Button from '@components/Button'
@@ -57,7 +57,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
                     <p className="text-lg text-light-gray-100 font-medium">
                       {q.name}
                     </p>
-                    <p>{date(q.createdAt || '', 'digit', true)}</p>
+                    <p>{date(q.createdAt, { withHour: true })}</p>
                   </span>
 
                   <p>
@@ -95,7 +95,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
                             line: 3,
                           })}
                         </p>
-                        <p>{date(c.createdAt || '', 'digit', true)}</p>
+                        <p>{date(c.createdAt, { withHour: true })}</p>
                       </div>
                     ))}
                   </div>

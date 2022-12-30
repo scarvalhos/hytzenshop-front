@@ -3,7 +3,7 @@ import * as React from 'react'
 import { HeaderProductsList } from '@features/product/ProductsList/Header'
 import { PaginationParams } from '@hytzenshop/types'
 import { ProductsList } from '@features/product/ProductsList'
-import { LoadAnimated } from '@core/LoadAnimated'
+import { LoadingAnimation } from '@luma/ui'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { useProducts } from '@hooks/useProducts'
 import { Pagination } from '@core/Pagination'
@@ -63,7 +63,7 @@ const QuikMenuProducts: NextPage = () => {
       <div className="mb-20">
         <div className={c(isLoading && 'flex justify-center items-center')}>
           {isLoading ? (
-            <LoadAnimated size={160} />
+            <LoadingAnimation size={160} />
           ) : (
             <ProductsList
               products={data?.data.products || []}

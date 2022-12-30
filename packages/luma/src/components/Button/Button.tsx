@@ -101,7 +101,7 @@ const Button = React.forwardRef<any, React.PropsWithChildren<ButtonProps>>(
       },
       <>
         {loading ? (
-          <div className="px-6 py-[9.5px] flex items-center justify-center">
+          <div className="p-2 flex items-center justify-center">
             <Loader />
           </div>
         ) : (

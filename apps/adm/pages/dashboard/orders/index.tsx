@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import { HeaderOrdersList } from '@features/orders/OrdersList/Header'
 import { PaginationParams } from '@hytzenshop/types'
-import { LoadAnimated } from '@core/LoadAnimated'
+import { LoadingAnimation } from '@luma/ui'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { OrdersList } from '@features/orders/OrdersList'
 import { Pagination } from '@core/Pagination'
@@ -65,7 +65,7 @@ const Orders: NextPage = () => {
       <div className="mb-20">
         <div className={c(isLoading && 'flex justify-center items-center')}>
           {isLoading ? (
-            <LoadAnimated size={160} />
+            <LoadingAnimation size={160} />
           ) : (
             <OrdersList orders={data?.data.orders} />
           )}

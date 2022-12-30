@@ -14,10 +14,19 @@ const ProfilePopover = () => {
   return (
     <div className="flex flex-row items-center justify-center space-x-2">
       <span className="flex flex-col items-end max-sm:hidden">
-        <p className="text-light-gray-100 font-medium">
-          {user?.profile?.completeName}
-        </p>
-        <p className="text-sm">{user?.username}</p>
+        {user?.username ? (
+          <p className="text-light-gray-100 font-medium">
+            {user?.profile?.completeName}
+          </p>
+        ) : (
+          <p className="bg-dark-gray-300 animate-pulse w-32 h-3 rounded-sm" />
+        )}
+
+        {user?.username ? (
+          <p className="text-sm">{user?.username}</p>
+        ) : (
+          <p className="bg-dark-gray-300 animate-pulse w-20 h-3 rounded-sm mt-1" />
+        )}
       </span>
 
       <Popover.Root>

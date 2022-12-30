@@ -2,11 +2,13 @@ import { ShopAnimation } from '@luma/ui'
 
 import Lottie from 'react-lottie'
 
-interface LoadAnimated {
+export interface LoadingAnimationProps {
   size?: number
 }
 
-export const LoadAnimated: React.FC<LoadAnimated> = ({ size = 300 }) => {
+export const LoadingAnimation: React.FC<LoadingAnimationProps> = ({
+  size = 300,
+}) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,

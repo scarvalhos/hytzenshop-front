@@ -72,8 +72,9 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
         >
           <TbMailForward size={16} className="text-light-gray-500" />
         </Button>
-        <Button variant="filled" rounded className="p-3 bg-dark-gray-300">
-          <TbEye size={16} className="text-success-300" />
+
+        <Button variant="outlined" rounded className="p-3">
+          <TbEye size={16} />
         </Button>
       </div>
     </div>

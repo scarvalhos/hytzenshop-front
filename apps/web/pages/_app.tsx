@@ -1,16 +1,21 @@
 import type { AppProps } from 'next/app'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Slide, ToastContainer } from 'react-toastify'
+import { useDebounceCallback } from '@react-hook/debounce'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { TbBellRinging, TbX } from 'react-icons/tb'
 import { WishlistProvider } from '@contexts/WishlistContext'
 import { ConfigProvider } from '@contexts/ConfigContext'
-import { Slide, ToastContainer } from 'react-toastify'
 import { AuthProvider } from '@contexts/AuthContext'
 import { CartProvider } from '@contexts/CartContext'
 import { DefaultSeo } from 'next-seo'
-import { TbX } from 'react-icons/tb'
+import { UserGetDto } from '@hytzenshop/types'
+import { socket } from '@services/socket'
+import { toast } from '@luma/ui'
 
 import Script from 'next/script'
+import React from 'react'
 import seo from '../next-seo.config'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -19,6 +24,30 @@ import '../src/styles/globals.css'
 const queryClient = new QueryClient()
 
 export default function App({ Component, pageProps }: AppProps) {
+  const onNotification = useDebounceCallback((arg) => {
+    const queryKey = {
+      evaluation: ['products'],
+      order: ['order', arg.referenceId],
+    }[String(arg.reference)]
+
+    const me = queryClient.getQueryData<UserGetDto>(['me'])
+
+    if (me && arg.data.sendToIds.find((id: string) => id === me.user?.id)) {
+      queryClient.invalidateQueries(['me'])
+      queryClient.invalidateQueries(queryKey)
+
+      return toast.primary(arg.data.message, {
+        icon: <TbBellRinging size={20} className="text-primary-300" />,
+      })
+    }
+  })
+
+  React.useEffect(() => {
+    socket.on('notification', (arg) => {
+      onNotification(arg)
+    })
+  }, [onNotification])
+
   return (
     <QueryClientProvider client={queryClient}>
       <DefaultSeo {...seo} />

@@ -11,6 +11,12 @@ const DashboardEvaluations: NextPage = () => {
     <>
       <NextSeo title="Avaliações" />
 
+      <div className="sticky top-20 mb-8 z-40 bg-black">
+        <h1 className="text-light-gray-100 py-2 bg-black font-semibold text-2xl">
+          Notificações
+        </h1>
+      </div>
+
       <EvaluationsPage />
     </>
   )

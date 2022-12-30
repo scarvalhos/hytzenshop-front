@@ -58,7 +58,7 @@ export const SubMenu = styled('div', {
   paddingBottom: '1.5rem',
 })
 
-export const SubMenuItem = styled('span', {
+export const SubMenuItem = styled('button', {
   fontSize: '0.75rem',
   display: 'flex',
   alignItems: 'center',

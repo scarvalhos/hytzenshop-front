@@ -151,6 +151,39 @@ export interface PaymentSocketResponse {
   }
 }
 
+export type Reference =
+  | 'user'
+  | 'cart'
+  | 'evaluation'
+  | 'newsletter'
+  | 'order'
+  | 'payment'
+
+// NotificationView
+
+export interface NotificationView {
+  id: string
+  user: User
+  userId: string
+  notification: Notification
+  notificationId: string
+  visualized: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+// Notification
+
+export interface Notification {
+  id: string
+  message: string
+  reference: Reference
+  referenceId: string
+  notificationsViews: NotificationView[]
+  createdAt: string
+  updatedAt: string
+}
+
 export const states = [
   'AC',
   'AL',
@@ -375,4 +408,139 @@ export interface ShippingSimulationResponse {
   descricao: string
   servico: ShippingService
   referencia: string
+}
+
+export interface MpPaymentResponse {
+  acquirer_reconciliation?: any[]
+  additional_info?: {
+    authentication_code?: any
+    available_balance?: any
+    nsu_processadora?: any
+    bank_info?: {
+      is_same_bank_account_owner?: boolean
+    }
+  }
+  authorization_code?: any
+  binary_mode?: boolean
+  brand_id?: any
+  call_for_authorize_id?: any
+  captured?: boolean
+  build_version?: string
+  callback_url?: any
+  card?: {
+    bin?: string
+    cardholder?: {
+      identification?: {
+        number?: string
+        type?: string
+        name?: string
+      }
+      date_created?: string
+      date_last_updated?: string
+      expiration_month?: number
+      expiration_year?: number
+      first_six_digits?: string
+      id?: any
+      last_four_digits?: string
+    }
+  }
+  charges_details?: any[]
+  collector_id?: number
+  corporation_id?: any
+  counter_currency?: any
+  coupon_amount?: number
+  currency_id?: string
+  date_approved?: string
+  date_created?: string
+  date_last_updated?: string
+  date_of_expiration?: string
+  deduction_schema?: any
+  description?: string
+  differential_pricing_id?: any
+  external_reference?: any
+  fee_details?: any[]
+  financing_group?: any
+  id?: number
+  installments?: number
+  integrator_id?: any
+  issuer_id?: any
+  live_mode?: boolean
+  marketplace_owner?: any
+  merchant_account_id?: any
+  merchant_number?: any
+  metadata?: any
+  money_release_date?: string
+  money_release_schema?: any
+  money_release_status?: any
+  notification_url?: string
+  operation_type?: string
+  order?: any
+  payer?: {
+    email?: string
+    entity_type?: any
+    first_name?: any
+    id?: string
+    identification?: {
+      number?: string
+      type?: 'CPF' | 'CNPJ'
+    }
+    last_name?: any
+    operator_id?: any
+    phone?: {
+      area_code?: any
+      extension?: any
+      number?: any
+    }
+    type?: any
+  }
+  payment_method?: {
+    id?: string
+    type?: string
+  }
+
+  payment_method_id?: string
+  payment_type_id?: string
+  platform_id?: any
+  point_of_interaction?: {
+    application_data?: {
+      name?: null
+      version?: null
+    }
+    business_info?: {
+      sub_unit?: string
+      unit?: string
+    }
+    location?: {
+      source?: any
+      state_id?: any
+    }
+    sub_type?: string
+    type?: string
+  }
+  pos_id?: any
+  processing_mode?: string
+  refunds?: any[]
+  shipping_amount?: number
+  shipping_cost?: number
+  sponsor_id?: null
+  statement_descriptor?: string
+  status?: PaymentStatus
+  status_detail?: string
+  store_id?: any
+  taxes_amount?: number
+  transaction_amount?: number
+  transaction_amount_refunded?: number
+  transaction_details?: {
+    acquirer_reference?: any
+    bank_transfer_id?: number
+    external_resource_url?: any
+    financial_institution?: string
+    installment_amount?: number
+    net_received_amount?: number
+    overpaid_amount?: number
+    payable_deferral_period?: any
+    payment_method_reference_id?: any
+    total_paid_amount?: number
+    transaction_id?: string
+  }
 }

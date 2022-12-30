@@ -10,7 +10,7 @@
     @apply cursor-not-allowed border border-solid border-dark-gray-200 bg-dark-gray-300 text-light-gray-400 hover:bg-dark-gray-300;
   }
   .button--filled {
-    @apply button bg-success-400 font-semibold text-white hover:brightness-110;
+    @apply button bg-success-400 font-semibold text-white hover:brightness-125;
   }
   .button--outlined {
     @apply button border border-solid border-success-300 hover:border-success-300 bg-none hover:bg-success-300 hover:bg-opacity-[0.025] font-semibold text-success-300;
