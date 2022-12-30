@@ -43,7 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
   })
 
   React.useEffect(() => {
-    socket.on('notification', (arg) => {
+    socket.on('notification-shop', (arg) => {
       onNotification(arg)
     })
   }, [onNotification])

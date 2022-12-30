@@ -180,6 +180,7 @@ export interface Notification {
   reference: Reference
   referenceId: string
   notificationsViews: NotificationView[]
+  application: 'adm' | 'shop'
   createdAt: string
   updatedAt: string
 }
