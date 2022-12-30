@@ -182,41 +182,35 @@ const ListCards: React.FC<TableProps> = ({
                 )}
               </div>
 
-              {deleteRow && (
-                <Button
-                  onClick={() => onDelete && onDelete(row)}
-                  className="bg-danger-400 hover:bg-danger-300 lg:bg-dark-gray-400 lg:hover:bg-dark-gray-300 transition-all lg:p-3 lg:mr-4 max-lg:mx-4"
-                  rounded
-                >
-                  <span className="flex items-center justify-center space-x-2">
-                    <TbTrash
-                      size={16}
-                      className="text-light-gray-100 lg:text-danger-300"
-                    />
-                    <p className="lg:hidden text-light-gray-100 font-medium">
-                      Excluir
-                    </p>
-                  </span>
-                </Button>
-              )}
+              <div className="flex justify-center items-center space-x-2 max-lg:mb-4 max-lg:px-4">
+                {deleteRow && (
+                  <Button
+                    onClick={() => onDelete && onDelete(row)}
+                    variant="outlined-danger"
+                    className="transition-all lg:p-3 max-lg:w-full"
+                    rounded
+                  >
+                    <span className="flex items-center justify-center space-x-2">
+                      <TbTrash size={16} />
+                      <p className="lg:hidden font-medium">Excluir</p>
+                    </span>
+                  </Button>
+                )}
 
-              {details && (
-                <Button
-                  href={onDetails ? onDetails(row) : '/'}
-                  className="bg-success-400 lg:bg-dark-gray-400 hover:bg-success-300 lg:hover:bg-dark-gray-300 transition-all lg:p-3 max-lg:mt-2 max-lg:mx-4 max-lg:mb-4"
-                  rounded
-                >
-                  <span className="flex items-center justify-center space-x-2">
-                    <TbEye
-                      size={16}
-                      className="text-light-gray-100 lg:text-success-300"
-                    />
-                    <p className="lg:hidden text-light-gray-100 font-medium">
-                      Ver produto
-                    </p>
-                  </span>
-                </Button>
-              )}
+                {details && (
+                  <Button
+                    href={onDetails ? onDetails(row) : '/'}
+                    variant={lg ? 'outlined' : 'filled'}
+                    className="transition-all lg:p-3 max-lg:w-full"
+                    rounded
+                  >
+                    <span className="flex items-center justify-center space-x-2">
+                      <TbEye size={16} />
+                      <p className="lg:hidden font-medium">Ver produto</p>
+                    </span>
+                  </Button>
+                )}
+              </div>
             </span>
           )}
         </div>

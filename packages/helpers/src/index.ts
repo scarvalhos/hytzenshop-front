@@ -39,48 +39,35 @@ export const money = (s?: string | number) => {
 // date
 
 export const date = (
-  value: string | number,
-  type?: 'digit' | 'long' | 'long-short',
-  withHour?: boolean
+  value?: string | number,
+  options?: {
+    type?: 'digit' | 'long' | 'long-short'
+    withHour?: boolean
+  }
 ) => {
-  if (value === '') {
-    return '-'
+  if (!value || value === '') return '-'
+
+  const withHour = (v: string) => {
+    return {
+      true: v.concat(` às ${dayjs(value).utcOffset(-3).format('HH:mm')}`),
+      false: v,
+    }[String(options?.withHour || false)]
   }
 
-  switch (type) {
+  switch (options?.type) {
     case 'long':
-      if (withHour) {
-        return `${dayjs(value).format('DD, MMMM')} de ${dayjs(value).format(
-          'YYYY'
-        )} às ${dayjs(value).utcOffset(-3).format('HH:mm')}`
-      }
-      return `${dayjs(value).format('DD, MMMM')} de ${dayjs(value).format(
-        'YYYY'
-      )}`
+      return withHour(
+        `${dayjs(value).format('DD, MMMM')} de ${dayjs(value).format('YYYY')}`
+      )
 
     case 'long-short':
-      if (withHour) {
-        return `${dayjs(value).format('DD, MMM/YYYY')} às ${dayjs(value)
-          .utcOffset(-3)
-          .format('HH:mm')}`
-      }
-      return `${dayjs(value).format('DD, MMM/YYYY')}`
+      return withHour(dayjs(value).format('DD, MMM/YYYY'))
 
     case 'digit':
-      if (withHour) {
-        return `${dayjs(value).format('DD/MM/YYYY')} às ${dayjs(value)
-          .utcOffset(-3)
-          .format('HH:mm')}`
-      }
-      return dayjs(value).format('DD/MM/YYYY')
+      return withHour(dayjs(value).format('DD/MM/YYYY'))
 
     default:
-      if (withHour) {
-        return `${dayjs(value).format('DD/MM/YYYY')} às ${dayjs(value)
-          .utcOffset(-3)
-          .format('HH:mm')}`
-      }
-      return dayjs(value).format('DD/MM/YYYY')
+      return withHour(dayjs(value).format('DD/MM/YYYY'))
   }
 }
 

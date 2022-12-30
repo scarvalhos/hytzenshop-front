@@ -2,13 +2,16 @@ import type { AppProps } from 'next/app'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Slide, ToastContainer } from 'react-toastify'
+import { useDebounceCallback } from '@react-hook/debounce'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { TbBellRinging, TbX } from 'react-icons/tb'
 import { DefaultSeo } from 'next-seo'
 import { NextPage } from 'next'
-import { useMemo } from 'react'
-import { TbX } from 'react-icons/tb'
+import { socket } from '@services/socket'
+import { toast } from '@luma/ui'
 
 import DefaultProvider from '@providers/DefaultProvider'
+import React from 'react'
 import seo from '../next-seo.config'
 
 import 'react-toastify/dist/ReactToastify.css'
@@ -26,7 +29,31 @@ type AppPropsWithLayout = AppProps & {
 const queryClient = new QueryClient()
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = useMemo(
+  const onNotification = useDebounceCallback((arg) => {
+    const queryKey = {
+      user: ['users'],
+      cart: ['carts'],
+      evaluation: ['evaluations'],
+      newsletter: ['newsletter'],
+      order: ['orders'],
+      payment: ['orders'],
+    }[String(arg.reference)]
+
+    queryClient.invalidateQueries(queryKey)
+    queryClient.invalidateQueries(['me'])
+
+    toast.primary(arg.data.message, {
+      icon: <TbBellRinging size={20} className="text-primary-300" />,
+    })
+  })
+
+  React.useEffect(() => {
+    socket.on('notification', (arg) => {
+      onNotification(arg)
+    })
+  }, [onNotification])
+
+  const getLayout = React.useMemo(
     () => Component.getLayout ?? ((page: React.ReactElement) => page),
     [Component.getLayout]
   )

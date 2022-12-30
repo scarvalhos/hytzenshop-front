@@ -15,6 +15,11 @@ export const Avatar: React.FC<AvatarProps> = ({
   name,
   src,
 }) => {
+  if (!src && !name)
+    return (
+      <div className="bg-dark-gray-300 border-[1.5px] border-success-300 animate-pulse rounded-full w-12 h-12" />
+    )
+
   return (
     <RadixAvatar.Root>
       <RadixAvatar.Image

@@ -20,7 +20,7 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
 
   const images = sliderImages?.map((i) => i?.url) || []
 
-  React.useLayoutEffect(() => {
+  React.useEffect(() => {
     if (images.length > 1) {
       setTimeout(() => {
         if (slideIndex === images?.length - 1) {

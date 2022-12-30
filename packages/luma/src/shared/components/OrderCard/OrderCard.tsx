@@ -43,7 +43,9 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, application }) => {
 
       <div className="overflow-hidden text-ellipsis whitespace-nowrap text-left space-y-1">
         <p className="text-sm">Data do pedido</p>
-        <p className="text-light-gray-100">{date(order.createdAt, 'digit')}</p>
+        <p className="text-light-gray-100">
+          {date(order.createdAt, { type: 'digit' })}
+        </p>
       </div>
 
       <div className="overflow-hidden text-ellipsis whitespace-nowrap text-left">

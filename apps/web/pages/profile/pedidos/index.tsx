@@ -1,13 +1,12 @@
+import { Icons, LoadingAnimation } from '@luma/ui'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 import { PaginationParams } from '@hytzenshop/types'
-import { LoadAnimated } from '@core'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { Pagination } from '@components/Pagination'
 import { useOrders } from '@hooks/useOrders'
 import { NextPage } from 'next'
 import { useAuth } from '@contexts/AuthContext'
 import { NextSeo } from 'next-seo'
-import { Icons } from '@luma/ui'
 
 import OrdersListHeader from '@features/orders/OrdersListHeader'
 import ProfileLayout from '@layouts/ProfileLayout'
@@ -47,7 +46,7 @@ const ProfileOrdersPage: NextPage = () => {
 
         {isLoading ? (
           <div className="flex items-center justify-center">
-            <LoadAnimated />
+            <LoadingAnimation />
           </div>
         ) : null}
 

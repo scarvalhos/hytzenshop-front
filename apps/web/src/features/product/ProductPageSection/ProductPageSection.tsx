@@ -1,11 +1,10 @@
 import * as Input from '@components/Input'
 
+import { EvaluationStars, trucate } from '@luma/ui'
 import { useProductPageSection } from './ProductPageSection.hook'
 import { ReactMinimalGallery } from 'react-minimal-gallery'
-import { EvaluationStars } from '@luma/ui'
 import { c, money } from '@hytzenshop/helpers'
 import { TbSearch } from 'react-icons/tb'
-import { trucate } from '@core'
 import { Product } from '@hytzenshop/types'
 
 import ProductEvalutionQuestionsSection from '../ProductEvaluationQuestionsSection/ProductEvaluationQuestionsSection'

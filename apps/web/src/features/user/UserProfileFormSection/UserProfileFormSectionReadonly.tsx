@@ -71,7 +71,7 @@ const UserProfileFormSectionReadonly: React.FC<
           <div className="col-start-1 col-end-3 md:col-start-2 space-y-1">
             <p className="text-sm">Data de nascimento:</p>
             <p className="text-light-gray-100">
-              {date(user?.profile?.birthDate || '')}
+              {date(user?.profile?.birthDate)}
             </p>
           </div>
 

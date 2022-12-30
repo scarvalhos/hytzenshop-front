@@ -137,15 +137,12 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 max-sm:w-full">
           <div className="flex flex-row sm:items-center justify-between sm:justify-center space-x-1 max-sm:w-full">
             <p className="text-sm">Data do pedido:</p>
-            <p className="text-light-gray-100">
-              {date(order?.createdAt || '')}
-            </p>
+            <p className="text-light-gray-100">{date(order?.createdAt)}</p>
           </div>
           <div className="flex flex-row sm:items-center justify-between sm:justify-center space-x-1 max-sm:w-full">
             <p className="text-sm">Previsão de entrega:</p>
             <p className="text-light-gray-100">
-              {order?.shipping &&
-                date(JSON.parse(order?.shipping || '').dtPrevEnt)}
+              {order?.shipping && date(JSON.parse(order?.shipping).dtPrevEnt)}
             </p>
           </div>
         </div>

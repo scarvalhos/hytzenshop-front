@@ -15,6 +15,8 @@ import {
   TbMessage,
   TbThumbUp,
   TbSettings,
+  TbShoppingCart,
+  TbMail,
 } from 'react-icons/tb'
 
 import React from 'react'
@@ -46,14 +48,14 @@ const linksTop = [
     Icon: () => <TbCurrencyDollar size={20} />,
   },
   {
-    title: 'Analytics',
-    path: '/dashboard/analytics',
-    Icon: () => <TbDeviceAnalytics size={20} />,
+    title: 'Carrinhos',
+    path: '/dashboard/carts',
+    Icon: () => <TbShoppingCart size={20} />,
   },
   {
-    title: 'Relatórios',
-    path: '/dashboard/reports',
-    Icon: () => <TbReportAnalytics size={20} />,
+    title: 'Newsletter',
+    path: '/dashboard/newsletter',
+    Icon: () => <TbMail size={20} />,
   },
 ]
 
@@ -72,6 +74,16 @@ const linksMiddle = [
     title: 'Mensagens',
     path: '/dashboard/messages',
     Icon: () => <TbMessage size={20} />,
+  },
+  {
+    title: 'Analytics',
+    path: '/dashboard/analytics',
+    Icon: () => <TbDeviceAnalytics size={20} />,
+  },
+  {
+    title: 'Relatórios',
+    path: '/dashboard/reports',
+    Icon: () => <TbReportAnalytics size={20} />,
   },
 ]
 

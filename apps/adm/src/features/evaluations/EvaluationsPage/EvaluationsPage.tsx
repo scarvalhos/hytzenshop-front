@@ -1,5 +1,5 @@
 import { useEvaluationsPage } from './EvaluationsPage.hooks'
-import { LoadAnimated } from '@core/LoadAnimated'
+import { LoadingAnimation } from '@luma/ui'
 import { Pagination } from '@core/Pagination'
 import { NextPage } from 'next'
 
@@ -10,12 +10,12 @@ const EvaluationsPage: NextPage = () => {
   const { state, setPage, evaluationsQuery } = useEvaluationsPage()
 
   return (
-    <div className="my-24 space-y-4">
+    <div className="mb-20 space-y-4">
       <EvaluationsList evaluations={evaluationsQuery.data?.data.evaluations} />
 
       {evaluationsQuery.isLoading ? (
         <div className="flex items-center justify-center">
-          <LoadAnimated />
+          <LoadingAnimation size={160} />
         </div>
       ) : null}
 

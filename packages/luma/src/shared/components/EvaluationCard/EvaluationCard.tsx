@@ -31,7 +31,7 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
           <p className="text-lg text-light-gray-100 font-medium">
             {evaluation.user.profile?.completeName?.split(' ')[0]}
           </p>{' '}
-          <p>| {date(evaluation.createdAt || '')}</p>
+          <p>| {date(evaluation.createdAt)}</p>
         </span>
 
         <p>

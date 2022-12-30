@@ -3,7 +3,7 @@ import * as React from 'react'
 import { PaginationParams, UserGetAllDto } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { HeaderUsersTable } from '@features/users/UsersList/Header'
-import { LoadAnimated } from '@core/LoadAnimated'
+import { LoadingAnimation } from '@luma/ui'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { Pagination } from '@core/Pagination'
 import { NextPage } from 'next'
@@ -90,7 +90,7 @@ const DashboardUsers: NextPage = () => {
       <div className="mb-20">
         <div className={c(isLoading && 'flex justify-center items-center')}>
           {isLoading ? (
-            <LoadAnimated size={160} />
+            <LoadingAnimation size={160} />
           ) : (
             <UsersList users={data?.data.users || []} />
           )}

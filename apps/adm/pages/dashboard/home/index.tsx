@@ -110,7 +110,9 @@ const DashboardHome: NextPage = () => {
         <h2 className="text-light-gray-100 text-xl">
           Pré-visualização do site
         </h2>
+
         <iframe
+          title="Hytzen Shop"
           src={process.env.NEXT_PUBLIC_SHOP_URL_FRONTEND}
           className="w-full h-[50vh] rounded-md bg-dark-gray-400 py-1.5 pl-1.5"
         />

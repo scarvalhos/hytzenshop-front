@@ -1,5 +1,5 @@
 import { GetServerSideProps, NextPage } from 'next'
-import { LoadAnimated } from '@core/LoadAnimated'
+import { LoadingAnimation } from '@luma/ui'
 import { parseCookies } from 'nookies'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react'
@@ -34,7 +34,7 @@ const Redirect: NextPage = () => {
           <br />
           sendo redirecionado!
         </p>
-        <LoadAnimated />
+        <LoadingAnimation />
       </div>
     </>
   )

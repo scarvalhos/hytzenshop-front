@@ -1,4 +1,4 @@
-import { Evaluation } from '.'
+import { Evaluation, NotificationView } from '.'
 
 interface Address {
   id: string
@@ -36,6 +36,7 @@ interface User {
   evaluation?: Evaluation[]
   createdAt?: string
   updatedAt?: string
+  notificationsViews: NotificationView[]
 }
 
 interface SignInCredentials {
