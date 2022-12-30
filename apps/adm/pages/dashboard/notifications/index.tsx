@@ -55,7 +55,7 @@ const DashboardNotifications: NextPage = () => {
 
       <div className="space-y-4 mb-20">
         {user?.notificationsViews
-          .filter((n) => n.notification.application === 'shop')
+          .filter((n) => n.notification.application === 'adm')
           .map((n) => (
             <div
               key={n?.id}
