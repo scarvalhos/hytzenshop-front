@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { useConfigTypes } from '@utils/types/config'
 import { ProductGetDto } from '@hytzenshop/types'
 import { Button, Icons } from '@luma/ui'
+import { withSSRAuth } from '@hocs/withSSRAuth'
 import { c, randonfy } from '@hytzenshop/helpers'
 import { useConfig } from '@contexts/ConfigContext'
 import { NextPage } from 'next'
@@ -95,3 +96,14 @@ const ProductPage: NextPage = () => {
 }
 
 export default ProductPage
+
+export const getServerSideProps = withSSRAuth(
+  async () => {
+    return {
+      props: {},
+    }
+  },
+  {
+    mustBeAuthenticated: false,
+  }
+)

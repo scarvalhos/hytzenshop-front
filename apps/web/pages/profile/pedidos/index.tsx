@@ -89,8 +89,13 @@ const ProfileOrdersPage: NextPage = () => {
 
 export default ProfileOrdersPage
 
-export const getServerSideProps = withSSRAuth(async () => {
-  return {
-    props: {},
+export const getServerSideProps = withSSRAuth(
+  async () => {
+    return {
+      props: {},
+    }
+  },
+  {
+    mustBeAuthenticated: true,
   }
-})
+)

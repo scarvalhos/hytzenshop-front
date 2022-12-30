@@ -6,7 +6,8 @@ import nookies, { destroyCookie, parseCookies } from 'nookies'
 import decode from 'jwt-decode'
 
 type WithSSRAuthOptions = {
-  isAdmin?: boolean
+  mustBeAdmin?: boolean
+  mustBeAuthenticated?: boolean
 }
 
 export function withSSRAuth<P extends { [key: string]: any }>(
@@ -14,9 +15,11 @@ export function withSSRAuth<P extends { [key: string]: any }>(
   options?: WithSSRAuthOptions
 ) {
   return async (ctx: GetServerSidePropsContext) => {
+    console.log(options)
+
     const { 'hytzenshop.token': token } = parseCookies(ctx)
 
-    if (!token) {
+    if (options?.mustBeAuthenticated && !token) {
       return {
         redirect: {
           destination: '/',
@@ -25,26 +28,7 @@ export function withSSRAuth<P extends { [key: string]: any }>(
       }
     }
 
-    if (options) {
-      const user = decode<{ isAdmin: boolean }>(token)
-      const { isAdmin } = options
-
-      const userHasValidPermission = validateUserPermission({
-        user,
-        isAdmin,
-      })
-
-      if (!userHasValidPermission) {
-        return {
-          redirect: {
-            destination: '/',
-            permanent: false,
-          },
-        }
-      }
-    }
-
-    try {
+    if (options?.mustBeAuthenticated && token) {
       const isValidToken = validateToken(token)
 
       if (!isValidToken) {
@@ -59,6 +43,27 @@ export function withSSRAuth<P extends { [key: string]: any }>(
         }
       }
 
+      if (options?.mustBeAdmin) {
+        const user = decode<{ isAdmin: boolean }>(token)
+        const { mustBeAdmin } = options
+
+        const userHasValidPermission = validateUserPermission({
+          user,
+          isAdmin: mustBeAdmin,
+        })
+
+        if (!userHasValidPermission) {
+          return {
+            redirect: {
+              destination: '/',
+              permanent: false,
+            },
+          }
+        }
+      }
+    }
+
+    try {
       return fn(ctx)
     } catch (error) {
       if (error instanceof AuthTokenError) {

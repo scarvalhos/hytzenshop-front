@@ -17,8 +17,13 @@ const NotificationsProfilePage: NextPage = () => {
 
 export default NotificationsProfilePage
 
-export const getServerSideProps = withSSRAuth(async () => {
-  return {
-    props: {},
+export const getServerSideProps = withSSRAuth(
+  async () => {
+    return {
+      props: {},
+    }
+  },
+  {
+    mustBeAuthenticated: true,
   }
-})
+)

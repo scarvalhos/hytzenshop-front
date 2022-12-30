@@ -42,8 +42,13 @@ const ProfileDadosPessoaisPage: NextPage = () => {
 
 export default ProfileDadosPessoaisPage
 
-export const getServerSideProps = withSSRAuth(async () => {
-  return {
-    props: {},
+export const getServerSideProps = withSSRAuth(
+  async () => {
+    return {
+      props: {},
+    }
+  },
+  {
+    mustBeAuthenticated: true,
   }
-})
+)
