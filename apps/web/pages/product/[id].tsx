@@ -1,7 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
 import { useConfigTypes } from '@utils/types/config'
-import { ProductGetAllDto, ProductGetDto } from '@hytzenshop/types'
+import { ProductGetDto } from '@hytzenshop/types'
 import { Button, Icons } from '@luma/ui'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { c, randonfy } from '@hytzenshop/helpers'
