@@ -48,7 +48,7 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
           'sm:justify-between sm:items-center'
       )}
     >
-      <Link href={`/product?id=${product?.productId}`}>
+      <Link href={`/product/${product?.productId}`}>
         {data?.product && (
           <div className="relative w-[70px] h-[70px] rounded-sm">
             <Image
@@ -63,7 +63,7 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
       </Link>
 
       <div className="flex flex-col justify-center space-y-2">
-        <Link href={`/product?id=${product?.productId}`}>
+        <Link href={`/product/${product?.productId}`}>
           {data?.product.title}
         </Link>
 

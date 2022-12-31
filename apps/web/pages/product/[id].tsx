@@ -102,7 +102,7 @@ export const getServerSideProps = withSSRAuth(
   async (ctx) => {
     return {
       props: {
-        id: ctx.query.id,
+        id: ctx.params?.id,
       },
     }
   },

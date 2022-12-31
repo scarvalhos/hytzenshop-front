@@ -46,7 +46,7 @@ const ProductCard: React.FC<ProductProps> = ({
         )}
       </button>
 
-      <Link href={`/product?id=${id}`}>
+      <Link href={`/product/${id}`}>
         <div className="relative w-full h-[200px]">
           <Image
             src={encodeURI(images[0]?.url)}
@@ -59,7 +59,7 @@ const ProductCard: React.FC<ProductProps> = ({
         </div>
       </Link>
 
-      <Link href={`/product?id=${id}`}>
+      <Link href={`/product/${id}`}>
         <div className="flex flex-col h-40 justify-between px-6 py-6">
           <div className="space-y-1">
             <EvaluationStars

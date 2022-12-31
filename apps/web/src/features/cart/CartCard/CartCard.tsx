@@ -41,7 +41,7 @@ const CartCard: React.FC<CartCardProps> = ({
 
   return (
     <div className="flex relative flex-col sm:flex-row bg-dark-gray-500 bg-opacity-30 sm:pr-8 rounded-md">
-      <Link href={`/product?id=${productData?.id}`}>
+      <Link href={`/product/${productData?.id}`}>
         <div className="relative w-full sm:w-[100px] h-[300px] sm:h-full bg-dark-gray-400 rounded-sm">
           {productData?.images[0]?.url && (
             <Image
@@ -57,7 +57,7 @@ const CartCard: React.FC<CartCardProps> = ({
       </Link>
 
       <div className="flex flex-col justify-center items-start space-y-2 py-4 px-6">
-        <Link href={`/product?id=${product?.productId}`}>
+        <Link href={`/product/${product?.productId}`}>
           <p className="text-xl text-light-gray-100 font-medium">
             {productData?.title}
           </p>
