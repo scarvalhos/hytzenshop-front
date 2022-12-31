@@ -1,7 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
 import { useConfigTypes } from '@utils/types/config'
-import { ProductGetDto } from '@hytzenshop/types'
+import { ProductGetAllDto, ProductGetDto } from '@hytzenshop/types'
 import { Button, Icons } from '@luma/ui'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { c, randonfy } from '@hytzenshop/helpers'
@@ -22,8 +22,12 @@ async function getProductDetails(id?: string | null) {
   return data
 }
 
-const ProductPage: NextPage = () => {
-  const id = useSearchParams().get('id')
+interface ProductPageProps {
+  id: string
+}
+
+const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
+  //   const id = useSearchParams().get('id')
 
   const { productsSugestions } = useConfig()
   const { categoriesTabs } = useConfigTypes()
@@ -97,13 +101,33 @@ const ProductPage: NextPage = () => {
 
 export default ProductPage
 
-export const getServerSideProps = withSSRAuth(
-  async () => {
+export const getStaticPaths = () => {
+  return {
+    paths: [],
+    fallback: 'blocking',
+  }
+}
+
+export const getStaticProps = withSSRAuth(
+  async ({ params }) => {
     return {
-      props: {},
+      props: {
+        id: params?.id,
+      },
     }
   },
   {
     mustBeAuthenticated: false,
   }
 )
+
+// export const getServerSideProps = withSSRAuth(
+//   async () => {
+//     return {
+//       props: {},
+//     }
+//   },
+//   {
+//     mustBeAuthenticated: false,
+//   }
+// )
