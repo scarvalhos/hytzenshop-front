@@ -103,7 +103,7 @@ export default ProductPage
 export const getStaticPaths = () => {
   return {
     paths: [],
-    fallback: 'blocking',
+    fallback: true,
   }
 }
 
