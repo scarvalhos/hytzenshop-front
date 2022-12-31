@@ -15,8 +15,6 @@ export function withSSRAuth<P extends { [key: string]: any }>(
   options?: WithSSRAuthOptions
 ) {
   return async (ctx: GetServerSidePropsContext) => {
-    console.log(options)
-
     const { 'hytzenshop.token': token } = parseCookies(ctx)
 
     if (options?.mustBeAuthenticated && !token) {

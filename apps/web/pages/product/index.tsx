@@ -26,9 +26,6 @@ interface ProductPageProps {
 }
 
 const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
-  //   const id = useSearchParams().get('id')
-  console.log(id)
-
   const { productsSugestions } = useConfig()
   const { categoriesTabs } = useConfigTypes()
 

@@ -46,20 +46,20 @@ const ProductCard: React.FC<ProductProps> = ({
         )}
       </button>
 
-      <Link as={`/product/${id}`} href={`/product/${id}`}>
+      <Link href={`/product?id=${id}`}>
         <div className="relative w-full h-[200px]">
           <Image
             src={encodeURI(images[0]?.url)}
             alt={images[0]?.name}
             className="object-cover object-center"
             sizes="100%"
+            loading="lazy"
             fill
-            priority
           />
         </div>
       </Link>
 
-      <Link as={`/product/${id}`} href={`/product/${id}`}>
+      <Link href={`/product?id=${id}`}>
         <div className="flex flex-col h-40 justify-between px-6 py-6">
           <div className="space-y-1">
             <EvaluationStars

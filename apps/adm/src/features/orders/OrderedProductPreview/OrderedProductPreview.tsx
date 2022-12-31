@@ -33,7 +33,7 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
         'flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 rounded-md px-4 py-4 bg-dark-gray-500'
       )}
     >
-      <Link href={`/product/${product?.productId}`}>
+      <Link href={`/dashboard/products/${product?.productId}`}>
         {data?.product && (
           <div className="relative w-[70px] h-[70px] rounded-sm">
             <Image
@@ -49,7 +49,7 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
 
       <div className="flex flex-col justify-center space-y-2">
         <Link
-          href={`/product/${product?.productId}`}
+          href={`/dashboard/products/${product?.productId}`}
           className="text-light-gray-100 font-medium text-base"
         >
           {data?.product.title}

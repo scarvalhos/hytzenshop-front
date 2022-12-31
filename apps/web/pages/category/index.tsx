@@ -6,7 +6,6 @@ import { useConfigTypes } from '@utils/types/config'
 import { getProductList } from '@hooks/useProducts'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { Pagination } from '@components/Pagination'
-import { useRouter } from 'next/router'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 
@@ -20,13 +19,11 @@ interface PaginationStateProps {
   limit: number
 }
 
-const Category: NextPage = () => {
-  const {
-    query: { name },
-  } = useRouter()
+interface CategoryProps {
+  name: string
+}
 
-  const category = name
-
+const Category: NextPage<CategoryProps> = ({ name: category }) => {
   const { categoriesTabs } = useConfigTypes()
 
   const [state, dispatch] = React.useState<PaginationStateProps>({
@@ -105,9 +102,11 @@ const Category: NextPage = () => {
 export default Category
 
 export const getServerSideProps = withSSRAuth(
-  async () => {
+  async (ctx) => {
     return {
-      props: {},
+      props: {
+        name: ctx.query.name,
+      },
     }
   },
   {

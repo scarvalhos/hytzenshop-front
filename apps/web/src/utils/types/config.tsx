@@ -26,7 +26,7 @@ export const useConfigTypes = () => {
       title:
         category.name.replaceAll('-', ' ').charAt(0).toUpperCase() +
         category.name.replaceAll('-', ' ').slice(1),
-      link: `/category/${category.name}`,
+      link: `/category?name=${category.name}`,
     })),
   ]
 

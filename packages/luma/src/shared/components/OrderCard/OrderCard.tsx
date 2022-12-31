@@ -21,7 +21,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, application }) => {
   const link = React.useMemo(
     () =>
       application === 'web'
-        ? `/profile/pedidos/${order.id}`
+        ? `/profile/pedidos/id?id=${order.id}`
         : `/dashboard/orders/${order.id}`,
     [application, order.id]
   )

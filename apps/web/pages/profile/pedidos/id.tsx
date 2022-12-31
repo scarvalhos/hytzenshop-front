@@ -1,5 +1,4 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
 import { OrderDetails } from '@features/orders/OrderDetails'
 import { OrderGetDto } from '@hytzenshop/types'
 import { withSSRAuth } from '@hocs/withSSRAuth'
@@ -15,9 +14,11 @@ async function getOrderDetails(id?: string | null) {
   return data
 }
 
-const ProfileOrderPage: NextPage = () => {
-  const id = useSearchParams().get('id')
+interface ProfileOrderPageProps {
+  id: string
+}
 
+const ProfileOrderPage: NextPage<ProfileOrderPageProps> = ({ id }) => {
   const orderQuery = useQuery(['order', id], () => getOrderDetails(id), {
     staleTime: 1000 * 60 * 10, // 10 minutes
   }) as UseQueryResult<OrderGetDto, unknown>
@@ -36,9 +37,11 @@ const ProfileOrderPage: NextPage = () => {
 export default ProfileOrderPage
 
 export const getServerSideProps = withSSRAuth(
-  async () => {
+  async (ctx) => {
     return {
-      props: {},
+      props: {
+        id: ctx.query.id,
+      },
     }
   },
   {
