@@ -27,6 +27,7 @@ interface ProductPageProps {
 
 const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
   //   const id = useSearchParams().get('id')
+  console.log(id)
 
   const { productsSugestions } = useConfig()
   const { categoriesTabs } = useConfigTypes()
@@ -100,18 +101,11 @@ const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
 
 export default ProductPage
 
-export const getStaticPaths = () => {
-  return {
-    paths: [],
-    fallback: true,
-  }
-}
-
-export const getStaticProps = withSSRAuth(
-  async ({ params }) => {
+export const getServerSideProps = withSSRAuth(
+  async (ctx) => {
     return {
       props: {
-        id: params?.id,
+        id: ctx.query.id,
       },
     }
   },
@@ -119,14 +113,3 @@ export const getStaticProps = withSSRAuth(
     mustBeAuthenticated: false,
   }
 )
-
-// export const getServerSideProps = withSSRAuth(
-//   async () => {
-//     return {
-//       props: {},
-//     }
-//   },
-//   {
-//     mustBeAuthenticated: false,
-//   }
-// )
