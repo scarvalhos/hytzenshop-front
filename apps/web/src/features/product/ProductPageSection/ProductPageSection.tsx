@@ -1,6 +1,6 @@
 import * as Input from '@components/Input'
 
-import { EvaluationStars, trucate } from '@luma/ui'
+import { EvaluationStars, trucate, Button } from '@luma/ui'
 import { useProductPageSection } from './ProductPageSection.hook'
 import { ReactMinimalGallery } from 'react-minimal-gallery'
 import { c, money } from '@hytzenshop/helpers'
@@ -12,7 +12,6 @@ import ProductPageSectionSkeleton from './ProductPageSectionSkeleton'
 import ShippingSimulationModal from '@components/Modal/ShippingSimulationModal'
 import ProductSection from '@features/product/ProductSection'
 import IconModal from '@components/Modal/IconModal'
-import Button from '@components/Button'
 import React from 'react'
 
 interface ProductPageSectionProps {
@@ -225,7 +224,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
       >
         <div className="mb-10 space-y-4">
           <h2 className="text-xl text-light-gray-100 font-medium">Descrição</h2>
-          <p>{product?.description}</p>
+          <p className="whitespace-pre-wrap">{product?.description}</p>
         </div>
 
         {/* <div className="mb-20 space-y-4">

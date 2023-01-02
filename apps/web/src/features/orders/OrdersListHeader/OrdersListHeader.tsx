@@ -1,4 +1,4 @@
-import { Loader } from '@components/Button'
+import { Loader } from '@luma/ui'
 
 import React from 'react'
 

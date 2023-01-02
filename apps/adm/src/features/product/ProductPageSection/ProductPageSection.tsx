@@ -1,16 +1,14 @@
 import * as Modal from '@core/Modal'
 
-import { EvaluationStars, trucate, Chip } from '@luma/ui'
-import { TbBuildingStore, TbDashboard } from 'react-icons/tb'
+import { EvaluationStars, trucate, Chip, BreadCrumbs } from '@luma/ui'
 import { useProductPageSection } from './ProductPageSection.hook'
 import { ReactMinimalGallery } from 'react-minimal-gallery'
 import { c, money, numtostr } from '@hytzenshop/helpers'
-import { IoIosArrowForward } from 'react-icons/io'
 import { Product } from '@hytzenshop/types'
 
+import ProductEvalutionQuestionsSection from '../ProductEvaluationQuestionsSection/ProductEvaluationQuestionsSection'
 import ProductPageSectionSkeleton from './ProductPageSectionSkeleton'
 import React from 'react'
-import Link from '@core/Link'
 
 interface ProductPageSectionProps {
   product?: Product
@@ -22,29 +20,16 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
   product,
   loading,
 }) => {
-  const { images, lg } = useProductPageSection({ product })
+  const { images, lg, breadCrumbsLinks } = useProductPageSection({ product })
 
   if (loading) return <ProductPageSectionSkeleton />
 
   return (
     <>
-      <div className="max-w-screen-2xl mx-auto flex items-center space-x-2 px-8 md:px-16 pt-10 pb-4 mb-4 sticky top-10 z-50 bg-black">
-        <Link href="/dashboard">
-          <span className="w-fit flex items-center justify-center space-x-1">
-            <TbDashboard size={18} />
-            <p>Dashboard</p>
-          </span>
-        </Link>
-
-        <IoIosArrowForward />
-
-        <Link href="/dashboard/products">
-          <span className="w-fit flex items-center justify-center space-x-1">
-            <TbBuildingStore size={18} />
-            <p>Produtos</p>
-          </span>
-        </Link>
-      </div>
+      <BreadCrumbs
+        className="max-w-screen-2xl mx-auto px-8 md:px-16 py-4 mb-4 sticky top-20 z-40 bg-black"
+        links={breadCrumbsLinks}
+      />
 
       <div
         className={c(
@@ -60,6 +45,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             hoverColor="#4FFF70"
           />
         )}
+
         <div className="space-y-4">
           <div className="flex flex-col items-start space-y-2">
             <EvaluationStars
@@ -105,7 +91,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
           <div className={c('grid grid-cols-2 sm:grid-cols-3 gap-2')}>
             <div className="space-y-2">
               <p>Tamanhos:</p>
-              <span className="flex flex-row space-x-2 flex-wrap">
+              <span className="flex flex-row gap-2 flex-wrap">
                 {product?.sizes?.map((s) => (
                   <Chip
                     key={s}
@@ -120,28 +106,47 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
 
             <div className="space-y-2">
               <p>Cores:</p>
-              {product?.colors?.map((c) => (
-                <Chip
-                  key={c}
-                  label={c}
-                  rounded
-                  variant="filled"
-                  className="w-fit"
-                />
-              ))}
+              <span className="flex flex-row gap-2 flex-wrap">
+                {product?.colors?.map((c) => (
+                  <Chip
+                    key={c}
+                    label={c}
+                    rounded
+                    variant="filled"
+                    className="w-fit"
+                  />
+                ))}
+              </span>
             </div>
           </div>
 
-          <div className="space-y-2">
-            <p>Estoque:</p>
+          <div className={c('grid grid-cols-2 sm:grid-cols-3 gap-2')}>
+            <div className="space-y-2">
+              <p>Categorias:</p>
+              <span className="flex flex-row gap-2 flex-wrap">
+                {product?.categories?.map((c) => (
+                  <Chip
+                    key={c}
+                    label={c}
+                    rounded
+                    variant="filled"
+                    className="w-fit"
+                  />
+                ))}
+              </span>
+            </div>
 
-            <Chip
-              key={product?.stock}
-              label={numtostr(product?.stock)}
-              rounded
-              variant="filled"
-              className="w-fit"
-            />
+            <div className="space-y-2">
+              <p>Estoque:</p>
+
+              <Chip
+                key={product?.stock}
+                label={numtostr(product?.stock)}
+                rounded
+                variant="filled"
+                className="w-fit"
+              />
+            </div>
           </div>
 
           <div className={c('grid gap-2 grid-cols-3')}>
@@ -152,13 +157,14 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
           </div>
         </div>
       </div>
+
       <div
-        className={c('px-8 md:px-16 my-20 max-w-screen-2xl mx-auto')}
         id="description"
+        className={c('px-8 md:px-16 my-20 max-w-screen-2xl mx-auto')}
       >
         <div className="mb-10 space-y-4">
           <h2 className="text-xl text-light-gray-100 font-medium">Descrição</h2>
-          <p>{product?.description}</p>
+          <p className="whitespace-pre-wrap">{product?.description}</p>
         </div>
 
         {/* <div className="mb-20 space-y-4">
@@ -171,7 +177,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
           </div>
         </div> */}
 
-        {/* <ProductEvalutionQuestionsSection product={product} /> */}
+        <ProductEvalutionQuestionsSection product={product} />
       </div>
     </>
   )

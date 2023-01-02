@@ -38,7 +38,7 @@ const screens = {
 export function useBreakpoint() {
   const [state, dispatch] = React.useReducer(reducer, initialState)
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     const events: [MediaQueryList, (a: any) => void][] = Object.entries(
       screens
     ).map(([screen, query]) => {

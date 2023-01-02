@@ -1,5 +1,5 @@
+import { makePrismaWhere, randonfy } from '@hytzenshop/helpers'
 import { useDebounceCallback } from '@react-hook/debounce'
-import { makePrismaWhere } from '@hytzenshop/helpers'
 import { useConfigTypes } from '@utils/types/config'
 import { useProducts } from '@hooks/useProducts'
 import { Pagination } from '@components/Pagination'
@@ -46,10 +46,13 @@ const Home: NextPage = () => {
     filter: state.filter,
   })
 
-  const onPageChange = React.useCallback((page: number) => {
-    dispatch({ page })
-    document.documentElement.scrollTop = 0
-  }, [])
+  const onPageChange = React.useCallback(
+    (page: number) => {
+      dispatch({ ...state, page })
+      document.documentElement.scrollTop = 0
+    },
+    [state]
+  )
 
   const onFilterChange = React.useCallback(
     (v: string) => {
@@ -114,12 +117,12 @@ const Home: NextPage = () => {
       />
 
       <ProductSection
-        products={data?.data.products || []}
+        products={randonfy(data?.data.products)}
         isLoading={isLoading}
       />
 
       <div className="mx-16 mb-16">
-        {(data?.data.count || 0) > (state.limit || 10) && (
+        {(data?.data.count || 0) > (state.limit || 30) && (
           <Pagination
             currentPage={state.page}
             registersPerPage={state.limit}

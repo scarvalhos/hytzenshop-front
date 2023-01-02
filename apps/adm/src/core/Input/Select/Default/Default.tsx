@@ -19,26 +19,29 @@ interface SelectDefaultProps<T> extends FieldInputProps {
 }
 
 const SelectDefault = React.forwardRef(
-  <T,>({
-    defaultValue,
-    clearErrors,
-    placeholder,
-    setValue,
-    options,
-    error,
-    variant,
-    rounded,
-    label,
-    name,
-    isFullWidth,
-    containerClassName,
-    renderAfterLabel,
-    className,
-    inputWrapperClassName,
-    renderBefore,
-    renderAfter,
-    onChangeValue,
-  }: React.PropsWithChildren<SelectDefaultProps<T>>) => {
+  <T,>(
+    {
+      defaultValue,
+      clearErrors,
+      placeholder,
+      setValue,
+      options,
+      error,
+      variant,
+      rounded,
+      label,
+      name,
+      isFullWidth,
+      containerClassName,
+      renderAfterLabel,
+      className,
+      inputWrapperClassName,
+      renderBefore,
+      renderAfter,
+      onChangeValue,
+    }: React.PropsWithChildren<SelectDefaultProps<T>>,
+    _ref: any
+  ) => {
     return (
       <FieldWrapper
         width={isFullWidth ? 'full' : 'fit'}

@@ -1,4 +1,4 @@
-import { Icons, LoadingAnimation } from '@luma/ui'
+import { Icons, LoadingAnimation, Button } from '@luma/ui'
 import { TbShoppingCartPlus } from 'react-icons/tb'
 import { PaginationParams } from '@hytzenshop/types'
 import { withSSRAuth } from '@hocs/withSSRAuth'
@@ -11,7 +11,6 @@ import { NextSeo } from 'next-seo'
 import OrdersListHeader from '@features/orders/OrdersListHeader'
 import ProfileLayout from '@layouts/ProfileLayout'
 import OrdersList from '@features/orders/OrdersList'
-import Button from '@components/Button'
 import React from 'react'
 
 const ProfileOrdersPage: NextPage = () => {

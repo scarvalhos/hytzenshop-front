@@ -63,7 +63,7 @@ const ListCards: React.FC<TableProps> = ({
                 ({
                   accessor,
                   type,
-                  fileClassName = 'w-8 lg:w-[40px] h-8 lg:h-[40px] rounded-md',
+                  fileClassName = 'relative w-8 lg:w-[40px] h-8 lg:h-[40px] rounded-md',
                 }) => {
                   const text =
                     typeof accessor === 'function'
@@ -76,10 +76,10 @@ const ListCards: React.FC<TableProps> = ({
                         <Image
                           src={encodeURI(text)}
                           alt={text}
-                          sizes="100%"
-                          priority
-                          fill
                           className="object-cover object-center rounded-md"
+                          sizes="100%"
+                          loading="lazy"
+                          fill
                         />
                       </div>
                     )
@@ -183,7 +183,7 @@ const ListCards: React.FC<TableProps> = ({
               </div>
 
               <div className="flex justify-center items-center space-x-2 max-lg:mb-4 max-lg:px-4">
-                {deleteRow && (
+                {deleteRow ? (
                   <Button
                     onClick={() => onDelete && onDelete(row)}
                     variant="outlined-danger"
@@ -195,9 +195,9 @@ const ListCards: React.FC<TableProps> = ({
                       <p className="lg:hidden font-medium">Excluir</p>
                     </span>
                   </Button>
-                )}
+                ) : null}
 
-                {details && (
+                {details ? (
                   <Button
                     href={onDetails ? onDetails(row) : '/'}
                     variant={lg ? 'outlined' : 'filled'}
@@ -209,7 +209,7 @@ const ListCards: React.FC<TableProps> = ({
                       <p className="lg:hidden font-medium">Ver produto</p>
                     </span>
                   </Button>
-                )}
+                ) : null}
               </div>
             </span>
           )}

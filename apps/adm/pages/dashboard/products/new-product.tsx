@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { ProductProvider } from '@contexts/NewProductContext'
 import { NewProductForm } from '@features/product/NewProductForm'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
@@ -10,11 +9,11 @@ import SiderbarLayout from '@layouts/SiderbarLayout'
 
 const NewProduct: NextPage = () => {
   return (
-    <ProductProvider>
+    <>
       <NextSeo title="Novo produto" />
 
       <NewProductForm />
-    </ProductProvider>
+    </>
   )
 }
 

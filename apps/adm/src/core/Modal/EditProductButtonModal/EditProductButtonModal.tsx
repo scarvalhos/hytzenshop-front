@@ -57,7 +57,7 @@ const EditProductButtonModal: React.FC<EditProductButtonModalProps> = ({
         <NewProductForm
           type="PUT"
           fieldsVariant="filled"
-          formClassName="max-h-[80vh] overflow-y-auto"
+          formClassName="max-h-[80vh] overflow-y-auto scrollbar-none"
           defaultValues={defaultValues}
           product={product}
           onClose={() => setOpenModal(false)}

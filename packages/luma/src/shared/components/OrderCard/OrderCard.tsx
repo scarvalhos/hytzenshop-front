@@ -12,11 +12,12 @@ export interface OrderCardProps {
   application: 'adm' | 'web'
 }
 
-export const OrderCard: React.FC<OrderCardProps> = ({ order, application }) => {
+const OrderCardComponent: React.FC<OrderCardProps> = ({
+  order,
+  application,
+}) => {
   const { statusColor, statusLabel } = useOrder(order)
   const { push } = useRouter()
-
-  const pushRef = React.useRef(push)
 
   const link = React.useMemo(
     () =>
@@ -28,10 +29,10 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, application }) => {
 
   return (
     <div
-      onClick={() => pushRef.current(link)}
+      onClick={() => push(link)}
       className={c(
-        application === 'adm' ? 'lg:grid-cols-6' : 'lg:grid-cols-5',
-        "grid grid-cols-2 md:grid-cols-3 gap-4 relative rounded-md bg-dark-gray-500 bg-opacity-70 hover:bg-opacity-100 px-6 py-4 cursor-pointer hover:before:content-[''] hover:before:rounded-l-lg hover:before:w-1 hover:before:h-[100%] hover:before:bg-success-300 hover:before:absolute hover:before:bottom-0 hover:before:left-0 transition-all"
+        "grid grid-cols-2 md:grid-cols-3 gap-4 relative rounded-md bg-dark-gray-500 hover:bg-dark-gray-400 px-6 py-4 cursor-pointer before:hover:content-[''] before:hover:rounded-l-lg before:hover:w-1 before:hover:h-[100%] before:hover:bg-success-300 before:hover:absolute before:hover:bottom-0 before:hover:left-0",
+        application === 'adm' ? 'lg:grid-cols-6' : 'lg:grid-cols-5'
       )}
     >
       {application === 'adm' ? (
@@ -94,3 +95,4 @@ export const OrderCard: React.FC<OrderCardProps> = ({ order, application }) => {
     </div>
   )
 }
+export const OrderCard = React.memo(OrderCardComponent)

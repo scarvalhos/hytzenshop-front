@@ -3,13 +3,12 @@ import * as Input from '@components/Input'
 import { FieldValues, useForm } from 'react-hook-form'
 import { useDebounceCallback } from '@react-hook/debounce'
 import { CepResponse, User } from '@hytzenshop/types'
+import { Loader, Button } from '@luma/ui'
 import { TbCheck, TbX } from 'react-icons/tb'
 import { useAuth } from '@contexts/AuthContext'
-import { Loader } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 import { c } from '@hytzenshop/helpers'
 
-import Button from '@components/Button'
 import React from 'react'
 
 interface UserProfileFormSectionEditableProps {

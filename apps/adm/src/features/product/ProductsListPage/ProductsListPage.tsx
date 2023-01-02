@@ -2,78 +2,50 @@ import * as React from 'react'
 import * as Input from '@core/Input'
 
 import { TbCirclePlus, TbDownload, TbFilter, TbSearch } from 'react-icons/tb'
-import { c, date, makePrismaWhere } from '@hytzenshop/helpers'
-import { useDebounceCallback } from '@react-hook/debounce'
-import { useConfigTypes } from '@utils/types/config'
-import { Button, Loader } from '@luma/ui'
-import { useBreakpoint } from '@hytzenshop/hooks'
-import { useForm } from 'react-hook-form'
-import { Product } from '@hytzenshop/types'
+import { useProductsListPage } from './ProductsListPage.hook'
+import { ProductsList } from '@features/product/ProductsList'
+import { c, date } from '@hytzenshop/helpers'
+import { Button } from '@luma/ui'
 
+import DashboardPagesLayout from '@layouts/DashboardPagesLayout'
 import exportFromJSON from 'export-from-json'
 
-interface HeaderProductsListProps {
-  loading?: boolean
-  products?: Product[]
-  onFilterChange: (filter?: string) => void
-}
-
-export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
-  loading,
-  products,
-  onFilterChange,
-}) => {
-  const [mobileInputs, setMobileInputs] = React.useState({
-    category: false,
-    search: false,
-  })
-
-  const [category, setCategory] = React.useState('')
-  const [search, setSearch] = React.useState('')
-
-  const { categoriesOptions } = useConfigTypes()
-  const { control, register } = useForm()
-  const { sm } = useBreakpoint()
-
-  const options = React.useMemo(
-    () => [{ label: 'Todos as categorias', value: '' }, ...categoriesOptions],
-    [categoriesOptions]
-  )
-
-  const onChange = React.useCallback(() => {
-    const filterString = JSON.stringify({
-      ...(category !== '' && {
-        categories: { has: category },
-      }),
-
-      ...makePrismaWhere(search || '', {
-        OR: ['title'],
-      }),
-    })
-
-    if (filterString) {
-      onFilterChange(filterString)
-    } else {
-      onFilterChange(undefined)
-    }
-  }, [category, search, onFilterChange])
-
-  const onChangeDebounce = useDebounceCallback(onChange, 900)
-
-  React.useEffect(
-    () => onChangeDebounce(),
-    [category, onChangeDebounce, search]
-  )
+const ProductsListPage: React.FC = () => {
+  const {
+    control,
+    data,
+    deleteProduct,
+    isLoading,
+    mobileInputs,
+    options,
+    register,
+    setCategory,
+    setMobileInputs,
+    setPage,
+    setSearch,
+    sm,
+    state,
+  } = useProductsListPage()
 
   return (
-    <div className="sticky top-20 mb-8 z-40 bg-black">
-      <h1 className="text-light-gray-100 py-2 bg-black font-semibold text-2xl">
-        Produtos
-      </h1>
-
-      <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md">
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-row items-center space-x-2">
+    <DashboardPagesLayout
+      isLoading={isLoading}
+      title="Produtos"
+      renderList={() => (
+        <ProductsList
+          products={data?.data.products || []}
+          deleteProduct={deleteProduct}
+        />
+      )}
+      pagination={{
+        limit: state.limit,
+        onPageChange: setPage,
+        page: state.page,
+        totalRegisters: data?.data.count,
+      }}
+      header={{
+        buttons: () => (
+          <>
             <Button
               href="/dashboard/products/new-product"
               variant="filled"
@@ -91,7 +63,7 @@ export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
               onClick={() =>
                 exportFromJSON({
                   data:
-                    products?.map((product) => {
+                    data?.data.products?.map((product) => {
                       return {
                         ...product,
                         images: product.images.map((i) => i._id),
@@ -107,11 +79,10 @@ export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
               <TbDownload className="lg:absolute lg:left-4" />
               <span className="max-lg:hidden">Exportar</span>
             </Button>
-
-            {loading && <Loader className="text-success-300" />}
-          </div>
-
-          <div className="flex flex-row space-x-2 lg:w-[50%]">
+          </>
+        ),
+        inputs: () => (
+          <>
             {sm ? (
               <>
                 <Input.Select.Default
@@ -172,38 +143,46 @@ export const HeaderProductsList: React.FC<HeaderProductsListProps> = ({
                 </Button>
               </>
             )}
-          </div>
-        </div>
-      </div>
+          </>
+        ),
+        inputsMobile: ({ wrapper }) =>
+          !sm && (mobileInputs.category || mobileInputs.search)
+            ? wrapper({
+                children: (
+                  <>
+                    {mobileInputs.category && (
+                      <Input.Select.Default
+                        name="filter"
+                        placeholder="Filtre por categoria"
+                        variant="filled"
+                        options={options}
+                        isFullWidth
+                        onChangeValue={(e) =>
+                          setCategory((e as any).value) as any
+                        }
+                        rounded
+                      />
+                    )}
 
-      {!sm && (mobileInputs.category || mobileInputs.search) ? (
-        <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md mt-2 transition-all">
-          {mobileInputs.category && (
-            <Input.Select.Default
-              name="filter"
-              placeholder="Filtre por categoria"
-              variant="filled"
-              options={options}
-              isFullWidth
-              onChangeValue={(e) => setCategory((e as any).value) as any}
-              rounded
-            />
-          )}
-
-          {mobileInputs.search && (
-            <Input.Field
-              placeholder="Pesquisar"
-              variant="filled"
-              control={control}
-              isFullWidth
-              {...register('search', {
-                onChange: (e) => setSearch(e.target.value),
-              })}
-              rounded
-            />
-          )}
-        </div>
-      ) : null}
-    </div>
+                    {mobileInputs.search && (
+                      <Input.Field
+                        placeholder="Pesquisar"
+                        variant="filled"
+                        control={control}
+                        isFullWidth
+                        {...register('search', {
+                          onChange: (e) => setSearch(e.target.value),
+                        })}
+                        rounded
+                      />
+                    )}
+                  </>
+                ),
+              })
+            : null,
+      }}
+    />
   )
 }
+
+export default ProductsListPage

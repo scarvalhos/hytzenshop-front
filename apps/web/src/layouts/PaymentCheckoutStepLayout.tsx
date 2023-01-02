@@ -1,12 +1,11 @@
 import * as Input from '@components/Input'
 
 import { TbCreditCard, TbFileBarcode } from 'react-icons/tb'
-import { Icons as Icon } from '@luma/ui'
+import { Icons as Icon, Button } from '@luma/ui'
 import { CartSummary } from '@features/cart/CartSummary'
 import { RadioValue } from '@hytzenshop/types'
 import { c } from '@hytzenshop/helpers'
 
-import Button from '@components/Button'
 import React from 'react'
 
 export interface DataProps {

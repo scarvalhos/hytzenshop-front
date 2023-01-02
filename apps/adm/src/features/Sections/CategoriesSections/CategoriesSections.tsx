@@ -28,7 +28,7 @@ const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
           placeholder="Nova categoria"
           control={control}
           setValue={setValue}
-          defaultValue={categories?.map((i) => i.name)}
+          defaultValues={categories?.map((i) => i.name)}
           chipSize="medium"
           chipVariant="filled"
           onAdd={onAdd}

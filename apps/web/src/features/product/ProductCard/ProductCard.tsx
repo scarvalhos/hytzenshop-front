@@ -28,7 +28,7 @@ const ProductCard: React.FC<ProductProps> = ({
     <>
       <button
         onClick={() => addToWishlist({ title, id, price, images, ...props })}
-        className={c('absolute top-3 right-3')}
+        className={c('absolute top-3 right-3 z-10')}
       >
         {withGlassEffect(
           <>
@@ -40,7 +40,7 @@ const ProductCard: React.FC<ProductProps> = ({
           </>,
           {
             glassEffect: !isFavorited,
-            glassClassName: 'p-2.5 rounded-full drop-shadow-lg',
+            glassClassName: 'p-2.5 rounded-full drop-shadow-md bg-opacity-30',
             divClassName: 'p-2.5 rounded-full drop-shadow-lg bg-danger-300',
           }
         )}
@@ -51,7 +51,7 @@ const ProductCard: React.FC<ProductProps> = ({
           <Image
             src={encodeURI(images[0]?.url)}
             alt={images[0]?.name}
-            className="object-cover object-center"
+            className="object-cover object-center rounded-t-md"
             sizes="100%"
             loading="lazy"
             fill

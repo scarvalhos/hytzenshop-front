@@ -1,8 +1,8 @@
 import React from 'react'
 
 import { TbCirclePlus, TbTrash } from 'react-icons/tb'
-import { FieldInputProps } from '@core/Input/Field'
 import { Button, Chip, Error } from '@luma/ui'
+import { FieldInputProps } from '@core/Input/Field'
 import { Controller } from 'react-hook-form'
 import { c } from '@hytzenshop/helpers'
 
@@ -146,7 +146,7 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
 
         {error && <Error>{error}</Error>}
 
-        <div className="flex flex-row flex-wrap gap-3">
+        <div className="flex flex-row flex-wrap gap-2">
           {added.map((add) => (
             <Chip
               key={add}

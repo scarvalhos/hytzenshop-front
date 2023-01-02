@@ -22,9 +22,15 @@ export const Loader: React.FC<{ className?: string }> = ({ className }) => {
 // --------------------------------------------------------------------------------------------
 
 const RenderLink: React.FC<any> = React.forwardRef(
-  ({ href, target, ...props }, ref) => {
+  ({ href, target, className, ...props }, ref) => {
     return (
-      <Link href={href} legacyBehavior target={target}>
+      <Link
+        as={href}
+        href={href}
+        className={className}
+        legacyBehavior
+        target={target}
+      >
         <span ref={ref} {...props} />
       </Link>
     )

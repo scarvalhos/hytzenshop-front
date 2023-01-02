@@ -114,7 +114,8 @@ const DashboardHome: NextPage = () => {
         <iframe
           title="Hytzen Shop"
           src={process.env.NEXT_PUBLIC_SHOP_URL_FRONTEND}
-          className="w-full h-[50vh] rounded-md bg-dark-gray-400 py-1.5 pl-1.5"
+          className="w-full h-[60vh] rounded-md bg-dark-gray-400 py-1.5 pl-1.5"
+          sandbox="allow-scripts allow-same-origin"
         />
       </div>
     </>

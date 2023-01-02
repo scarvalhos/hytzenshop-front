@@ -1,5 +1,5 @@
 import { CartProduct, UserGetDto, CartGetDto } from '@hytzenshop/types'
-import { DivideLine, Icons } from '@luma/ui'
+import { DivideLine, Icons, Button } from '@luma/ui'
 import { withAuthValidate } from '@hocs/withAuthValidate'
 import { useConfig } from '@contexts/ConfigContext'
 import { CartList } from '@features/cart/CartList'
@@ -13,7 +13,6 @@ import { api } from '@hytzenshop/services'
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection'
 import nookies, { parseCookies } from 'nookies'
-import Button from '@components/Button'
 import React from 'react'
 
 const CartPage: NextPage = () => {

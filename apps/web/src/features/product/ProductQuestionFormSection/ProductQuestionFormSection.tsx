@@ -1,12 +1,11 @@
 import * as Input from '@components/Input'
 
 import { useProductQuestionFormSection } from './ProductQuestionFormSection.hoox'
+import { trucate, Button } from '@luma/ui'
 import { Pagination } from '@components/Pagination'
 import { Product } from '@hytzenshop/types'
-import { trucate } from '@luma/ui'
 import { c, date } from '@hytzenshop/helpers'
 
-import Button from '@components/Button'
 import React from 'react'
 
 export interface ProductQuestionFormSectionProps {

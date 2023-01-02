@@ -1,12 +1,10 @@
 import { useProductEvalutionQuestionsSection } from './ProductEvalutionQuestionsSection.hook'
+import { Shared, Button, EvaluationStars } from '@luma/ui'
 import { c, generateArrayOfNumbers } from '@hytzenshop/helpers'
-import { EvaluationStars } from '@luma/ui'
-import { Pagination } from '@components/Pagination'
 import { Evaluation, Product } from '@hytzenshop/types'
-import { Shared } from '@luma/ui'
+import { Pagination } from '@components/Pagination'
 
 import ProductQuestionFormSection from '../ProductQuestionFormSection'
-import Button from '@components/Button'
 import React from 'react'
 
 interface ProductEvalutionQuestionsSectionProps {

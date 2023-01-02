@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as yup from 'yup'
 
+import { TbBox, TbBuildingStore, TbDashboard } from 'react-icons/tb'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
@@ -44,14 +45,36 @@ export const useProductPageSection = ({
     [product?.images]
   )
 
+  const breadCrumbsLinks = React.useMemo(
+    () => [
+      {
+        title: 'Dashboard',
+        href: '/dashboard',
+        icon: TbDashboard,
+      },
+      {
+        title: 'Produtos',
+        href: '/dashboard/products',
+        icon: TbBuildingStore,
+      },
+      {
+        title: String(product?.title),
+        href: `/dashboard/products/${product?.id}`,
+        icon: TbBox,
+      },
+    ],
+    [product?.id, product?.title]
+  )
+
   return {
-    openModal,
-    control,
-    register,
+    breadCrumbsLinks,
+    handleCloseModal,
     handleSubmit,
+    openModal,
+    register,
+    control,
     setValue,
     errors,
-    handleCloseModal,
     images,
     lg,
   }

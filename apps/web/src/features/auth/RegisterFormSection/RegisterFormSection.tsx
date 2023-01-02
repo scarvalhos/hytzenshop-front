@@ -1,4 +1,3 @@
-import Button from '@components/Button'
 import React from 'react'
 
 import { validateCreateAccountSchema } from '@utils/validators'
@@ -6,9 +5,10 @@ import { FieldValues, useForm } from 'react-hook-form'
 import { Password, Field } from '@components/Input'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useAuth } from '@contexts/AuthContext'
-import { c } from '@hytzenshop/helpers'
 import { useRouter } from 'next/router'
+import { useAuth } from '@contexts/AuthContext'
+import { Button } from '@luma/ui'
+import { c } from '@hytzenshop/helpers'
 
 interface RegisterFormSectionProps {
   title?: string | React.ReactNode

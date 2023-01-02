@@ -10,7 +10,7 @@ interface UsersTableProps {
 
 const UsersList: React.FC<UsersTableProps> = ({ users }) => {
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 gap-4">
       {users.map((u) => (
         <UserCard key={u.id} user={u} />
       ))}

@@ -2,104 +2,46 @@ import * as React from 'react'
 import * as Input from '@core/Input'
 
 import {
-  Order,
-  Option,
   displayStatusOrders,
-  StatusOrders,
-  statusOrdersColor,
   statusOrdersOptions,
+  statusOrdersColor,
+  Order,
 } from '@hytzenshop/types'
 
-import {
-  TbArrowLeft,
-  TbBox,
-  TbCheck,
-  TbClock,
-  TbCreditCard,
-  TbTruckDelivery,
-  TbUpload,
-} from 'react-icons/tb'
-
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { Button, StepperBar } from '@luma/ui'
+import { BreadCrumbs, Button, StepperBar } from '@luma/ui'
+import { useOrdersDetails } from './OrdersDetails.hook'
 import { date, money } from '@hytzenshop/helpers'
-import { useOrders } from '@hooks/useOrders'
-import { useRouter } from 'next/router'
-import { useForm } from 'react-hook-form'
-import { api } from '@hytzenshop/services'
+import { TbUpload } from 'react-icons/tb'
 
 import OrderedProductPreview from '../OrderedProductPreview'
 import UserCard from '@features/users/UserCard'
 
-interface OrderDetailsProps {
+export interface OrderDetailsProps {
   order: Order
 }
 
-const steps = [
-  'Aguardando pagamento',
-  'Pagamento aprovado',
-  'Preparando pedido',
-  'Pedido enviado',
-  'Pedido entregue',
-]
-
-const getOrderPaymentDetails = async (order?: Order) => {
-  return api.get(`/checkout/${order?.mpPaymentId}`).then(({ data }) => data)
-}
-
 const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
-  const { register, control, setValue, getValues } = useForm()
-  const { updatedOrderStatus } = useOrders({})
-  const { back } = useRouter()
-
-  const orderPaymentQuery = useQuery(
-    ['order-payment', order?.mpPaymentId],
-    () => getOrderPaymentDetails(order),
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    }
-  ) as UseQueryResult<any, unknown>
-
-  const onChangeStatus = React.useCallback(
-    (e: Option<StatusOrders>) => {
-      updatedOrderStatus({ id: order.mpPaymentId, status: e.value })
-    },
-    [order.mpPaymentId, updatedOrderStatus]
-  )
-
-  const statusBySteps = React.useMemo(() => {
-    return {
-      pending: 0,
-      approved: 1,
-      processing: 2,
-      sending: 3,
-      delivered: 4,
-    }[(order.status as string) || '']
-  }, [order.status])
-
-  const stepIcon = React.useMemo(() => {
-    const icons: { [index: string]: React.ReactElement } = {
-      1: <TbClock className="text-light-gray-100" />,
-      2: <TbCreditCard className="text-light-gray-100" />,
-      3: <TbBox className="text-light-gray-100" />,
-      4: <TbTruckDelivery className="text-light-gray-100" />,
-      5: <TbCheck className="text-light-gray-100" />,
-    }
-
-    return icons
-  }, [])
+  const {
+    orderPaymentQuery,
+    breadCrumbsLinks,
+    onChangeStatus,
+    statusBySteps,
+    getValues,
+    register,
+    setValue,
+    stepIcon,
+    control,
+    steps,
+  } = useOrdersDetails({ order })
 
   return (
-    <div className="relative">
-      <Button
-        onClick={back}
-        className="sticky top-[3.23rem] px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-40"
-      >
-        <TbArrowLeft className="absolute left-0" size={16} />
-        Voltar
-      </Button>
+    <>
+      <BreadCrumbs
+        className="py-4 mb-4 sticky top-20 z-40 bg-black"
+        links={breadCrumbsLinks}
+      />
 
-      <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-2 items-start sm:items-center justify-between pt-8">
+      <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-2 items-start sm:items-center justify-between">
         <div className="flex flex-row space-x-2 items-center">
           <p className="text-xl text-light-gray-100">
             Pedido #{order?.mpPaymentId}
@@ -108,7 +50,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
             {...register('status')}
             control={control}
             setValue={setValue}
-            onChangeValue={onChangeStatus}
+            onChangeValue={onChangeStatus as any}
             value={getValues('status')}
             options={statusOrdersOptions}
             getColor={statusOrdersColor as any}
@@ -217,7 +159,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 

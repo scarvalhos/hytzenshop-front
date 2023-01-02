@@ -140,7 +140,7 @@ export const Siderbar: React.FC<SiderbarProps> = (props) => {
           <>
             <SubMenu>
               {linksTop.map((link) => (
-                <Tooltip key={link.title} content={link.title}>
+                <Tooltip key={link.title} content={link.title} side="right">
                   <SubMenuItemComponent
                     key={link.title}
                     link={link}
@@ -151,7 +151,7 @@ export const Siderbar: React.FC<SiderbarProps> = (props) => {
             </SubMenu>
             <SubMenu>
               {linksMiddle.map((link) => (
-                <Tooltip key={link.title} content={link.title}>
+                <Tooltip key={link.title} content={link.title} side="right">
                   <SubMenuItemComponent
                     key={link.title}
                     link={link}
@@ -162,7 +162,7 @@ export const Siderbar: React.FC<SiderbarProps> = (props) => {
             </SubMenu>
             <SubMenu>
               {linksBottom.map((link) => (
-                <Tooltip key={link.title} content={link.title}>
+                <Tooltip key={link.title} content={link.title} side="right">
                   <SubMenuItemComponent
                     key={link.title}
                     link={link}

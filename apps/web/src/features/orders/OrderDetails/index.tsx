@@ -9,11 +9,18 @@ import {
   TbTruckDelivery,
 } from 'react-icons/tb'
 
+import {
+  DivideY,
+  CopyToClipboard,
+  Tooltip,
+  Shared,
+  StepperBar,
+  Button,
+} from '@luma/ui'
+
 import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
-import { DivideY, CopyToClipboard, Tooltip } from '@luma/ui'
 import { Order, PaymentSocketResponse } from '@hytzenshop/types'
 import { useDebounceCallback } from '@react-hook/debounce'
-import { Shared, StepperBar } from '@luma/ui'
 import { c, date, money } from '@hytzenshop/helpers'
 import { useRouter } from 'next/router'
 import { socket } from '@services/socket'
@@ -21,7 +28,6 @@ import { api } from '@hytzenshop/services'
 
 import OrderedProductPreview from '../OrderedProductPreview'
 import InfoCard from './InfoCard'
-import Button from '@components/Button'
 import Image from 'next/image'
 import React from 'react'
 
@@ -248,8 +254,6 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                   className="max-sm:w-full bg-success-400"
                   variant="filled"
                   target="_blank"
-                  rel="noreferrer"
-                  download
                   rounded
                 >
                   <span className="flex flex-row max-sm:justify-center space-x-2 text-light-gray-100">

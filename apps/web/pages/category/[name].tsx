@@ -61,12 +61,15 @@ const Category: NextPage<CategoryProps> = ({ name: category }) => {
 
   const imageByCategory = React.useMemo(() => {
     return {
-      marvel:
-        'https://hytzenshop.s3.amazonaws.com/721efef24fee3858cc6ac722222e9c20-dc-comics-02.jpg',
+      marvel: '/slider/marvel-02.jpg',
       'stranger-things':
         'https://hytzenshop.s3.amazonaws.com/bab9ae3e1300d1eaf06041b35ea6ccb0-stranger-things-01.jpg',
       'dc-comics':
-        'https://hytzenshop.s3.amazonaws.com/a4964a128ad0139464fa6a5fc5b7187a-marvel-02.jpg',
+        'https://hytzenshop.s3.amazonaws.com/721efef24fee3858cc6ac722222e9c20-dc-comics-02.jpg',
+      'star-wars': '/slider/star-wars-01.jpg',
+      'greys-anatomy':
+        'https://img.playbuzz.com/image/upload/ar_1.8867924528301887,c_crop/v1490241647/jwannfjppicmwubnoz17.jpg',
+      'harry-potter': 'https://wallpapercave.com/wp/wp9022257.jpg',
     }[category as string]
   }, [category])
 

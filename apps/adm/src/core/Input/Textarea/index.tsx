@@ -33,7 +33,6 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
       inputWrapperClassName,
       renderBefore,
       rounded,
-      fieldVariant,
       className,
       rows,
     },
@@ -69,7 +68,6 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
                   ref={ref}
                   name={name}
                   rows={rows}
-                  fieldVariant={fieldVariant}
                   placeholder={placeholder}
                   disabled={disabled}
                   onChange={onChange}

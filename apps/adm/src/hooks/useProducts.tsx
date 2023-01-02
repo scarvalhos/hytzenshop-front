@@ -67,7 +67,7 @@ export function useProducts({
 
   const deleteProductMutation = useMutation(deleteProduct, {
     onSuccess: ({ data }) => {
-      queryClient.invalidateQueries(['products', page, filter])
+      queryClient.invalidateQueries(['products', page])
       toast.success(data.message)
     },
 
@@ -77,7 +77,7 @@ export function useProducts({
   const createProductMutation = useMutation(createProduct, {
     onSuccess: ({ data }) => {
       toast.success(data.message)
-      queryClient.invalidateQueries(['products', page, filter])
+      queryClient.invalidateQueries(['products', page])
     },
 
     onError: defaultToastError,
@@ -86,7 +86,7 @@ export function useProducts({
   const updateProductMutation = useMutation(updateProduct, {
     onSuccess: ({ data }) => {
       toast.success(data.message)
-      queryClient.invalidateQueries(['products', page, filter])
+      queryClient.invalidateQueries(['products', page])
       queryClient.invalidateQueries(['product', data.product.id])
     },
 

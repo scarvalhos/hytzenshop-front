@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-import { ProductProvider } from '@contexts/NewProductContext'
 import { ConfigProvider } from '@contexts/ConfigContext'
 import { AuthProvider } from '@contexts/AuthContext'
 
@@ -11,9 +10,7 @@ type DefaultProviderProps = {
 function DefaultProvider({ children }: DefaultProviderProps) {
   return (
     <AuthProvider>
-      <ConfigProvider>
-        <ProductProvider>{children}</ProductProvider>
-      </ConfigProvider>
+      <ConfigProvider>{children}</ConfigProvider>
     </AuthProvider>
   )
 }

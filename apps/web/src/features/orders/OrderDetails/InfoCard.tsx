@@ -1,8 +1,8 @@
 import { TbBrandWhatsapp, TbMailForward, TbTruck } from 'react-icons/tb'
 import { c, numonly } from '@hytzenshop/helpers'
+import { Button } from '@luma/ui'
 import { Link } from '@core'
 
-import Button from '@components/Button'
 import React from 'react'
 
 interface InfoCardProps {

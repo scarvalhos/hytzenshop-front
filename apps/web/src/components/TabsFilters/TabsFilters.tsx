@@ -1,12 +1,11 @@
 import { TbFilter, TbSearch, TbX } from 'react-icons/tb'
-import { GlassContainer } from '@luma/ui'
+import { GlassContainer, Button } from '@luma/ui'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { useRouter } from 'next/router'
 import { Link } from '@core'
 import { c } from '@hytzenshop/helpers'
 
 import BaseModal from '@components/Modal/BaseModal'
-import Button from '@components/Button'
 import React from 'react'
 
 export interface TabsFiltersProps {

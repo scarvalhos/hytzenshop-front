@@ -64,14 +64,14 @@ export const useNewProductForm = ({
     (clearForm?: boolean) => {
       if (clearForm) {
         reset({
-          title: 'asdasasa',
+          title: '',
           price: '',
           description: '',
           stock: '',
           images: [],
           colors: [],
-          sizes: 'Selecione',
-          categories: 'Selecione',
+          sizes: [],
+          categories: [],
         })
       }
 

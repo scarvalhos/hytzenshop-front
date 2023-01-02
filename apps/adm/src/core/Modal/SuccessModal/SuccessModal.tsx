@@ -29,10 +29,10 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
       icon="ozSuccess"
       renderActions={() => (
         <div className="mt-4 space-x-2 flex flex-col-reverse sm:flex-row">
-          <Button type="button" variant="outlined" onClick={onDismiss}>
+          <Button type="button" variant="outlined" rounded onClick={onDismiss}>
             Voltar
           </Button>
-          <Button type="submit" variant="filled" onClick={onClose}>
+          <Button type="submit" variant="filled" rounded onClick={onClose}>
             Novo produto
           </Button>
         </div>
