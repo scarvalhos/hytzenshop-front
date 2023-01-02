@@ -87,10 +87,7 @@ const Home: NextPage = () => {
           property="og:description"
           content="As camisetas do seu personagem favorito você encontra aqui."
         />
-        <meta
-          property="og:image"
-          content="https://www.shop.hytzen.com/icons/logo.svg"
-        />
+        <meta property="og:image" content="https://www.shop.hytzen.com" />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://www.shop.hytzen.com/" />
@@ -102,10 +99,7 @@ const Home: NextPage = () => {
           property="twitter:description"
           content="As camisetas do seu personagem favorito você encontra aqui."
         />
-        <meta
-          property="twitter:image"
-          content="https://www.shop.hytzen.com/icons/logo.svg"
-        />
+        <meta property="twitter:image" content="https://www.shop.hytzen.com" />
       </Head>
 
       <Slider />
