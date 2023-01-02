@@ -29,7 +29,7 @@ const DashboardNotifications: NextPage = () => {
     evaluation: '/dashboard/evaluations',
     newsletter: '/dashboard/newsletter',
     order: '/dashboard/orders',
-    payment: '/dashboard/transactions',
+    payment: '/dashboard/products',
   }
 
   const onVisualizeNotificationMutation = useMutation(onVisualizeNotification, {
