@@ -158,6 +158,8 @@ export type Reference =
   | 'newsletter'
   | 'order'
   | 'payment'
+  | 'product'
+  | 'chat'
 
 // NotificationView
 
@@ -544,4 +546,32 @@ export interface MpPaymentResponse {
     total_paid_amount?: number
     transaction_id?: string
   }
+}
+
+// ChatMessage
+
+export interface ChatMessage {
+  id: string
+  message: string
+  user: User
+  userId: string
+  chat: Chat
+  chatId: string
+  createdAt: string
+  updatedAt: string
+}
+
+// Chat
+
+export interface Chat {
+  id: string
+  email?: string
+  phone?: string
+  subject: string
+  description: string
+  chat: ChatMessage[]
+  user: User
+  userId: string
+  createdAt: string
+  updatedAt: string
 }

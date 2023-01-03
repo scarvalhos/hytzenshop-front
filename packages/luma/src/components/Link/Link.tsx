@@ -8,6 +8,7 @@ export interface LinkHrefProps extends LinkProps {
   children: React.ReactNode
   className?: string
   target?: string
+  download?: boolean
 }
 
 export const LinkHref: React.FC<LinkHrefProps> = ({
@@ -15,11 +16,23 @@ export const LinkHref: React.FC<LinkHrefProps> = ({
   href,
   className,
   target,
+  download,
   ...props
 }) => {
   return (
-    <Link href={href} rel="nofollow" target={target} legacyBehavior {...props}>
-      <a target={target} className={c(className, 'cursor-pointer')}>
+    <Link
+      href={href}
+      rel="nofollow"
+      target={target}
+      download={download}
+      legacyBehavior
+      {...props}
+    >
+      <a
+        target={target}
+        download={download}
+        className={c(className, 'cursor-pointer')}
+      >
         {children}
       </a>
     </Link>

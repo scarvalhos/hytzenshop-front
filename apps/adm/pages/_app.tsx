@@ -42,7 +42,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     queryClient.invalidateQueries(queryKey)
     queryClient.invalidateQueries(['me'])
 
-    toast.primary(arg.data.message, {
+    new Audio('/audios/notification.mp3').play()
+
+    return toast.primary(arg.data.message, {
       icon: <TbBellRinging size={20} className="text-primary-300" />,
     })
   })

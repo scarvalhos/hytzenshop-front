@@ -31,7 +31,7 @@ export const DashboardPagesHeader: React.FC<DashboardPagesHeaderProps> = ({
         {title}
       </h1>
 
-      <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md relative">
+      <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md relative shadow-md shadow-black">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-row items-center space-x-2">
             {Buttons && <Buttons />}

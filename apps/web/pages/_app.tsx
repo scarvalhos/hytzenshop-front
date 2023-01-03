@@ -36,6 +36,8 @@ export default function App({ Component, pageProps }: AppProps) {
       queryClient.invalidateQueries(['me'])
       queryClient.invalidateQueries(queryKey)
 
+      new Audio('/audios/notification.mp3').play()
+
       return toast.primary(arg.data.message, {
         icon: <TbBellRinging size={20} className="text-primary-300" />,
       })

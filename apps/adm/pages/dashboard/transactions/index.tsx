@@ -27,8 +27,7 @@ const getData = async (params: any) => {
     .get<TransactionDto>('https://api.mercadopago.com/v1/payments/search', {
       params,
       headers: {
-        Authorization:
-          'Bearer APP_USR-8876579527866872-061717-14a3bbf9fa7acc2758fd961dc835af98-244681824',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_MERCADO_PAGO_ACCESS_TOKEN}`,
       },
     })
     .then(({ data }) => data)

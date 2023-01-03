@@ -5,7 +5,7 @@ const withTM = require('next-transpile-modules')([
     '@hytzenshop/hooks',
     '@hytzenshop/types',
     '@hytzenshop/helpers',
-    '@hytzenshop/services'
+    '@hytzenshop/services',
 ])
 
 const nextConfig = {
