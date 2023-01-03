@@ -30,6 +30,8 @@ const DashboardNotifications: NextPage = () => {
     newsletter: '/dashboard/newsletter',
     order: '/dashboard/orders',
     payment: '/dashboard/products',
+    product: '/dashboard/products',
+    chat: '/dashboard',
   }
 
   const onVisualizeNotificationMutation = useMutation(onVisualizeNotification, {
