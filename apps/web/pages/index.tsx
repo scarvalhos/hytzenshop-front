@@ -13,7 +13,6 @@ import ProductSection from '@features/product/ProductSection/ProductSection'
 import TabsFilters from '@components/TabsFilters'
 import Slider from '@components/Slider'
 import React from 'react'
-import Head from 'next/head'
 
 interface PaginationStateProps {
   page: number
@@ -73,48 +72,62 @@ const Home: NextPage = () => {
   return (
     <HeaderFooterLayout>
       <NextSeo
-        title={`Hytzen Shop ${announcement}`}
+        title={`Hytzen Shop - ${announcement || ''}`}
         description="As camisetas do seu personagem favorito você encontra aqui."
         additionalMetaTags={[
           {
+            name: 'title',
+            content: 'Hytzen Shop',
+          },
+          {
+            name: 'description',
+            content:
+              'As camisetas do seu personagem favorito você encontra aqui.',
+          },
+          {
+            property: 'og:type',
+            content: 'website',
+          },
+          {
             property: 'og:url',
+            content: 'https://www.shop.hytzen.com/',
+          },
+          {
+            property: 'og:title',
+            content: 'Hytzen Shop',
+          },
+          {
+            property: 'og:description',
+            content:
+              'As camisetas do seu personagem favorito você encontra aqui.',
+          },
+          {
+            property: 'og:image',
+            content: 'https://www.shop.hytzen.com/images/preview.png',
+          },
+          {
+            property: 'twitter:card',
+            content: 'summary_large_image',
+          },
+          {
+            property: 'twitter:url',
+            content: 'https://www.shop.hytzen.com/',
+          },
+          {
+            property: 'twitter:title',
+            content: 'Hytzen Shop',
+          },
+          {
+            property: 'twitter:description',
+            content:
+              'As camisetas do seu personagem favorito você encontra aqui.',
+          },
+          {
+            property: 'twitter:image',
             content: 'https://www.shop.hytzen.com/images/preview.png',
           },
         ]}
       />
-
-      <Head>
-        <title>Hytzen Shop</title>
-        <meta name="title" content="Hytzen Shop" />
-        <meta
-          name="description"
-          content="As camisetas do seu personagem favorito você encontra aqui."
-        />
-
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://shop.hytzen.com/" />
-        <meta property="og:title" content="Hytzen Shop" />
-        <meta
-          property="og:description"
-          content="As camisetas do seu personagem favorito você encontra aqui."
-        />
-        <meta
-          property="og:image"
-          content="https://www.shop.hytzen.com/images/preview.png"
-        />
-
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://shop.hytzen.com/" />
-        <meta property="twitter:title" content="Hytzen Shop" />
-        <meta
-          property="twitter:description"
-          content="As camisetas do seu personagem favorito você encontra aqui."
-        />
-        <meta
-          property="twitter:image"
-          content="https://www.shop.hytzen.com/images/preview.png"
-        />
-      </Head>
 
       <Slider />
 
