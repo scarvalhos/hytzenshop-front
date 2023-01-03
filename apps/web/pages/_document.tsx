@@ -13,10 +13,7 @@ export default function Document() {
         />
 
         <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.shop.hytzen.com/images/preview.png"
-        />
+        <meta property="og:url" content="https://shop.hytzen.com/" />
         <meta property="og:title" content="Hytzen Shop" />
         <meta
           property="og:description"
@@ -28,11 +25,8 @@ export default function Document() {
         />
 
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://www.shop.hytzen.com/" />
-        <meta
-          property="twitter:title"
-          content="Hytzen Shop - As camisetas do seu personagem favorito você encontra aqui."
-        />
+        <meta property="twitter:url" content="https://shop.hytzen.com/" />
+        <meta property="twitter:title" content="Hytzen Shop" />
         <meta
           property="twitter:description"
           content="As camisetas do seu personagem favorito você encontra aqui."
@@ -41,7 +35,6 @@ export default function Document() {
           property="twitter:image"
           content="https://www.shop.hytzen.com/images/preview.png"
         />
-
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
