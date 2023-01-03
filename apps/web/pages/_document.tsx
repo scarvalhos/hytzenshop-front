@@ -21,7 +21,7 @@ export default function Document() {
         />
         <meta
           property="og:image"
-          content="https://www.shop.hytzen.com/preview.jpg"
+          content="https://www.shop.hytzen.com/preview.svg"
         />
 
         <meta property="twitter:card" content="summary_large_image" />
@@ -33,7 +33,7 @@ export default function Document() {
         />
         <meta
           property="twitter:image"
-          content="https://www.shop.hytzen.com/preview.jpg"
+          content="https://www.shop.hytzen.com/preview.svg"
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

@@ -103,7 +103,7 @@ const Home: NextPage = () => {
           },
           {
             property: 'og:image',
-            content: 'https://www.shop.hytzen.com/preview.jpg',
+            content: 'https://www.shop.hytzen.com/preview.svg',
           },
           {
             property: 'twitter:card',
@@ -124,7 +124,7 @@ const Home: NextPage = () => {
           },
           {
             property: 'twitter:image',
-            content: 'https://www.shop.hytzen.com/preview.jpg',
+            content: 'https://www.shop.hytzen.com/preview.svg',
           },
         ]}
       />
