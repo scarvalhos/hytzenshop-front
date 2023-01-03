@@ -1,3 +1,4 @@
+export { default as SecureField } from './SecureField'
 export { default as Password } from './Password'
 export { default as Textarea } from './Textarea'
 export { default as Field } from './Field'

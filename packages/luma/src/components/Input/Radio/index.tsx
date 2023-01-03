@@ -17,7 +17,6 @@ interface RadioInputProps extends Omit<FieldInputProps, 'onChange'> {
   labelClassName?: string
   icon?: () => React.ReactNode
   value: RadioValue | ''
-
   onChange: (value: React.SetStateAction<'' | RadioValue>) => void
 }
 

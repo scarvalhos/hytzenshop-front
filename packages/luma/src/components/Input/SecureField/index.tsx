@@ -1,61 +1,14 @@
-import * as React from 'react'
+import React from 'react'
 
-import {
-  ChangeHandler,
-  FieldValues,
-  Control,
-  UseFormSetValue,
-  UseFormClearErrors,
-  Controller,
-} from 'react-hook-form'
-
-import { FieldWrapper, FieldLabel, FieldContent, Field } from './styles'
-import { InputTypes, useFieldInput } from './Field.hook'
-import { Error } from '../../Error'
+import { FieldContent, FieldLabel, FieldWrapper } from '../Field/styles'
+import { FieldInputProps } from '../Field'
+import { useFieldInput } from '../Field/Field.hook'
+import { Controller } from 'react-hook-form'
+import { Error } from '@luma/ui'
+import { Field } from './styles'
 import { c } from '@hytzenshop/helpers'
 
-export interface SharedFieldInputProps {
-  className?: string
-  containerClassName?: string
-  inputWrapperClassName?: string
-  passthrough?: React.DetailedHTMLProps<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    HTMLInputElement
-  >
-}
-
-export interface MustHaveProps extends SharedFieldInputProps {
-  id?: string
-  name: string
-  type?: InputTypes
-  label?: string
-  placeholder?: string
-  defaultValue?: unknown
-  disabled?: boolean
-}
-
-export interface FieldInputProps extends MustHaveProps {
-  onBlur?: ChangeHandler
-  onFocus?: ChangeHandler
-  onChange?: ChangeHandler
-  control?: Control<FieldValues, unknown>
-
-  renderAfter?: React.ReactNode
-  renderBefore?: React.ReactNode
-  renderInsideInput?: React.ReactNode
-  renderAfterLabel?: React.ReactNode
-
-  isFullWidth?: boolean
-  fieldVariant?: 'field' | 'password'
-  variant?: 'bordeless' | 'filled' | 'outlined' | 'disabled'
-  rounded?: boolean
-  error?: string
-
-  setValue?: UseFormSetValue<FieldValues>
-  clearErrors?: UseFormClearErrors<FieldValues>
-}
-
-const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
+const SecureFieldInput: React.FC<FieldInputProps> = React.forwardRef(
   (
     {
       id,
@@ -68,28 +21,25 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
       disabled,
       control,
       defaultValue,
-
       renderAfter,
-      renderBefore,
       renderInsideInput,
-      renderAfterLabel,
-
-      isFullWidth,
-      fieldVariant = 'field',
-      variant = 'filled',
-      rounded,
+      variant,
       error,
-
-      className,
+      isFullWidth,
       containerClassName,
+      renderAfterLabel,
       inputWrapperClassName,
+      renderBefore,
+      rounded,
+      fieldVariant,
+      className,
     },
     _ref
   ) => {
     const { masks, realtypes, defaultPlaceholders } = useFieldInput({
       name: _name,
     })
-        
+
     return (
       <FieldWrapper
         width={isFullWidth ? 'full' : 'fit'}
@@ -109,24 +59,24 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
             name={_name}
             control={control}
             defaultValue={defaultValue}
-            render={({ field: { onChange, name, value, onBlur } }) => (
+            render={({ field: { name, value, onBlur, onChange } }) => (
               <FieldContent
                 variant={variant}
                 error={error ? 'true' : 'false'}
                 rounded={rounded ? 'true' : 'false'}
-                className="flex flex-row"
+                className="flex flex-row min-h-[46px]"
               >
                 <Field
+                  variant={fieldVariant}
                   id={id}
-                  name={name}
                   mask={(masks[type] as never) || /^.*$/}
                   type={realtypes[type]}
                   placeholder={placeholder || defaultPlaceholders[type]}
+                  name={name}
                   disabled={disabled}
                   onChange={onChange}
                   onBlur={onBlur}
                   onFocus={onFocus}
-                  fieldVariant={fieldVariant}
                   className={c(
                     className,
                     disabled
@@ -134,11 +84,7 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
                       : 'text-light-gray-100',
                     'px-3 py-3'
                   )}
-                  {...(value !== undefined
-                    ? { value }
-                    : defaultValue
-                    ? { value: defaultValue }
-                    : {})}
+                  {...(value !== undefined ? { value } : {})}
                   {...(passthrough as any)}
                 />
                 {renderInsideInput}
@@ -155,4 +101,4 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
   }
 )
 
-export default FieldInput
+export default SecureFieldInput

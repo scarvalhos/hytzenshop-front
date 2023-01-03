@@ -61,7 +61,7 @@ const SelectDefault = React.forwardRef(
             <Select
               name={name}
               options={options as any}
-              className={c(className, 'drop-shadow-lg')}
+              className={c(className, 'shadow-lg')}
               styles={{
                 input: (style) => ({
                   ...style,
@@ -75,6 +75,7 @@ const SelectDefault = React.forwardRef(
                 container: (style) => ({
                   ...style,
                   width: '100%',
+                  borderRadius: '8px',
                 }),
                 control: (style) => ({
                   ...style,
@@ -84,10 +85,16 @@ const SelectDefault = React.forwardRef(
                   boxShadow: 'none',
                   outline: 'none',
                 }),
+                menu: (style) => ({
+                  ...style,
+                  backgroundColor: 'transparent',
+                  borderRadius: rounded ? '16px' : '3px',
+                  marginTop: '12px',
+                }),
                 menuList: (style) => ({
                   ...style,
                   padding: 0,
-                  borderRadius: '3px',
+                  borderRadius: rounded ? '16px' : '3px',
                   background: theme.colors['dark-gray'][500],
                 }),
                 option: (style) => ({

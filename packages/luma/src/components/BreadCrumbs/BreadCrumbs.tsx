@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
+import { IoIosArrowForward } from 'react-icons/io'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { IconBaseProps } from 'react-icons'
 import { Link } from '../Link'
@@ -29,8 +29,6 @@ export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
     const Ic = links[links.length - 2].icon
     return (
       <div className={c('flex items-center', className)}>
-        <IoIosArrowBack className={c('mx-2', dividerClassName)} />
-
         <Link href={links[links.length - 2].href}>
           <span className="w-fit flex items-center justify-center space-x-1">
             <Ic size={18} />
@@ -51,7 +49,7 @@ export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
           {skipIndexes.includes(index) && <div className="mb-4" />}
 
           <Link href={href}>
-            <span className="w-fit flex items-center justify-center space-x-1">
+            <span className={c("w-fit flex items-center justify-center space-x-1", index + 1 === links.length && 'text-light-gray-100')}>
               <Icon size={18} />
               <p>{title}</p>
             </span>

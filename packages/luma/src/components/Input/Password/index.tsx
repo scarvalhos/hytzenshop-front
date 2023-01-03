@@ -2,6 +2,8 @@ import React from 'react'
 
 import { UseFormRegister, FieldValues } from 'react-hook-form'
 import { TbEye, TbEyeOff } from 'react-icons/tb'
+import {Button} from '../../Button'
+
 
 import FieldInput, { FieldInputProps } from '../Field'
 
@@ -22,6 +24,7 @@ const Password: React.FC<Password> = ({
   const handleSeePassword = React.useCallback(
     (e: React.MouseEvent) => {
       e.preventDefault()
+
       setSeePassword(!seePassword)
     },
     [seePassword]
@@ -37,7 +40,7 @@ const Password: React.FC<Password> = ({
       fieldVariant="password"
       error={error}
       renderInsideInput={
-        <div
+        <Button
           className="mr-1 px-3 cursor-pointer rounded-full flex items-center justify-center"
           onClick={handleSeePassword}
         >
@@ -46,7 +49,7 @@ const Password: React.FC<Password> = ({
           ) : (
             <TbEyeOff color="inherit" />
           )}
-        </div>
+        </Button>
       }
     />
   )
