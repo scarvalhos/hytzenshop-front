@@ -1,12 +1,11 @@
 import { ProductGetDto, CartProduct } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { Chip, Link } from '@luma/ui'
 import { c, money } from '@hytzenshop/helpers'
-import { Chip } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 import React from 'react'
 import Image from 'next/image'
-import Link from '@core/Link'
 
 interface OrderedProductPreviewProps {
   product: CartProduct

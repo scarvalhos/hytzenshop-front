@@ -1,6 +1,5 @@
-import { styled } from '@stitches/react'
-
 import { Listbox } from '@headlessui/react'
+import { styled } from '@stitches/react'
 import { theme } from '@luma/ui'
 
 export const Status = styled('div', {

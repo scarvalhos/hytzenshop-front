@@ -1,13 +1,12 @@
 import * as Switch from '@radix-ui/react-switch'
 import * as React from 'react'
-import * as Input from '@core/Input'
 
 import { TbDeviceFloppy, TbInfoCircle } from 'react-icons/tb'
 import { FieldValues, useForm } from 'react-hook-form'
+import { Button, Input } from '@luma/ui'
 import { useConfig } from '@contexts/ConfigContext'
-import { Button } from '@luma/ui'
 
-import BoxSection from '@core/BoxSection'
+import BoxSection from '@components/BoxSection'
 
 const AnnouncementSection: React.FC = () => {
   const { announcement, showAnnouncement, updateAnnouncement } = useConfig()

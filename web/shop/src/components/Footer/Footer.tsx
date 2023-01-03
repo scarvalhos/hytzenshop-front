@@ -1,12 +1,11 @@
 import * as React from 'react'
 
 import { c, defaultToastError, numonly } from '@hytzenshop/helpers'
+import { toast, Button, Input, Link } from '@luma/ui'
 import { validateNewsletterSchema } from '@utils/validators'
 import { FieldValues, useForm } from 'react-hook-form'
-import { toast, Button, Input } from '@luma/ui'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { Link } from '@core'
 import { api } from '@hytzenshop/services'
 
 import {

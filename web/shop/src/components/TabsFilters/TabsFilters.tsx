@@ -1,8 +1,7 @@
+import { GlassContainer, Button, Link } from '@luma/ui'
 import { TbFilter, TbSearch, TbX } from 'react-icons/tb'
-import { GlassContainer, Button } from '@luma/ui'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { useRouter } from 'next/router'
-import { Link } from '@core'
 import { c } from '@hytzenshop/helpers'
 
 import BaseModal from '@components/Modal/BaseModal'

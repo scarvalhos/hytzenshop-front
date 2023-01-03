@@ -3,11 +3,11 @@ import * as React from 'react'
 import { validateCreateProductSchema } from '@utils/validators'
 import { FieldValues, useForm } from 'react-hook-form'
 import { FileRecord, Product } from '@hytzenshop/types'
-import { useFileInput } from '@core/Input/File/File.hook'
 import { useProducts } from '@hooks/useProducts'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
 import { strtonum } from '@hytzenshop/helpers'
+import { Input } from '@luma/ui'
 
 export interface DefaultValuesProps {
   title: string
@@ -36,7 +36,7 @@ export const useNewProductForm = ({
   const [openSuccessModal, setOpenSuccessModal] = React.useState(false)
 
   const { createProduct, updateProduct } = useProducts({})
-  const { uploadedFiles, deleteFile } = useFileInput()
+  const { uploadedFiles, deleteFile } = Input.useFileInput({})
   const { reset } = useForm()
   const { push } = useRouter()
 

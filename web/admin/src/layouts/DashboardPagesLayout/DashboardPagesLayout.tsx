@@ -1,8 +1,7 @@
 import * as React from 'react'
 
+import { LoadingAnimation, Pagination } from '@luma/ui'
 import { DashboardPagesHeader } from './DashboardPagesHeader'
-import { LoadingAnimation } from '@luma/ui'
-import { Pagination } from '@core/Pagination'
 import { c } from '@hytzenshop/helpers'
 
 interface DashboardPagesLayoutProps {

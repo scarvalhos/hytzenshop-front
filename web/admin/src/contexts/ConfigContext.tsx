@@ -17,7 +17,6 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import { useDebounceCallback } from '@react-hook/debounce'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
@@ -31,7 +30,7 @@ interface ConfigContextType {
   openCartsCountQuery?: UseQueryResult<number, unknown>
   totalSalesCountQuery?: UseQueryResult<number, unknown>
   totalUsersCountQuery?: UseQueryResult<number, unknown>
-  updateSlideImages: (ids: any[]) => void
+
   updateAnnouncement: ({
     showAnnouncement,
     announcement,
@@ -62,12 +61,6 @@ const updateAnnouncement = async ({
   })
 }
 
-const updateSlideImages = async (ids: any[]) => {
-  return api.put('/config', {
-    sliderImages: ids.map((i) => i.id),
-  })
-}
-
 export function ConfigProvider({ children }: ConfigProviderType) {
   const [state, setState] = React.useState<ConfigContextType>({
     categories: [],
@@ -75,7 +68,6 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     announcement: '',
     showAnnouncement: false,
     updateAnnouncement: () => undefined,
-    updateSlideImages: () => undefined,
     ordersDeliveredCountQuery: undefined,
     openCartsCountQuery: undefined,
     totalSalesCountQuery: undefined,
@@ -170,19 +162,6 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     onError: defaultToastError,
   })
 
-  const updateSlideImagesMutation = useMutation(updateSlideImages, {
-    onSuccess: ({ data }) => {
-      toast.success(data.message)
-      queryClient.invalidateQueries(['config_system'])
-    },
-    onError: defaultToastError,
-  })
-
-  const updateSlideImagesDebounce = useDebounceCallback(
-    updateSlideImagesMutation.mutate,
-    1000
-  )
-
   React.useEffect(() => {
     setState({
       categories: dataCategories?.categories,
@@ -192,7 +171,7 @@ export function ConfigProvider({ children }: ConfigProviderType) {
         configData?.systemConfiguration.showAnnouncement
       ),
       updateAnnouncement: updateAnnouncementMutation.mutate,
-      updateSlideImages: updateSlideImagesDebounce,
+
       ordersDeliveredCountQuery,
       openCartsCountQuery,
       totalSalesCountQuery,

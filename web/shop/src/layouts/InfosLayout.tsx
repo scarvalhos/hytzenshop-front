@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router'
-import { Link } from '@core'
+import { Link } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 import React from 'react'

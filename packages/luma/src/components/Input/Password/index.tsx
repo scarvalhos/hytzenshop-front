@@ -2,8 +2,7 @@ import React from 'react'
 
 import { UseFormRegister, FieldValues } from 'react-hook-form'
 import { TbEye, TbEyeOff } from 'react-icons/tb'
-import {Button} from '../../Button'
-
+import { Button } from '../../Button'
 
 import FieldInput, { FieldInputProps } from '../Field'
 

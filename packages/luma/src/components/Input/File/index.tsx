@@ -52,7 +52,7 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
       uploadedFiles,
       removeFromState,
       setUploadedFiles,
-    } = useFileInput(onChangeFiles)
+    } = useFileInput({ onChangeFiles })
 
     const {
       isDragAccept,
@@ -106,20 +106,32 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
               <div
                 {...getRootProps({ className: 'dropzone' })}
                 className={c(
-                  'border border-dashed rounded-lg cursor-pointer px-2 py-8 text-center flex flex-col items-center justify-center',
-                  isDragActive
-                    ? 'border-success-300'
-                    : isDragReject || !!error
-                    ? 'border-danger-300'
-                    : '',
-                  variant === 'filled'
-                    ? 'bg-dark-gray-500 bg-opacity-60 border-light-gray-500'
-                    : 'border-dark-gray-200'
+                  'border border-dashed rounded-lg cursor-pointer px-6 py-8 text-center flex flex-col items-center justify-center',
+                  (isDragReject || error) && 'border-danger-300',
+                  isDragAccept && 'border-success-300',
+                  variant === 'outlined' && !error && 'border-dark-gray-200',
+                  variant === 'filled' && !error && 'border-light-gray-500',
+                  variant === 'filled' && 'bg-dark-gray-500 bg-opacity-60'
                 )}
               >
                 <input {...getInputProps()} />
-                <TbPhoto size={24} className="mb-4" />
-                {renderDragMessage(isDragActive, isDragReject, isDragAccept)}
+                <TbPhoto
+                  size={24}
+                  className={c(
+                    'mb-4',
+                    isDragAccept
+                      ? 'text-success-300'
+                      : isDragReject || !!error
+                      ? 'text-danger-300'
+                      : 'text-light-gray-500'
+                  )}
+                />
+                {renderDragMessage(
+                  isDragActive,
+                  isDragReject,
+                  isDragAccept,
+                  error
+                )}
               </div>
             )}
           />

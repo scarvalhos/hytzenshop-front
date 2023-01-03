@@ -1,4 +1,4 @@
-import * as Modal from '@core/Modal'
+import * as Modal from '@components/Modal'
 
 import { EvaluationStars, trucate, Chip, BreadCrumbs } from '@luma/ui'
 import { useProductPageSection } from './ProductPageSection.hook'

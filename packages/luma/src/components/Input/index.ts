@@ -7,3 +7,12 @@ export { default as File } from './File'
 export { default as Cep } from './Cep'
 
 export * as Select from './Select'
+
+export type {
+  FieldInputProps,
+  MustHaveProps,
+  SharedFieldInputProps,
+} from './Field'
+
+export { useFieldInput } from './Field/Field.hook'
+export { useFileInput } from './File/File.hook'

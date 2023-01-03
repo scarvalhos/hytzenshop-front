@@ -1,10 +1,8 @@
 import * as Popover from '@radix-ui/react-popover'
 
-import { Avatar, withGlassEffect } from '@luma/ui'
+import { Avatar, withGlassEffect, Link } from '@luma/ui'
 import { TbLogout, TbUserCircle } from 'react-icons/tb'
 import { useAuth } from '@contexts/AuthContext'
-
-import Link from '@core/Link'
 
 import React from 'react'
 

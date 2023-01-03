@@ -2,9 +2,8 @@ import * as Checkbox from '@radix-ui/react-checkbox'
 
 import React from 'react'
 
+import { DivideY, Button, Input } from '@luma/ui'
 import { FieldValues, useForm } from 'react-hook-form'
-import { DivideY, Button } from '@luma/ui'
-import { Password, Field } from '@core/Input'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { CheckIcon } from '@radix-ui/react-icons'
 import { useAuth } from '@contexts/AuthContext'
@@ -76,7 +75,7 @@ export const LoginFormSection: React.FC<LoginFormSectionProps> = ({
         )}
       >
         <div className="space-y-4">
-          <Field
+          <Input.Field
             type="text"
             label="Username:"
             control={control}
@@ -84,7 +83,7 @@ export const LoginFormSection: React.FC<LoginFormSectionProps> = ({
             isFullWidth
             {...register('username')}
           />
-          <Password
+          <Input.Password
             name="password"
             label="Senha:"
             passthrough={{ placeholder: 'Digite sua senha' }}

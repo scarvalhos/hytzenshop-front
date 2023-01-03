@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Siderbar } from '@core/Siderbar'
+import { Siderbar } from '@components/Siderbar'
 
 import TopMenuLayout from '@layouts/TopMenuLayout'
 

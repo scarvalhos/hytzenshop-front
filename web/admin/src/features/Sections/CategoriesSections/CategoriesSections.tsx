@@ -1,10 +1,10 @@
 import * as React from 'react'
-import * as Input from '@core/Input'
 
 import { useCategoriesSection } from './CategoriesSection.hook'
 import { useConfig } from '@contexts/ConfigContext'
+import { Input } from '@luma/ui'
 
-import BoxSection from '@core/BoxSection'
+import BoxSection from '@components/BoxSection'
 
 const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
   const { categories } = useConfig()

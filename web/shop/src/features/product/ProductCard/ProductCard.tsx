@@ -1,9 +1,8 @@
-import { withGlassEffect, EvaluationStars, trucate } from '@luma/ui'
+import { withGlassEffect, EvaluationStars, trucate, Link } from '@luma/ui'
 import { MdFavoriteBorder } from 'react-icons/md'
 import { useWishlist } from '@contexts/WishlistContext'
 import { c, money } from '@hytzenshop/helpers'
 import { Product } from '@hytzenshop/types'
-import { Link } from '@core'
 
 import React from 'react'
 import Image from 'next/image'

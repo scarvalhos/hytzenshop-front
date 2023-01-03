@@ -1,10 +1,9 @@
 import * as React from 'react'
 
 import { Product } from '@hytzenshop/types'
-import { Column } from '@core/ListCards'
 import { money } from '@hytzenshop/helpers'
 
-import ListCards from '@core/ListCards'
+import ListCards, { Column } from '@components/ListCards'
 
 interface ProductsListProps {
   products: Omit<Product[], 'colors' | 'categories' | 'sizes' | 'images'>

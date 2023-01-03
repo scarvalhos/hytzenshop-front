@@ -12,7 +12,7 @@ import {
 } from 'react-icons/tb'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
-import Graphic from '@core/Graphic'
+import Graphic from '@components/Graphic'
 
 const DashboardHome: NextPage = () => {
   const {

@@ -1,11 +1,10 @@
 import * as Popover from '@radix-ui/react-popover'
 import * as Avatar from '@radix-ui/react-avatar'
 
-import { Can, DivideLine, withGlassEffect } from '@luma/ui'
+import { Can, DivideLine, withGlassEffect, Link } from '@luma/ui'
 import { getFirstLetters } from '@hytzenshop/helpers'
 import { parseCookies } from 'nookies'
 import { useAuth } from '@contexts/AuthContext'
-import { Link } from '@core'
 
 import {
   TbDashboard,

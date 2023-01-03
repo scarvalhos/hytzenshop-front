@@ -1,9 +1,8 @@
 import { ProductGetDto, CartProduct, Order } from '@hytzenshop/types'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { Chip, Link } from '@luma/ui'
 import { c, money } from '@hytzenshop/helpers'
 import { useAuth } from '@contexts/AuthContext'
-import { Chip } from '@luma/ui'
-import { Link } from '@core'
 import { api } from '@hytzenshop/services'
 
 import EvaluateButtonModal from '@components/Modal/EvaluateButtonModal'

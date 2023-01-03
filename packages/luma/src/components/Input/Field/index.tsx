@@ -89,7 +89,7 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
     const { masks, realtypes, defaultPlaceholders } = useFieldInput({
       name: _name,
     })
-        
+
     return (
       <FieldWrapper
         width={isFullWidth ? 'full' : 'fit'}

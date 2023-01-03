@@ -1,10 +1,9 @@
 import * as React from 'react'
-import * as Input from '@core/Input'
 
 import { TbCirclePlus, TbDownload, TbSearch } from 'react-icons/tb'
 import { useUsersListPage } from './UsersListPage.hook'
+import { Button, Input } from '@luma/ui'
 import { c, date } from '@hytzenshop/helpers'
-import { Button } from '@luma/ui'
 
 import DashboardPagesLayout from '@layouts/DashboardPagesLayout'
 import exportFromJSON from 'export-from-json'

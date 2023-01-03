@@ -1,6 +1,7 @@
 import { CircularProgressbar } from 'react-circular-progressbar'
-import { TbTrash } from 'react-icons/tb'
 import { Button, theme } from '@luma/ui'
+import { TbTrash } from 'react-icons/tb'
+import { MdError } from 'react-icons/md'
 import { c } from '@hytzenshop/helpers'
 
 import Image from 'next/image'
@@ -22,15 +23,21 @@ interface FileGridProps {
   onError?: (id: string) => Promise<void>
 }
 
-export const FileGrid: React.FC<FileGridProps> = ({ files, onDelete }) => {
+export const FileGrid: React.FC<FileGridProps> = ({
+  files,
+  onDelete,
+  onError,
+}) => {
   return (
     <div className="flex flex-row gap-4 flex-wrap">
       {files &&
         files.map((file) => (
           <div key={`${file.id}${file.name}`} className="relative w-fit">
-            {file.uploaded && (
+            {(file.uploaded || file.error) && (
               <Button
-                onClick={() => onDelete(file.id)}
+                onClick={() =>
+                  file.error && onError ? onError(file.id) : onDelete(file.id)
+                }
                 className="absolute -top-2 -right-2 p-2 flex bg-dark-gray-300 z-50 hover:brightness-125"
                 rounded
               >
@@ -40,36 +47,40 @@ export const FileGrid: React.FC<FileGridProps> = ({ files, onDelete }) => {
 
             <div
               className={c(
-                'w-[100px] h-[100px] rounded-sm flex items-center justify-center',
+                'w-[100px] h-[100px] rounded-sm flex items-center justify-center relative',
                 !file.uploaded &&
-                  "before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-sm before:opacity-60 before:bg-black before:z-10 transition-all"
+                  "before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full before:rounded-sm before:opacity-80 before:bg-black before:z-10 transition-all"
               )}
             >
-              {file.uploaded && (
-                <Image
-                  src={file.url}
-                  alt={file.name}
-                  width={100}
-                  height={100}
-                  style={{
-                    borderRadius: '4px',
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    objectPosition: 'center',
-                  }}
+              {file.error && (
+                <MdError
+                  size={24}
+                  color={theme.colors.danger[300]}
+                  className="z-[100] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]"
                 />
               )}
-              {!file.uploaded && (
+
+              {!file.uploaded && !file.error && (
                 <CircularProgressbar
                   styles={{
-                    root: { width: 18, marginRight: 6, zIndex: 100 },
+                    root: { width: 18, marginRight: 6 },
                     path: { stroke: theme.colors.success[300] },
                   }}
+                  className="z-[100] absolute top-[50%] left-[50%] -translate-x-[50%] -translate-y-[50%]"
                   strokeWidth={10}
                   value={file.progress}
                 />
               )}
+
+              <div className="w-[100px] h-[100px] rounded-md relative">
+                <Image
+                  src={file.url ? file.url : file.preview}
+                  alt={file.name}
+                  fill
+                  sizes="100%"
+                  className="z-0 object-cover object-center rounded-md"
+                />
+              </div>
             </div>
           </div>
         ))}

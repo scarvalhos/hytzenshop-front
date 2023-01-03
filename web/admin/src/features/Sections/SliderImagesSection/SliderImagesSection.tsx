@@ -1,15 +1,21 @@
 import * as React from 'react'
-import * as Input from '@core/Input'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useDebounceCallback } from '@react-hook/debounce'
+import { defaultToastError } from '@hytzenshop/helpers'
+import { Input, toast } from '@luma/ui'
 import { useConfig } from '@contexts/ConfigContext'
 import { useForm } from 'react-hook-form'
+import { api } from '@hytzenshop/services'
 
-import BoxSection from '@core/BoxSection'
+import BoxSection from '@components/BoxSection'
 
 const SliderImagesSection: React.FC = () => {
-  const { sliderImages, updateSlideImages } = useConfig()
+  const { sliderImages } = useConfig()
 
   const { register, control } = useForm()
+
+  const queryClient = useQueryClient()
 
   const initialValue = React.useMemo(
     () =>
@@ -24,8 +30,24 @@ const SliderImagesSection: React.FC = () => {
     [sliderImages]
   )
 
+  const updateSlideImages = useMutation(
+    async (ids: any[]) =>
+      api.put('/config', {
+        sliderImages: ids.map((i) => i.id),
+      }),
+    {
+      onSuccess: ({ data }) => {
+        toast.success(data.message)
+        queryClient.invalidateQueries(['config_system'])
+      },
+      onError: defaultToastError,
+    }
+  ).mutateAsync
+
+  const updateSlideImagesDebounce = useDebounceCallback(updateSlideImages, 1000)
+
   const onChange = React.useCallback(
-    (ids: string[]) => updateSlideImages(ids),
+    (ids: string[]) => updateSlideImagesDebounce(ids),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
@@ -55,6 +77,7 @@ const SliderImagesSection: React.FC = () => {
         control={control}
         filesListDisplay="grid"
         onDelete={onDelete}
+        isFullWidth
         onChangeFiles={onChange}
         {...register('sliderImages')}
         {...(initialValue?.length &&

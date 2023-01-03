@@ -1,12 +1,11 @@
-import * as Input from '@core/Input'
 import * as React from 'react'
-import * as Modal from '@core/Modal'
+import * as Modal from '@components/Modal'
 
 import { DefaultValuesProps, useNewProductForm } from './useNewProductForm.hook'
 import { Product, sizesOptions } from '@hytzenshop/types'
 import { useConfigTypes } from '@utils/types/config'
 import { useBreakpoint } from '@hytzenshop/hooks'
-import { Button } from '@luma/ui'
+import { Button, Input } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 interface NewProductFormProps {

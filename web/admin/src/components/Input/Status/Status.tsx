@@ -1,15 +1,14 @@
 import * as React from 'react'
 
 import { Status, StatusButton, StatusOptions } from './Status.styles'
-import { FieldInputProps } from '../Field'
+import { DivideY, Input } from '@luma/ui'
 import { HiChevronDown } from 'react-icons/hi'
 import { Controller } from 'react-hook-form'
 import { Listbox } from '@headlessui/react'
-import { DivideY } from '@luma/ui'
 import { Option } from '@hytzenshop/types'
 import { c } from '@hytzenshop/helpers'
 
-export interface StatusInputProps<T> extends FieldInputProps {
+export interface StatusInputProps<T> extends Input.FieldInputProps {
   label?: string
   limit?: number
   options?: Option<T>[]

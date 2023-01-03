@@ -1,11 +1,10 @@
 import * as React from 'react'
 
-import ProfilePopover from '@components/ProfilePopover'
-import Link from '@core/Link'
-
-import { Badge, Button } from '@luma/ui'
+import { Badge, Button, Link } from '@luma/ui'
 import { useAuth } from '@contexts/AuthContext'
 import { TbBell } from 'react-icons/tb'
+
+import ProfilePopover from '@components/ProfilePopover'
 
 type TopMenuLayout = {
   children: React.ReactNode

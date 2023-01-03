@@ -13,7 +13,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   side,
 }) => {
   return (
-    <T.Provider delayDuration={100}>
+    <T.Provider delayDuration={0}>
       <T.Root>
         <T.Trigger asChild>
           <span>{children}</span>

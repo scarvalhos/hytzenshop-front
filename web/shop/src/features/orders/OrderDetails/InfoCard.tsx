@@ -1,7 +1,6 @@
 import { TbBrandWhatsapp, TbMailForward, TbTruck } from 'react-icons/tb'
+import { Button, Link } from '@luma/ui'
 import { c, numonly } from '@hytzenshop/helpers'
-import { Button } from '@luma/ui'
-import { Link } from '@core'
 
 import React from 'react'
 

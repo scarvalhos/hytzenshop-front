@@ -49,7 +49,12 @@ export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
           {skipIndexes.includes(index) && <div className="mb-4" />}
 
           <Link href={href}>
-            <span className={c("w-fit flex items-center justify-center space-x-1", index + 1 === links.length && 'text-light-gray-100')}>
+            <span
+              className={c(
+                'w-fit flex items-center justify-center space-x-1',
+                index + 1 === links.length && 'text-light-gray-100'
+              )}
+            >
               <Icon size={18} />
               <p>{title}</p>
             </span>

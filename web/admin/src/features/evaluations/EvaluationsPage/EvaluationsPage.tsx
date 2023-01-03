@@ -1,6 +1,5 @@
+import { LoadingAnimation, Pagination } from '@luma/ui'
 import { useEvaluationsPage } from './EvaluationsPage.hooks'
-import { LoadingAnimation } from '@luma/ui'
-import { Pagination } from '@core/Pagination'
 import { NextPage } from 'next'
 
 import EvaluationsList from '@features/evaluations/EvaluationsList'

@@ -1,8 +1,5 @@
-import * as Input from '@core/Input'
-
+import { trucate, Button, Pagination, Input } from '@luma/ui'
 import { useProductQuestionFormSection } from './ProductQuestionFormSection.hoox'
-import { trucate, Button } from '@luma/ui'
-import { Pagination } from '@core/Pagination'
 import { Product } from '@hytzenshop/types'
 import { c, date } from '@hytzenshop/helpers'
 

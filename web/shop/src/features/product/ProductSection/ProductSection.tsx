@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { Product } from '@hytzenshop/types'
-import { Link } from '@core'
+import { Link } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 import ProductSectionSkeleton from './ProductSectionSkeleton'

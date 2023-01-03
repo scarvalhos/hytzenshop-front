@@ -6,12 +6,16 @@ import { api } from '@hytzenshop/services'
 
 import fileSize from 'filesize'
 
-export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
+export const useFileInput = ({
+  onChangeFiles,
+}: {
+  onChangeFiles?: (ids: any[]) => void
+}) => {
   const [uploadedFiles, setUploadedFiles] = React.useState<any[]>([])
 
   const updateFile = React.useCallback(
-    (id: string, data: any, successUpload: boolean) => {
-      return setUploadedFiles((old) => {
+    (id: string, data: any, successUpload: boolean) =>
+      setUploadedFiles((old) => {
         const newArr = old.map((item) => {
           return id === item.id ? { ...item, ...data } : item
         })
@@ -21,8 +25,7 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
         }
 
         return newArr
-      })
-    },
+      }),
     [onChangeFiles]
   )
 
@@ -58,15 +61,16 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
             true
           )
         })
-        .catch(() =>
-          updateFile(
+        .catch((err) => {
+          console.log(err, 'err')
+          return updateFile(
             uploadedFile.id,
             {
               error: true,
             },
             false
           )
-        )
+        })
     },
     [updateFile]
   )
@@ -117,14 +121,32 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
   )
 
   const renderDragMessage = React.useCallback(
-    (isDragActive: boolean, isDragReject: boolean, isDragAccept: boolean) => {
+    (
+      isDragActive: boolean,
+      isDragReject: boolean,
+      isDragAccept: boolean,
+      error?: string
+    ) => {
+      if ((isDragActive && isDragReject) || (!isDragActive && error)) {
+        console.log('alo')
+        return (
+          <>
+            <p className="text-danger-300">Arquivo não suportado</p>
+            <span className="text-danger-300">
+              Apenas arquivos .jpg, .jpeg, .pjpeg, .png, e .gif. Tamanho máximo
+              de 10MB
+            </span>
+          </>
+        )
+      }
+
       if (!isDragActive) {
         return (
           <>
             <p>Arraste e solte ou clique para procurar</p>
             <span>
               Apenas arquivos .jpg, .jpeg, .pjpeg, .png, e .gif. Tamanho máximo
-              de 5MB
+              de 10MB
             </span>
           </>
         )
@@ -133,22 +155,10 @@ export const useFileInput = (onChangeFiles?: (ids: any[]) => void) => {
       if (isDragActive && isDragAccept) {
         return (
           <>
-            <p>Solte o arquivo</p>
-            <span>
+            <p className="text-success-300">Solte o arquivo</p>
+            <span className="text-success-300">
               Apenas arquivos .jpg, .jpeg, .pjpeg, .png, e .gif. Tamanho máximo
-              de 5MB
-            </span>
-          </>
-        )
-      }
-
-      if (isDragActive && isDragReject) {
-        return (
-          <>
-            <p>Arquivo não suportado</p>
-            <span>
-              Apenas arquivos .jpg, .jpeg, .pjpeg, .png, e .gif. Tamanho máximo
-              de 5MB
+              de 10MB
             </span>
           </>
         )

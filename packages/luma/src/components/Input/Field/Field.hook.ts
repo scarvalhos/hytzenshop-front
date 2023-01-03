@@ -135,7 +135,7 @@ const defaultPlaceholders: Record<InputTypes, string> = {
   percentage: '0,0%',
 }
 
-export const useFieldInput = ({ name }: { name: string }) => {
+export const useFieldInput = ({ name }: { name?: string }) => {
   const id = React.useMemo(() => `${name}-f`, [name])
 
   return {

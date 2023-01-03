@@ -1,5 +1,4 @@
 import * as React from 'react'
-import * as Input from '@core/Input'
 
 import {
   displayStatusOrders,
@@ -12,6 +11,7 @@ import { BreadCrumbs, Button, StepperBar } from '@luma/ui'
 import { useOrdersDetails } from './OrdersDetails.hook'
 import { date, money } from '@hytzenshop/helpers'
 import { TbUpload } from 'react-icons/tb'
+import { Status } from '@components/Input'
 
 import OrderedProductPreview from '../OrderedProductPreview'
 import UserCard from '@features/users/UserCard'
@@ -46,7 +46,8 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           <p className="text-xl text-light-gray-100">
             Pedido #{order?.mpPaymentId}
           </p>
-          <Input.Status
+
+          <Status
             {...register('status')}
             control={control}
             setValue={setValue}
