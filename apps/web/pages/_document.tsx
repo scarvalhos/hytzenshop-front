@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { Html, Head, Main, NextScript } from 'next/document'
+import { Html, Main, NextScript, Head } from 'next/document'
 
 export default function Document() {
   return (
@@ -13,7 +13,10 @@ export default function Document() {
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.shop.hytzen.com/" />
+        <meta
+          property="og:url"
+          content="https://www.shop.hytzen.com/images/preview.png"
+        />
         <meta property="og:title" content="Hytzen Shop" />
         <meta
           property="og:description"
@@ -21,7 +24,7 @@ export default function Document() {
         />
         <meta
           property="og:image"
-          content="https://www.shop.hytzen.com/favicon.svg"
+          content="https://www.shop.hytzen.com/images/preview.png"
         />
 
         <meta property="twitter:card" content="summary_large_image" />
@@ -36,7 +39,7 @@ export default function Document() {
         />
         <meta
           property="twitter:image"
-          content="https://www.shop.hytzen.com/favicon.svg"
+          content="https://www.shop.hytzen.com/images/preview.png"
         />
 
         <link rel="preconnect" href="https://fonts.googleapis.com" />

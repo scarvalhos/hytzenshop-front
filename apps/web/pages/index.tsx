@@ -5,6 +5,7 @@ import { useProducts } from '@hooks/useProducts'
 import { Pagination } from '@components/Pagination'
 import { useConfig } from '@contexts/ConfigContext'
 import { NextPage } from 'next'
+import { NextSeo } from 'next-seo'
 import { socket } from '@services/socket'
 
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
@@ -71,9 +72,19 @@ const Home: NextPage = () => {
 
   return (
     <HeaderFooterLayout>
+      <NextSeo
+        title={`Hytzen Shop ${announcement}`}
+        description="As camisetas do seu personagem favorito você encontra aqui."
+        additionalMetaTags={[
+          {
+            property: 'og:url',
+            content: 'https://www.shop.hytzen.com/images/preview.png',
+          },
+        ]}
+      />
+
       <Head>
         <title>Hytzen Shop {announcement}</title>
-
         <meta name="title" content="Hytzen Shop" />
         <meta
           name="description"
@@ -81,13 +92,19 @@ const Home: NextPage = () => {
         />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.shop.hytzen.com/" />
+        <meta
+          property="og:url"
+          content="https://www.shop.hytzen.com/images/preview.png"
+        />
         <meta property="og:title" content="Hytzen Shop" />
         <meta
           property="og:description"
           content="As camisetas do seu personagem favorito você encontra aqui."
         />
-        <meta property="og:image" content="https://www.shop.hytzen.com" />
+        <meta
+          property="og:image"
+          content="https://www.shop.hytzen.com/images/preview.png"
+        />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://www.shop.hytzen.com/" />
@@ -99,7 +116,10 @@ const Home: NextPage = () => {
           property="twitter:description"
           content="As camisetas do seu personagem favorito você encontra aqui."
         />
-        <meta property="twitter:image" content="https://www.shop.hytzen.com" />
+        <meta
+          property="twitter:image"
+          content="https://www.shop.hytzen.com/images/preview.png"
+        />
       </Head>
 
       <Slider />
