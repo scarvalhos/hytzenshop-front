@@ -143,16 +143,19 @@ const Footer: React.FC = () => {
           </p>
           <div className="flex flex-col space-y-2">
             <Link
-              href="/contact?subject=devolution"
+              href="/customer-service?subject=devolution"
               className="text-light-gray-500 text-sm"
             >
               Devolução
             </Link>
-            <Link href="/contact" className="text-light-gray-500 text-sm">
+            <Link
+              href="/customer-service"
+              className="text-light-gray-500 text-sm"
+            >
               Contate-nos
             </Link>
             <Link
-              href="/contact?subject=feedback"
+              href="/customer-service?subject=feedback"
               className="text-light-gray-500 text-sm"
             >
               Feedback

@@ -46,13 +46,12 @@ const RegisterFormSection: React.FC<RegisterFormSectionProps> = ({
       })
         .then(() => {
           setLoading(false)
-          if (query.backToCheckout === 'true') {
-            push('/checkout/payment')
-          }
+          if (query.backTo && typeof query.backTo === 'string')
+            push(query.backTo)
         })
         .catch(() => setLoading(false))
     },
-    [createUser, push, query.backToCheckout]
+    [createUser, push, query.backTo]
   )
 
   return (

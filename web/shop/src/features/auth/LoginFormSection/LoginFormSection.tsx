@@ -6,6 +6,7 @@ import { validateLoginSchema } from '@utils/validators'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { CheckIcon } from '@radix-ui/react-icons'
+import { useRouter } from 'next/router'
 import { useAuth } from '@contexts/AuthContext'
 import { c } from '@hytzenshop/helpers'
 
@@ -27,6 +28,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   const [loading, setLoading] = React.useState(false)
 
   const { signIn } = useAuth()
+  const { query } = useRouter()
   const { md } = useBreakpoint()
 
   const {
@@ -47,13 +49,14 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
         password: values.password,
         stayConnected: stayConnectedChecked,
         checkoutNextStep,
+        backTo: (query?.backTo as string) || undefined,
       }
 
       return signIn(data)
         .then(() => setLoading(false))
         .catch(() => setLoading(false))
     },
-    [checkoutNextStep, signIn, stayConnectedChecked]
+    [checkoutNextStep, query?.backTo, signIn, stayConnectedChecked]
   )
 
   return (
@@ -144,7 +147,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
             <Button
               href={
                 checkoutNextStep
-                  ? '/auth/register?backToCheckout=true'
+                  ? `/auth/register?backTo=${encodeURI('/checkout/payment')}`
                   : '/auth/register'
               }
               type="button"

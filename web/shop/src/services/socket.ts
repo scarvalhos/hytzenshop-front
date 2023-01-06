@@ -8,9 +8,7 @@ const webSocketUri =
     ? webSocketUriDev
     : webSocketUriPro
 
-export const socket = io(webSocketUri, {
-  transports: ['websocket', 'polling'],
-})
+export const socket = io(webSocketUri)
 
 export const socketPayments = io(`${webSocketUri}/api/checkout`, {
   transports: ['websocket', 'polling'],

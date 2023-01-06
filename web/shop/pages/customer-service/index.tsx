@@ -1,5 +1,6 @@
 import { Button, Icons } from '@luma/ui'
 import { NextPage } from 'next'
+import { useAuth } from '@contexts/AuthContext'
 import { NextSeo } from 'next-seo'
 import { c } from '@hytzenshop/helpers'
 
@@ -7,10 +8,12 @@ import CustomerServiceLayout from '@features/customerservice/CustomerServiceLayo
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import React from 'react'
 
-const ContatoPage: NextPage = () => {
+const CustomerServicePage: NextPage = () => {
+  const { user } = useAuth()
+
   return (
     <HeaderFooterLayout glassEffect={false}>
-      <NextSeo title="Contato" />
+      <NextSeo title="Central de atendimento ao cliente" />
 
       <CustomerServiceLayout>
         <div className="w-full flex max-sm:flex-col-reverse items-center justify-between gap-8 max-w-screen-lg">
@@ -25,22 +28,35 @@ const ContatoPage: NextPage = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center max-sm:space-y-2 sm:space-x-2 max-sm:w-full">
-              <Button
-                href="/contact/request-service"
-                variant="filled"
-                rounded
-                className={c('w-full sm:w-fit')}
-              >
-                Entrar em contato
-              </Button>
-              <Button
-                href="/contact/list-requets-services"
-                variant="outlined"
-                rounded
-                className={c('w-full sm:w-fit')}
-              >
-                Ver chamados
-              </Button>
+              {!user ? (
+                <Button
+                  href={`/auth?backTo=${encodeURI('/customer-service')}`}
+                  variant="filled"
+                  className="flex-nowrap max-sm:w-full max-sm:mt-2"
+                  rounded
+                >
+                  Login/Cadastro
+                </Button>
+              ) : (
+                <>
+                  <Button
+                    href="/customer-service/request-service"
+                    variant="filled"
+                    rounded
+                    className={c('w-full sm:w-fit')}
+                  >
+                    Entrar em contato
+                  </Button>
+                  <Button
+                    href="/customer-service/list-requets-services"
+                    variant="outlined"
+                    rounded
+                    className={c('w-full sm:w-fit')}
+                  >
+                    Ver chamados
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
@@ -51,4 +67,4 @@ const ContatoPage: NextPage = () => {
   )
 }
 
-export default ContatoPage
+export default CustomerServicePage

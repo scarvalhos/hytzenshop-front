@@ -29,32 +29,6 @@ type AppPropsWithLayout = AppProps & {
 const queryClient = new QueryClient()
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const onNotification = useDebounceCallback((arg) => {
-    const queryKey = {
-      user: ['users'],
-      cart: ['carts'],
-      evaluation: ['evaluations'],
-      newsletter: ['newsletter'],
-      order: ['orders'],
-      payment: ['orders'],
-    }[String(arg.reference)]
-
-    queryClient.invalidateQueries(queryKey)
-    queryClient.invalidateQueries(['me'])
-
-    new Audio('/audios/notification.mp3').play()
-
-    return toast.primary(arg.data.message, {
-      icon: <TbBellRinging size={20} className="text-primary-300" />,
-    })
-  })
-
-  React.useEffect(() => {
-    socket.on('notification-adm', (arg) => {
-      onNotification(arg)
-    })
-  }, [onNotification])
-
   const getLayout = React.useMemo(
     () => Component.getLayout ?? ((page: React.ReactElement) => page),
     [Component.getLayout]
@@ -79,9 +53,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
           autoClose={4000}
           theme="dark"
           toastClassName="bg-dark-gray-300"
-          closeButton={
+          closeButton={() => (
             <TbX size={20} className="mt-2 mr-1 text-light-gray-500" />
-          }
+          )}
         />
       </DefaultProvider>
       <ReactQueryDevtools />

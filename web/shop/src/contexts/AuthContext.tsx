@@ -9,6 +9,7 @@ import {
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
+import { socket } from '@services/socket'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
@@ -30,6 +31,7 @@ type AuthContextData = {
       data: UserGetDto
       stayConnected: boolean
       checkoutNextStep: (() => void) | undefined
+      backTo?: string
     },
     any,
     SignInCredentials,
@@ -65,6 +67,7 @@ const signIn = async ({
   password,
   stayConnected = true,
   checkoutNextStep,
+  backTo,
 }: SignInCredentials) => {
   const data = await api
     .post<UserGetDto>('/auth/login', {
@@ -77,6 +80,7 @@ const signIn = async ({
     data,
     stayConnected,
     checkoutNextStep,
+    backTo,
   }
 }
 
@@ -123,7 +127,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // SignIn
 
   const signInMutation = useMutation(signIn, {
-    onSuccess: ({ checkoutNextStep, data, stayConnected }) => {
+    onSuccess: ({ checkoutNextStep, data, stayConnected, backTo }) => {
       setToken(data.user.accessToken)
       queryClient.fetchQuery(queryKey)
 
@@ -142,6 +146,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         localStorage.setItem('hytzenshop.stayConnected', 'stayConnected')
 
       if (checkoutNextStep) return checkoutNextStep()
+
+      if (backTo) return Router.push(backTo)
 
       return Router.push('/profile/dados-pessoais')
     },
@@ -241,6 +247,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
       queryClient.invalidateQueries(queryKey)
     }
   }, [queryClient, queryKey])
+
+  React.useEffect(() => {
+    if (meQuery.data?.user.id) {
+      socket.emit('new-loggin', {
+        userId: meQuery.data.user.id,
+      })
+    }
+  }, [meQuery])
 
   return (
     <AuthContext.Provider

@@ -66,7 +66,7 @@ const ProfilePopover = () => {
                   <DivideLine dividerClassName="my-2 border-light-gray-400 border-opacity-20" />
 
                   <Link
-                    href={`${process.env.NEXT_PUBLIC_ADM_URL_FRONTEND}/?token=${token}`}
+                    href={`${process.env.NEXT_PUBLIC_ADM_URL_FRONTEND}?token=${token}`}
                     className="flex flex-row py-1 text-light-gray-100"
                   >
                     <TbDashboard size={20} style={{ marginRight: '10px' }} />

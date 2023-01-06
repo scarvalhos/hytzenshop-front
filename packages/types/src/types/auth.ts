@@ -44,6 +44,7 @@ interface SignInCredentials {
   password: string
   stayConnected?: boolean
   checkoutNextStep?: () => void
+  backTo?: string
 }
 
 export type { Address, Profile, User, SignInCredentials }

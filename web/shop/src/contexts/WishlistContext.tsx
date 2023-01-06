@@ -29,9 +29,9 @@ export const WishlistProvider = ({ children }: WishlistProviderProps) => {
   const { data: wishlist } = useQuery(
     queryKey,
     () => {
-      const wishlistStoraged = localStorage.getItem('hytzenshop.wishlist') || ''
+      const wishlistStoraged = localStorage.getItem('hytzenshop.wishlist')
 
-      return JSON.parse(wishlistStoraged)
+      return wishlistStoraged ? JSON.parse(wishlistStoraged) : null
     },
     {
       staleTime: 1000 * 60 * 10, // 10 minutes

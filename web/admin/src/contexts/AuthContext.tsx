@@ -9,6 +9,7 @@ import {
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
+import { socket } from '@services/socket'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
@@ -250,6 +251,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
       Router.push('/dashboard')
     }
   }, [query.token, queryClient, queryKey])
+
+  React.useEffect(() => {
+    if (meQuery.data?.user.id) {
+      socket.emit('new-loggin', {
+        userId: meQuery.data.user.id,
+      })
+    }
+  }, [meQuery])
 
   return (
     <AuthContext.Provider

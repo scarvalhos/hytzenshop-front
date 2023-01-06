@@ -1,3 +1,4 @@
+import { RequestsServicesList } from '@features/customerservice/RequestsServicesList'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
@@ -5,7 +6,12 @@ import { NextSeo } from 'next-seo'
 import SiderbarLayout from '@layouts/SiderbarLayout'
 
 const DashboardMessages: NextPage = () => {
-  return <NextSeo title="Mensagens" />
+  return (
+    <>
+      <NextSeo title="Mensagens" />
+      <RequestsServicesList />
+    </>
+  )
 }
 
 // @ts-expect-error layout

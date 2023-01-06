@@ -6,7 +6,6 @@ import { Pagination } from '@luma/ui'
 import { useConfig } from '@contexts/ConfigContext'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
-import { socket } from '@services/socket'
 
 import HeaderFooterLayout from '@layouts/HeaderFooterLayout'
 import ProductSection from '@features/product/ProductSection/ProductSection'
@@ -29,14 +28,6 @@ const Home: NextPage = () => {
 
   const { categoriesTabs } = useConfigTypes()
   const { announcement } = useConfig()
-
-  const call = useDebounceCallback((arg) => console.log(arg, 'Connection'))
-
-  React.useEffect(() => {
-    socket.on('Connection', (arg) => {
-      call(arg)
-    })
-  }, [call])
 
   const {
     getProducts: { data, isLoading },

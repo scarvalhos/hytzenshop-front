@@ -76,7 +76,7 @@ const RequestServiceForm: React.FC = () => {
   }, [])
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="py-6 rounded-md w-full">
+    <form onSubmit={handleSubmit(onSubmit)} className="py-8 rounded-md w-full">
       <div className="mb-8 space-y-4">
         <h2 className="text-light-gray-100 text-2xl font-semibold">
           Entre em contato:
@@ -167,7 +167,7 @@ const RequestServiceForm: React.FC = () => {
           Enviar mensagem
         </Button>
         <Button
-          href="/contact"
+          href="/customer-service"
           className={c('w-full sm:w-fit')}
           variant="outlined"
           rounded

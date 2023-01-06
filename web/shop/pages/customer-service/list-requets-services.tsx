@@ -1,5 +1,6 @@
+import { TbArrowBackUp, TbMessage2 } from 'react-icons/tb'
 import { RequestsServicesList } from '@features/customerservice/RequestsServicesList'
-import { TbHome, TbMessage2 } from 'react-icons/tb'
+import { withSSRAuth } from '@hocs/withSSRAuth'
 import { BreadCrumbs } from '@luma/ui'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
@@ -17,10 +18,14 @@ const ListRequestServicePage: NextPage = () => {
         breadCrumbs={() => (
           <BreadCrumbs
             links={[
-              { title: 'Home', href: '/contact', icon: TbHome },
+              {
+                title: 'Início',
+                href: '/customer-service',
+                icon: TbArrowBackUp,
+              },
               {
                 title: 'Chamados',
-                href: '/contact/list-request-services',
+                href: '/customer-service/list-request-services',
                 icon: TbMessage2,
               },
             ]}
@@ -34,3 +39,14 @@ const ListRequestServicePage: NextPage = () => {
 }
 
 export default ListRequestServicePage
+
+export const getServerSideProps = withSSRAuth(
+  async () => {
+    return {
+      props: {},
+    }
+  },
+  {
+    mustBeAuthenticated: true,
+  }
+)

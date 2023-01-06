@@ -26,13 +26,14 @@ export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
   const { sm } = useBreakpoint()
 
   if (!sm) {
-    const Ic = links[links.length - 2].icon
+    const Ic = links.length > 1 ? links[links.length - 2].icon : links[0].icon
+
     return (
       <div className={c('flex items-center', className)}>
-        <Link href={links[links.length - 2].href}>
+        <Link href={ links.length > 1 ?  links[links.length - 2].href : links[0].href}>
           <span className="w-fit flex items-center justify-center space-x-1">
             <Ic size={18} />
-            <p>{links[links.length - 2].title}</p>
+            <p>{links.length > 1 ?  links[links.length - 2].title : links[0].title}</p>
           </span>
         </Link>
       </div>
