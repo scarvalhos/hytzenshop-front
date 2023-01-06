@@ -21,8 +21,8 @@ const RegisterFormSection: React.FC<RegisterFormSectionProps> = ({
 }) => {
   const [loading, setLoading] = React.useState(false)
 
-  const { query, push } = useRouter()
   const { createUser } = useAuth()
+  const { query } = useRouter()
   const { md } = useBreakpoint()
 
   const {
@@ -43,15 +43,12 @@ const RegisterFormSection: React.FC<RegisterFormSectionProps> = ({
         email: values.email,
         username: values.username,
         password: values.password,
+        backTo: (query?.backTo as string) || undefined,
       })
-        .then(() => {
-          setLoading(false)
-          if (query.backTo && typeof query.backTo === 'string')
-            push(query.backTo)
-        })
+        .then(() => setLoading(false))
         .catch(() => setLoading(false))
     },
-    [createUser, push, query.backTo]
+    [createUser, query?.backTo]
   )
 
   return (

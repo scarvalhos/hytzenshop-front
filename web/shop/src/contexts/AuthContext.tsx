@@ -88,6 +88,7 @@ const createUser = async ({
   username,
   email,
   password,
+  backTo,
 }: CreateUserCredentials) => {
   const data = await api
     .post<UserGetDto>('/auth/register', {
@@ -102,6 +103,7 @@ const createUser = async ({
     username,
     email,
     password,
+    backTo,
   }
 }
 
@@ -177,6 +179,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       signInMutation.mutate({
         username: data.username,
         password: data.password,
+        backTo: data.backTo,
       })
     },
     onError: defaultToastError,
