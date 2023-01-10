@@ -33,8 +33,6 @@ const EvaluateButtonModal: React.FC<EvaluateButtonModalProps> = ({
     product,
   })
 
-  React.useEffect(() => console.log(note), [note])
-
   return (
     <>
       <Button

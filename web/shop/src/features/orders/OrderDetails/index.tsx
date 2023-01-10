@@ -22,7 +22,6 @@ import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { Order, PaymentSocketResponse } from '@hytzenshop/types'
 import { useDebounceCallback } from '@react-hook/debounce'
 import { c, date, money } from '@hytzenshop/helpers'
-import { useRouter } from 'next/router'
 import { socket } from '@services/socket'
 import { api } from '@hytzenshop/services'
 
@@ -49,8 +48,6 @@ const getOrderPaymentDetails = async (order?: Order) => {
 
 export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
   const queryClient = useQueryClient()
-
-  const { back } = useRouter()
 
   const orderPaymentQuery = useQuery(
     ['order-payment', order?.mpPaymentId],
@@ -106,7 +103,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
   return (
     <div className="relative">
       <Button
-        onClick={back}
+        href="/profile/pedidos"
         className="sticky top-[3.23rem] px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-50"
       >
         <TbArrowLeft className="absolute left-0" size={16} />

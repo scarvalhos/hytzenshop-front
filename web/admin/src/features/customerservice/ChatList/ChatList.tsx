@@ -58,7 +58,7 @@ export const ChatList: React.FC<ChatListProps> = ({ chats, isLoading }) => {
                     className="bg-danger-300"
                   >
                     <Button
-                      href={`/customer-service/chat/${chat.id}`}
+                      href={`/dashboard/customer-service/chat/${chat.id}`}
                       variant="outlined"
                       rounded
                       className="p-3"

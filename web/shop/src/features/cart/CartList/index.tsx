@@ -52,7 +52,7 @@ export const CartList: React.FC<CartListProps> = ({
   return (
     <div
       className={c(
-        'flex flex-col sm:flex-row mx-8 sm:mx-16 my-20 sm:space-x-4 max-sm:space-y-4',
+        'flex flex-col sm:flex-row mx-8 my-28 sm:space-x-4 max-sm:space-y-4',
         containerClassName
       )}
     >

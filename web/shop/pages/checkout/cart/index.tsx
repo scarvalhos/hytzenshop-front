@@ -26,49 +26,54 @@ const CartPage: NextPage = () => {
         title={cart.products?.length > 0 ? 'Meu carrinho' : 'Carrinho vazio'}
       />
 
-      {cart.products?.length > 0 ? (
-        <CartList />
-      ) : (
-        <div className="flex flex-col items-center justify-center mt-20 h-[50vh] mx-6">
-          <Icons.EmptyCart className="scale-75 text-dark-gray-400" />
+      <main className="max-w-screen-2xl mx-auto my-20">
+        {cart.products?.length > 0 ? (
+          <CartList />
+        ) : (
+          <div className="flex flex-col items-center justify-center h-[50vh] mx-6">
+            <Icons.EmptyCart className="scale-75 text-dark-gray-400" />
 
-          <p className="text-2xl text-light-gray-100 font-medium">
-            Seu carrinho está vazio
-          </p>
-          <p className="mb-8 text-center">
-            Ops, parece que seu carrinho está vazio. Vamos as compras?
-          </p>
+            <p className="text-2xl text-light-gray-100 font-medium">
+              Seu carrinho está vazio
+            </p>
+            <p className="mb-8 text-center">
+              Ops, parece que seu carrinho está vazio. Vamos as compras?
+            </p>
 
-          <div className="flex flex-col-reverse sm:flex-row sm:space-x-2 max-sm:w-full">
-            {!user && (
+            <div className="flex flex-col-reverse sm:flex-row sm:space-x-2 max-sm:w-full">
+              {!user && (
+                <Button
+                  href="/auth"
+                  variant="outlined"
+                  className="flex-nowrap max-sm:w-full max-sm:mt-2"
+                  rounded
+                >
+                  Login/Cadastro
+                </Button>
+              )}
+
               <Button
-                href="/auth"
-                variant="outlined"
-                className="flex-nowrap max-sm:w-full max-sm:mt-2"
+                href="/"
+                variant="filled"
+                className="flex-nowrap max-sm:w-full bg-success-400"
                 rounded
               >
-                Login/Cadastro
+                Voltar para a loja
               </Button>
-            )}
-
-            <Button
-              href="/"
-              variant="filled"
-              className="flex-nowrap max-sm:w-full bg-success-400"
-              rounded
-            >
-              Voltar para a loja
-            </Button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <DivideLine dividerClassName="mx-8 sm:mx-16 my-16" />
+        <DivideLine dividerClassName="mx-8 sm:mx-16 my-16" />
 
-      <ProductSection
-        title="Você Também Pode Gostar"
-        products={randonfy(productsSugestions?.data.products || []).slice(0, 5)}
-      />
+        <ProductSection
+          title="Você Também Pode Gostar"
+          products={randonfy(productsSugestions?.data.products || []).slice(
+            0,
+            5
+          )}
+        />
+      </main>
     </HeaderFooterLayout>
   )
 }

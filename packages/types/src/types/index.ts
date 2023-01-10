@@ -557,6 +557,7 @@ export interface ChatMessage {
   userId: string
   chat: Chat
   chatId: string
+  read?: boolean
   createdAt: string
   updatedAt: string
 }

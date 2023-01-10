@@ -27,7 +27,7 @@ const ProfileOrderPage: NextPage<ProfileOrderPageProps> = ({ id }) => {
     <ProfileLayout>
       <NextSeo title={`Pedido #${orderQuery.data?.order.mpPaymentId || ''}`} />
 
-      <div className="mx-8 sm:mx-16 my-24 space-y-4">
+      <div className="max-w-screen-2xl mx-auto px-8 my-24 space-y-4">
         <OrderDetails order={orderQuery.data?.order} />
       </div>
     </ProfileLayout>

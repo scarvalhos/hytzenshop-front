@@ -1,5 +1,7 @@
 export { CallCenterIcon } from './CallCenterIcon'
+export { FacebookIcon } from './FacebookIcon'
 export { MailboxIcon } from './MailboxIcon'
+export { GoogleIcon } from './GoogleIcon'
 export { EmptyCart } from './EmptyCart'
 export { PixIcon } from './PixIcon'
 export { Like3D } from './Like3D'

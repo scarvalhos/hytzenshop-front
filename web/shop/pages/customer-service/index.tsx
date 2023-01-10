@@ -40,7 +40,7 @@ const CustomerServicePage: NextPage = () => {
               ) : (
                 <>
                   <Button
-                    href="/customer-service/request-service"
+                    href="/customer-service/new-message"
                     variant="filled"
                     rounded
                     className={c('w-full sm:w-fit')}
@@ -48,7 +48,7 @@ const CustomerServicePage: NextPage = () => {
                     Entrar em contato
                   </Button>
                   <Button
-                    href="/customer-service/list-requets-services"
+                    href="/customer-service/list"
                     variant="outlined"
                     rounded
                     className={c('w-full sm:w-fit')}

@@ -1,5 +1,5 @@
-import { TbArrowBackUp, TbMessage2 } from 'react-icons/tb'
 import { RequestServiceForm } from '@features/customerservice/RequestServiceForm'
+import { TbHome, TbMessage2 } from 'react-icons/tb'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { BreadCrumbs } from '@luma/ui'
 import { NextPage } from 'next'
@@ -12,7 +12,7 @@ import React from 'react'
 const RequestServicePage: NextPage = () => {
   return (
     <HeaderFooterLayout glassEffect={false}>
-      <NextSeo title="Contato" />
+      <NextSeo title="Central de atendimento ao cliente" />
 
       <CustomerServiceLayout
         breadCrumbs={() => (
@@ -21,11 +21,11 @@ const RequestServicePage: NextPage = () => {
               {
                 title: 'Início',
                 href: '/customer-service',
-                icon: TbArrowBackUp,
+                icon: TbHome,
               },
               {
                 title: 'Entrar em contato',
-                href: '/customer-service/request-service',
+                href: '/customer-service/new-message',
                 icon: TbMessage2,
               },
             ]}

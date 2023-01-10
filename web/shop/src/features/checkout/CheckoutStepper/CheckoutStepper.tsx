@@ -181,7 +181,7 @@ const CheckoutStepper = () => {
   }
 
   return (
-    <main className="w-full mt-12 flex flex-col">
+    <main className="w-full px-8 mt-12 flex flex-col">
       <StepperBar
         steps={steps}
         activeStep={activeStep}
@@ -195,9 +195,11 @@ const CheckoutStepper = () => {
         }
       />
 
+      {content[activeStep + 1]}
+
       {activeStep === steps.length - 1 ? null : (
-        <span className="flex flex-row items-center mx-8 sm:mx-16 mt-4 space-x-2">
-          {activeStep >= 0 ? (
+        <span className="flex flex-row items-center space-x-2">
+          {activeStep >= 1 ? (
             <button
               className={c(
                 activeStep === 0 && 'text-light-gray-100',
@@ -242,8 +244,6 @@ const CheckoutStepper = () => {
           ) : null}
         </span>
       )}
-
-      {content[activeStep + 1]}
     </main>
   )
 }

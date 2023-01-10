@@ -1,7 +1,7 @@
+import { TbArrowLeft, TbHome, TbMessage2 } from 'react-icons/tb'
 import { RequestsServicesList } from '@features/customerservice/RequestsServicesList'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { withSSRAuth } from '@hocs/withSSRAuth'
-import { TbArrowLeft } from 'react-icons/tb'
 import { BreadCrumbs } from '@luma/ui'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
@@ -21,9 +21,7 @@ const ChatCustomerServicePage: NextPage<ChatCustomerServicePageProps> = ({
   const { lg } = useBreakpoint()
 
   const withRequestsServicesList = (children: React.ReactNode) => {
-    if (lg) {
-      return <RequestsServicesList>{children}</RequestsServicesList>
-    }
+    if (lg) return <RequestsServicesList>{children}</RequestsServicesList>
 
     return children
   }
@@ -34,14 +32,28 @@ const ChatCustomerServicePage: NextPage<ChatCustomerServicePageProps> = ({
       <CustomerServiceLayout
         breadCrumbs={() => (
           <BreadCrumbs
-            className="lg:hidden"
-            links={[
-              {
-                title: 'Voltar',
-                href: '/customer-service/list-requets-services',
-                icon: TbArrowLeft,
-              },
-            ]}
+            links={
+              lg
+                ? [
+                    {
+                      title: 'Início',
+                      href: '/customer-service',
+                      icon: TbHome,
+                    },
+                    {
+                      title: 'Chamados',
+                      href: '/customer-service/list',
+                      icon: TbMessage2,
+                    },
+                  ]
+                : [
+                    {
+                      title: 'Voltar',
+                      href: '/customer-service/list',
+                      icon: TbArrowLeft,
+                    },
+                  ]
+            }
           />
         )}
       >

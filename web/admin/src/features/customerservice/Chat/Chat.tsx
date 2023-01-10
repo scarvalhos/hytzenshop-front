@@ -1,186 +1,142 @@
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  UseQueryResult,
-} from '@tanstack/react-query'
+import * as EmojiPicker from 'emoji-picker-react'
 
-import { Button, DivideLine, Icons, Input } from '@luma/ui'
-import { date, c, defaultToastError } from '@hytzenshop/helpers'
-import { ChatGetDto, ChatMessage } from '@hytzenshop/types'
-import { FieldValues, useForm } from 'react-hook-form'
-import { useDebounceCallback } from '@react-hook/debounce'
-import { TbArrowRight } from 'react-icons/tb'
-import { useAuth } from '@contexts/AuthContext'
-import { socket } from '@services/socket'
-import { api } from '@hytzenshop/services'
+import { TbArrowDown, TbArrowRight, TbMoodHappy, TbX } from 'react-icons/tb'
+import { Button, Icons, Input, Shared } from '@luma/ui'
+import { Virtuoso } from 'react-virtuoso'
+import { useChat } from './Chat.hook'
+import { c } from '@hytzenshop/helpers'
 
 import React from 'react'
 
-interface ChatProps {
+export interface ChatProps {
   id?: string | null
 }
 
-const getChat = async (id?: string | null) => {
-  return api
-    .get<ChatGetDto>(`/customerservice/chat/${id}`)
-    .then(({ data }) => data)
-}
-
-const sendMessage = async ({
-  id,
-  message,
-}: {
-  id: string
-  message: string
-}) => {
-  return api
-    .put<ChatGetDto>(`/customerservice/chat/${id}`, { message })
-    .then(({ data }) => data)
-}
-
 const Chat: React.FC<ChatProps> = ({ id }) => {
-  const [messages, setMessages] = React.useState<ChatMessage[]>([])
+  const {
+    setSeeEmojiPicker,
+    parsedMessages,
+    appendInterval,
+    seeEmojiPicker,
+    handleSubmit,
+    setAtBottom,
+    showButton,
+    prevChatId,
+    chatQuery,
+    virtuoso,
+    onSubmit,
+    setValue,
+    register,
+    control,
+    errors,
+    watch,
+    user,
+  } = useChat({ id })
 
-  const { control, handleSubmit, register, reset } = useForm()
-  const { user } = useAuth()
-
-  const queryClient = useQueryClient()
-
-  const chatQuery = useQuery(['chat', id], () => getChat(id), {
-    staleTime: 1000 * 60 * 10, // 10 minutes
-  }) as UseQueryResult<ChatGetDto, unknown>
-
-  const sendMessageMutation = useMutation(sendMessage, {
-    onSuccess: () => {
-      queryClient.invalidateQueries(['chat', id])
-      reset({
-        message: '',
-      })
+  const itemContent = React.useCallback(
+    (_index: number, message: typeof parsedMessages[0]) => {
+      return (
+        <Shared.ChatMessageCard
+          id={message.id}
+          key={message.id}
+          message={message.message}
+          userId={user?.id}
+          createdAt={message.createdAt}
+          messageUserId={message.messageUserId}
+          name={message.name}
+          sended={message.sended}
+          read={message.read}
+        />
+      )
     },
-    onError: defaultToastError,
-  })
-
-  const onSubmit = React.useCallback(
-    (values: FieldValues) => {
-      sendMessageMutation.mutateAsync({
-        id: String(id),
-        message: values.message,
-      })
-    },
-    [id, sendMessageMutation]
+    [user?.id]
   )
 
-  const onRecieveMessage = useDebounceCallback((arg) =>
-    setMessages(arg.data.chat || [])
-  )
+  const renderVirtuoso = React.useCallback(() => {
+    return (
+      <div className="w-full h-full relative">
+        <Virtuoso
+          id={`chat-${id}`}
+          ref={virtuoso}
+          className="w-full"
+          alignToBottom
+          followOutput="auto"
+          data={parsedMessages}
+          itemContent={itemContent}
+          totalCount={parsedMessages.length}
+          atBottomStateChange={(bottom) => {
+            clearInterval(appendInterval?.current as never)
+            setAtBottom(bottom)
+          }}
+          initialTopMostItemIndex={{
+            index: parsedMessages.length,
+            align: 'end',
+            behavior: 'auto',
+          }}
+        />
 
-  React.useEffect(() => {
-    if (id) {
-      socket.emit('entered-chat', {
-        chatId: id,
-      })
-    }
-  }, [id, user?.id])
+        {showButton && (
+          <Button
+            rounded
+            className="p-3 bg-dark-gray-300 drop-shadow-lg absolute right-8 bottom-4"
+            onClick={() =>
+              virtuoso.current?.scrollToIndex({
+                index: parsedMessages.length - 1,
+                behavior: 'smooth',
+              })
+            }
+          >
+            <TbArrowDown />
+          </Button>
+        )}
+      </div>
+    )
+  }, [
+    parsedMessages,
+    appendInterval,
+    setAtBottom,
+    itemContent,
+    showButton,
+    virtuoso,
+    id,
+  ])
 
-  React.useEffect(() => {
-    socket.on('new-chat', (arg) => {
-      onRecieveMessage(arg)
-    })
-  }, [onRecieveMessage])
-
-  React.useEffect(
-    () => setMessages(chatQuery.data?.chat.chat || []),
-    [chatQuery.data?.chat.chat]
-  )
-
-  React.useEffect(() => {
-    if (window) {
-      window.addEventListener('beforeunload', function () {
-        socket.emit('leave-chat', {
-          chatId: id,
-        })
-      })
-    }
-  }, [id])
+  if (prevChatId !== id) return null
 
   return (
-    <div className="bg-dark-gray-500 bg-opacity-30 rounded-md flex-1 flex flex-col items-center justify-center h-full px-6 py-8">
+    <div className="bg-dark-gray-500 bg-opacity-30 rounded-md flex flex-col items-center justify-center flex-1 h-[78vh] py-8 max-lg:mt-8">
       {!chatQuery.data?.chat ? (
         <Icons.MailboxIcon className="h-40 w-fit" />
       ) : (
-        <div className="bg-dark-gray-400 bg-opacity-30 w-full h-full rounded-sm flex flex-col items-center justify-between px-6 py-6 space-y-6">
-          <div className="w-full h-full flex flex-col justify-end gap-4 relative overflow-y-auto">
-            <div
-              className={c(
-                'flex',
-                user?.id === chatQuery.data.chat.userId
-                  ? 'justify-end'
-                  : 'justify-start'
-              )}
-            >
-              <div
-                className={c(
-                  'px-4 py-4 rounded-lg max-w-sm space-y-2',
-                  user?.id === chatQuery.data.chat.userId
-                    ? 'bg-dark-gray-100 bg-opacity-30'
-                    : 'bg-dark-gray-300 bg-opacity-40'
-                )}
-              >
-                <p>{chatQuery.data?.chat.description}</p>
+        <div className="w-full h-full rounded-sm flex flex-col items-center space-y-6">
+          {renderVirtuoso()}
 
-                <p
-                  className={c(
-                    'text-sm',
-                    user?.id === chatQuery.data.chat.userId && 'text-right'
-                  )}
-                >
-                  {date(chatQuery.data?.chat.createdAt, { withHour: true })}
-                </p>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="w-full px-6 relative"
+          >
+            {seeEmojiPicker && (
+              <div className="mb-4">
+                <EmojiPicker.default
+                  theme={EmojiPicker.Theme.DARK}
+                  autoFocusSearch
+                  lazyLoadEmojis
+                  suggestedEmojisMode={EmojiPicker.SuggestionMode.RECENT}
+                  previewConfig={{
+                    showPreview: false,
+                  }}
+                  width="100%"
+                  height={360}
+                  onEmojiClick={(e) =>
+                    setValue(
+                      'message',
+                      (watch('message') || '').concat(e.emoji)
+                    )
+                  }
+                />
               </div>
-            </div>
+            )}
 
-            <DivideLine dividerClassName="my-4" />
-
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={c(
-                  'flex',
-                  user?.id === message.userId ? 'justify-end' : 'justify-start'
-                )}
-              >
-                <div
-                  className={c(
-                    'px-4 py-4 rounded-lg max-w-sm space-y-2',
-                    user?.id === message.userId
-                      ? 'bg-dark-gray-100 bg-opacity-30'
-                      : 'bg-dark-gray-300 bg-opacity-40'
-                  )}
-                >
-                  {user?.id !== message.userId && (
-                    <p className="text-light-gray-100 font-medium">
-                      {message.user.profile?.completeName ||
-                        message.user.username}
-                    </p>
-                  )}
-
-                  <p>{message.message}</p>
-
-                  <p
-                    className={c(
-                      'text-sm',
-                      user?.id === message.userId && 'text-right'
-                    )}
-                  >
-                    {date(message.createdAt, { withHour: true })}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="w-full">
             <Input.Textarea
               rows={1}
               placeholder="Mensagem"
@@ -190,18 +146,62 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
               rounded
               className="scrollbar-none"
               {...register('message')}
+              error={String(errors.message?.message || '')}
+              renderInsideInput={
+                <span className="flex items-center justify-center space-x-2 px-3">
+                  <Button
+                    className="p-0"
+                    onClick={() => setSeeEmojiPicker(true)}
+                    rounded
+                  >
+                    <TbMoodHappy
+                      size={24}
+                      strokeWidth="1px"
+                      className={c(
+                        seeEmojiPicker
+                          ? 'text-success-300'
+                          : 'text-light-gray-500'
+                      )}
+                    />
+                  </Button>
+
+                  {seeEmojiPicker && (
+                    <Button
+                      className="p-0"
+                      onClick={() => setSeeEmojiPicker(false)}
+                      rounded
+                    >
+                      <TbX
+                        size={24}
+                        strokeWidth="1px"
+                        className="text-light-gray-500"
+                      />
+                    </Button>
+                  )}
+                </span>
+              }
               renderAfter={
                 <Button
+                  type="submit"
                   className="p-3"
                   variant="filled"
+                  disabled={
+                    watch('message') === undefined || watch('message') === ''
+                  }
                   rounded
-                  onClick={handleSubmit(onSubmit)}
+                  onClick={() => {
+                    setSeeEmojiPicker(false)
+                    virtuoso.current?.scrollToIndex({
+                      index: parsedMessages.length - 1,
+                      behavior: 'smooth',
+                    })
+                  }}
                 >
                   <TbArrowRight />
                 </Button>
               }
             />
-          </div>
+          </form>
         </div>
       )}
     </div>

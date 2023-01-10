@@ -25,7 +25,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
   }
 
   return (
-    <div className="flex flex-col space-y-8 max-w-screen-md flex-1 h-fit bg-dark-gray-500 bg-opacity-30 px-8 py-6 rounded-md">
+    <div className="flex flex-col space-y-8 lg:max-w-xl flex-1 h-fit bg-dark-gray-500 bg-opacity-30 px-8 py-6 rounded-md">
       <p className="text-xl font-medium text-light-gray-100">
         Resumo do pedido
       </p>
@@ -61,10 +61,11 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
             ) : (
               <Button
                 variant="filled"
+                className="w-full bg-success-400"
+                rounded
                 onClick={
                   checkoutNextStep ? checkoutNextStep : handleSendToCheckout
                 }
-                className="w-full bg-success-400"
               >
                 {summaryButtonTitle || 'Continuar'}
               </Button>

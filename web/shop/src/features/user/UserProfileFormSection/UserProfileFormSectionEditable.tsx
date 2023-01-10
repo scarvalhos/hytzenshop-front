@@ -137,6 +137,7 @@ const UserProfileFormSectionEditable: React.FC<
             label="Nome completo:"
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
+            error={String(errors?.completeName?.message || '')}
             variant="outlined"
             {...register('completeName')}
           />
@@ -169,6 +170,7 @@ const UserProfileFormSectionEditable: React.FC<
             label="CPF:"
             containerClassName="col-start-1 col-end-3 md:col-start-2"
             isFullWidth
+            error={String(errors?.cpf?.message || '')}
             variant="outlined"
             {...register('cpf')}
           />
@@ -179,6 +181,7 @@ const UserProfileFormSectionEditable: React.FC<
             label="Celular:"
             containerClassName="col-start-1 col-end-3 md:col-end-2"
             isFullWidth
+            error={String(errors?.phone?.message || '')}
             variant="outlined"
             {...register('phone')}
           />
@@ -188,6 +191,7 @@ const UserProfileFormSectionEditable: React.FC<
             control={control as any}
             label="Data de nascimento:"
             containerClassName="col-start-1 col-end-3 md:col-start-2"
+            error={String(errors?.birthDate?.message || '')}
             isFullWidth
             variant="outlined"
             {...register('birthDate')}

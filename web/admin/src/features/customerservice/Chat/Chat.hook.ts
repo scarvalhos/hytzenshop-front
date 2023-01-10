@@ -115,15 +115,7 @@ export const useChat = ({ id }: ChatProps) => {
           }
         })
       ),
-    [
-      chatQuery.data?.chat.createdAt,
-      chatQuery.data?.chat.description,
-      chatQuery.data?.chat.updatedAt,
-      chatQuery.data?.chat.user.profile?.completeName,
-      chatQuery.data?.chat.user.username,
-      chatQuery.data?.chat.userId,
-      messages,
-    ]
+    [chatQuery.data?.chat, messages]
   )
 
   const sendMessageMutation = useMutation(sendMessage, {

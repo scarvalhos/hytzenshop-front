@@ -7,7 +7,7 @@ const ProductSectionSkeleton: React.FC = () => {
   const indexes = sm ? [1, 2, 3, 4, 5] : [1]
 
   return (
-    <div className={c('flex space-x-8 h-[300px] mb-8', sm ? 'mx-16' : 'mx-8')}>
+    <div className={c('flex space-x-8 h-[300px] mb-8')}>
       {indexes.map((item) => (
         <div
           key={item}

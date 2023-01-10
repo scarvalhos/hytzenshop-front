@@ -1,6 +1,6 @@
 import { BreadCrumbs, Button, Icons } from '@luma/ui'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { TbArrowBackUp, TbBox } from 'react-icons/tb'
+import { TbHome, TbBox } from 'react-icons/tb'
 import { ProductGetDto } from '@hytzenshop/types'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { useConfig } from '@contexts/ConfigContext'
@@ -36,24 +36,6 @@ const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
       <HeaderFooterLayout glassEffect={false}>
         <NextSeo title={productQuery.data?.product?.title} />
 
-        <div className="sticky top-0 bg-black z-30">
-          <div className="max-w-screen-2xl mx-auto px-8 sm:px-16 pt-20 pb-6">
-            <BreadCrumbs
-              links={[
-                {
-                  title: 'Início',
-                  href: '/',
-                  icon: TbArrowBackUp,
-                },
-                {
-                  title: String(productQuery.data?.product?.title || ''),
-                  href: `/product/${productQuery.data?.product?.id}`,
-                  icon: TbBox,
-                },
-              ]}
-            />
-          </div>
-        </div>
         <div className="flex flex-col items-center justify-center mt-10 h-[50vh] mx-6">
           <Icons.EmptyCart className="scale-75 text-dark-gray-400" />
 
@@ -98,13 +80,17 @@ const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
               {
                 title: 'Início',
                 href: '/',
-                icon: TbArrowBackUp,
+                icon: TbHome,
               },
-              {
-                title: String(productQuery.data?.product?.title || ''),
-                href: `/product/${productQuery.data?.product?.id}`,
-                icon: TbBox,
-              },
+              ...(productQuery.data?.product?.title
+                ? [
+                    {
+                      title: String(productQuery.data?.product?.title || ''),
+                      href: `/product/${productQuery.data?.product?.id}`,
+                      icon: TbBox,
+                    },
+                  ]
+                : []),
             ]}
           />
         </div>

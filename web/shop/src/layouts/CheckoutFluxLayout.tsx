@@ -21,7 +21,7 @@ export const CheckoutFluxLayout: React.FC<CheckoutFluxLayoutProps> =
       return (
         <div
           className={c(
-            'flex flex-col sm:flex-row mx-8 sm:mx-16 my-8 sm:space-x-4 max-sm:space-y-4',
+            'flex flex-col lg:flex-row my-8 lg:space-x-4 max-lg:space-y-4',
             containerClassName
           )}
         >

@@ -71,8 +71,8 @@ const linksMiddle = [
     Icon: () => <TbThumbUp size={20} />,
   },
   {
-    title: 'Mensagens',
-    path: '/dashboard/messages',
+    title: 'Atendimento',
+    path: '/dashboard/customer-service',
     Icon: () => <TbMessage size={20} />,
   },
   {

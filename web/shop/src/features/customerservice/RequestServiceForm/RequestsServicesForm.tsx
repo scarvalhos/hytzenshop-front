@@ -1,11 +1,12 @@
 import * as yup from 'yup'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Button, Input, toast } from '@luma/ui'
 import { c, defaultToastError } from '@hytzenshop/helpers'
 import { FieldValues, useForm } from 'react-hook-form'
 import { Chat, ChatGetDto } from '@hytzenshop/types'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useRouter } from 'next/router'
 import { api } from '@hytzenshop/services'
 
 import React from 'react'
@@ -28,6 +29,8 @@ const RequestServiceForm: React.FC = () => {
   const [fetching, setFetching] = React.useState(false)
 
   const queryClient = useQueryClient()
+
+  const { push } = useRouter()
 
   const {
     control,
@@ -54,6 +57,7 @@ const RequestServiceForm: React.FC = () => {
         subject: '',
         subjectOptions: null,
       })
+      push('/customer-service/list')
     },
     onError: defaultToastError,
   }).mutateAsync

@@ -128,7 +128,6 @@ export const useFileInput = ({
       error?: string
     ) => {
       if ((isDragActive && isDragReject) || (!isDragActive && error)) {
-        console.log('alo')
         return (
           <>
             <p className="text-danger-300">Arquivo não suportado</p>

@@ -1,6 +1,6 @@
 import * as Checkbox from '@radix-ui/react-checkbox'
 
-import { DivideY, Button, Input } from '@luma/ui'
+import { DivideY, Button, Input, Icons, toast } from '@luma/ui'
 import { FieldValues, useForm } from 'react-hook-form'
 import { validateLoginSchema } from '@utils/validators'
 import { useBreakpoint } from '@hytzenshop/hooks'
@@ -10,7 +10,6 @@ import { useRouter } from 'next/router'
 import { useAuth } from '@contexts/AuthContext'
 import { c } from '@hytzenshop/helpers'
 
-import Image from 'next/image'
 import React from 'react'
 
 interface LoginFormSectionProps {
@@ -78,7 +77,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
       <form
         onSubmit={handleSubmit(handleOnSubmit)}
         className={c(
-          'flex flex-col px-8 py-8 space-y-4 rounded-md bg-dark-gray-500 bg-opacity-30',
+          'flex flex-col px-8 py-8 space-y-4 rounded-md bg-dark-gray-500 bg-opacity-50',
           md ? 'w-[420px]' : 'w-[100%]'
         )}
       >
@@ -160,37 +159,23 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
 
           <div className="space-y-4">
             <Button
-              type="submit"
+              onClick={() => toast.warn('Em desenvolvimento')}
               variant="filled"
               className="w-full bg-white text-dark-gray-500"
             >
-              <span className="flex flex-row items-center">
-                <div className="relative flex flex-row items-center w-6 h-6 mr-2">
-                  <Image
-                    src="/icons/google.png"
-                    alt="Google"
-                    fill
-                    sizes="100%"
-                  />
-                </div>
-                Entrar com Google
+              <span className="flex flex-row items-center space-x-2">
+                <Icons.GoogleIcon className="w-6 h-6" />
+                <p>Entrar com Google</p>
               </span>
             </Button>
             <Button
-              type="submit"
+              onClick={() => toast.warn('Em desenvolvimento')}
               variant="filled"
               className="w-full bg-primary-400"
             >
-              <span className="flex flex-row items-center">
-                <div className="relative w-6 h-6 mr-2">
-                  <Image
-                    src="/icons/facebook.png"
-                    alt="Google"
-                    fill
-                    sizes="100%"
-                  />
-                </div>
-                Entrar com Facebook
+              <span className="flex flex-row items-center space-x-2">
+                <Icons.FacebookIcon className="w-6 h-6 text-light-gray-100" />
+                <p>Entrar com Facebook</p>
               </span>
             </Button>
           </div>

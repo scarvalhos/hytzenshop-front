@@ -100,6 +100,7 @@ const PaymentCheckoutStepLayout: React.FC<PaymentCheckoutStepLayoutProps> =
                 loading={loading}
                 disabled={!radioValue}
                 className="w-full"
+                rounded
               >
                 Finalizar compra
               </Button>
@@ -115,7 +116,7 @@ const PaymentCheckoutStepLayout: React.FC<PaymentCheckoutStepLayoutProps> =
               ref={ref as any}
               id="form-checkout"
               name="form-checkout"
-              className="flex flex-col sm:flex-row m-8 sm:m-16"
+              className="flex flex-col sm:flex-row my-8 sm:my-16"
             >
               <Content />
             </form>
@@ -125,7 +126,7 @@ const PaymentCheckoutStepLayout: React.FC<PaymentCheckoutStepLayoutProps> =
               id="form-checkout"
               name="form-checkout"
               onSubmit={handleSubmit}
-              className="flex flex-col sm:flex-row m-8 sm:m-16"
+              className="flex flex-col sm:flex-row my-8 sm:my-16"
             >
               <Content />
             </form>

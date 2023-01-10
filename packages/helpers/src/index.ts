@@ -43,15 +43,18 @@ export const date = (
   options?: {
     type?: 'digit' | 'long' | 'long-short'
     withHour?: boolean
+    onlyHour?: boolean
   }
 ) => {
   if (!value || value === '') return '-'
 
   const withHour = (v: string) => {
     return {
-      true: v.concat(` às ${dayjs(value).utcOffset(-3).format('HH:mm')}`),
+      true: options?.onlyHour
+        ? dayjs(value).utcOffset(-3).format('HH:mm')
+        : v.concat(` às ${dayjs(value).utcOffset(-3).format('HH:mm')}`),
       false: v,
-    }[String(options?.withHour || false)]
+    }[String(options?.withHour || options?.onlyHour || false)]
   }
 
   switch (options?.type) {
@@ -211,7 +214,9 @@ export const c = (...arr: (string | undefined | null | false)[]) => {
 
 // px2num
 
-export const px2num = (px: string) => {
+export const px2num = (px: string | number) => {
+  if (typeof px === 'number') return px
+
   return parseFloat(`${px}`.replace('px', ''))
 }
 
@@ -221,6 +226,12 @@ export const FONT_BASE = 16
 
 export const convertPXToREM = (px: string) => {
   return `${px2num(px) / FONT_BASE}rem`
+}
+
+// convertPXToVH
+
+export const convertPXToVH = (px: string | number) => {
+  return `${(px2num(px) * 100) / document.documentElement.clientHeight}vh`
 }
 
 // randonfy

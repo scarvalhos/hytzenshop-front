@@ -1,8 +1,10 @@
+import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { ChatGetAllDto, PaginationParams } from '@hytzenshop/types'
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { useDebounceCallback } from '@react-hook/debounce'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { Pagination } from '@luma/ui'
 import { ChatList } from './ChatList'
+import { socket } from '@services/socket'
 import { api } from '@hytzenshop/services'
 import { c } from '@hytzenshop/helpers'
 
@@ -37,10 +39,12 @@ const RequestsServicesList: React.FC<RequestsServicesListProps> = ({
     order: 'desc',
   })
 
+  const queryClient = useQueryClient()
+
   const { lg } = useBreakpoint()
 
   const messagesQuery = useQuery(
-    ['requests-services', state.page],
+    ['chats', state.page],
     () =>
       getMessages({
         filter: state.filter,
@@ -64,11 +68,24 @@ const RequestsServicesList: React.FC<RequestsServicesListProps> = ({
     [state]
   )
 
+  const onUpdateMessage = useDebounceCallback(() => {
+    queryClient.invalidateQueries(['chats', state.page])
+  })
+
+  React.useEffect(() => {
+    socket.on('update-chat', () => {
+      onUpdateMessage()
+    })
+  }, [onUpdateMessage])
+
   const withMobileValidation = () => {
     if (lg) {
       return (
         <>
-          <ChatList chats={messagesQuery.data?.data.chats} />
+          <ChatList
+            chats={messagesQuery.data?.data.chats}
+            isLoading={messagesQuery.isLoading}
+          />
           {children ? children : <Chat />}
         </>
       )
@@ -87,14 +104,14 @@ const RequestsServicesList: React.FC<RequestsServicesListProps> = ({
         {withMobileValidation()}
       </div>
 
-      {!messagesQuery.isLoading && (
+      {!messagesQuery.isLoading && messagesQuery.data?.data.count ? (
         <Pagination
           currentPage={state.page}
           totalCountOfRegisters={messagesQuery.data?.data.count || 0}
           registersPerPage={state.limit}
           onPageChange={setPage}
         />
-      )}
+      ) : null}
     </main>
   )
 }

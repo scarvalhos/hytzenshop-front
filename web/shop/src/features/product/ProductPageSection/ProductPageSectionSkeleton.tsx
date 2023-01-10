@@ -1,4 +1,3 @@
-import { DivideLine } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 import ProductSectionSkeleton from '../ProductSection/ProductSectionSkeleton'
@@ -6,30 +5,20 @@ import React from 'react'
 
 const ProductPageSectionSkeleton: React.FC = () => {
   return (
-    <>
-      <div
-        className={c(
-          'w-[100%] grid pt-20 space-x-8 grid-cols-1 px-8 md:grid-cols-[30%,1fr] md:px-16'
-        )}
-      >
+    <main className="max-w-screen-2xl mx-auto px-8 sm:px-16 space-y-10">
+      <div className={c('grid space-x-8 grid-cols-1 md:grid-cols-[30%,1fr]')}>
         <div className="w-[100%] h-[400px] bg-dark-gray-400 animate-pulse rounded-md" />
 
         <div className="space-y-4 bg-dark-gray-400 animate-pulse rounded-md" />
       </div>
 
-      <DivideLine dividerClassName="mx-8 md:mx-16" />
-
       <div
         id="description"
-        className={c(
-          'space-y-2 h-[200px] mx-16 px-8 md:px-16 bg-dark-gray-400 animate-pulse rounded-md max-w-full'
-        )}
+        className={c('h-[200px] bg-dark-gray-400 animate-pulse rounded-md')}
       />
 
-      <DivideLine dividerClassName="mx-8 md:mx-16" />
-
       <ProductSectionSkeleton />
-    </>
+    </main>
   )
 }
 
