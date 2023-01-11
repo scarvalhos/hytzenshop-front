@@ -33,7 +33,7 @@ const DashboardPagesLayout: React.FC<DashboardPagesLayoutProps> = ({
   pagination,
   isLoading,
   header,
-  renderList: RenderList,
+  renderList,
   title,
 }) => {
   return (
@@ -48,7 +48,7 @@ const DashboardPagesLayout: React.FC<DashboardPagesLayoutProps> = ({
 
       <div className="mb-20">
         <div className={c(isLoading && 'flex justify-center items-center')}>
-          {isLoading ? <LoadingAnimation size={160} /> : <RenderList />}
+          {isLoading ? <LoadingAnimation size={160} /> : renderList({})}
         </div>
 
         {!isLoading && (

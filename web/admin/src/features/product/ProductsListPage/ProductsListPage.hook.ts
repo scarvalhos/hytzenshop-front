@@ -1,18 +1,26 @@
 import * as React from 'react'
 
+import { PaginationParams, ProductGetAllDto } from '@hytzenshop/types'
+import { getProductList, useProducts } from '@hooks/useProducts'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useDebounceCallback } from '@react-hook/debounce'
-import { PaginationParams } from '@hytzenshop/types'
 import { makePrismaWhere } from '@hytzenshop/helpers'
 import { useConfigTypes } from '@utils/types/config'
 import { useBreakpoint } from '@hytzenshop/hooks'
-import { useProducts } from '@hooks/useProducts'
 import { useForm } from 'react-hook-form'
 
 export const useProductsListPage = () => {
+  const [category, setCategory] = React.useState('')
+  const [search, setSearch] = React.useState('')
+
   const [state, dispatch] = React.useState<PaginationParams>({
     page: 1,
     limit: 10,
-    filter: '',
+    filter: JSON.stringify({
+      ...makePrismaWhere('', {
+        OR: ['title'],
+      }),
+    }),
     sort: 'createdAt',
     order: 'desc',
   })
@@ -21,9 +29,6 @@ export const useProductsListPage = () => {
     category: false,
     search: false,
   })
-
-  const [category, setCategory] = React.useState('')
-  const [search, setSearch] = React.useState('')
 
   const { categoriesOptions } = useConfigTypes()
   const { control, register } = useForm()
@@ -34,14 +39,22 @@ export const useProductsListPage = () => {
     [categoriesOptions]
   )
 
-  const {
-    getProducts: { data, isLoading },
-    deleteProduct,
-  } = useProducts({
-    page: state.page,
-    limit: state.limit,
-    filter: state.filter,
-  })
+  const { data, isLoading } = useQuery(
+    ['products', state.page, state.filter],
+    () =>
+      getProductList({
+        page: state.page,
+        limit: state.limit,
+        filter: state.filter,
+        sort: state.sort,
+        order: state.order,
+      }),
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+    }
+  ) as UseQueryResult<ProductGetAllDto, unknown>
+
+  const { deleteProduct } = useProducts(['products', state.page, state.filter])
 
   const setPage = React.useCallback(
     (page: number) => {

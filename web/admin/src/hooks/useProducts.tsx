@@ -1,22 +1,22 @@
 import {
-  useQueryClient,
-  useMutation,
-  useQuery,
-  UseQueryResult,
-} from '@tanstack/react-query'
+  PaginationParams,
+  ProductGetAllDto,
+  ProductGetDto,
+  Product,
+} from '@hytzenshop/types'
 
-import { ProductGetAllDto, ProductGetDto, Product } from '@hytzenshop/types'
+import { useQueryClient, useMutation } from '@tanstack/react-query'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
-const getProductList = async (
-  page: number,
-  limit: number,
-  filter?: string,
-  sort?: string,
-  order?: string
-): Promise<ProductGetAllDto> => {
+export const getProductList = async ({
+  filter,
+  limit,
+  order,
+  page,
+  sort,
+}: PaginationParams): Promise<ProductGetAllDto> => {
   const { data } = await api.get<ProductGetAllDto>('/products', {
     params: {
       page,
@@ -42,42 +42,52 @@ const updateProduct = async (product: Partial<Product>) => {
   return api.put<ProductGetDto>(`/products/${product.id}`, product)
 }
 
-export function useProducts({
-  page,
-  limit,
-  filter,
-  sort,
-  order,
-}: {
-  page?: number
-  limit?: number
-  filter?: string
-  sort?: string
-  order?: string
-}) {
+export function useProducts(queryKey: unknown[]) {
   const queryClient = useQueryClient()
 
-  const getProducts = useQuery(
-    ['products', page, filter],
-    () => getProductList(page || 1, limit || 10, filter, sort, order),
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    }
-  ) as UseQueryResult<ProductGetAllDto, unknown>
-
   const deleteProductMutation = useMutation(deleteProduct, {
-    onSuccess: ({ data }) => {
-      queryClient.invalidateQueries(['products', page])
-      toast.success(data.message)
+    onMutate: async (productId) => {
+      await queryClient.cancelQueries({ queryKey })
+
+      const previousProducts =
+        queryClient.getQueryData<ProductGetAllDto>(queryKey)
+
+      queryClient.setQueryData(queryKey, {
+        ...previousProducts,
+        data: {
+          ...previousProducts?.data,
+          products: previousProducts?.data.products.filter(
+            (p) => p.id !== productId
+          ),
+        },
+      })
+
+      return {
+        previousProducts,
+        products: {
+          ...previousProducts,
+          data: {
+            ...previousProducts?.data,
+            products: previousProducts?.data.products.filter(
+              (p) => p.id !== productId
+            ),
+          },
+        },
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey })
     },
 
-    onError: defaultToastError,
+    onError: (_err, _newProducts, context) => {
+      queryClient.setQueryData(queryKey, context?.previousProducts)
+    },
   })
 
   const createProductMutation = useMutation(createProduct, {
     onSuccess: ({ data }) => {
+      queryClient.invalidateQueries({ queryKey })
       toast.success(data.message)
-      queryClient.invalidateQueries(['products', page])
     },
 
     onError: defaultToastError,
@@ -86,7 +96,7 @@ export function useProducts({
   const updateProductMutation = useMutation(updateProduct, {
     onSuccess: ({ data }) => {
       toast.success(data.message)
-      queryClient.invalidateQueries(['products', page])
+      queryClient.invalidateQueries({ queryKey })
       queryClient.invalidateQueries(['product', data.product.id])
     },
 
@@ -94,7 +104,6 @@ export function useProducts({
   })
 
   return {
-    getProducts,
     deleteProduct: deleteProductMutation.mutate,
     createProduct: createProductMutation.mutate,
     updateProduct: updateProductMutation.mutate,

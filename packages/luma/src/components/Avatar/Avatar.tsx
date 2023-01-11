@@ -34,7 +34,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       {name ? (
         <RadixAvatar.AvatarFallback
           className={c(
-            'text-light-gray-100 border border-success-300 rounded-full text-xs p-1',
+            'text-light-gray-100 border border-success-300 rounded-full text-xs',
             fallbackClassName
           )}
         >

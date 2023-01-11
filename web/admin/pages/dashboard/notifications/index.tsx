@@ -1,11 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { TbEye, TbTrash } from 'react-icons/tb'
-import { Button, toast } from '@luma/ui'
 import { withSSRAuth } from '@hocs/withSSRAuth'
+import { UserGetDto } from '@hytzenshop/types'
 import { NextPage } from 'next'
 import { useAuth } from '@contexts/AuthContext'
 import { NextSeo } from 'next-seo'
 import { c, date } from '@hytzenshop/helpers'
+import { Button } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 import SiderbarLayout from '@layouts/SiderbarLayout'
@@ -31,7 +32,7 @@ const DashboardNotifications: NextPage = () => {
     order: '/dashboard/orders',
     payment: '/dashboard/products',
     product: '/dashboard/products',
-    chat: '/dashboard',
+    chat: '/dashboard/customer-service/chat',
   }
 
   const onVisualizeNotificationMutation = useMutation(onVisualizeNotification, {
@@ -39,9 +40,37 @@ const DashboardNotifications: NextPage = () => {
   }).mutateAsync
 
   const onDeleteNotificationMutation = useMutation(onDeleteNotification, {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries(['me'])
-      toast.success(data.message)
+    onMutate: async (notificationViewId) => {
+      await queryClient.cancelQueries({ queryKey: ['me'] })
+
+      const previousMe = queryClient.getQueryData<UserGetDto>(['me'])
+
+      queryClient.setQueryData(['me'], {
+        ...previousMe,
+        user: {
+          ...previousMe?.user,
+          notificationsViews: previousMe?.user.notificationsViews.filter(
+            (n) => n.id !== notificationViewId
+          ),
+        },
+      })
+
+      return {
+        previousMe,
+        user: {
+          ...previousMe?.user,
+          notificationsViews: previousMe?.user.notificationsViews.filter(
+            (n) => n.id !== notificationViewId
+          ),
+        },
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['me'] })
+    },
+
+    onError: (_err, _newMe, context) => {
+      queryClient.setQueryData(['me'], context?.previousMe)
     },
   }).mutateAsync
 

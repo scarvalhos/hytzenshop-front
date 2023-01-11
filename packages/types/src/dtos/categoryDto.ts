@@ -13,4 +13,9 @@ type CategoryGetAllDto = {
   }
 }
 
-export type { CategoryGetDto, CategoryGetAllDto }
+type CategoriesDto = {
+  count: number
+  categories: Category[]
+}
+
+export type { CategoryGetDto, CategoryGetAllDto, CategoriesDto }

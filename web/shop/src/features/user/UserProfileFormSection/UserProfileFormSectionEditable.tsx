@@ -54,7 +54,7 @@ const UserProfileFormSectionEditable: React.FC<
       cep: user?.profile?.address?.cep,
       street: user?.profile?.address?.street,
       number: user?.profile?.address?.number,
-      complement: user?.profile?.address?.complement,
+      complement: user?.profile?.address?.complement || '',
       district: user?.profile?.address?.district,
       city: user?.profile?.address?.city,
       uf: user?.profile?.address?.uf,

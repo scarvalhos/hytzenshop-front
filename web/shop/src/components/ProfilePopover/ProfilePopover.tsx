@@ -1,8 +1,6 @@
 import * as Popover from '@radix-ui/react-popover'
-import * as Avatar from '@radix-ui/react-avatar'
 
-import { Can, DivideLine, withGlassEffect, Link } from '@luma/ui'
-import { getFirstLetters } from '@hytzenshop/helpers'
+import { Can, DivideLine, withGlassEffect, Link, Avatar } from '@luma/ui'
 import { parseCookies } from 'nookies'
 import { useAuth } from '@contexts/AuthContext'
 
@@ -22,17 +20,12 @@ const ProfilePopover = () => {
   return (
     <Popover.Root>
       <Popover.Trigger>
-        <Avatar.Root>
-          <Avatar.Image
-            src={user?.profile?.avatar}
-            alt={user?.profile?.completeName}
-            className="w-8 h-8 rounded-full border-[1.5px] border-success-300 bg-dark-gray-400"
-          />
-
-          <Avatar.AvatarFallback className="text-light-gray-100 border border-success-300 rounded-full text-xs p-1">
-            {getFirstLetters(user?.username || '')}
-          </Avatar.AvatarFallback>
-        </Avatar.Root>
+        <Avatar
+          src={user?.profile?.avatar}
+          name={user?.profile?.completeName || user?.username}
+          imageClassName="w-8 h-8"
+          fallbackClassName="p-2"
+        />
       </Popover.Trigger>
 
       <Popover.Anchor />

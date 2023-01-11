@@ -27,6 +27,8 @@ export const SocketProvider = ({ children }: SocketProviderProps) => {
       newsletter: ['newsletter'],
       order: ['orders'],
       payment: ['orders'],
+      product: ['products'],
+      chat: ['chats'],
     }[String(arg.reference)]
 
     queryClient.invalidateQueries(queryKey)

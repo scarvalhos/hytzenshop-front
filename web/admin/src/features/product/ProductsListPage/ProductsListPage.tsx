@@ -11,19 +11,19 @@ import exportFromJSON from 'export-from-json'
 
 const ProductsListPage: React.FC = () => {
   const {
-    control,
-    data,
-    deleteProduct,
-    isLoading,
-    mobileInputs,
-    options,
-    register,
-    setCategory,
     setMobileInputs,
-    setPage,
+    deleteProduct,
+    mobileInputs,
+    setCategory,
     setSearch,
-    sm,
+    isLoading,
+    register,
+    setPage,
+    options,
+    control,
     state,
+    data,
+    sm,
   } = useProductsListPage()
 
   return (
@@ -94,9 +94,11 @@ const ProductsListPage: React.FC = () => {
                 />
 
                 <Input.Field
+                  type="text"
                   placeholder="Pesquisar"
                   variant="filled"
                   control={control}
+                  isFullWidth
                   {...register('search', {
                     onChange: (e) => setSearch(e.target.value),
                   })}
@@ -165,6 +167,7 @@ const ProductsListPage: React.FC = () => {
 
                     {mobileInputs.search && (
                       <Input.Field
+                        type="text"
                         placeholder="Pesquisar"
                         variant="filled"
                         control={control}

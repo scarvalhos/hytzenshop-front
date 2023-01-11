@@ -31,8 +31,8 @@ const ProfilePopover = () => {
         <Popover.Trigger>
           <Avatar
             src={user?.profile?.avatar}
-            name={user?.profile?.completeName}
-            imageClassName="w-12 h-12"
+            name={user?.profile?.completeName || user?.username}
+            imageClassName="w-10 h-10"
             fallbackClassName="p-4"
           />
         </Popover.Trigger>

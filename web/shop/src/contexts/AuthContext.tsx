@@ -10,7 +10,6 @@ import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { socket } from '@services/socket'
-import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 import Router, { useRouter } from 'next/router'
@@ -188,11 +187,37 @@ export function AuthProvider({ children }: AuthProviderProps) {
   // UpdateUser
 
   const updateUserMutation = useMutation(updateUser, {
-    onSuccess: async (data) => {
-      queryClient.invalidateQueries(queryKey)
-      return toast.success(data.message)
+    onMutate: async (user) => {
+      await queryClient.cancelQueries({ queryKey })
+
+      const previousMe = queryClient.getQueryData<UserGetDto>(['me'])
+
+      queryClient.setQueryData(queryKey, {
+        ...previousMe,
+        user: {
+          ...previousMe?.user,
+          profile: user.profile,
+        },
+      })
+
+      return {
+        previousMe,
+        data: {
+          ...previousMe,
+          user: {
+            ...previousMe?.user,
+            profile: user.profile,
+          },
+        },
+      }
     },
-    onError: defaultToastError,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey })
+    },
+
+    onError: (_err, _newChat, context) => {
+      queryClient.setQueryData(queryKey, context?.previousMe)
+    },
   })
 
   // Effects

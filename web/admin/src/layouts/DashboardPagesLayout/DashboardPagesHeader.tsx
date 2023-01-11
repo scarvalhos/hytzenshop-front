@@ -21,8 +21,8 @@ interface DashboardPagesHeaderProps {
 export const DashboardPagesHeader: React.FC<DashboardPagesHeaderProps> = ({
   inputsMobile,
   loading,
-  buttons: Buttons,
-  inputs: Inputs,
+  buttons,
+  inputs,
   title,
 }) => {
   return (
@@ -34,13 +34,13 @@ export const DashboardPagesHeader: React.FC<DashboardPagesHeaderProps> = ({
       <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md relative shadow-md shadow-black">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-row items-center space-x-2">
-            {Buttons && <Buttons />}
+            {buttons && buttons({})}
 
             {loading && <Loader className="text-success-300" />}
           </div>
 
           <div className="flex flex-row justify-end space-x-2 lg:w-[50%]">
-            {Inputs && <Inputs />}
+            {inputs && inputs({})}
           </div>
         </div>
       </div>

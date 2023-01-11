@@ -1,12 +1,12 @@
 import * as React from 'react'
 
 import { validateCreateProductSchema } from '@utils/validators'
+import { makePrismaWhere, strtonum } from '@hytzenshop/helpers'
 import { FieldValues, useForm } from 'react-hook-form'
 import { FileRecord, Product } from '@hytzenshop/types'
 import { useProducts } from '@hooks/useProducts'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useRouter } from 'next/router'
-import { strtonum } from '@hytzenshop/helpers'
 import { Input } from '@luma/ui'
 
 export interface DefaultValuesProps {
@@ -35,7 +35,16 @@ export const useNewProductForm = ({
 }: UseNewProductFormProps) => {
   const [openSuccessModal, setOpenSuccessModal] = React.useState(false)
 
-  const { createProduct, updateProduct } = useProducts({})
+  const { createProduct, updateProduct } = useProducts([
+    'products',
+    1,
+    JSON.stringify({
+      ...makePrismaWhere('', {
+        OR: ['title'],
+      }),
+    }),
+  ])
+
   const { uploadedFiles, deleteFile } = Input.useFileInput({})
   const { reset } = useForm()
   const { push } = useRouter()

@@ -45,20 +45,23 @@ const ProductSection: React.FC<ProductSectionProps> = ({
         )}
       </div>
 
-      <div className="overflow-x-hidden">
-        <div>
-          {!isLoading && products?.length === 0 && (
-            <div className="overflow-x-hidden flex items-center justify-center mt-4">
-              Nenhum produto encontrado.
-            </div>
-          )}
-
-          {isLoading && <ProductSectionSkeleton />}
-
-          <div className="grid max-[478px]:grid-cols-1 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 mx-8 sm:mx-16">
-            {products.length !== 0 && <ProductList products={products} />}
-          </div>
+      {!isLoading && products?.length === 0 && (
+        <div className="overflow-x-hidden flex items-center justify-center mt-4">
+          Nenhum produto encontrado.
         </div>
+      )}
+
+      <div className={c('mx-8 sm:mx-16 my-4')}>
+        {isLoading && (
+          <>
+            <ProductSectionSkeleton />
+            <ProductSectionSkeleton />
+          </>
+        )}
+      </div>
+
+      <div className="grid max-[478px]:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 mx-8 sm:mx-16">
+        {products.length !== 0 && <ProductList products={products} />}
       </div>
     </>
   )

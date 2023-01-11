@@ -2,9 +2,8 @@ import * as React from 'react'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { CategoryGetDto, Category } from '@hytzenshop/types'
-import { defaultToastError } from '@hytzenshop/helpers'
+import { CategoriesDto } from '@hytzenshop/types/src/dtos/categoryDto'
 import { useForm } from 'react-hook-form'
-import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 const onAdd = async (v: string) => {
@@ -25,12 +24,39 @@ export const useCategoriesSection = ({
   const queryClient = useQueryClient()
 
   const onAddMutation = useMutation(onAdd, {
-    onSuccess: ({ message }) => {
+    onMutate: async (category) => {
+      await queryClient.cancelQueries({ queryKey: ['categories'] })
+
+      const previousCategories = queryClient.getQueryData<CategoriesDto>([
+        'categories',
+      ])
+
+      queryClient.setQueryData(['categories'], {
+        ...previousCategories,
+        categories: previousCategories?.categories.concat({
+          id: '',
+          name: category.replaceAll(' ', '-').toLocaleLowerCase(),
+        }),
+      })
+
+      return {
+        previousCategories,
+        data: {
+          ...previousCategories,
+          categories: previousCategories?.categories.concat({
+            id: '',
+            name: category.replaceAll(' ', '-').toLocaleLowerCase(),
+          }),
+        },
+      }
+    },
+    onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] })
-      toast.success(message)
     },
 
-    onError: defaultToastError,
+    onError: (_err, _newCategories, context) => {
+      queryClient.setQueryData(['categories'], context?.previousCategories)
+    },
   })
 
   const onDelete = React.useCallback(
@@ -45,12 +71,37 @@ export const useCategoriesSection = ({
   )
 
   const onDeleteMutation = useMutation(onDelete, {
-    onSuccess: ({ message }) => {
-      queryClient.invalidateQueries(['categories'])
-      toast.success(message)
+    onMutate: async (category) => {
+      await queryClient.cancelQueries({ queryKey: ['categories'] })
+
+      const previousCategories = queryClient.getQueryData<CategoriesDto>([
+        'categories',
+      ])
+
+      queryClient.setQueryData(['categories'], {
+        ...previousCategories,
+        categories: previousCategories?.categories.filter(
+          (c) => c.name !== category.replaceAll(' ', '-').toLocaleLowerCase()
+        ),
+      })
+
+      return {
+        previousCategories,
+        data: {
+          ...previousCategories,
+          categories: previousCategories?.categories.filter(
+            (c) => c.name !== category.replaceAll(' ', '-').toLocaleLowerCase()
+          ),
+        },
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] })
     },
 
-    onError: defaultToastError,
+    onError: (_err, _newCategories, context) => {
+      queryClient.setQueryData(['categories'], context?.previousCategories)
+    },
   })
   return {
     register,

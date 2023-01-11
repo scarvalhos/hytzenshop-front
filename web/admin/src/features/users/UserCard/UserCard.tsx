@@ -35,14 +35,14 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
       <div className="flex flex-row items-center space-x-2">
         <Avatar
           src={user?.profile?.avatar || ''}
-          name={user?.profile?.completeName || ''}
+          name={user?.profile?.completeName || user?.username || ''}
           imageClassName="w-[42px] h-[42px]"
           fallbackClassName="p-4"
         />
 
         <div>
           <p className="text-light-gray-100 font-medium">
-            {user?.profile?.completeName}
+            {user?.profile?.completeName || user?.username}
           </p>
           <p className="text-sm">{user?.email}</p>
         </div>

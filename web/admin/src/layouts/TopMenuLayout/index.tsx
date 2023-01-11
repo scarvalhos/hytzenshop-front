@@ -33,7 +33,7 @@ const TopMenuLayout: React.FC<TopMenuLayout> = ({ children }) => {
             </div>
           </Link>
 
-          <div className="flex items-center justify-center space-x-4">
+          <div className="flex items-center justify-center sm:space-x-4">
             <Button
               href="/dashboard/notifications"
               variant="filled"
@@ -50,7 +50,7 @@ const TopMenuLayout: React.FC<TopMenuLayout> = ({ children }) => {
               </Badge>
             </Button>
 
-            <div className="w-0.5 h-10 rounded-full bg-dark-gray-200" />
+            <div className="w-0.5 h-10 rounded-full bg-dark-gray-200 max-sm:hidden" />
 
             <ProfilePopover />
           </div>

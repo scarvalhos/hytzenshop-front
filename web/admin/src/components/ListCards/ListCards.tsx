@@ -63,7 +63,7 @@ const ListCards: React.FC<TableProps> = ({
                 ({
                   accessor,
                   type,
-                  fileClassName = 'relative w-8 lg:w-[40px] h-8 lg:h-[40px] rounded-md',
+                  fileClassName = 'w-8 lg:w-[40px] h-8 lg:h-[40px] rounded-md',
                 }) => {
                   const text =
                     typeof accessor === 'function'
@@ -78,7 +78,7 @@ const ListCards: React.FC<TableProps> = ({
                           alt={text}
                           className="object-cover object-center rounded-md"
                           sizes="100%"
-                          loading="lazy"
+                          priority
                           fill
                         />
                       </div>
