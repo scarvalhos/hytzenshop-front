@@ -18,7 +18,9 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
 
   const { sliderImages } = useConfig()
 
-  const images = sliderImages?.map((i) => i?.url) || []
+  const images = sliderImages?.map((i) => i?.url) || [
+    '/slider/dc-comics-02.jpg',
+  ]
 
   React.useEffect(() => {
     if (images.length > 1) {
@@ -62,7 +64,7 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
   })
 
   return (
-    <div className={c('w-full relative', short ? 'h-[50vh]' : 'h-[75vh]')}>
+    <div className={c('w-full relative', short ? 'h-[35vh]' : 'h-[60vh]')}>
       <div className="w-full h-full flex">
         <Slide>
           <div
@@ -73,12 +75,9 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
             }}
           >
             {!short && (
-              <>
-                <h1 className="text-center max-w-[620px] text-white text-[2rem] font-bold">
-                  As camisetas do seu personagem favorito você encontra aqui.
-                </h1>
-                <p className="text-white">Toda a loja com até 50% OFF</p>
-              </>
+              <h1 className="text-center max-w-[620px] text-white text-4xl font-bold">
+                As camisetas do seu personagem favorito você encontra aqui.
+              </h1>
             )}
           </div>
         </Slide>

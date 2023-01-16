@@ -5,17 +5,18 @@ import {
   UseQueryResult,
 } from '@tanstack/react-query'
 
-import { OrderGetAllDto, OrderGetDto, PaymentStatus } from '@hytzenshop/types'
+import {
+  OrderGetAllDto,
+  OrderGetDto,
+  PaginationParams,
+  PaymentStatus,
+} from '@hytzenshop/types'
+
 import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
-interface OrdersListParams {
-  page?: number
-  limit?: number
-  filter?: string
-  sort?: string
-  order?: string
+interface OrdersListParams extends PaginationParams {
   userId?: string
 }
 

@@ -12,7 +12,6 @@ import UsersList from '@features/users/UsersList'
 const UsersListPage: React.FC = () => {
   const {
     setMobileSearch,
-    mobileSearch,
     setSearch,
     isLoading,
     register,
@@ -86,10 +85,10 @@ const UsersListPage: React.FC = () => {
                 variant="filled"
                 className={c(
                   'sm:relative sm:pl-10 max-sm:p-2.5',
-                  mobileSearch ? 'bg-success-400' : 'bg-dark-gray-500'
+                  state.mobileSearch ? 'bg-success-400' : 'bg-dark-gray-500'
                 )}
                 rounded
-                onClick={() => setMobileSearch(!mobileSearch)}
+                onClick={() => setMobileSearch(!state.mobileSearch)}
               >
                 <TbSearch className="sm:absolute sm:left-4" />
               </Button>
@@ -97,7 +96,7 @@ const UsersListPage: React.FC = () => {
           </>
         ),
         inputsMobile: ({ wrapper }) =>
-          !sm && mobileSearch
+          !sm && state.mobileSearch
             ? wrapper({
                 children: (
                   <Input.Field

@@ -86,13 +86,13 @@ const OrdersListPage: React.FC = () => {
                   variant="filled"
                   className={c(
                     'sm:relative sm:pl-10 max-sm:p-2.5',
-                    mobileInputs.status ? 'bg-success-400' : 'bg-dark-gray-500'
+                    mobileInputs?.status ? 'bg-success-400' : 'bg-dark-gray-500'
                   )}
                   rounded
                   onClick={() =>
                     setMobileInputs({
                       search: false,
-                      status: !mobileInputs.status,
+                      status: !mobileInputs?.status,
                     })
                   }
                 >
@@ -103,12 +103,12 @@ const OrdersListPage: React.FC = () => {
                   variant="filled"
                   className={c(
                     'sm:relative sm:pl-10 max-sm:p-2.5',
-                    mobileInputs.search ? 'bg-success-400' : 'bg-dark-gray-500'
+                    mobileInputs?.search ? 'bg-success-400' : 'bg-dark-gray-500'
                   )}
                   rounded
                   onClick={() =>
                     setMobileInputs({
-                      search: !mobileInputs.search,
+                      search: !mobileInputs?.search,
                       status: false,
                     })
                   }
@@ -120,7 +120,7 @@ const OrdersListPage: React.FC = () => {
           </>
         ),
         inputsMobile: ({ wrapper }) =>
-          !sm && (mobileInputs.status || mobileInputs.search)
+          !sm && (mobileInputs?.status || mobileInputs?.search)
             ? wrapper({
                 children: (
                   <>

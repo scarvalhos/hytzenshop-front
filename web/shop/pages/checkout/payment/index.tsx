@@ -9,7 +9,7 @@ const Payment: NextPage = () => {
     <HeaderFooterLayout>
       <NextSeo title="Finalize sua compra" />
 
-      <main className="max-w-screen-2xl mx-auto my-20">
+      <main className="max-w-screen-2xl mx-auto px-8 sm:px-16 my-20">
         <CheckoutStepper />
       </main>
     </HeaderFooterLayout>

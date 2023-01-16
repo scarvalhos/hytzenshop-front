@@ -1,7 +1,6 @@
 import * as React from 'react'
 
 import { SocketProvider } from '@contexts/SocketContext'
-import { ConfigProvider } from '@contexts/ConfigContext'
 import { AuthProvider } from '@contexts/AuthContext'
 
 type DefaultProviderProps = {
@@ -11,9 +10,7 @@ type DefaultProviderProps = {
 function DefaultProvider({ children }: DefaultProviderProps) {
   return (
     <AuthProvider>
-      <SocketProvider>
-        <ConfigProvider>{children}</ConfigProvider>
-      </SocketProvider>
+      <SocketProvider>{children}</SocketProvider>
     </AuthProvider>
   )
 }

@@ -49,7 +49,7 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
 
         <div className="flex flex-row justify-between">
           <p>Total:</p>
-          <p>{money((shipping?.vlrFrete || 0) + totalAmount)}</p>
+          <p>{money((shipping?.vlrFrete || 0) + (totalAmount || 0))}</p>
         </div>
 
         {render ? (

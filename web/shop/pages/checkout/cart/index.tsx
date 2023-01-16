@@ -3,7 +3,6 @@ import { DivideLine, Icons, Button } from '@luma/ui'
 import { withAuthValidate } from '@hocs/withAuthValidate'
 import { useConfig } from '@contexts/ConfigContext'
 import { CartList } from '@features/cart/CartList'
-import { randonfy } from '@hytzenshop/helpers'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { useAuth } from '@contexts/AuthContext'
@@ -23,11 +22,15 @@ const CartPage: NextPage = () => {
   return (
     <HeaderFooterLayout>
       <NextSeo
-        title={cart.products?.length > 0 ? 'Meu carrinho' : 'Carrinho vazio'}
+        title={
+          cart?.products && cart?.products.length > 0
+            ? 'Meu carrinho'
+            : 'Carrinho vazio'
+        }
       />
 
-      <main className="max-w-screen-2xl mx-auto my-20">
-        {cart.products?.length > 0 ? (
+      <main className="max-w-screen-2xl mx-auto px-8 sm:px-16 my-24">
+        {cart?.products && cart.products.length > 0 ? (
           <CartList />
         ) : (
           <div className="flex flex-col items-center justify-center h-[50vh] mx-6">
@@ -64,14 +67,11 @@ const CartPage: NextPage = () => {
           </div>
         )}
 
-        <DivideLine dividerClassName="mx-8 sm:mx-16 my-16" />
+        <DivideLine dividerClassName="my-16" />
 
         <ProductSection
           title="Você Também Pode Gostar"
-          products={randonfy(productsSugestions?.data.products || []).slice(
-            0,
-            5
-          )}
+          products={productsSugestions}
         />
       </main>
     </HeaderFooterLayout>

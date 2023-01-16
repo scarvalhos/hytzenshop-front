@@ -1,15 +1,10 @@
 import * as React from 'react'
 
-import { c, defaultToastError, numonly } from '@hytzenshop/helpers'
-import { toast, Button, Input, Link } from '@luma/ui'
-import { validateNewsletterSchema } from '@utils/validators'
-import { FieldValues, useForm } from 'react-hook-form'
 import { useBreakpoint } from '@hytzenshop/hooks'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { api } from '@hytzenshop/services'
+import { c, numonly } from '@hytzenshop/helpers'
+import { Link } from '@luma/ui'
 
 import {
-  TbArrowRight,
   TbArrowUp,
   TbBrandInstagram,
   TbBrandWhatsapp,
@@ -18,31 +13,11 @@ import {
 } from 'react-icons/tb'
 
 const Footer: React.FC = () => {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm({
-    resolver: yupResolver(validateNewsletterSchema),
-  })
-
   const [scroll, setScroll] = React.useState({
     position: 0,
   })
 
   const { sm } = useBreakpoint()
-
-  async function handleOnSubmit(values: FieldValues) {
-    return api
-      .post('/newsletter', {
-        email: values.newsletter,
-      })
-      .then(({ data }) => toast.success(data.message))
-      .catch((e) => defaultToastError(e))
-      .finally(() => reset({ newsletter: '' }, {}))
-  }
 
   const handleScroll = React.useCallback(() => {
     const scrollTopPosition = document.documentElement.scrollTop
@@ -65,236 +40,199 @@ const Footer: React.FC = () => {
   }, [handleScroll])
 
   return (
-    <div
+    <footer
       className={c(
-        'gap-8 flex px-8 sm:px-16 py-10 mt-10 border-t border-light-gray-400 border-opacity-20 bg-dark-gray-500 bg-opacity-30',
-        sm ? 'flex-row' : 'flex-col'
+        'border-t border-light-gray-400 border-opacity-10 bg-dark-gray-500 bg-opacity-30'
       )}
     >
       <div
         className={c(
-          'flex flex-col items-start justify space-y-4',
-          !sm ? 'w-[100%]' : 'w-[20%]'
+          'max-w-screen-2xl mx-auto gap-8 flex px-8 sm:px-16 py-10',
+          sm ? 'flex-row' : 'flex-col'
         )}
       >
-        <Link href="/" passHref>
-          <div className="flex flex-row">
-            <p className="text-light-gray-100 text-lg">
-              <strong className="text-success-300 text-lg font-bold">
-                Hytzen
-              </strong>
-              Shop
-            </p>
-          </div>
-          <p className="text-light-gray-400 text-sm">
-            © Todos os direitos reservados
-          </p>
-        </Link>
-
-        <div className="flex flex-col">
-          <p className="text-light-gray-500 text-sm">CNPJ:</p>
-          <p className="text-light-gray-300 text-sm">19.966.672/0001-84</p>
-        </div>
-
-        <div className="flex flex-col">
-          <p className="text-light-gray-500 text-sm">Endereço:</p>
-          <p className="text-light-gray-300 text-sm">
-            Av. Coronel Mateus Cunha, 513. <br /> Sernamby - São Mateus/ER.
-            <br />
-            29930-510.
-          </p>
-        </div>
-      </div>
-
-      <div
-        className={c(
-          'flex items-start justify-start',
-          !sm ? 'flex-col w-[100%] gap-4' : 'flex-row [50%] gap-12'
-        )}
-      >
-        <div className="flex flex-col space-y-4">
-          <p className="text-light-gray-100 text-md font-semibold">
-            Informações
-          </p>
-
-          <div className="flex flex-col space-y-2">
-            <Link
-              href="/infos/privacy-policy"
-              className="text-light-gray-500 text-sm"
-            >
-              Política de privacidade
-            </Link>
-            <Link
-              href="/infos/refund-policy"
-              className="text-light-gray-500 text-sm"
-            >
-              Política de reembolso
-            </Link>
-            <Link
-              href="/infos/terms-conditions"
-              className="text-light-gray-500 text-sm"
-            >
-              Termos e condições
-            </Link>
-          </div>
-
-          <p className="text-light-gray-100 text-md font-semibold">
-            Atendimento ao cliente
-          </p>
-          <div className="flex flex-col space-y-2">
-            <Link
-              href="/customer-service?subject=devolution"
-              className="text-light-gray-500 text-sm"
-            >
-              Devolução
-            </Link>
-            <Link
-              href="/customer-service"
-              className="text-light-gray-500 text-sm"
-            >
-              Contate-nos
-            </Link>
-            <Link
-              href="/customer-service?subject=feedback"
-              className="text-light-gray-500 text-sm"
-            >
-              Feedback
-            </Link>
-          </div>
-        </div>
-
-        <div className="flex flex-col space-y-2">
-          <p className="text-light-gray-100 text-md font-semibold">
-            Encontre-nos
-          </p>
-
-          <div className="flex flex-col space-y-2 items-start justify-start">
-            <div className="flex flex-row space-y-2 items-center justify-center">
-              <Link
-                href="https://www.instagram.com/hytzenshop/"
-                className="flex flex-row items-center justify-center space-x-2"
-              >
-                <span className="bg-dark-gray-400 p-2 rounded-full">
-                  <TbBrandInstagram className="text-success-300" />
-                </span>
-
-                <p className="text-light-gray-500 text-sm">@hytzenshop</p>
-              </Link>
-            </div>
-
-            <div className="flex flex-row space-y-2 items-center justify-center">
-              <Link
-                href="https://api.whatsapp.com/send?phone=64986847824"
-                className="flex flex-row items-center justify-center space-x-2"
-              >
-                <span className="bg-dark-gray-400 p-2 rounded-full">
-                  <TbBrandWhatsapp className="text-success-300" />
-                </span>
-
-                <p className="text-light-gray-500 text-sm">(64) 98684-7824</p>
-              </Link>
-            </div>
-
-            <div className="flex flex-row space-y-2 items-center justify-center">
-              <Link
-                href="https://api.whatsapp.com/send?phone=64986847824"
-                className="flex flex-row items-center justify-center space-x-2"
-              >
-                <span className="bg-dark-gray-400 p-2 rounded-full">
-                  <TbPhone className="text-success-300" />
-                </span>
-
-                <p className="text-light-gray-500 text-sm">(64) 2689-9079</p>
-              </Link>
-            </div>
-
-            <div className="flex flex-row space-y-2 items-center justify-center">
-              <Link
-                href="mailto:contato@hytzen.com"
-                className="flex flex-row items-center justify-center space-x-2"
-                target="_blank"
-              >
-                <span className="bg-dark-gray-400 p-2 rounded-full">
-                  <TbMail className="text-success-300" />
-                </span>
-
-                <p className="text-light-gray-500 text-sm">
-                  contato@hytzen.com
-                </p>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <form
-        onSubmit={handleSubmit(handleOnSubmit)}
-        className="max-w-sm max-sm:pb-10"
-      >
-        <div className="flex flex-col items-start gap-4">
-          <div className="flex flex-col space-y-2">
-            <p className="text-light-gray-100 text-lg font-bold">
-              Receba Novidades
-            </p>
-            <p className="text-light-gray-500 text-sm">
-              Inscreva-se abaixo em nossa newsletter e receba novidades
-              exclusivas em seu email:
-            </p>
-          </div>
-
-          <Input.Field
-            type="email"
-            control={control}
-            error={errors.newsletter?.message?.toString()}
-            isFullWidth={Boolean(!sm)}
-            {...(sm && {
-              renderAfter: (
-                <Button
-                  type="submit"
-                  variant="filled"
-                  className="p-3"
-                  rounded={false}
-                >
-                  <TbArrowRight />
-                </Button>
-              ),
-            })}
-            {...register('newsletter')}
-          />
-          {!sm && (
-            <Button
-              type="submit"
-              variant="filled"
-              className="p-3 w-full"
-              rounded={false}
-            >
-              Inscrever
-            </Button>
+        <div
+          className={c(
+            'flex flex-col items-start justify space-y-4',
+            !sm ? 'w-[100%]' : 'w-[20%]'
           )}
-        </div>
-      </form>
-
-      {scroll.position >= 500 && (
-        <button
-          className="bg-dark-gray-400 fixed bottom-8 right-[4.5rem] sm:right-[6.5rem] p-2 rounded-md z-[9999999] transition-all"
-          onClick={() => {
-            document.documentElement.scrollTop = 0
-          }}
         >
-          <TbArrowUp />
-        </button>
-      )}
+          <Link href="/" passHref>
+            <div className="flex flex-row">
+              <p className="text-light-gray-100 text-2xl">
+                <strong className="text-success-300 text-2xl font-bold">
+                  Hytzen
+                </strong>
+                Shop
+              </p>
+            </div>
+            <p className="text-light-gray-400 text-base">
+              © Todos os direitos reservados
+            </p>
+          </Link>
 
-      <Link
-        href={link}
-        target="_blank"
-        className={c(
-          'fixed bottom-8 right-8 sm:right-16 bg-success-300 p-2 rounded-md'
+          <div className="flex flex-col">
+            <p className="text-light-gray-500 text-base">CNPJ:</p>
+            <p className="text-light-gray-300 text-base">19.966.672/0001-84</p>
+          </div>
+
+          <div className="flex flex-col">
+            <p className="text-light-gray-500 text-base">Endereço:</p>
+            <p className="text-light-gray-300 text-base">
+              Av. Coronel Mateus Cunha, 513. <br /> Sernamby - São Mateus/ER.
+              <br />
+              29930-510.
+            </p>
+          </div>
+        </div>
+
+        <div
+          className={c(
+            'flex items-start justify-start',
+            !sm ? 'flex-col w-[100%] gap-4' : 'flex-row [50%] gap-12'
+          )}
+        >
+          <div className="flex flex-col space-y-4">
+            <p className="text-light-gray-100 text-lg font-semibold">
+              Informações
+            </p>
+
+            <div className="flex flex-col space-y-2">
+              <Link
+                href="/infos/privacy-policy"
+                className="text-light-gray-500 text-base"
+              >
+                Política de privacidade
+              </Link>
+              <Link
+                href="/infos/refund-policy"
+                className="text-light-gray-500 text-base"
+              >
+                Política de reembolso
+              </Link>
+              <Link
+                href="/infos/terms-conditions"
+                className="text-light-gray-500 text-base"
+              >
+                Termos e condições
+              </Link>
+            </div>
+
+            <p className="text-light-gray-100 text-lg font-semibold">
+              Atendimento ao cliente
+            </p>
+            <div className="flex flex-col space-y-2">
+              <Link
+                href="/customer-service?subject=devolution"
+                className="text-light-gray-500 text-base"
+              >
+                Devolução
+              </Link>
+              <Link
+                href="/customer-service"
+                className="text-light-gray-500 text-base"
+              >
+                Contate-nos
+              </Link>
+              <Link
+                href="/customer-service?subject=feedback"
+                className="text-light-gray-500 text-base"
+              >
+                Feedback
+              </Link>
+            </div>
+          </div>
+
+          <div className="flex flex-col space-y-2">
+            <p className="text-light-gray-100 text-lg font-semibold">
+              Encontre-nos
+            </p>
+
+            <div className="flex flex-col space-y-2 items-start justify-start">
+              <div className="flex flex-row space-y-2 items-center justify-center">
+                <Link
+                  href="https://www.instagram.com/hytzenshop/"
+                  className="flex flex-row items-center justify-center space-x-2"
+                >
+                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                    <TbBrandInstagram className="text-success-300" />
+                  </span>
+
+                  <p className="text-light-gray-500 text-base">@hytzenshop</p>
+                </Link>
+              </div>
+
+              <div className="flex flex-row space-y-2 items-center justify-center">
+                <Link
+                  href="https://api.whatsapp.com/send?phone=64986847824"
+                  className="flex flex-row items-center justify-center space-x-2"
+                >
+                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                    <TbBrandWhatsapp className="text-success-300" />
+                  </span>
+
+                  <p className="text-light-gray-500 text-base">
+                    (64) 98684-7824
+                  </p>
+                </Link>
+              </div>
+
+              <div className="flex flex-row space-y-2 items-center justify-center">
+                <Link
+                  href="https://api.whatsapp.com/send?phone=64986847824"
+                  className="flex flex-row items-center justify-center space-x-2"
+                >
+                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                    <TbPhone className="text-success-300" />
+                  </span>
+
+                  <p className="text-light-gray-500 text-base">
+                    (64) 2689-9079
+                  </p>
+                </Link>
+              </div>
+
+              <div className="flex flex-row space-y-2 items-center justify-center">
+                <Link
+                  href="mailto:contato@hytzen.com"
+                  className="flex flex-row items-center justify-center space-x-2"
+                  target="_blank"
+                >
+                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                    <TbMail className="text-success-300" />
+                  </span>
+
+                  <p className="text-light-gray-500 text-base">
+                    contato@hytzen.com
+                  </p>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {scroll.position >= 500 && (
+          <button
+            className="bg-dark-gray-400 fixed bottom-8 right-[4.5rem] sm:right-[6.5rem] p-2 rounded-md z-[9999999] transition-all"
+            onClick={() => {
+              document.documentElement.scrollTop = 0
+            }}
+          >
+            <TbArrowUp />
+          </button>
         )}
-      >
-        <TbBrandWhatsapp className="text-light-gray-100" size={16} />
-      </Link>
-    </div>
+
+        <Link
+          href={link}
+          target="_blank"
+          className={c(
+            'fixed bottom-8 right-8 sm:right-16 bg-success-300 p-2 rounded-md'
+          )}
+        >
+          <TbBrandWhatsapp className="text-light-gray-100" size={16} />
+        </Link>
+      </div>
+    </footer>
   )
 }
 

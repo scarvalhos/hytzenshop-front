@@ -10,21 +10,11 @@ import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
-export const getProductList = async ({
-  filter,
-  limit,
-  order,
-  page,
-  sort,
-}: PaginationParams): Promise<ProductGetAllDto> => {
+export const getProductList = async (
+  params: PaginationParams
+): Promise<ProductGetAllDto> => {
   const { data } = await api.get<ProductGetAllDto>('/products', {
-    params: {
-      page,
-      limit,
-      filter,
-      sort,
-      order,
-    },
+    params,
   })
 
   return data

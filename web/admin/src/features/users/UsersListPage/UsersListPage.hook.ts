@@ -9,37 +9,36 @@ import { useRouter } from 'next/router'
 import { useForm } from 'react-hook-form'
 import { api } from '@hytzenshop/services'
 
-const getUsersList = async ({
-  filter,
-  limit,
-  order,
-  page,
-  sort,
-}: PaginationParams): Promise<UserGetAllDto> => {
+const getUsersList = async (
+  params: PaginationParams
+): Promise<UserGetAllDto> => {
   const { data } = await api.get<UserGetAllDto>('/users', {
-    params: {
-      page,
-      limit,
-      filter,
-      sort,
-      order,
-    },
+    params,
   })
 
   return data
 }
 
-export const useUsersListPage = () => {
-  const [state, dispatch] = React.useState<PaginationParams>({
-    page: 1,
-    limit: 10,
-    filter: '',
-    sort: 'createdAt',
-    order: 'desc',
-  })
+interface UsersListPageState extends PaginationParams {
+  search?: string
+  mobileSearch?: boolean
+}
 
-  const [mobileSearch, setMobileSearch] = React.useState(false)
-  const [search, setSearch] = React.useState('')
+export const useUsersListPage = () => {
+  const [state, dispatch] = React.useReducer(
+    (prev: UsersListPageState, next: UsersListPageState) => {
+      return { ...prev, ...next }
+    },
+    {
+      page: 1,
+      limit: 10,
+      filter: '',
+      sort: 'createdAt',
+      order: 'desc',
+      mobileSearch: false,
+      search: '',
+    }
+  )
 
   const { control, register } = useForm()
   const { push } = useRouter()
@@ -60,45 +59,28 @@ export const useUsersListPage = () => {
     }
   ) as UseQueryResult<UserGetAllDto, unknown>
 
-  const setPage = React.useCallback(
-    (page: number) => {
-      dispatch({
-        ...state,
-        page,
-      })
-    },
-    [state]
-  )
+  const setPage = React.useCallback((page: number) => dispatch({ page }), [])
 
   const onFilterChange = React.useCallback(() => {
     const filterString = JSON.stringify({
-      ...makePrismaWhere(search || '', {
+      ...makePrismaWhere(state.search || '', {
         OR: ['profile.completeName', 'email'],
       }),
     })
 
-    if (filterString) {
-      dispatch({
-        ...state,
-        filter: filterString,
-      })
-    } else {
-      dispatch({
-        ...state,
-        filter: undefined,
-      })
-    }
-  }, [search, state])
+    if (!filterString) return dispatch({ filter: undefined })
+
+    return dispatch({ filter: filterString })
+  }, [state])
 
   const onFilterChangeDebounce = useDebounceCallback(onFilterChange, 900)
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => onFilterChangeDebounce(), [search])
+  React.useEffect(() => onFilterChangeDebounce(), [state.search])
 
   return {
-    mobileSearch,
-    setMobileSearch,
-    setSearch,
+    setMobileSearch: (mobileSearch?: boolean) => dispatch({ mobileSearch }),
+    setSearch: (search?: string) => dispatch({ search }),
     control,
     register,
     push,

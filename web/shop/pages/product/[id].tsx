@@ -1,10 +1,9 @@
 import { BreadCrumbs, Button, Icons } from '@luma/ui'
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { useQuery, useQueryClient, UseQueryResult } from '@tanstack/react-query'
 import { TbHome, TbBox } from 'react-icons/tb'
 import { ProductGetDto } from '@hytzenshop/types'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { useConfig } from '@contexts/ConfigContext'
-import { randonfy } from '@hytzenshop/helpers'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { api } from '@hytzenshop/services'
@@ -27,9 +26,16 @@ interface ProductPageProps {
 const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
   const { productsSugestions } = useConfig()
 
+  const queryClient = useQueryClient()
+
   const productQuery = useQuery(['product', id], () => getProductDetails(id), {
     staleTime: 1000 * 60 * 10, // 10 minutes
   }) as UseQueryResult<ProductGetDto, unknown>
+
+  React.useEffect(() => {
+    queryClient.invalidateQueries(['products-sugestions'])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id])
 
   if (!productQuery.data?.product && !productQuery.isLoading) {
     return (
@@ -60,10 +66,7 @@ const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
 
         <ProductSection
           title="Você Também Pode Gostar"
-          products={randonfy(productsSugestions?.data.products || []).slice(
-            0,
-            5
-          )}
+          products={productsSugestions}
         />
       </HeaderFooterLayout>
     )
@@ -98,7 +101,7 @@ const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
 
       <ProductPageSection
         product={productQuery.data?.product}
-        products={randonfy(productsSugestions?.data.products || []).slice(0, 5)}
+        products={productsSugestions}
         loading={productQuery.isLoading && !productQuery.data}
       />
     </HeaderFooterLayout>

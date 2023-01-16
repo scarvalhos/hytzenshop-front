@@ -19,11 +19,11 @@ const BoxSection: React.FC<BoxSectionProps> = React.forwardRef(
       <div className={c(className, 'flex-1')}>
         <div className="space-y-2">
           <div className="flex flex-row items-center space-x-2">
-            <p className="text-light-gray-100 font-medium">{title}</p>
+            <p className="text-light-gray-100 font-medium text-lg">{title}</p>
             {renderAfterTitle && renderAfterTitle()}
           </div>
 
-          <p className="text-sm">{description}</p>
+          <p className="text-base">{description}</p>
         </div>
 
         {children}

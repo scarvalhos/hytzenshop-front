@@ -20,7 +20,7 @@ const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
       key={`${ref}`}
       title="Categorias"
       description="Adicione novas categorias ao sistema."
-      className="space-y-3"
+      className="space-y-6"
     >
       {categories && (
         <Input.Select.Add
@@ -35,6 +35,8 @@ const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
           onDelete={onDelete}
           chipDeleteIcon
           isFullWidth
+          rounded
+          isChipRounded
           {...register('categories')}
         />
       )}

@@ -124,6 +124,10 @@ export const useChat = ({ id }: ChatProps) => {
 
       const previousChat = queryClient.getQueryData<ChatGetDto>(['chat', id])
 
+      reset({
+        message: '',
+      })
+
       queryClient.setQueryData(['chat', id], {
         ...previousChat,
         chat: {
@@ -137,7 +141,7 @@ export const useChat = ({ id }: ChatProps) => {
               chat: previousChat?.chat,
               userId: user?.id,
               user,
-              createdAt: new Date().toString(),
+              createdAt: '',
             },
           ],
         },
@@ -158,7 +162,7 @@ export const useChat = ({ id }: ChatProps) => {
                 chat: previousChat?.chat,
                 userId: user?.id,
                 user,
-                createdAt: new Date().toString(),
+                createdAt: '',
               },
             ],
           },
@@ -167,9 +171,6 @@ export const useChat = ({ id }: ChatProps) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: ['chat', id] })
-      reset({
-        message: '',
-      })
     },
 
     onError: (_err, _newChat, context) => {

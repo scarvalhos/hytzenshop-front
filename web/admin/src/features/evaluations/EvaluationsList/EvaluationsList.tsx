@@ -1,6 +1,7 @@
 import { useEvaluationsPage } from '../EvaluationsPage/EvaluationsPage.hooks'
 import { Evaluation } from '@hytzenshop/types'
 import { Shared } from '@luma/ui'
+import { map } from '@hytzenshop/helpers'
 
 interface EvaluationsListProps {
   evaluations?: Evaluation[]
@@ -11,7 +12,7 @@ const EvaluationsList: React.FC<EvaluationsListProps> = ({ evaluations }) => {
 
   return (
     <>
-      {evaluations?.map((evaluation) => (
+      {map(evaluations, (evaluation) => (
         <Shared.EvaluationCard
           key={evaluation.id}
           evaluation={evaluation}

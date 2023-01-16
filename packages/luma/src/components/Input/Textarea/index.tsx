@@ -76,7 +76,7 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
                   className={c(
                     className,
                     disabled
-                      ? 'cursor-not-allowed text-light-gray-500'
+                      ? 'cursor-not-allowed text-light-gray-500 opacity-40'
                       : 'text-light-gray-100',
                     'px-3 py-3'
                   )}

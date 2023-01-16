@@ -1,5 +1,6 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { useSearchParams } from 'next/navigation'
+import { ConfigProvider } from '@contexts/ConfigContext'
 import { ProductGetDto } from '@hytzenshop/types'
 import { Button, Icons } from '@luma/ui'
 import { NextPage } from 'next'
@@ -25,7 +26,7 @@ const ProductPage: NextPage = () => {
 
   if (!productQuery.data?.product && !productQuery.isLoading) {
     return (
-      <>
+      <ConfigProvider>
         <NextSeo title={productQuery.data?.product?.title} />
 
         <div className="flex flex-col items-center justify-center mt-10 h-[50vh] mx-6">
@@ -49,7 +50,7 @@ const ProductPage: NextPage = () => {
             </Button>
           </div>
         </div>
-      </>
+      </ConfigProvider>
     )
   }
 

@@ -55,6 +55,23 @@ export const validateCreateAccountSchema = yup.object().shape({
     .required('Confirmar senha é obrigatório'),
 })
 
+export const validateResetPasswordSchema = yup.object().shape({
+  password: yup
+    .string()
+    .typeError('Senha inválida')
+    .min(8, PASS_MSG)
+    .minNumbers(1, PASS_MSG)
+    .minLowercase(1, PASS_MSG)
+    .minUppercase(1, PASS_MSG)
+    .minSymbols(1, PASS_MSG)
+    .required(PASS_MSG),
+  cpassword: yup
+    .string()
+    .typeError('Confirmar senha inválido')
+    .oneOf([yup.ref('password'), null], 'As senhas não coincidem')
+    .required('Confirmar senha é obrigatório'),
+})
+
 export const validateCreditPaymentSchema = yup.object().shape({
   cardholderNumber: yup.number().required('Campo obrigatório'),
   expirationDate: yup.number().required('Campo obrigatório'),

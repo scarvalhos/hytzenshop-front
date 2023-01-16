@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 
 import 'dayjs/locale/pt-br'
+import React from 'react'
 
 export * from './validators'
 
@@ -236,7 +237,7 @@ export const convertPXToVH = (px: string | number) => {
 
 // randonfy
 
-export const randonfy = (array?: any[]) => {
+export const randonfy = <T>(array?: T[]) => {
   if (!array) return []
 
   for (let i = array.length - 1; i > 0; i--) {
@@ -256,4 +257,15 @@ export const generateArrayOfNumbers = (from: number, to: number) => {
   }
 
   return array
+}
+
+// map
+
+export const map = <T>(
+  arr?: T[],
+  fn?: (value: T) => React.ReactNode | Partial<T[]>
+) => {
+  if (!arr || !fn) return null
+
+  return arr.map(fn)
 }

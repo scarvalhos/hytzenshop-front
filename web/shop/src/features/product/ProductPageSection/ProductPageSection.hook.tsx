@@ -45,7 +45,7 @@ export const useProductPageSection = ({
 
   const onSubmit = React.useCallback(
     (values: FieldValues, type: 'buyNow' | 'addToCart') => {
-      const p = cart.products?.filter(
+      const p = cart?.products?.filter(
         (item) => item.productId === String(product?.id)
       )
 
@@ -53,13 +53,13 @@ export const useProductPageSection = ({
         ?.map((item) => item.quantity || 0)
         .reduce((prev, next) => prev + next, 0)
 
-      if (quantities >= Number(product?.stock)) {
+      if ((quantities || 1) >= Number(product?.stock)) {
         return toast.primary(
           'Poxa! A quantidade escolhida está fora de estoque no momento! :('
         )
       }
 
-      const productInCart = cart.products?.find(
+      const productInCart = cart?.products?.find(
         (item) =>
           item.productId === String(product?.id) &&
           item.colors?.includes(values.color) &&
@@ -95,7 +95,7 @@ export const useProductPageSection = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [cart.products, product?.id, product?.price, product?.stock]
+    [cart?.products, product?.id, product?.price, product?.stock]
   )
 
   const handleAddToCart = React.useCallback(

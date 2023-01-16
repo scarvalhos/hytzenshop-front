@@ -8,14 +8,14 @@ import ProductList from '../ProductList'
 
 type ProductSectionProps = {
   title?: string
-  products: Product[]
+  products?: Product[]
   showSeeAll?: boolean
   isLoading?: boolean
 }
 
 const ProductSection: React.FC<ProductSectionProps> = ({
   title,
-  products,
+  products = [],
   showSeeAll = true,
   isLoading,
 }) => {
@@ -30,11 +30,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
 
   return (
     <>
-      <div
-        className={c(
-          'flex flex-row items-center justify-between mx-8 sm:mx-16 my-4'
-        )}
-      >
+      <div className={c('flex flex-row items-center justify-between my-4')}>
         {title && (
           <>
             <h4 className="text-lg text-light-gray-100 font-medium">{title}</h4>
@@ -51,7 +47,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
         </div>
       )}
 
-      <div className={c('mx-8 sm:mx-16 my-4')}>
+      <div className={c('my-4')}>
         {isLoading && (
           <>
             <ProductSectionSkeleton />
@@ -60,8 +56,8 @@ const ProductSection: React.FC<ProductSectionProps> = ({
         )}
       </div>
 
-      <div className="grid max-[478px]:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 mx-8 sm:mx-16">
-        {products.length !== 0 && <ProductList products={products} />}
+      <div className="grid max-[478px]:grid-cols-1 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8 mb-10">
+        {products?.length !== 0 && <ProductList products={products} />}
       </div>
     </>
   )

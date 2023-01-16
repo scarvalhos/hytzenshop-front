@@ -24,7 +24,7 @@ export const Chip: React.FC<ChipProps> = ({
 }) => {
   return (
     <div
-      onClick={onClick}
+      onClick={onDelete ?? onClick}
       className={c(
         'py-1 px-3 select-none flex flex-row items-center cursor-pointer hover:brightness-125',
         rounded ? 'rounded-full' : 'rounded-md',

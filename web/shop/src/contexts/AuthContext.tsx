@@ -10,6 +10,7 @@ import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { SignInCredentials, User, UserGetDto } from '@hytzenshop/types'
 import { defaultToastError } from '@hytzenshop/helpers'
 import { socket } from '@services/socket'
+import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
 import Router, { useRouter } from 'next/router'
@@ -37,6 +38,17 @@ type AuthContextData = {
     unknown
   >
   signOut: () => void
+  forgotPassword: UseMutateAsyncFunction<UserGetDto, unknown, string, unknown>
+  resetPassword: UseMutateAsyncFunction<
+    UserGetDto,
+    any,
+    {
+      email: string
+      password: string
+      token: string
+    },
+    unknown
+  >
   updateUser: UseMutateAsyncFunction<UserGetDto, any, User, unknown>
   createUser: UseMutateAsyncFunction<
     {
@@ -108,6 +120,22 @@ const createUser = async ({
 
 const updateUser = async (user: User) => {
   return api.put<UserGetDto>(`/users/${user.id}`, user).then(({ data }) => data)
+}
+
+const forgotPassword = async (email: string) => {
+  return api
+    .post<UserGetDto>('/auth/forgot-password', { email })
+    .then(({ data }) => data)
+}
+
+const resetPassword = async (data: {
+  email: string
+  password: string
+  token: string
+}) => {
+  return api
+    .post<UserGetDto>('/auth/reset-password', data)
+    .then(({ data }) => data)
 }
 
 // Provider
@@ -220,6 +248,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     },
   })
 
+  // forgotPassword
+
+  const forgotPasswordMutation = useMutation(forgotPassword, {
+    onSuccess: ({ message }) => toast.success(message),
+    onError: defaultToastError,
+  })
+
+  // resetPassword
+
+  const resetPasswordMutation = useMutation(resetPassword, {
+    onSuccess: ({ message }) => toast.success(message),
+    onError: defaultToastError,
+  })
+
   // Effects
 
   React.useEffect(() => {
@@ -293,6 +335,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         signOut,
         updateUser: updateUserMutation.mutateAsync,
         createUser: createUserMutation.mutateAsync,
+        forgotPassword: forgotPasswordMutation.mutateAsync,
+        resetPassword: resetPasswordMutation.mutateAsync,
       }}
     >
       {children}

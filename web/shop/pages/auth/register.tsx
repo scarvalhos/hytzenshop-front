@@ -5,22 +5,34 @@ import { NextSeo } from 'next-seo'
 
 import RegisterFormSection from '@features/auth/RegisterFormSection'
 import Header from '@components/Header'
+import Image from 'next/image'
 
 const RegisterPage: NextPage = () => {
   return (
     <>
-      <NextSeo title="Cadastro - Hytzen Shop" />
+      <NextSeo title="Faça seu cadastro - Hytzen Shop" />
 
-      <Header />
+      <Header glassEffect />
 
       <RegisterFormSection
-        containerClassName="h-[100vh] max-md:mx-8"
+        containerClassName="h-[100vh]"
         title={
-          <span>
-            Faça login
-            <br />
-            para começar
-          </span>
+          <div className="space-y-2">
+            <Image
+              src="/icons/logo.svg"
+              alt="Hytzen Shop Adm"
+              width={46}
+              height={46}
+              className="mb-6"
+            />
+
+            <p className="text-4xl md:text-5xl text-light-gray-100 font-bold">
+              Faça o seu cadastro
+            </p>
+            <p className="text-xl max-w-sm text-light-gray-100 font-medium">
+              Para começar preencha os campos ao lado e faça o seu cadastro.
+            </p>
+          </div>
         }
       />
     </>

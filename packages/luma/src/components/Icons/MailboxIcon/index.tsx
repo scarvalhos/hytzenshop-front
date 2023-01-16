@@ -5,8 +5,8 @@ export const MailboxIcon: React.FC<{ className?: string }> = ({
 }) => {
   return (
     <svg
-      width="263"
-      height="279"
+      // width="263"
+      // height="279"
       viewBox="0 0 263 279"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

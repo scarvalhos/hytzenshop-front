@@ -9,26 +9,38 @@ import { useConfigTypes } from '@utils/types/config'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { useForm } from 'react-hook-form'
 
+interface ProductsListPageState extends PaginationParams {
+  category?: string
+  search?: string
+  mobileInputs?: {
+    category: boolean
+    search: boolean
+  }
+}
+
 export const useProductsListPage = () => {
-  const [category, setCategory] = React.useState('')
-  const [search, setSearch] = React.useState('')
-
-  const [state, dispatch] = React.useState<PaginationParams>({
-    page: 1,
-    limit: 10,
-    filter: JSON.stringify({
-      ...makePrismaWhere('', {
-        OR: ['title'],
+  const [state, dispatch] = React.useReducer(
+    (prev: ProductsListPageState, next: ProductsListPageState) => {
+      return { ...prev, ...next }
+    },
+    {
+      page: 1,
+      limit: 10,
+      filter: JSON.stringify({
+        ...makePrismaWhere('', {
+          OR: ['title'],
+        }),
       }),
-    }),
-    sort: 'createdAt',
-    order: 'desc',
-  })
-
-  const [mobileInputs, setMobileInputs] = React.useState({
-    category: false,
-    search: false,
-  })
+      sort: 'createdAt',
+      order: 'desc',
+      mobileInputs: {
+        category: false,
+        search: false,
+      },
+      category: '',
+      search: '',
+    }
+  )
 
   const { categoriesOptions } = useConfigTypes()
   const { control, register } = useForm()
@@ -56,58 +68,45 @@ export const useProductsListPage = () => {
 
   const { deleteProduct } = useProducts(['products', state.page, state.filter])
 
-  const setPage = React.useCallback(
-    (page: number) => {
-      dispatch({
-        ...state,
-        page,
-      })
-    },
-    [state]
-  )
+  const setPage = React.useCallback((page: number) => dispatch({ page }), [])
 
   const onChangeFilters = React.useCallback(() => {
     const filterString = JSON.stringify({
-      ...(category !== '' && {
-        categories: { has: category },
+      ...(state.category !== '' && {
+        categories: { has: state.category },
       }),
 
-      ...makePrismaWhere(search || '', {
+      ...makePrismaWhere(state.search || '', {
         OR: ['title'],
       }),
     })
 
-    if (filterString) {
-      dispatch({
-        ...state,
-        filter: filterString,
-      })
-    } else {
-      dispatch({
-        ...state,
-        filter: undefined,
-      })
-    }
-  }, [category, search, state])
+    if (!filterString) return dispatch({ filter: undefined })
+
+    return dispatch({ filter: filterString })
+  }, [state])
 
   const onChangeFiltersDebounce = useDebounceCallback(onChangeFilters, 900)
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(() => onChangeFiltersDebounce(), [category, search])
+  React.useEffect(
+    () => onChangeFiltersDebounce(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [state.category, state.search]
+  )
 
   return {
-    state,
-    mobileInputs,
-    setMobileInputs,
-    setCategory,
-    setSearch,
-    control,
-    register,
-    sm,
-    options,
-    data,
-    isLoading,
+    ...state,
+    setMobileInputs: (mobileInputs: { category: boolean; search: boolean }) =>
+      dispatch({ mobileInputs }),
+    setCategory: (category?: string) => dispatch({ category }),
+    setSearch: (search?: string) => dispatch({ search }),
     deleteProduct,
+    isLoading,
+    register,
+    options,
+    control,
     setPage,
+    data,
+    sm,
   }
 }

@@ -1,3 +1,4 @@
+import { ConfigProvider } from '@contexts/ConfigContext'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
@@ -10,7 +11,7 @@ import SiderbarLayout from '@layouts/SiderbarLayout'
 
 const Settings: NextPage = () => {
   return (
-    <>
+    <ConfigProvider>
       <NextSeo title="Configurações" />
 
       <div className="space-y-8 w-full mb-20 lg:w-[50%]">
@@ -23,7 +24,7 @@ const Settings: NextPage = () => {
           <SliderImagesSection />
         </DivideY>
       </div>
-    </>
+    </ConfigProvider>
   )
 }
 

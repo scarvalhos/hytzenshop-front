@@ -49,14 +49,14 @@ export const useFetchers = () => {
 
       const order: Partial<Order> = {
         userId: user.id,
-        orderedProducts: cart.products.map((item) => ({
+        orderedProducts: cart?.products?.map((item) => ({
           productId: item.productId,
           colors: item.colors,
           sizes: item.sizes,
           quantity: item.quantity,
         })),
         status,
-        amount: totalAmount + (shipping?.vlrFrete || 0),
+        amount: (totalAmount || 0) + (shipping?.vlrFrete || 0),
         addressId: user.profile?.address?.id,
         mpPaymentId,
         shipping: JSON.stringify(shipping),
@@ -64,7 +64,7 @@ export const useFetchers = () => {
 
       try {
         return api.post<OrderGetDto>('/orders', order).then(() => {
-          if (cart.products.length) {
+          if (cart?.products?.length) {
             resetCart()
             setShipping && setShipping(null)
           }
@@ -73,7 +73,7 @@ export const useFetchers = () => {
         return defaultToastError(error)
       }
     },
-    [cart.products, resetCart, setShipping, shipping, totalAmount, user]
+    [cart?.products, resetCart, setShipping, shipping, totalAmount, user]
   )
 
   const createPayment = React.useCallback(

@@ -49,15 +49,11 @@ export const FieldContent = styled('div', {
 
     error: {
       true: {
-        borderWidth: '1px',
+        borderWidth: '1.5px',
         borderStyle: 'solid',
         borderColor: theme.colors.danger[300],
       },
-      false: {
-        borderWidth: 'unset',
-        borderStyle: 'none',
-        borderColor: 'transparent',
-      },
+      false: {},
     },
 
     variant: {
@@ -66,16 +62,17 @@ export const FieldContent = styled('div', {
       },
       filled: {
         background: theme.colors['dark-gray'][500],
+        borderWidth: '1.5px',
+        borderStyle: 'solid',
+        borderColor: 'transparent',
       },
       outlined: {
         background: 'none',
-        border: `1px solid ${theme.colors['dark-gray'][300]}`,
-
-        // border: `1px solid ${theme.colors.success[300]}`,
+        border: `1.5px solid ${theme.colors['dark-gray'][300]}`,
       },
       disabled: {
         background: theme.colors['dark-gray'][400],
-        border: `1px solid ${theme.colors['dark-gray'][200]}`,
+        border: `1.5px solid ${theme.colors['dark-gray'][200]}`,
         color: `${theme.colors['light-gray'][500]} !important`,
         cursor: 'not-allowed',
       },

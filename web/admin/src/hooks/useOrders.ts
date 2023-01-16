@@ -15,21 +15,11 @@ import { defaultToastError } from '@hytzenshop/helpers'
 import { toast } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
-const getOrdersList = async ({
-  filter,
-  limit,
-  order,
-  page,
-  sort,
-}: PaginationParams): Promise<OrderGetAllDto> => {
+const getOrdersList = async (
+  params: PaginationParams
+): Promise<OrderGetAllDto> => {
   const { data } = await api.get<OrderGetAllDto>('/orders', {
-    params: {
-      filter,
-      limit,
-      order,
-      page,
-      sort,
-    },
+    params,
   })
 
   return data
@@ -45,25 +35,12 @@ const updatedOrderStatus = async ({
   return api.put(`/orders/${id}/${status}`)
 }
 
-export function useOrders({
-  filter,
-  limit,
-  order,
-  page,
-  sort,
-}: PaginationParams) {
+export function useOrders(params: PaginationParams) {
   const queryClient = useQueryClient()
 
   const getOrders = useQuery(
-    ['orders', page, filter],
-    () =>
-      getOrdersList({
-        filter,
-        limit,
-        order,
-        page,
-        sort,
-      }),
+    ['orders', params.page, params.filter],
+    () => getOrdersList(params),
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
     }
@@ -71,7 +48,7 @@ export function useOrders({
 
   const updatedOrderStatusMutation = useMutation(updatedOrderStatus, {
     onSuccess: ({ data }) => {
-      queryClient.invalidateQueries(['orders', page, filter])
+      queryClient.invalidateQueries(['orders', params.page, params.filter])
       toast.success(data.message)
     },
 

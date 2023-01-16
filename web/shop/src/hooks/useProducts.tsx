@@ -3,8 +3,8 @@ import { ProductGetAllDto } from '@hytzenshop/types'
 import { api } from '@hytzenshop/services'
 
 export const getProductList = async (
-  page: number,
-  limit: number,
+  page?: number,
+  limit?: number,
   filter?: string
 ): Promise<ProductGetAllDto> => {
   const { data } = await api.get<ProductGetAllDto>('/products', {

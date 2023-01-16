@@ -56,7 +56,7 @@ const SelectDefault = React.forwardRef(
             variant={variant}
             error={error ? 'true' : 'false'}
             rounded={rounded ? 'true' : 'false'}
-            className="flex flex-row py-0.5"
+            className="flex flex-row py-0.5 focus-within:border-[1.5px] focus-within:border-success-300"
           >
             <Select
               name={name}
@@ -124,7 +124,10 @@ const SelectDefault = React.forwardRef(
                 onChangeValue && onChangeValue(e)
                 return (
                   setValue &&
-                  setValue(name, (e as SingleValue<Option<any>>)?.value)
+                  setValue(
+                    name,
+                    (e as unknown as SingleValue<Option<any>>)?.value
+                  )
                 )
               }}
             />

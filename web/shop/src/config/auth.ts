@@ -1,1 +1,1 @@
-export const secret = process.env.AUTH_SECRET as string
+export const secret = process.env.NEXT_PUBLIC_AUTH_SECRET as string

@@ -1,13 +1,7 @@
 import React from 'react'
 
-import {
-  useQuery,
-  useMutation,
-  useQueryClient,
-  UseQueryResult,
-} from '@tanstack/react-query'
-
 import { defaultToastError } from '@hytzenshop/helpers'
+import { useMutation } from '@tanstack/react-query'
 import { Product } from '@hytzenshop/types'
 
 type WishlistProviderProps = {
@@ -22,21 +16,7 @@ type WishlistContextData = {
 export const WishlistContext = React.createContext({} as WishlistContextData)
 
 export const WishlistProvider = ({ children }: WishlistProviderProps) => {
-  const queryClient = useQueryClient()
-
-  const queryKey = React.useMemo(() => ['wishlist'], [])
-
-  const { data: wishlist } = useQuery(
-    queryKey,
-    () => {
-      const wishlistStoraged = localStorage.getItem('hytzenshop.wishlist')
-
-      return wishlistStoraged ? JSON.parse(wishlistStoraged) : null
-    },
-    {
-      staleTime: 1000 * 60 * 10, // 10 minutes
-    }
-  ) as UseQueryResult<Product[], unknown>
+  const [wishlist, setWishList] = React.useState<Product[]>([])
 
   const addToWishlist = React.useCallback(
     async (product?: Product) => {
@@ -45,6 +25,8 @@ export const WishlistProvider = ({ children }: WishlistProviderProps) => {
 
         const filter = newWishlist.filter((item) => item.id !== product?.id)
 
+        setWishList(filter)
+
         return localStorage.setItem(
           'hytzenshop.wishlist',
           JSON.stringify(filter)
@@ -52,7 +34,9 @@ export const WishlistProvider = ({ children }: WishlistProviderProps) => {
       } else {
         const newWishlist = wishlist ? wishlist : []
 
-        const toWishlist = [...newWishlist, product]
+        const toWishlist = [...newWishlist, product] as Product[]
+
+        setWishList(toWishlist)
 
         return localStorage.setItem(
           'hytzenshop.wishlist',
@@ -64,28 +48,14 @@ export const WishlistProvider = ({ children }: WishlistProviderProps) => {
   )
 
   const addToWishlistMutation = useMutation(addToWishlist, {
-    onMutate: async (data) => {
-      await queryClient.cancelQueries(queryKey)
-      const prevFavorites = queryClient.getQueryData(queryKey)
-
-      queryClient.setQueryData(queryKey, (old = []) => {
-        return [...(old as Product[]), data]
-      })
-
-      return { prevFavorites }
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries(queryKey)
-    },
-
-    onError: (err, _, c) => {
-      defaultToastError(err)
-      if (c?.prevFavorites) {
-        queryClient.setQueryData(queryKey, c.prevFavorites)
-      }
-    },
+    onError: defaultToastError,
   })
+
+  React.useEffect(() => {
+    const wishlistStoraged = localStorage.getItem('hytzenshop.wishlist')
+
+    setWishList(JSON.parse(String(wishlistStoraged)))
+  }, [])
 
   return (
     <WishlistContext.Provider

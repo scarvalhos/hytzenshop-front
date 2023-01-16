@@ -152,8 +152,8 @@ export const PaymentCheckoutStep: React.FC<PaymentStepProps> = ({
               createPayment,
               handleResponse,
               setLoading,
-              totalAmount,
-              totalQuantity,
+              totalAmount: totalAmount || 0,
+              totalQuantity: totalQuantity || 0,
             })
 
             creditCardForm = cardForm

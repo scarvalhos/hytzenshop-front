@@ -1,6 +1,5 @@
 import { useWishlist } from '@contexts/WishlistContext'
 import { useConfig } from '@contexts/ConfigContext'
-import { randonfy } from '@hytzenshop/helpers'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { TbHeart } from 'react-icons/tb'
@@ -18,7 +17,7 @@ const WishlistPage: NextPage = () => {
     <HeaderFooterLayout>
       <NextSeo title="Wishlist" />
 
-      <div className="my-20">
+      <div className="max-w-screen-2xl mx-auto px-8 sm:px-16 my-24">
         {wishlist && wishlist.length > 0 && (
           <ProductSection
             title="Wishlist"
@@ -78,10 +77,7 @@ const WishlistPage: NextPage = () => {
 
         <ProductSection
           title="Você Também Pode Gostar"
-          products={randonfy(productsSugestions?.data.products || []).slice(
-            0,
-            5
-          )}
+          products={productsSugestions}
         />
       </div>
     </HeaderFooterLayout>

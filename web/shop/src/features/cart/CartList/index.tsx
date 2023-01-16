@@ -25,7 +25,7 @@ export const CartList: React.FC<CartListProps> = ({
   const uptadeQuantity = React.useCallback(
     (productId: string, quant: number) => {
       if (canUpdate) {
-        const newCartProducts = [...cart.products]
+        const newCartProducts = [...(cart?.products || [])]
 
         const productInCart = newCartProducts.find(
           (item) => item.id === productId
@@ -42,7 +42,7 @@ export const CartList: React.FC<CartListProps> = ({
         }
       }
     },
-    [canUpdate, cart.products, updateCart]
+    [canUpdate, cart?.products, updateCart]
   )
 
   const handleSetCanUpdate = React.useCallback((value: boolean) => {
@@ -52,7 +52,7 @@ export const CartList: React.FC<CartListProps> = ({
   return (
     <div
       className={c(
-        'flex flex-col sm:flex-row mx-8 my-28 sm:space-x-4 max-sm:space-y-4',
+        'flex flex-col sm:flex-row my-28 sm:space-x-4 max-sm:space-y-4',
         containerClassName
       )}
     >

@@ -27,7 +27,7 @@ const ProductCard: React.FC<ProductProps> = ({
     <>
       <button
         onClick={() => addToWishlist({ title, id, price, images, ...props })}
-        className={c('absolute top-3 right-3 z-10')}
+        className={c('absolute top-3 right-3 z-20')}
       >
         {withGlassEffect(
           <>

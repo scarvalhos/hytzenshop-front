@@ -36,3 +36,13 @@ export type ChatGetDto = {
   message: string
   chat: Chat
 }
+
+export type MetricsDto = {
+  message: string
+  data: {
+    ordersDeliveredCountQuery: number
+    openCartsCountQuery: number
+    totalSalesCountQuery: number
+    totalUsersCountQuery: number
+  }
+}

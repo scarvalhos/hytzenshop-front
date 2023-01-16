@@ -19,16 +19,30 @@ const createQuestionAnswer = async ({
     .then(({ data }) => data)
 }
 
+interface ProductQuestionFormStateProps {
+  formAnswerByQuestion?: string
+  loading?: boolean
+  seeAnswers?: string
+  questionsPage?: number
+}
+
 export const useProductQuestionFormSection = ({
   product,
 }: ProductQuestionFormSectionProps) => {
-  const [seeAnswers, setSeeAnswers] = React.useState<string | undefined>()
-  const [formAnswerByQuestion, setFormAnswerByQuestion] = React.useState<
-    string | undefined
-  >()
-
-  const [loading, setLoading] = React.useState(false)
-  const [questionsPage, setQuestionsPage] = React.useState(1)
+  const [state, dispatch] = React.useReducer(
+    (
+      prev: ProductQuestionFormStateProps,
+      next: ProductQuestionFormStateProps
+    ) => {
+      return { ...prev, ...next }
+    },
+    {
+      formAnswerByQuestion: undefined,
+      loading: false,
+      seeAnswers: undefined,
+      questionsPage: 1,
+    }
+  )
 
   const { control, register, handleSubmit, reset } = useForm()
 
@@ -38,8 +52,12 @@ export const useProductQuestionFormSection = ({
     onSuccess: (data) => {
       toast.success(data.message)
       queryClient.invalidateQueries(['product', product?.id])
-      setLoading(false)
-      setFormAnswerByQuestion(undefined)
+
+      dispatch({
+        formAnswerByQuestion: undefined,
+        loading: false,
+      })
+
       reset()
     },
     onError: defaultToastError,
@@ -47,28 +65,26 @@ export const useProductQuestionFormSection = ({
 
   const onSubmit = React.useCallback(
     (values: FieldValues) => {
-      setLoading(true)
+      dispatch({ loading: true })
 
       createQuestionAnswerMutation({
         answer: values.answer,
-        questionId: formAnswerByQuestion,
+        questionId: state.formAnswerByQuestion,
       })
     },
-    [createQuestionAnswerMutation, formAnswerByQuestion]
+    [createQuestionAnswerMutation, state.formAnswerByQuestion]
   )
 
   return {
-    formAnswerByQuestion,
-    loading,
-    seeAnswers,
-    setSeeAnswers,
-    questionsPage,
-    setQuestionsPage,
-    control,
-    register,
+    ...state,
+    setFormAnswerByQuestion: (formAnswerByQuestion?: string) =>
+      dispatch({ formAnswerByQuestion }),
+    setQuestionsPage: (questionsPage?: number) => dispatch({ questionsPage }),
+    setSeeAnswers: (seeAnswers?: string) => dispatch({ seeAnswers }),
     handleSubmit,
+    register,
     onSubmit,
-    setFormAnswerByQuestion,
+    control,
     reset,
   }
 }

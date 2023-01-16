@@ -13,9 +13,11 @@ import { c } from '@hytzenshop/helpers'
 
 interface FileInputProps extends FieldInputProps {
   filesListDisplay?: 'list' | 'grid'
+  listItemRounded?: boolean
   multiple?: boolean
   accept?: Accept
   label?: string
+  maxFiles?: number
   onDelete?: (id: string) => void
   onChangeFiles?: (ids: any[]) => void
 }
@@ -32,7 +34,9 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
       defaultValue,
       setValue,
       multiple = true,
+      maxFiles,
       filesListDisplay = 'list',
+      listItemRounded,
       onDelete,
       onChangeFiles,
       renderAfterLabel,
@@ -64,6 +68,7 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
       onDrop,
       disabled,
       multiple,
+      maxFiles,
       accept,
       maxSize: 10 * 1024 * 1024,
     })
@@ -99,48 +104,52 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
             </FieldLabel>
           )}
 
-          <Controller
-            name={name}
-            control={control}
-            render={() => (
-              <div
-                {...getRootProps({ className: 'dropzone' })}
-                className={c(
-                  'border border-dashed rounded-lg cursor-pointer px-6 py-8 text-center flex flex-col items-center justify-center',
-                  (isDragReject || error) && 'border-danger-300',
-                  isDragAccept && 'border-success-300',
-                  variant === 'outlined' && !error && 'border-dark-gray-200',
-                  variant === 'filled' && !error && 'border-light-gray-500',
-                  variant === 'filled' && 'bg-dark-gray-500 bg-opacity-60'
-                )}
-              >
-                <input {...getInputProps()} />
-                <TbPhoto
-                  size={24}
+          {((maxFiles === 1 && !uploadedFiles.length) || maxFiles !== 1) && (
+            <Controller
+              name={name}
+              control={control}
+              render={() => (
+                <div
+                  {...getRootProps({ className: 'dropzone' })}
                   className={c(
-                    'mb-4',
-                    isDragAccept
-                      ? 'text-success-300'
-                      : isDragReject || !!error
-                      ? 'text-danger-300'
-                      : 'text-light-gray-500'
+                    'border border-dashed rounded-lg cursor-pointer px-6 py-8 text-center flex flex-col items-center justify-center',
+                    (isDragReject || error) && 'border-danger-300',
+                    isDragAccept && 'border-success-300',
+                    variant === 'outlined' && !error && 'border-dark-gray-200',
+                    variant === 'filled' && !error && 'border-light-gray-500',
+                    variant === 'filled' && 'bg-dark-gray-500 bg-opacity-60',
+                    disabled && 'opacity-40 cursor-not-allowed'
                   )}
-                />
-                {renderDragMessage(
-                  isDragActive,
-                  isDragReject,
-                  isDragAccept,
-                  error
-                )}
-              </div>
-            )}
-          />
+                >
+                  <input {...getInputProps()} />
+                  <TbPhoto
+                    size={24}
+                    className={c(
+                      'mb-4',
+                      isDragAccept
+                        ? 'text-success-300'
+                        : isDragReject || !!error
+                        ? 'text-danger-300'
+                        : 'text-light-gray-500'
+                    )}
+                  />
+                  {renderDragMessage(
+                    isDragActive,
+                    isDragReject,
+                    isDragAccept,
+                    error
+                  )}
+                </div>
+              )}
+            />
+          )}
         </FieldWrapper>
 
         {error && <Error>{error}</Error>}
 
         {!!uploadedFiles && filesListDisplay === 'list' && (
           <FileList
+            listItemRounded={listItemRounded}
             files={uploadedFiles}
             onDelete={(id) => {
               onDelete && onDelete(id)

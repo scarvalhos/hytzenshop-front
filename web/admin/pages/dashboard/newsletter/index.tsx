@@ -1,13 +1,12 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { NewsletterGetAllDto } from '@hytzenshop/types'
-import { TbMailForward } from 'react-icons/tb'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { c, date } from '@hytzenshop/helpers'
-import { Button } from '@luma/ui'
 import { api } from '@hytzenshop/services'
 
+import SendNewsletterButtonModal from '@components/Modal/SendNewsletterButtonModal '
 import DashboardPagesLayout from '@layouts/DashboardPagesLayout'
 import SiderbarLayout from '@layouts/SiderbarLayout'
 import React from 'react'
@@ -43,14 +42,7 @@ const NewsletterDashboard: NextPage = () => {
         title="Newsletter"
         isLoading={newsletterQuery.isLoading}
         header={{
-          buttons: () => (
-            <Button variant="filled" className="max-sm:p-3" rounded>
-              <span className="flex items-center justify-center space-x-2">
-                <TbMailForward />
-                <p className="max-sm:hidden">Enviar e-mail</p>
-              </span>
-            </Button>
-          ),
+          buttons: () => <SendNewsletterButtonModal />,
         }}
         pagination={{
           page: state.page,

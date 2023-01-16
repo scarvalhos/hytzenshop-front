@@ -32,12 +32,13 @@ const AddressCheckoutStep: React.FC<AddressCheckoutStepProps> = ({
   const fetchShipping = React.useCallback(async () => {
     setIsLoading(true)
 
-    const products = cart.products.map((p) => {
-      return {
-        peso: 0.3,
-        quantidade: p.quantity,
-      }
-    })
+    const products =
+      cart?.products?.map((p) => {
+        return {
+          peso: 0.3,
+          quantidade: p.quantity,
+        }
+      }) || []
 
     const volumes = [
       {
@@ -66,7 +67,7 @@ const AddressCheckoutStep: React.FC<AddressCheckoutStepProps> = ({
         volumes,
       })
       .then(({ data }) => data)
-  }, [cart.products, user?.profile?.address?.cep, totalAmount])
+  }, [cart?.products, user?.profile?.address?.cep, totalAmount])
 
   const searchCep = React.useCallback(async () => {
     return api

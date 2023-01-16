@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { TbCirclePlus, TbTrash } from 'react-icons/tb'
-import { Button, Chip, Error } from '@luma/ui'
+import { Button, Chip, Error } from '../../../'
 import { FieldInputProps } from '../../Field'
 import { Controller } from 'react-hook-form'
 import { c } from '@hytzenshop/helpers'
@@ -120,7 +120,7 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
                 variant={variant}
                 error={error ? 'true' : 'false'}
                 rounded={rounded ? 'true' : 'false'}
-                className="flex flex-row items-center"
+                className="flex flex-row items-center focus-within:border-[1.5px] focus-within:border-success-300"
               >
                 <FieldInput
                   value={item}

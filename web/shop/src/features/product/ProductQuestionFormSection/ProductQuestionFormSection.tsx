@@ -42,7 +42,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
         !formQuestion ? (
         <>
           {product?.questions
-            .slice((questionsPage - 1) * 3, questionsPage * 3)
+            .slice(((questionsPage || 1) - 1) * 3, (questionsPage || 1) * 3)
             .map((q) => (
               <div
                 key={q.id}

@@ -24,13 +24,18 @@ const getEvaluationsList = async ({
 }
 
 export const useEvaluationsPage = () => {
-  const [state, dispatch] = React.useState<PaginationParams>({
-    page: 1,
-    limit: 10,
-    filter: undefined,
-    sort: 'createdAt',
-    order: 'desc',
-  })
+  const [state, dispatch] = React.useReducer(
+    (prev: PaginationParams, next: PaginationParams) => {
+      return { ...prev, ...next }
+    },
+    {
+      page: 1,
+      limit: 10,
+      filter: undefined,
+      sort: 'createdAt',
+      order: 'desc',
+    }
+  )
 
   const queryKey = React.useMemo(
     () => ['evaluations', state.page, state.filter],
@@ -60,10 +65,10 @@ export const useEvaluationsPage = () => {
   }
 
   return {
-    state,
-    dispatch,
     evaluationsQuery,
-    setPage,
+    dispatch,
     queryKey,
+    setPage,
+    state,
   }
 }

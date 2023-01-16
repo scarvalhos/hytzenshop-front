@@ -137,8 +137,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
               </div>
             )}
 
-            <Input.Textarea
-              rows={1}
+            <Input.Field
               placeholder="Mensagem"
               control={control}
               variant="filled"

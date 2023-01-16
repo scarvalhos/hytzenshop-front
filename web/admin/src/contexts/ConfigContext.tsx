@@ -3,38 +3,21 @@ import * as React from 'react'
 import {
   Category,
   FileRecord,
-  CategoryGetAllDto,
   SystemConfigDto,
-  OrderGetAllDto,
-  CartGetAllDto,
-  UserGetAllDto,
+  CategoryGetAllDto,
 } from '@hytzenshop/types'
 
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-  UseQueryResult,
-} from '@tanstack/react-query'
-
-import { defaultToastError } from '@hytzenshop/helpers'
-import { toast } from '@luma/ui'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { api } from '@hytzenshop/services'
 
 interface ConfigContextType {
   categories?: Category[]
   sliderImages?: FileRecord[]
+  announcementImage?: FileRecord
   announcement?: string
   showAnnouncement?: boolean
-  ordersDeliveredCountQuery?: UseQueryResult<number, unknown>
-  openCartsCountQuery?: UseQueryResult<number, unknown>
-  totalSalesCountQuery?: UseQueryResult<number, unknown>
-  totalUsersCountQuery?: UseQueryResult<number, unknown>
-
-  updateAnnouncement: ({
-    showAnnouncement,
-    announcement,
-  }: {
+  updateAnnouncement: (params: {
+    announcementImage?: string
     showAnnouncement?: boolean
     announcement?: string
   }) => void
@@ -49,30 +32,35 @@ const ConfigContext = React.createContext<ConfigContextType>(
 )
 
 const updateAnnouncement = async ({
+  announcementImage,
   showAnnouncement,
   announcement,
 }: {
+  announcementImage?: string
   showAnnouncement?: boolean
   announcement?: string
 }) => {
   return api.put('/config', {
+    announcementImage,
     showAnnouncement,
     announcement,
   })
 }
 
 export function ConfigProvider({ children }: ConfigProviderType) {
-  const [state, setState] = React.useState<ConfigContextType>({
-    categories: [],
-    sliderImages: [],
-    announcement: '',
-    showAnnouncement: false,
-    updateAnnouncement: () => undefined,
-    ordersDeliveredCountQuery: undefined,
-    openCartsCountQuery: undefined,
-    totalSalesCountQuery: undefined,
-    totalUsersCountQuery: undefined,
-  })
+  const [state, dispatch] = React.useReducer(
+    (prev: ConfigContextType, next: ConfigContextType) => {
+      return { ...prev, ...next }
+    },
+    {
+      categories: [],
+      sliderImages: [],
+      announcement: '',
+      showAnnouncement: false,
+      announcementImage: undefined,
+      updateAnnouncement: () => undefined,
+    }
+  )
 
   const queryClient = useQueryClient()
 
@@ -94,98 +82,56 @@ export function ConfigProvider({ children }: ConfigProviderType) {
     staleTime: 60000,
   })
 
-  const ordersDeliveredCountQuery = useQuery({
-    queryKey: ['orders-done-count'],
-    queryFn: () =>
-      api
-        .get<OrderGetAllDto>('/orders', {
-          params: {
-            filter: JSON.stringify({
-              status: 'delivered',
-            }),
-          },
-        })
-        .then(({ data }) => {
-          return data.data.count
-        }),
-    staleTime: 60000,
-  })
-
-  const openCartsCountQuery = useQuery({
-    queryKey: ['open-carts-count'],
-    queryFn: () =>
-      api.get<CartGetAllDto>('/carts').then(({ data }) => {
-        return data.data.count
-      }),
-    staleTime: 60000,
-  })
-
-  const totalSalesCountQuery = useQuery({
-    queryKey: ['total-sales-count'],
-    queryFn: () =>
-      api
-        .get<OrderGetAllDto>('/orders', {
-          params: {
-            filter: JSON.stringify({
-              status: {
-                in: [
-                  'approved',
-                  'processing',
-                  'sending',
-                  'delivered',
-                  'authorized',
-                ],
-              },
-            }),
-          },
-        })
-        .then(({ data }) => {
-          return data.data.count
-        }),
-    staleTime: 60000,
-  })
-
-  const totalUsersCountQuery = useQuery({
-    queryKey: ['total-users-count'],
-    queryFn: () =>
-      api.get<UserGetAllDto>('/users').then(({ data }) => {
-        return data.data.count
-      }),
-    staleTime: 60000,
-  })
-
   const updateAnnouncementMutation = useMutation(updateAnnouncement, {
-    onSuccess: ({ data }) => {
-      toast.success(data.message)
-      queryClient.invalidateQueries(['config_system'])
+    onMutate: async (newSystemConfig) => {
+      await queryClient.cancelQueries({ queryKey: ['config_system'] })
+
+      const previousSystemConfig = queryClient.getQueryData<SystemConfigDto>([
+        'config_system',
+      ])
+
+      queryClient.setQueryData(['config_system'], {
+        ...previousSystemConfig,
+        systemConfiguration: {
+          ...previousSystemConfig?.systemConfiguration,
+          announcement: newSystemConfig.announcement,
+          showAnnouncement: newSystemConfig.showAnnouncement,
+          announcementImage: newSystemConfig.announcementImage,
+        },
+      })
+
+      return {
+        previousSystemConfig,
+        data: {
+          ...previousSystemConfig?.systemConfiguration,
+          announcement: newSystemConfig.announcement,
+          showAnnouncement: newSystemConfig.showAnnouncement,
+          announcementImage: newSystemConfig.announcementImage,
+        },
+      }
     },
-    onError: defaultToastError,
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['config_system'] })
+    },
+
+    onError: (_err, _newSystemConfig, context) => {
+      queryClient.setQueryData(['config_system'], context?.previousSystemConfig)
+    },
   })
 
   React.useEffect(() => {
-    setState({
+    dispatch({
       categories: dataCategories?.categories,
       sliderImages: configData?.systemConfiguration.sliderImages,
       announcement: configData?.systemConfiguration.announcement,
       showAnnouncement: Boolean(
         configData?.systemConfiguration.showAnnouncement
       ),
+      announcementImage: configData?.systemConfiguration.announcementImage,
       updateAnnouncement: updateAnnouncementMutation.mutate,
-
-      ordersDeliveredCountQuery,
-      openCartsCountQuery,
-      totalSalesCountQuery,
-      totalUsersCountQuery,
     })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    configData,
-    dataCategories,
-    ordersDeliveredCountQuery.data,
-    openCartsCountQuery.data,
-    totalSalesCountQuery.data,
-    totalUsersCountQuery.data,
-  ])
+  }, [configData, dataCategories])
 
   return (
     <ConfigContext.Provider value={state}>{children}</ConfigContext.Provider>

@@ -210,7 +210,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
 
       <ProductEvalutionQuestionsSection product={product} />
 
-      <div className={c('my-20 max-w-screen-2xl mx-auto')}>
+      <div className={c('my-20 max-w-screen-2xl mx-auto px-8 sm:px-16')}>
         <ProductSection
           title="Você Também Pode Gostar"
           products={products || []}

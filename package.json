@@ -7,7 +7,8 @@
     "packages": [
       "packages/*",
       "packages/@settings/*",
-      "web/*"
+      "web/*",
+      "desktop/*"
     ]
   },
   "author": "Samara Carvalho <samcarvalhos@hotmail.com>",

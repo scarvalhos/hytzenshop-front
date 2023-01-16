@@ -133,6 +133,7 @@ export interface SystemConfig {
   sliderImages?: FileRecord[]
   announcement?: string
   showAnnouncement?: boolean
+  announcementImage?: FileRecord
 }
 
 export interface PaginationParams {

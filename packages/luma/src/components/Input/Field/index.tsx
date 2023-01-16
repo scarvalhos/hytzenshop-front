@@ -18,6 +18,7 @@ export interface SharedFieldInputProps {
   className?: string
   containerClassName?: string
   inputWrapperClassName?: string
+  fieldClassName?: string
   passthrough?: React.DetailedHTMLProps<
     React.InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
@@ -81,6 +82,7 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
       error,
 
       className,
+      fieldClassName,
       containerClassName,
       inputWrapperClassName,
     },
@@ -114,7 +116,10 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
                 variant={variant}
                 error={error ? 'true' : 'false'}
                 rounded={rounded ? 'true' : 'false'}
-                className="flex flex-row"
+                className={c(
+                  'flex flex-row focus-within:border-[1.5px] focus-within:border-success-300',
+                  fieldClassName
+                )}
               >
                 <Field
                   id={id}

@@ -6,18 +6,21 @@ import {
   CategoryGetAllDto,
   SystemConfigDto,
   ProductGetAllDto,
+  Product,
 } from '@hytzenshop/types'
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { getProductList } from '@hooks/useProducts'
 import { api } from '@hytzenshop/services'
+import { randonfy } from '@hytzenshop/helpers'
 
 interface ConfigContextType {
   categories: Category[]
   sliderImages?: FileRecord[]
   announcement?: string
   showAnnouncement?: boolean
-  productsSugestions?: ProductGetAllDto | undefined
+  announcementImage?: FileRecord
+  productsSugestions?: Product[] | undefined
 }
 
 type ConfigProviderType = {
@@ -29,13 +32,19 @@ const ConfigContext = React.createContext<ConfigContextType>(
 )
 
 export function ConfigProvider({ children }: ConfigProviderType) {
-  const [state, setState] = React.useState<ConfigContextType>({
-    categories: [],
-    sliderImages: [],
-    announcement: '',
-    showAnnouncement: false,
-    productsSugestions: undefined,
-  })
+  const [state, dispatch] = React.useReducer(
+    (prev: ConfigContextType, next: ConfigContextType) => {
+      return { ...prev, ...next }
+    },
+    {
+      categories: [],
+      sliderImages: [],
+      announcement: '',
+      showAnnouncement: false,
+      announcementImage: undefined,
+      productsSugestions: undefined,
+    }
+  )
 
   const { data: dataCategories } = useQuery({
     queryKey: ['categories'],
@@ -64,12 +73,16 @@ export function ConfigProvider({ children }: ConfigProviderType) {
   ) as UseQueryResult<ProductGetAllDto, unknown>
 
   React.useEffect(() => {
-    setState({
+    dispatch({
       categories: dataCategories?.categories || [],
       sliderImages: configData?.systemConfiguration.sliderImages,
       announcement: configData?.systemConfiguration.announcement,
       showAnnouncement: configData?.systemConfiguration.showAnnouncement,
-      productsSugestions,
+      announcementImage: configData?.systemConfiguration.announcementImage,
+      productsSugestions: randonfy(productsSugestions?.data.products).slice(
+        0,
+        5
+      ),
     })
   }, [configData, dataCategories, productsSugestions])
 

@@ -21,7 +21,8 @@ const ProductsListPage: React.FC = () => {
     setPage,
     options,
     control,
-    state,
+    limit,
+    page,
     data,
     sm,
   } = useProductsListPage()
@@ -37,9 +38,9 @@ const ProductsListPage: React.FC = () => {
         />
       )}
       pagination={{
-        limit: state.limit,
+        limit,
         onPageChange: setPage,
-        page: state.page,
+        page,
         totalRegisters: data?.data.count,
       }}
       header={{
@@ -111,7 +112,7 @@ const ProductsListPage: React.FC = () => {
                   variant="filled"
                   className={c(
                     'sm:relative sm:pl-10 max-sm:p-2.5',
-                    mobileInputs.category
+                    mobileInputs?.category
                       ? 'bg-success-400'
                       : 'bg-dark-gray-500'
                   )}
@@ -119,7 +120,7 @@ const ProductsListPage: React.FC = () => {
                   onClick={() =>
                     setMobileInputs({
                       search: false,
-                      category: !mobileInputs.category,
+                      category: !mobileInputs?.category,
                     })
                   }
                 >
@@ -130,12 +131,12 @@ const ProductsListPage: React.FC = () => {
                   variant="filled"
                   className={c(
                     'sm:relative sm:pl-10 max-sm:p-2.5',
-                    mobileInputs.search ? 'bg-success-400' : 'bg-dark-gray-500'
+                    mobileInputs?.search ? 'bg-success-400' : 'bg-dark-gray-500'
                   )}
                   rounded
                   onClick={() =>
                     setMobileInputs({
-                      search: !mobileInputs.search,
+                      search: !mobileInputs?.search,
                       category: false,
                     })
                   }
@@ -147,11 +148,11 @@ const ProductsListPage: React.FC = () => {
           </>
         ),
         inputsMobile: ({ wrapper }) =>
-          !sm && (mobileInputs.category || mobileInputs.search)
+          !sm && (mobileInputs?.category || mobileInputs?.search)
             ? wrapper({
                 children: (
                   <>
-                    {mobileInputs.category && (
+                    {mobileInputs?.category && (
                       <Input.Select.Default
                         name="filter"
                         placeholder="Filtre por categoria"

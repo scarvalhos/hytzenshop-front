@@ -1,6 +1,6 @@
 import { LoadingAnimation, Pagination } from '@luma/ui'
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { MpPaymentResponse } from '@hytzenshop/types'
+import { MpPaymentResponse, PaginationParams } from '@hytzenshop/types'
 import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
@@ -21,6 +21,12 @@ interface TransactionDto {
   }
 }
 
+interface TransactionsState extends PaginationParams {
+  sort?: string
+  criteria?: string
+  offset?: number
+}
+
 const getData = async (params: any) => {
   return api
     .get<TransactionDto>('https://api.mercadopago.com/v1/payments/search', {
@@ -33,12 +39,17 @@ const getData = async (params: any) => {
 }
 
 const DashboardTransactions: NextPage = () => {
-  const [state, dispatch] = React.useState({
-    sort: 'date_created',
-    criteria: 'desc',
-    limit: 10,
-    offset: 0,
-  })
+  const [state, dispatch] = React.useReducer(
+    (prev: TransactionsState, next: TransactionsState) => {
+      return { ...prev, ...next }
+    },
+    {
+      sort: 'date_created',
+      criteria: 'desc',
+      limit: 10,
+      offset: 0,
+    }
+  )
 
   const transactionsQuery = useQuery(
     ['transactions', state.offset],
@@ -81,7 +92,7 @@ const DashboardTransactions: NextPage = () => {
 
         {!transactionsQuery.isLoading && (
           <Pagination
-            currentPage={state.offset / 10 + 1}
+            currentPage={(state.offset || 0) / 10 + 1}
             totalCountOfRegisters={transactionsQuery?.data?.paging.total || 0}
             registersPerPage={state.limit}
             onPageChange={setPage}

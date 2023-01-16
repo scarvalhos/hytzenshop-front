@@ -33,10 +33,10 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {withGlassEffect(
-        <>
+        <div className="w-full max-w-screen-2xl mx-auto px-8 py-1 sm:px-16 flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
             <Link href="/">
-              <p className="text-white py-4">
+              <p className="text-white py-4 text-xl">
                 <strong className="text-success-300">Hytzen</strong>
                 Shop
               </p>
@@ -92,13 +92,13 @@ const Header: React.FC<HeaderProps> = ({
               </Link>
             )}
           </div>
-        </>,
+        </div>,
         {
           glassEffect,
           divClassName:
-            'px-8 sm:px-16 fixed top-0 left-0 right-0 z-40 flex flex-row items-center justify-between border-b border-opacity-20 border-light-gray-400 bg-black',
+            'fixed top-0 left-0 right-0 z-40 border-b border-opacity-20 border-light-gray-400 bg-black',
           glassClassName:
-            'px-8 sm:px-16 fixed top-0 left-0 right-0 z-40 flex flex-row items-center justify-between border-b border-opacity-20 border-light-gray-400',
+            'fixed top-0 left-0 right-0 z-40 border-b border-opacity-20 border-light-gray-400',
         }
       )}
     </>

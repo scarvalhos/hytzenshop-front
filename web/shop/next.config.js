@@ -1,24 +1,28 @@
 /** @type {import('next').NextConfig} */
 
 const withTM = require('next-transpile-modules')([
-    '@luma/ui',
-    '@hytzenshop/hooks',
-    '@hytzenshop/types',
-    '@hytzenshop/helpers',
-    '@hytzenshop/services',
+  '@luma/ui',
+  '@hytzenshop/hooks',
+  '@hytzenshop/types',
+  '@hytzenshop/helpers',
+  '@hytzenshop/services',
 ])
 
 const nextConfig = {
-    reactStrictMode: true,
-    swcMinify: true,
-    eslint: { dirs: ['src', 'pages'] },
-    i18n: {
-        locales: ['pt-BR'],
-        defaultLocale: 'pt-BR',
-    },
-    images: {
-        domains: ['images.pexels.com', 'hytzenshop.s3.amazonaws.com', 'www.kangu.com.br'],
-    },
+  reactStrictMode: true,
+  swcMinify: true,
+  eslint: { dirs: ['src', 'pages'] },
+  i18n: {
+    locales: ['pt-BR'],
+    defaultLocale: 'pt-BR',
+  },
+  images: {
+    domains: [
+      'images.pexels.com',
+      'hytzenshop.s3.amazonaws.com',
+      'www.kangu.com.br',
+    ],
+  },
 }
 
 module.exports = withTM(nextConfig)

@@ -14,30 +14,36 @@ type CartProviderProps = {
   children: React.ReactNode
 }
 
-type CartContextData = {
-  cart: Cart
-  totalAmount: number
-  totalQuantity: number
+interface CartState {
+  cart?: Partial<Cart>
+  totalAmount?: number
+  totalQuantity?: number
   shipping?: ShippingSimulationResponse | null
+}
+
+type CartContextData = CartState & {
   addToCart: (Cart: CartProduct) => void
   deleteProductFromCart: (productId: string) => void
   updateCart: (productToUpdate: CartProduct[]) => void
   uptadeQuantity: (productId: string, quant: number, canUpdate: boolean) => void
   resetCart: () => Promise<void>
-  setShipping?: React.Dispatch<
-    React.SetStateAction<ShippingSimulationResponse | null | undefined>
-  >
+  setShipping?: (s: ShippingSimulationResponse | null) => void
 }
 
 export const CartContext = React.createContext({} as CartContextData)
 
 export const CartProvider = ({ children }: CartProviderProps) => {
-  const [cart, setToCart] = React.useState<Cart>({} as Cart)
-  const [shipping, setShipping] =
-    React.useState<ShippingSimulationResponse | null>()
-
-  const [totalAmount, setTotalAmount] = React.useState(0)
-  const [totalQuantity, setTotalQuantity] = React.useState(0)
+  const [state, dispatch] = React.useReducer(
+    (prev: CartState, next: CartState) => {
+      return { ...prev, ...next }
+    },
+    {
+      cart: {} as Cart,
+      totalAmount: 0,
+      totalQuantity: 0,
+      shipping: null,
+    }
+  )
 
   const { 'hytzenshop.cart': cartCookie } = parseCookies()
   const { user } = useAuth()
@@ -48,9 +54,9 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         undefined,
         'hytzenshop.cart',
         JSON.stringify({
-          ...cart,
-          products: cart.products
-            ? [...cart.products, productToAdd]
+          ...state.cart,
+          products: state?.cart?.products
+            ? [...(state?.cart?.products || []), productToAdd]
             : [productToAdd],
         }),
         {
@@ -59,25 +65,29 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         }
       )
 
-      setToCart({
-        ...cart,
-        products: cart.products
-          ? [...cart.products, productToAdd]
-          : [productToAdd],
+      dispatch({
+        cart: {
+          ...state.cart,
+          products: state?.cart?.products
+            ? [...(state?.cart?.products || []), productToAdd]
+            : [productToAdd],
+        },
       })
     },
-    [cart]
+    [state.cart]
   )
 
   const deleteProductFromCart = React.useCallback(
     async (productId: string) => {
-      const newProducts = cart.products.filter((item) => item.id !== productId)
+      const newProducts = (state?.cart?.products || []).filter(
+        (item) => item.id !== productId
+      )
 
       setCookie(
         undefined,
         'hytzenshop.cart',
         JSON.stringify({
-          ...cart,
+          ...state?.cart,
           products: newProducts,
         }),
         {
@@ -85,9 +95,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
           path: '/', // Whitch paths in my app has access to this cookie
         }
       )
-      setToCart({ ...cart, products: newProducts })
+
+      dispatch({
+        cart: { ...state?.cart, products: newProducts },
+      })
     },
-    [cart]
+    [state?.cart]
   )
 
   const updateCart = React.useCallback(
@@ -96,7 +109,7 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         undefined,
         'hytzenshop.cart',
         JSON.stringify({
-          ...cart,
+          ...state?.cart,
           products: productToUpdate,
         }),
         {
@@ -104,9 +117,12 @@ export const CartProvider = ({ children }: CartProviderProps) => {
           path: '/', // Whitch paths in my app has access to this cookie
         }
       )
-      setToCart({ ...cart, products: productToUpdate })
+
+      dispatch({
+        cart: { ...state?.cart, products: productToUpdate },
+      })
     },
-    [cart]
+    [state?.cart]
   )
 
   const resetCart = React.useCallback(async () => {
@@ -116,19 +132,22 @@ export const CartProvider = ({ children }: CartProviderProps) => {
           products: [],
         })
         .then(() => {
-          setToCart({
-            ...cart,
-            products: [],
+          dispatch({
+            cart: {
+              ...state?.cart,
+              products: [],
+            },
           })
+
           destroyCookie(null, 'hytzenshop.cart', { path: '/' })
         })
     })
-  }, [cart, user])
+  }, [state?.cart, user?.id])
 
   const uptadeQuantity = React.useCallback(
     (productId: string, quant: number, canUpdate: boolean) => {
       if (canUpdate) {
-        const newCartProducts = [...cart.products]
+        const newCartProducts = [...(state?.cart?.products || [])]
 
         const productInCart = newCartProducts.find(
           (item) => item.id === productId
@@ -145,44 +164,44 @@ export const CartProvider = ({ children }: CartProviderProps) => {
         }
       }
     },
-    [cart.products, updateCart]
+    [state?.cart?.products, updateCart]
   )
 
   React.useEffect(() => {
     if (cartCookie) {
-      setToCart(JSON.parse(cartCookie))
+      dispatch({ cart: JSON.parse(cartCookie) })
     }
   }, [cartCookie])
 
   React.useEffect(() => {
-    const quantities = cart && cart.products?.map((item) => item.quantity || 0)
+    const quantities =
+      state?.cart && state.cart.products?.map((item) => item.quantity || 0)
 
     const totalPerProducts =
-      cart &&
-      cart.products?.map((item) => {
+      state.cart &&
+      state.cart.products?.map((item) => {
         const q = item.quantity || 0
         const p = item.unitaryPrice || 0
 
         return q * p
       })
 
-    setTotalAmount(totalPerProducts?.reduce((p, n) => p + n, 0))
-    setTotalQuantity(quantities?.reduce((prev, next) => prev + next, 0))
-  }, [cart])
+    dispatch({
+      totalAmount: totalPerProducts?.reduce((p, n) => p + n, 0),
+      totalQuantity: quantities?.reduce((prev, next) => prev + next, 0),
+    })
+  }, [state?.cart])
 
   return (
     <CartContext.Provider
       value={{
-        cart,
+        ...state,
+        setShipping: (shipping) => dispatch({ shipping }),
         addToCart,
         deleteProductFromCart,
-        totalAmount,
-        totalQuantity,
         updateCart,
         resetCart,
         uptadeQuantity,
-        setShipping,
-        shipping,
       }}
     >
       {children}

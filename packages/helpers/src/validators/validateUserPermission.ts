@@ -24,9 +24,11 @@ export function validateUserPermission({
   return true
 }
 
-export const validateToken = (token: string) => {
+export const validateToken = (token: string, returnDecoded?: boolean) => {
   let isValidToken = true
-  const secret = process.env.AUTH_SECRET as string
+  let decodedData
+
+  const secret = process.env.NEXT_PUBLIC_AUTH_SECRET as string
 
   jwt.verify(token, secret, async function (err, decoded) {
     if (new Date((decoded as any)?.exp * 1000) < new Date()) {
@@ -36,7 +38,26 @@ export const validateToken = (token: string) => {
     if (err) {
       isValidToken = false
     }
+
+    if (returnDecoded) {
+      decodedData = decoded
+    }
   })
 
+  if (returnDecoded) {
+    return {
+      isValidToken,
+      decodedData,
+    }
+  }
+
   return isValidToken
+}
+
+export const parseToken = (token: string) => {
+  const secret = process.env.NEXT_PUBLIC_AUTH_SECRET as string
+
+  jwt.verify(token, secret, async function (_err, decoded) {
+    return decoded
+  })
 }

@@ -5,7 +5,7 @@ import { NextSeo } from 'next-seo'
 import SiderbarLayout from '@layouts/SiderbarLayout'
 
 const CartsDashboard: NextPage = () => {
-  return <NextSeo title="Relatórios" />
+  return <NextSeo title="Carrinhos" />
 }
 
 // @ts-expect-error layout

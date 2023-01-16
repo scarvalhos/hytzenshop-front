@@ -23,7 +23,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
   onFilterChange,
 }) => {
   const { asPath } = useRouter()
-  const { md } = useBreakpoint()
+  const { xl } = useBreakpoint()
 
   const [isModalOpen, setIsModalOpen] = React.useState(false)
   const [showSearch, setShowSearch] = React.useState(false)
@@ -65,8 +65,8 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
           className
         )}
       >
-        {md ? (
-          <div className="flex flex-row flex-1 justify-between items-center">
+        {xl ? (
+          <div className="flex flex-row flex-1 justify-between items-center max-w-screen-2xl mx-auto px-8 sm:px-16">
             <span className="flex flex-row">
               {tabs.map((tab) => (
                 <Link key={tab.title} href={tab.link}>
@@ -85,7 +85,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
               ))}
             </span>
 
-            <div className="px-6 py-3 max-w-lg w-full rounded-sm flex items-center bg-dark-gray-500 bg-opacity-30">
+            <div className="px-6 py-3 max-w-lg w-full rounded-md flex items-center bg-dark-gray-500 bg-opacity-30 focus-within:border-[1.5px] focus-within:border-success-300">
               <input
                 className="bg-[transparent] w-full border-none outline-none text-light-gray-100 placeholder:text-light-gray-100"
                 placeholder="Pesquisar"
@@ -100,7 +100,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
             </div>
           </div>
         ) : (
-          <div className="flex flex-row flex-1 justify-between items-center">
+          <div className="flex flex-row flex-1 justify-between items-center px-8 sm:px-16">
             <p
               className={c(
                 'capitalize relative py-4 px-4 text-sm whitespace-nowrap',

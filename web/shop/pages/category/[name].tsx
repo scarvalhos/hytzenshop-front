@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { ProductGetAllDto } from '@hytzenshop/types'
+import { PaginationParams, ProductGetAllDto } from '@hytzenshop/types'
 import { useConfigTypes } from '@utils/types/config'
 import { getProductList } from '@hooks/useProducts'
 import { withSSRAuth } from '@hocs/withSSRAuth'
@@ -14,11 +14,6 @@ import ProductSection from '@features/product/ProductSection'
 import TabsFilters from '@components/TabsFilters'
 import Slider from '@components/Slider'
 
-interface PaginationStateProps {
-  page: number
-  limit: number
-}
-
 interface CategoryProps {
   name: string
 }
@@ -26,14 +21,23 @@ interface CategoryProps {
 const Category: NextPage<CategoryProps> = ({ name: category }) => {
   const { categoriesTabs } = useConfigTypes()
 
-  const [state, dispatch] = React.useState<PaginationStateProps>({
-    page: 1,
-    limit: 30,
-  })
+  const [state, dispatch] = React.useReducer(
+    (prev: PaginationParams, next: PaginationParams) => {
+      return { ...prev, ...next }
+    },
+    {
+      page: 1,
+      limit: 20,
+    }
+  )
 
-  const filterString = JSON.stringify({
-    categories: { hasSome: category || '' },
-  })
+  const filterString = React.useMemo(
+    () =>
+      JSON.stringify({
+        categories: { hasSome: category || '' },
+      }),
+    [category]
+  )
 
   const { data, isLoading } = useQuery(
     ['products', state.page, category],
@@ -43,13 +47,10 @@ const Category: NextPage<CategoryProps> = ({ name: category }) => {
     }
   ) as UseQueryResult<ProductGetAllDto, unknown>
 
-  const onPageChange = React.useCallback(
-    (page: number) => {
-      dispatch({ ...state, page })
-      document.documentElement.scrollTop = 0
-    },
-    [state]
-  )
+  const onPageChange = React.useCallback((page: number) => {
+    dispatch({ page })
+    document.documentElement.scrollTop = 0
+  }, [])
 
   const categoryTitle = React.useMemo(
     () =>
@@ -73,7 +74,7 @@ const Category: NextPage<CategoryProps> = ({ name: category }) => {
     }[category as string]
   }, [category])
 
-  React.useEffect(() => dispatch({ page: 1, limit: 30 }), [category])
+  React.useEffect(() => dispatch({ page: 1, limit: 20 }), [category])
 
   return (
     <HeaderFooterLayout>
@@ -83,13 +84,13 @@ const Category: NextPage<CategoryProps> = ({ name: category }) => {
 
       <TabsFilters className="px-8 sm:px-16" tabs={categoriesTabs} />
 
-      <ProductSection
-        products={data?.data.products || []}
-        isLoading={isLoading}
-      />
+      <main className="max-w-screen-2xl mx-auto px-8 sm:px-16 pb-10">
+        <ProductSection
+          products={data?.data.products || []}
+          isLoading={isLoading}
+        />
 
-      <div className="mx-16 mb-16">
-        {(data?.data.count || 0) > (state.limit || 10) && (
+        {data?.data.count && (
           <Pagination
             currentPage={state.page}
             registersPerPage={state.limit}
@@ -97,7 +98,7 @@ const Category: NextPage<CategoryProps> = ({ name: category }) => {
             onPageChange={onPageChange}
           />
         )}
-      </div>
+      </main>
     </HeaderFooterLayout>
   )
 }

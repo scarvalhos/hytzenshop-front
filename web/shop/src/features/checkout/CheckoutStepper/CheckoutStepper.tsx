@@ -181,7 +181,7 @@ const CheckoutStepper = () => {
   }
 
   return (
-    <main className="w-full px-8 mt-12 flex flex-col">
+    <main className="w-full mt-12 flex flex-col">
       <StepperBar
         steps={steps}
         activeStep={activeStep}

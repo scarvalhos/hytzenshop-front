@@ -77,7 +77,7 @@ const SelectMultiple = React.forwardRef(
             variant={variant}
             error={error ? 'true' : 'false'}
             rounded={rounded ? 'true' : 'false'}
-            className="flex flex-row py-0.5"
+            className="flex flex-row py-0.5 focus-within:border-[1.5px] focus-within:border-success-300"
           >
             <Select
               options={options as any}
