@@ -15,12 +15,14 @@ interface LoginFormSectionProps {
   title?: string | React.ReactNode
   checkoutNextStep?: () => void
   containerClassName?: string
+  bgClassName?: string
 }
 
 const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   title,
   checkoutNextStep,
   containerClassName,
+  bgClassName,
 }) => {
   const [stayConnectedChecked, setStayConnectedChecked] = React.useState(true)
   const [loading, setLoading] = React.useState(false)
@@ -65,7 +67,8 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
     >
       <div
         className={c(
-          'relative bg-[url(/slider/marvel-02.jpg)] bg-cover bg-center max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-center'
+          'relative bg-[url(/slider/marvel-02.jpg)] bg-cover bg-center max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-center',
+          bgClassName
         )}
       >
         <span className="z-10">{title}</span>

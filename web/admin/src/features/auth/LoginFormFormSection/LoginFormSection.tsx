@@ -54,91 +54,94 @@ export const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   return (
     <div
       className={c(
-        'flex',
-        md
-          ? 'flex-row items-center justify-center'
-          : 'flex-col items-start justify-center',
+        'flex md:flex-row md:items-center md:justify-center flex-col items-start gap-8',
         containerClassName
       )}
     >
-      <div className={c(md ? 'mr-20' : 'mr-0 mb-6')}>
-        <p className={c(md ? 'text-5xl' : 'text-3xl', 'text-light-gray-100')}>
-          {title}
-        </p>
-      </div>
-
-      <form
-        onSubmit={handleSubmit(handleOnSubmit)}
+      <div
         className={c(
-          'flex flex-col px-8 py-8 space-y-4 rounded-md bg-dark-gray-500 bg-opacity-30',
-          md ? 'w-[420px]' : 'w-[100%]'
+          'relative bg-[url(https://shop.hytzen.com/slider/marvel-02.jpg)] bg-cover bg-center max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-center'
         )}
       >
-        <div className="space-y-4">
-          <Input.Field
-            type="text"
-            label="Username:"
-            control={control}
-            error={errors?.username?.message?.toString()}
-            isFullWidth
-            {...register('username')}
-          />
-          <Input.Password
-            name="password"
-            label="Senha:"
-            passthrough={{ placeholder: 'Digite sua senha' }}
-            register={register}
-            control={control}
-            isFullWidth
-            error={errors?.password?.message?.toString()}
-          />
-        </div>
+        <span className="z-10">{title}</span>
 
-        <div className="flex flex-row justify-between pb-2">
-          <span className="flex items-center space-x-2">
-            <Checkbox.Root
-              id="stayConnected"
-              {...register('stayConnected')}
-              className="bg-white w-4 h-4 rounded-sm flex items-center justify-center drop-shadow-sm"
-              checked={stayConnectedChecked}
-              onClick={() => setStayConnectedChecked(!stayConnectedChecked)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  setStayConnectedChecked(!stayConnectedChecked)
-                }
-              }}
-            >
-              <Checkbox.Indicator className="CheckboxIndicator">
-                <CheckIcon className="w-4 h-4 text-dark-gray-300" />
-              </Checkbox.Indicator>
-            </Checkbox.Root>
+        <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75" />
+      </div>
 
-            <label
-              className="cursor-pointer"
-              onClick={() => setStayConnectedChecked(!stayConnectedChecked)}
-            >
-              Manter conectado
-            </label>
-          </span>
-
-          <Button href="/auth/reset-password" className="p-0 text-right">
-            Esqueci minha senha
-          </Button>
-        </div>
-
-        <DivideY dividerClassName="my-8">
+      <div className="h-full w-full flex items-center justify-center px-8">
+        <form
+          onSubmit={handleSubmit(handleOnSubmit)}
+          className={c(
+            'flex flex-col px-8 py-8 space-y-4 rounded-md bg-dark-gray-500 bg-opacity-30',
+            md ? 'w-[420px]' : 'w-[100%]'
+          )}
+        >
           <div className="space-y-4">
-            <Button
-              type="submit"
-              loading={loading}
-              variant="filled"
-              className="w-full bg-success-400"
-            >
-              Entrar
+            <Input.Field
+              type="text"
+              label="Username:"
+              control={control}
+              error={errors?.username?.message?.toString()}
+              isFullWidth
+              {...register('username')}
+            />
+            <Input.Password
+              name="password"
+              label="Senha:"
+              passthrough={{ placeholder: 'Digite sua senha' }}
+              register={register}
+              control={control}
+              isFullWidth
+              error={errors?.password?.message?.toString()}
+            />
+          </div>
+
+          <div className="flex flex-row justify-between pb-2">
+            <span className="flex items-center space-x-2">
+              <Checkbox.Root
+                id="stayConnected"
+                {...register('stayConnected')}
+                className="bg-white w-4 h-4 rounded-sm flex items-center justify-center drop-shadow-sm"
+                checked={stayConnectedChecked}
+                onClick={() => setStayConnectedChecked(!stayConnectedChecked)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setStayConnectedChecked(!stayConnectedChecked)
+                  }
+                }}
+              >
+                <Checkbox.Indicator className="CheckboxIndicator">
+                  <CheckIcon className="w-4 h-4 text-dark-gray-300" />
+                </Checkbox.Indicator>
+              </Checkbox.Root>
+
+              <label
+                className="cursor-pointer"
+                onClick={() => setStayConnectedChecked(!stayConnectedChecked)}
+              >
+                Manter conectado
+              </label>
+            </span>
+
+            <Button href="/auth/reset-password" className="p-0 text-right">
+              Esqueci minha senha
             </Button>
           </div>
-        </DivideY>
-      </form>
+
+          <DivideY dividerClassName="my-8">
+            <div className="space-y-4">
+              <Button
+                type="submit"
+                loading={loading}
+                variant="filled"
+                className="w-full bg-success-400"
+              >
+                Entrar
+              </Button>
+            </div>
+          </DivideY>
+        </form>
+      </div>
     </div>
   )
 }

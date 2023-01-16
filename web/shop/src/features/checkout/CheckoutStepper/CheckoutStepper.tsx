@@ -24,6 +24,7 @@ import PaymentCheckoutStep from '../PaymentCheckoutStep'
 import InfosCheckoutStep from '../InfosCheckoutStep'
 import LoginFormSection from '@features/auth/LoginFormSection'
 import React from 'react'
+import Image from 'next/image'
 
 const CheckoutStepper = () => {
   const [activeStep, setActiveStep] = React.useState(0)
@@ -91,13 +92,26 @@ const CheckoutStepper = () => {
       />
     ) : (
       <LoginFormSection
+        containerClassName="mt-10 h-[70vh]"
         checkoutNextStep={handleSetActiveStep}
+        bgClassName="rounded-md"
         title={
-          <span>
-            Faça login
-            <br />
-            para continuar
-          </span>
+          <div className="space-y-2">
+            <Image
+              src="/icons/logo.svg"
+              alt="Hytzen Shop"
+              width={46}
+              height={46}
+              className="mb-6"
+            />
+
+            <p className="text-4xl md:text-5xl text-light-gray-100 font-bold">
+              Faça login
+            </p>
+            <p className="text-xl max-w-xs text-light-gray-100 font-medium">
+              Para começar digite seu username e senha ou efetue seu cadastro.
+            </p>
+          </div>
         }
       />
     ),

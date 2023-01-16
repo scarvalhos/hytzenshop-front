@@ -2,13 +2,14 @@ import { GetServerSideProps, NextPage } from 'next'
 import { LoadingAnimation } from '@luma/ui'
 import { parseCookies } from 'nookies'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
 import { NextSeo } from 'next-seo'
+
+import React from 'react'
 
 const Redirect: NextPage = () => {
   const router = useRouter()
 
-  useEffect(() => {
+  React.useEffect(() => {
     setTimeout(() => {
       router.reload()
     }, 1000)
@@ -19,23 +20,15 @@ const Redirect: NextPage = () => {
     <>
       <NextSeo title="Redirecioando... | Hytzen Shop" />
 
-      <div
-      // direction="row"
-      // justifyContent="center"
-      // alignItems="center"
-      // sx={{ width: '100vw', height: '100vh' }}
-      >
-        <p
-        // color={theme.palette.text.primary}
-        // fontSize="2rem"
-        // textAlign="right"
-        >
+      <main className="flex items-center justify-center w-[100vw] h-[100vh]">
+        <p className="text-3xl text-light-gray-100 font-semibold text-left">
           Aguarde, você está
           <br />
           sendo redirecionado!
         </p>
+
         <LoadingAnimation />
-      </div>
+      </main>
     </>
   )
 }
@@ -49,7 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       redirect: {
         destination: '/',
-        permanent: false,
+        permanent: true,
       },
     }
   }

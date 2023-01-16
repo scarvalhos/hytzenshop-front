@@ -20,7 +20,7 @@ const SignInPage: NextPage = () => {
           <div className="space-y-2">
             <Image
               src="/icons/logo.svg"
-              alt="Hytzen Shop Adm"
+              alt="Hytzen Shop"
               width={46}
               height={46}
               className="mb-6"

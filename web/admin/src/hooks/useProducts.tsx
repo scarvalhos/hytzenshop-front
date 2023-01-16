@@ -69,8 +69,9 @@ export function useProducts(queryKey: unknown[]) {
       queryClient.invalidateQueries({ queryKey })
     },
 
-    onError: (_err, _newProducts, context) => {
+    onError: (err, _newProducts, context) => {
       queryClient.setQueryData(queryKey, context?.previousProducts)
+      defaultToastError(err)
     },
   })
 
