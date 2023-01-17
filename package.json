@@ -7,9 +7,7 @@
     "packages": [
       "packages/*",
       "packages/@settings/*",
-      "web/*",
-      "desktop/*",
-      "services/*"
+      "web/*"
     ]
   },
   "author": "Samara Carvalho <samcarvalhos@hotmail.com>",
@@ -18,7 +16,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "prepare": "husky install",
-    "dev": "concurrently \"yarn workspace @hytzenshop/shop dev\" \"yarn workspace @hytzenshop/admin dev --port 3001\" \"yarn workspace @hytzenshop/api dev\"",
+    "dev": "concurrently \"yarn workspace @hytzenshop/shop dev\" \"yarn workspace @hytzenshop/admin dev --port 3001\"",
     "shop": "yarn workspace @hytzenshop/shop",
     "adm": "yarn workspace @hytzenshop/admin",
     "luma": "yarn workspace @luma/ui",
