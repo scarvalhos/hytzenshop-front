@@ -27,6 +27,6 @@ app.use(
   })
 )
 
-httpServer.listen(process.env.PORT || 2090, () =>
-  console.log(`Backend is running at PORT ${process.env.PORT || 2090}!`)
+httpServer.listen(process.env.PORT || 4000, () =>
+  console.log(`Backend is running at PORT ${process.env.PORT || 4000}!`)
 )

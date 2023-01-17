@@ -14,14 +14,10 @@ import React from 'react'
 const Home: NextPage = () => {
   const { announcement } = useConfig()
 
-  const getMessage = async () => {
-    const message = await api.get('http://localhost:2090/api')
-
-    console.log(message.data)
-  }
-
   React.useEffect(() => {
-    getMessage()
+    fetch('https://shop.hytzen.com:4000/api')
+      .then((res) => res.json())
+      .then((data) => console.log(data))
   }, [])
 
   return (

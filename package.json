@@ -2,7 +2,7 @@
   "name": "hytzenshop",
   "version": "1.0.0",
   "main": "index.js",
-  "private": "true",
+  "private": true,
   "workspaces": {
     "packages": [
       "packages/*",
@@ -18,7 +18,7 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "prepare": "husky install",
-    "dev": "concurrently \"yarn workspace @hytzenshop/shop dev\" \"yarn workspace @hytzenshop/admin dev --port  3001\"",
+    "dev": "concurrently \"yarn workspace @hytzenshop/shop dev\" \"yarn workspace @hytzenshop/admin dev --port 3001\" \"yarn workspace @hytzenshop/api dev\"",
     "shop": "yarn workspace @hytzenshop/shop",
     "adm": "yarn workspace @hytzenshop/admin",
     "luma": "yarn workspace @luma/ui",

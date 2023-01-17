@@ -2,6 +2,7 @@
   "name": "@hytzenshop/shop",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:2090",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
