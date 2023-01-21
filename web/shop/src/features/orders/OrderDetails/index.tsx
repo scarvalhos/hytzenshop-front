@@ -253,7 +253,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
                   target="_blank"
                   rounded
                 >
-                  <span className="flex flex-row max-sm:justify-center space-x-2 text-light-gray-100">
+                  <span className="flex flex-row max-sm:justify-center space-x-2">
                     <TbDownload />
                     <p>Ver comprovante</p>
                   </span>

@@ -7,7 +7,7 @@
     @apply disabled:button--disabled px-6 py-3 text-center transition-colors;
   }
   .button--disabled {
-    @apply cursor-not-allowed bg-[none] border border-solid border-light-gray-300 dark:border-dark-gray-200 text-dark-gray-200;
+    @apply cursor-not-allowed bg-[transparent] dark:bg-[transparent] border border-solid border-light-gray-300 dark:border-dark-gray-200 text-dark-gray-200;
   }
   .button--filled {
     @apply button bg-success-300 dark:bg-success-400 font-semibold text-light-gray-100 hover:brightness-110;

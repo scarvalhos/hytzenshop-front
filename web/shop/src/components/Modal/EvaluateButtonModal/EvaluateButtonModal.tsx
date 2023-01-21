@@ -36,7 +36,6 @@ const EvaluateButtonModal: React.FC<EvaluateButtonModalProps> = ({
   return (
     <>
       <Button
-        variant="filled"
         className="sm:relative sm:pl-10 bg-light-gray-200"
         onClick={() => setOpen(true)}
         rounded

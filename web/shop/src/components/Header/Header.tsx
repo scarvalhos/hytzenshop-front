@@ -7,7 +7,7 @@ import {
   TbSun,
 } from 'react-icons/tb'
 
-import { Badge, Button, withGlassEffect, Link, useTheme } from '@luma/ui'
+import { Badge, Button, withGlassEffect, Link } from '@luma/ui'
 import { useWishlist } from '@contexts/WishlistContext'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({
   renderAfterLogo,
   glassEffect,
 }) => {
-  const { theme, setTheme } = useTheme()
+  // const { theme, setTheme } = useTheme()
   const { totalQuantity } = useCart()
   const { wishlist } = useWishlist()
   const { user } = useAuth()
@@ -63,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({
 
           <div className="flex flex-row items-center space-x-2">
             <div className="flex flex-row items-center space-x-1">
-              <Button
+              {/* <Button
                 className={c(
                   'p-1',
                   glassEffect ? 'text-light-gray-100' : 'text-primary'
@@ -77,7 +77,7 @@ const Header: React.FC<HeaderProps> = ({
                 ) : (
                   <TbMoonStars size={20} />
                 )}
-              </Button>
+              </Button> */}
 
               <Button href="/wishlist" rounded className="p-1">
                 <Badge

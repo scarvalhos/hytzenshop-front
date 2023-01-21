@@ -37,7 +37,7 @@ const InfoCard: React.FC<InfoCardProps> = ({ renderInsideCard }) => {
           disabled
         >
           <TbTruck className="absolute left-4" size={16} />
-          Rastreie agora
+          <p>Rastreie agora</p>
         </Button>
 
         <Link href={link}>

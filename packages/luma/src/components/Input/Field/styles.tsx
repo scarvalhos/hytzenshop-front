@@ -93,9 +93,9 @@ export const FieldContent: React.FC<FieldContentProps> = ({
     <div
       className={c(
         'w-full',
+        variantClassName,
         error === 'true' && 'border-[1.5px] border-danger-300',
         rounded ? 'rounded-full' : 'rounded-md',
-        variantClassName,
         className
       )}
     >
