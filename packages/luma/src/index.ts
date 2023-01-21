@@ -10,6 +10,7 @@ export { Error404Animation, ErrorAnimation, HeartAnimation, ShopAnimation }
 // THEME -----------------------------------------------------------------------------------------------------------
 
 export * from './styles/theme'
+export * from './styles/ThemeContext'
 
 // SHARED --------------------------------------------------------------------------------------------------------------------
 

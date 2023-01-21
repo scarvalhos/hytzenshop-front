@@ -31,24 +31,27 @@ ProfilePedidosPage.getLayout = (page: ReactElement) => {
 
 export default ProfilePedidosPage
 
-export const getServerSideProps = withSSRAuth(async (ctx) => {
-  const cookies = parseCookies(ctx)
+export const getServerSideProps = withSSRAuth(
+  async (ctx) => {
+    const cookies = parseCookies(ctx)
 
-  if (cookies) {
-    api.defaults.headers.common[
-      'Authorization'
-    ] = `Bearer ${cookies['hytzenshopadm.token']}`
-  }
+    if (cookies) {
+      api.defaults.headers.common[
+        'Authorization'
+      ] = `Bearer ${cookies['hytzenshopadm.token']}`
+    }
 
-  const { id } = ctx.query
+    const { id } = ctx.query
 
-  const {
-    data: { order },
-  } = await api.get<OrderGetDto>(`/orders/order/${id}`)
+    const {
+      data: { order },
+    } = await api.get<OrderGetDto>(`/orders/order/${id}`)
 
-  return {
-    props: {
-      order,
-    },
-  }
-})
+    return {
+      props: {
+        order,
+      },
+    }
+  },
+  { isAdmin: true }
+)

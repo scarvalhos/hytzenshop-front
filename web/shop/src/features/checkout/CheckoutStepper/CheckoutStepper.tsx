@@ -216,8 +216,8 @@ const CheckoutStepper = () => {
           {activeStep >= 1 ? (
             <button
               className={c(
-                activeStep === 0 && 'text-light-gray-100',
-                'flex flex-row items-center hover:text-light-gray-100'
+                activeStep === 0 && 'text-primary',
+                'flex flex-row items-center hover:text-primary'
               )}
               onClick={() => setActiveStep(0)}
             >
@@ -231,8 +231,8 @@ const CheckoutStepper = () => {
               <IoIosArrowForward />
               <button
                 className={c(
-                  activeStep === 1 && 'text-light-gray-100',
-                  'flex flex-row items-center hover:text-light-gray-100'
+                  activeStep === 1 && 'text-primary',
+                  'flex flex-row items-center hover:text-primary'
                 )}
                 onClick={() => setActiveStep(1)}
               >
@@ -247,8 +247,8 @@ const CheckoutStepper = () => {
               <IoIosArrowForward />
               <button
                 className={c(
-                  activeStep === 2 && 'text-light-gray-100',
-                  'flex flex-row items-center hover:text-light-gray-100'
+                  activeStep === 2 && 'text-primary',
+                  'flex flex-row items-center hover:text-primary'
                 )}
               >
                 <TbCreditCard className="mr-2" />

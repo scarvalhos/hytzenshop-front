@@ -1,6 +1,7 @@
 import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { ProductGetAllDto } from '@hytzenshop/types'
 import { api } from '@hytzenshop/services'
+import { randonfy } from '@hytzenshop/helpers'
 
 export const getProductList = async (
   page?: number,
@@ -15,7 +16,10 @@ export const getProductList = async (
     },
   })
 
-  return data
+  return {
+    ...data,
+    data: { ...data.data, products: randonfy(data?.data.products) },
+  }
 }
 
 export function useProducts({

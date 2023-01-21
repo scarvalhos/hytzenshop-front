@@ -2,15 +2,16 @@ import Select, { SingleValue } from 'react-select'
 import React from 'react'
 
 import { FieldContent, FieldLabel, FieldWrapper } from '../../Field/styles'
+import { useSelectCommons } from '../SelectCommons.hook'
 import { FieldInputProps } from '../../Field'
-import { theme, Error } from '@luma/ui'
 import { Option } from '@hytzenshop/types'
+import { Error } from '../../../Error'
 import { c } from '@hytzenshop/helpers'
 
 interface SelectDefaultProps<T> extends FieldInputProps {
   options?: Option<T>[]
   defaultValue?: string
-  onChangeValue?: (e: SingleValue<string>) => void
+  onChangeValue?: (e: SingleValue<unknown>) => void
 }
 
 const SelectDefault = React.forwardRef(
@@ -37,6 +38,8 @@ const SelectDefault = React.forwardRef(
     }: React.PropsWithChildren<SelectDefaultProps<T>>,
     _ref: any
   ) => {
+    const { styles } = useSelectCommons({ rounded })
+
     return (
       <FieldWrapper
         width={isFullWidth ? 'full' : 'fit'}
@@ -55,68 +58,14 @@ const SelectDefault = React.forwardRef(
           <FieldContent
             variant={variant}
             error={error ? 'true' : 'false'}
-            rounded={rounded ? 'true' : 'false'}
-            className="flex flex-row py-0.5 focus-within:border-[1.5px] focus-within:border-success-300"
+            rounded={rounded}
+            className="flex flex-row focus-within:border-[1.5px] focus-within:border-success-300"
           >
             <Select
               name={name}
+              styles={styles}
               options={options as any}
-              className={c(className, 'shadow-lg')}
-              styles={{
-                input: (style) => ({
-                  ...style,
-                  color: theme.colors['light-gray'][100],
-                }),
-                singleValue: (style) => ({
-                  ...style,
-                  fontWeight: 500,
-                  color: theme.colors['light-gray'][100],
-                }),
-                container: (style) => ({
-                  ...style,
-                  width: '100%',
-                  borderRadius: '8px',
-                }),
-                control: (style) => ({
-                  ...style,
-                  backgroundColor: 'transparent',
-                  color: theme.colors['light-gray'][100],
-                  border: 'none',
-                  boxShadow: 'none',
-                  outline: 'none',
-                }),
-                menu: (style) => ({
-                  ...style,
-                  backgroundColor: 'transparent',
-                  borderRadius: rounded ? '16px' : '3px',
-                  marginTop: '12px',
-                }),
-                menuList: (style) => ({
-                  ...style,
-                  padding: 0,
-                  borderRadius: rounded ? '16px' : '3px',
-                  background: theme.colors['dark-gray'][500],
-                }),
-                option: (style) => ({
-                  ...style,
-                  color: theme.colors['light-gray'][100],
-                  background: theme.colors['dark-gray'][500],
-                  paddingLeft: 16,
-                  paddingRight: 16,
-                  cursor: 'pointer',
-                  fontWeight: 500,
-                  fontSize: 14,
-                  ':hover': {
-                    background: theme.colors['dark-gray'][400],
-                    filter: 'brightness(1.2)',
-                  },
-                }),
-                indicatorSeparator: () => ({}),
-                placeholder: (style) => ({
-                  ...style,
-                  color: theme.colors['light-gray'][400],
-                }),
-              }}
+              className={c(className)}
               placeholder={placeholder}
               defaultValue={defaultValue}
               onChange={(e) => {

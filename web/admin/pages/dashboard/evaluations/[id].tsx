@@ -1,7 +1,5 @@
-import { ProductGetAllDto, ProductGetDto } from '@hytzenshop/types'
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
-import { useSearchParams } from 'next/navigation'
-import { useRouter } from 'next/router'
+import { ProductGetAllDto } from '@hytzenshop/types'
+import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { api } from '@hytzenshop/services'
@@ -14,7 +12,7 @@ async function getData(id?: string | null) {
     evaluation: { some: { id } },
   })
 
-  const { data } = await api.get<ProductGetDto>(`/products`, {
+  const { data } = await api.get<ProductGetAllDto>(`/products`, {
     params: {
       filter: filterString,
     },
@@ -24,19 +22,6 @@ async function getData(id?: string | null) {
 }
 
 const EvaluationLoadingPage: NextPage = () => {
-  const id = useSearchParams().get('id')
-
-  const { push } = useRouter()
-
-  const productQuery = useQuery(['product-evaluation', id], () => getData(id), {
-    staleTime: 1000 * 60 * 10, // 10 minutes
-  }) as UseQueryResult<ProductGetAllDto, unknown>
-
-  React.useEffect(() => {
-    if (productQuery.data?.data.products[0]?.id)
-      push(`/dashboard/products/${productQuery.data?.data.products[0]?.id}`)
-  }, [productQuery.data?.data.products, push])
-
   return <NextSeo title="Loading..." />
 }
 
@@ -46,3 +31,25 @@ EvaluationLoadingPage.getLayout = (page: ReactElement) => {
 }
 
 export default EvaluationLoadingPage
+
+export const getServerSideProps = withSSRAuth(
+  async (ctx) => {
+    const data = await getData(ctx.params?.id as string)
+
+    if (data.data.products[0].id) {
+      return {
+        redirect: {
+          destination: `/dashboard/products/${data.data.products[0].id}`,
+          permanent: false,
+        },
+      }
+    }
+
+    return {
+      notFound: true,
+    }
+  },
+  {
+    isAdmin: true,
+  }
+)

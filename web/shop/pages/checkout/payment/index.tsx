@@ -6,7 +6,7 @@ import CheckoutStepper from '@features/checkout/CheckoutStepper'
 
 const Payment: NextPage = () => {
   return (
-    <HeaderFooterLayout>
+    <HeaderFooterLayout glassEffect={false}>
       <NextSeo title="Finalize sua compra" />
 
       <main className="max-w-screen-2xl mx-auto px-8 sm:px-16 my-20">

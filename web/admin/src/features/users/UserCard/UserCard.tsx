@@ -31,7 +31,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
   )
 
   return (
-    <div className="bg-dark-gray-500 px-6 py-4 rounded-md flex-1 flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-6">
+    <div className="bg-primary px-6 py-4 rounded-md flex-1 flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-6">
       <div className="flex flex-row items-center space-x-2">
         <Avatar
           src={user?.profile?.avatar || ''}
@@ -41,7 +41,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
         />
 
         <div>
-          <p className="text-light-gray-100 font-medium">
+          <p className="text-primary font-medium">
             {user?.profile?.completeName || user?.username}
           </p>
           <p className="text-sm">{user?.email}</p>
@@ -68,13 +68,9 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
           target="_blank"
           variant="filled"
           rounded
-          className="p-3 bg-light-gray-100"
+          className="p-3 bg-secondary"
         >
           <TbMailForward size={16} className="text-light-gray-500" />
-        </Button>
-
-        <Button variant="outlined" rounded className="p-3">
-          <TbEye size={16} />
         </Button>
       </div>
     </div>

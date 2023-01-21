@@ -121,11 +121,11 @@ const UserProfileFormSectionEditable: React.FC<
       onSubmit={handleSubmit(onSubmit)}
       className={c(
         'grid grid-cols-1 gap-4 rounded-md px-8 py-8',
-        checkout && 'bg-dark-gray-500 bg-opacity-30'
+        checkout && 'bg-primary'
       )}
     >
       <div className="flex flex-row space-x-2 items-center">
-        <p className="text-xl text-light-gray-100">Dados pessoais</p>
+        <p className="text-xl text-primary">Dados pessoais</p>
         {state.loading ? <Loader className="relative" /> : null}
       </div>
 

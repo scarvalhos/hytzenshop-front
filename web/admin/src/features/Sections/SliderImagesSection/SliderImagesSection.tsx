@@ -78,6 +78,7 @@ const SliderImagesSection: React.FC = () => {
         filesListDisplay="grid"
         onDelete={onDelete}
         isFullWidth
+        variant="filled"
         onChangeFiles={onChange}
         {...register('sliderImages')}
         {...(initialValue?.length &&

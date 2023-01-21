@@ -15,13 +15,13 @@ const ProfileDadosPessoaisPage: NextPage = () => {
       <NextSeo title="Meu perfil" />
 
       <ProfileLayout>
-        <div className="w-full h-44 bg-dark-gray-400">
+        <div className="w-full h-44 bg-primary">
           <div className="max-w-screen-md mx-auto h-full relative px-6">
             <Avatar
               src={user?.profile?.avatar}
               name={user?.profile?.completeName || user?.username}
               imageClassName="w-32 h-32 absolute -bottom-16"
-              fallbackClassName="p-12 bg-dark-gray-500 text-xl absolute -bottom-16"
+              fallbackClassName="p-12 bg-primary text-xl absolute -bottom-16"
             />
           </div>
         </div>

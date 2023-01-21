@@ -38,7 +38,7 @@ export const FileList: React.FC<FileListProps> = ({
           <li
             key={file.id}
             className={c(
-              'w-full flex justify-between items-center text-light-gray-100 bg-dark-gray-500 p-2',
+              'w-full flex justify-between items-center text-primary bg-secondary p-2',
               listItemRounded ? 'rounded-full' : 'rounded-md'
             )}
           >

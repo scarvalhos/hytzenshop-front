@@ -7,6 +7,7 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { WishlistProvider } from '@contexts/WishlistContext'
 import { ConfigProvider } from '@contexts/ConfigContext'
 import { SocketProvider } from '@contexts/SocketContext'
+import { ThemeProvider } from '@luma/ui'
 import { AuthProvider } from '@contexts/AuthContext'
 import { CartProvider } from '@contexts/CartContext'
 
@@ -18,7 +19,7 @@ import React from 'react'
 import seo from '../next-seo.config'
 
 import 'react-toastify/dist/ReactToastify.css'
-import '../src/styles/globals.css'
+import '@settings/tailwind/globals.css'
 
 const queryClient = new QueryClient()
 
@@ -41,35 +42,40 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       />
 
-      <AuthProvider>
-        <SocketProvider>
-          <ConfigProvider>
-            <CartProvider>
-              <WishlistProvider>
-                <ToastContainer
-                  rtl={false}
-                  className="px-2 z-[1200000]"
-                  position="top-right"
-                  newestOnTop={false}
-                  closeOnClick
-                  pauseOnFocusLoss
-                  pauseOnHover
-                  draggable
-                  transition={Slide}
-                  autoClose={4000}
-                  theme="dark"
-                  toastClassName="bg-dark-gray-300"
-                  closeButton={() => (
-                    <TbX size={20} className="mt-2 mr-1 text-light-gray-500" />
-                  )}
-                />
+      <ThemeProvider>
+        <AuthProvider>
+          <SocketProvider>
+            <ConfigProvider>
+              <CartProvider>
+                <WishlistProvider>
+                  <ToastContainer
+                    rtl={false}
+                    className="px-2 z-[1200000]"
+                    position="top-right"
+                    newestOnTop={false}
+                    closeOnClick
+                    pauseOnFocusLoss
+                    pauseOnHover
+                    draggable
+                    transition={Slide}
+                    autoClose={4000}
+                    theme="dark"
+                    toastClassName="bg-dark-gray-300"
+                    closeButton={() => (
+                      <TbX
+                        size={20}
+                        className="mt-2 mr-1 text-light-gray-500"
+                      />
+                    )}
+                  />
 
-                <Component {...pageProps} />
-              </WishlistProvider>
-            </CartProvider>
-          </ConfigProvider>
-        </SocketProvider>
-      </AuthProvider>
+                  <Component {...pageProps} />
+                </WishlistProvider>
+              </CartProvider>
+            </ConfigProvider>
+          </SocketProvider>
+        </AuthProvider>
+      </ThemeProvider>
       <ReactQueryDevtools />
     </QueryClientProvider>
   )

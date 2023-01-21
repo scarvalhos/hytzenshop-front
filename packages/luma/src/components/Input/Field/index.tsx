@@ -115,7 +115,7 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
               <FieldContent
                 variant={variant}
                 error={error ? 'true' : 'false'}
-                rounded={rounded ? 'true' : 'false'}
+                rounded={rounded}
                 className={c(
                   'flex flex-row focus-within:border-[1.5px] focus-within:border-success-300',
                   fieldClassName
@@ -134,10 +134,8 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
                   fieldVariant={fieldVariant}
                   className={c(
                     className,
-                    disabled
-                      ? 'cursor-not-allowed text-light-gray-500'
-                      : 'text-light-gray-100',
-                    'px-3 py-3'
+                    'px-3 py-3 text-primary',
+                    disabled && 'cursor-not-allowed'
                   )}
                   {...(value !== undefined
                     ? { value }

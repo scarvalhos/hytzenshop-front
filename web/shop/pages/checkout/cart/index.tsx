@@ -20,7 +20,7 @@ const CartPage: NextPage = () => {
   const { user } = useAuth()
 
   return (
-    <HeaderFooterLayout>
+    <HeaderFooterLayout glassEffect={false}>
       <NextSeo
         title={
           cart?.products && cart?.products.length > 0
@@ -34,9 +34,9 @@ const CartPage: NextPage = () => {
           <CartList />
         ) : (
           <div className="flex flex-col items-center justify-center h-[50vh] mx-6">
-            <Icons.EmptyCart className="scale-75 text-dark-gray-400" />
+            <Icons.EmptyCart className="scale-75 text-light-gray-300 dark:text-dark-gray-400 opacity-50" />
 
-            <p className="text-2xl text-light-gray-100 font-medium">
+            <p className="text-2xl text-primary font-medium">
               Seu carrinho está vazio
             </p>
             <p className="mb-8 text-center">

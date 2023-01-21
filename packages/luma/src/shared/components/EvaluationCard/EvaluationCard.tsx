@@ -1,7 +1,7 @@
 import { Button, EvaluationStars, trucate } from '@luma/ui'
 import { useEvaluationCard } from './EvaluationCard.hook'
 import { Evaluation } from '@hytzenshop/types'
-import { date } from '@hytzenshop/helpers'
+import { c, date } from '@hytzenshop/helpers'
 
 import {
   TbBuildingStore,
@@ -15,9 +15,11 @@ interface EvaluationCardProps {
   evaluation: Evaluation
   application: 'web' | 'adm'
   queryKey?: (string | number | undefined)[]
+  containerClassName?: string
 }
 
 export const EvaluationCard: React.FC<EvaluationCardProps> = ({
+  containerClassName,
   evaluation,
   application,
   queryKey,
@@ -25,13 +27,18 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
   const { updateEvaluationApprovement } = useEvaluationCard({ queryKey })
 
   return (
-    <div className="bg-dark-gray-400 bg-opacity-50 p-4 rounded-md flex flex-row items-center justify-between">
+    <div
+      className={c(
+        'bg-secondary bg-opacity-50 p-4 rounded-md flex flex-row items-center justify-between',
+        containerClassName
+      )}
+    >
       <div className="space-y-2">
         <span className="flex flex-row space-x-2 items-center">
-          <p className="text-lg text-light-gray-100 font-medium">
+          <p className="text-lg text-primary font-semibold">
             {evaluation.user.profile?.completeName?.split(' ')[0]}
           </p>{' '}
-          <p>| {date(evaluation.createdAt)}</p>
+          <p>{date(evaluation.createdAt)}</p>
         </span>
 
         <p>
@@ -53,7 +60,7 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
           <Button
             href={`/dashboard/products/${evaluation.productId}`}
             variant="filled"
-            className="bg-dark-gray-400 lg:relative lg:pl-10 max-lg:p-3 text-light-gray-100 whitespace-nowrap"
+            className="bg-secondary shadow-none lg:relative lg:pl-10 max-lg:p-3 text-secondary whitespace-nowrap"
             rounded
           >
             <TbBuildingStore className="lg:absolute lg:left-4" />
@@ -63,7 +70,7 @@ export const EvaluationCard: React.FC<EvaluationCardProps> = ({
           <Button
             href={`/dashboard/orders/${evaluation.orderId}`}
             variant="filled"
-            className="bg-dark-gray-300 lg:relative lg:pl-10 max-lg:p-3 text-light-gray-100 whitespace-nowrap"
+            className="bg-secondary shadow-none lg:relative lg:pl-10 max-lg:p-3 text-secondary whitespace-nowrap"
             rounded
           >
             <TbTruck className="lg:absolute lg:left-4" />

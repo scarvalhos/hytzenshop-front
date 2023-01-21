@@ -66,8 +66,8 @@ interface GraphicProps {
 
 const Graphic: React.FC<GraphicProps> = ({ title }) => {
   return (
-    <div className="rounded-md bg-dark-gray-500 bg-opacity-50 p-4">
-      <h2 className="text-light-gray-100 text-xl pl-4">{title}</h2>
+    <div className="rounded-md bg-primary p-4">
+      <h2 className="text-primary text-xl pl-4 font-medium">{title}</h2>
       <Chart
         options={options}
         series={series}

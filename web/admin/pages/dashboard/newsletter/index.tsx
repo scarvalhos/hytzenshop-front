@@ -61,17 +61,17 @@ const NewsletterDashboard: NextPage = () => {
                 <div
                   key={newsletterSub?._id}
                   className={c(
-                    'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 py-4 relative rounded-md bg-dark-gray-500 bg-opacity-70'
+                    'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-6 py-4 relative rounded-md bg-primary'
                   )}
                 >
                   <div>
                     <p>E-mail</p>
-                    <p className="text-light-gray-100">{newsletterSub.email}</p>
+                    <p className="text-primary">{newsletterSub.email}</p>
                   </div>
 
                   <div>
                     <p>Entrou em</p>
-                    <p className="text-light-gray-100">
+                    <p className="text-primary">
                       {date(newsletterSub?.createdAt, { type: 'long' })}
                     </p>
                   </div>

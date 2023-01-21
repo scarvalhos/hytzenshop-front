@@ -61,25 +61,25 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
         <div
           key={transaction?.id}
           className={c(
-            "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 relative rounded-md bg-dark-gray-500 bg-opacity-70 hover:bg-opacity-100 px-6 py-4 cursor-pointer before:content-[''] before:rounded-l-2xl before:w-1 before:h-[100%] before:absolute before:bottom-0 before:left-0 transition-all",
+            "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 relative rounded-md bg-primary px-6 py-4 cursor-pointer before:content-[''] before:rounded-l-2xl before:w-1 before:h-[100%] before:absolute before:bottom-0 before:left-0",
             statusBeforeColor[transaction.status as never]
           )}
         >
           <div>
             <p>ID</p>
-            <p className="text-light-gray-100">{transaction.id}</p>
+            <p className="text-primary">{transaction.id}</p>
           </div>
 
           <div>
             <p>Data</p>
-            <p className="text-light-gray-100">
+            <p className="text-primary">
               {date(transaction?.date_created, { withHour: true })}
             </p>
           </div>
 
           <div>
             <p>Valor</p>
-            <p className="text-light-gray-100">
+            <p className="text-primary">
               {money(transaction?.transaction_amount)}
             </p>
           </div>
@@ -98,7 +98,7 @@ const TransactionsList: React.FC<TransactionsListProps> = ({
 
           <div>
             <p>Cliente</p>
-            <p className="break-words text-light-gray-100">
+            <p className="break-words text-primary">
               {transaction?.payer?.email}
             </p>
           </div>

@@ -43,9 +43,9 @@ const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
         <NextSeo title={productQuery.data?.product?.title} />
 
         <div className="flex flex-col items-center justify-center mt-10 h-[50vh] mx-6">
-          <Icons.EmptyCart className="scale-75 text-dark-gray-400" />
+          <Icons.EmptyCart className="scale-75 text-primary" />
 
-          <p className="text-2xl text-light-gray-100 font-medium">
+          <p className="text-2xl text-primary font-medium">
             Produto não encontrado
           </p>
           <p className="mb-8 text-center">
@@ -76,7 +76,7 @@ const ProductPage: NextPage<ProductPageProps> = ({ id }) => {
     <HeaderFooterLayout glassEffect={false}>
       <NextSeo title={productQuery.data?.product?.title} />
 
-      <div className="sticky top-0 bg-black z-30">
+      <div className="sticky top-0 bg z-30">
         <div className="max-w-screen-2xl mx-auto px-8 sm:px-16 pt-20 pb-6">
           <BreadCrumbs
             links={[

@@ -61,7 +61,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
 
       <div
         className={c(
-          'flex flex-row space-x-4 items-center max-md:justify-between sticky top-0 bg-black border-b border-light-gray-400 border-opacity-20 z-50 overflow-auto scrollbar-hide',
+          'flex flex-row space-x-4 items-center max-md:justify-between bg-light-gray-100 shadow-md dark:bg-black dark:border-b dark:border-dark-gray-300 z-50 overflow-auto scrollbar-hide',
           className
         )}
       >
@@ -85,9 +85,9 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
               ))}
             </span>
 
-            <div className="px-6 py-3 max-w-lg w-full rounded-md flex items-center bg-dark-gray-500 bg-opacity-30 focus-within:border-[1.5px] focus-within:border-success-300">
+            <div className="px-6 py-3 max-w-lg w-full rounded-md flex items-center bg-third bg-opacity-30 focus-within:border-[1.5px] focus-within:border-success-300">
               <input
-                className="bg-[transparent] w-full border-none outline-none text-light-gray-100 placeholder:text-light-gray-100"
+                className="bg-[transparent] w-full border-none outline-none text-primary placeholder:text-secondary"
                 placeholder="Pesquisar"
                 value={search}
                 onChange={(e) => {

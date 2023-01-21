@@ -78,8 +78,8 @@ const AnnouncementSection: React.FC = () => {
         </label>
 
         <Switch.Root
-          className="SwitchRoot bg-dark-gray-300"
           id="switch"
+          className="SwitchRoot bg-third"
           defaultChecked={showAnnouncement}
           checked={showAnnouncement}
           onClick={onShowAnnouncementChange}

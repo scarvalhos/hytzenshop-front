@@ -90,9 +90,9 @@ const AddressCheckoutStep: React.FC<AddressCheckoutStepProps> = ({
       checkoutNextStep={checkoutNextStep}
       summaryButtonTitle={summaryButtonTitle}
     >
-      <div className="rounded-md px-8 py-8 bg-dark-gray-500 bg-opacity-30">
+      <div className="rounded-md px-8 py-8 bg-primary">
         <span className="flex flex-row items-center space-x-2">
-          <h2 className="text-xl text-light-gray-100 font-medium">
+          <h2 className="text-xl text-primary font-medium">
             Selecione o frete{' '}
             <span className="text-sm text-light-gray-500">
               | CEP{' '}
@@ -119,7 +119,7 @@ const AddressCheckoutStep: React.FC<AddressCheckoutStepProps> = ({
                   <span
                     key={i}
                     className={c(
-                      'w-full h-14 bg-dark-gray-400 bg-opacity-30 animate-pulse flex flex-col sm:flex-row sm:items-center rounded-md max-sm:space-y-1 px-4 py-3 cursor-pointer'
+                      'w-full h-14 bg-third animate-pulse flex flex-col sm:flex-row sm:items-center rounded-md max-sm:space-y-1 px-4 py-3 cursor-pointer'
                     )}
                   />
                 ))

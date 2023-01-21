@@ -26,11 +26,11 @@ export const Chip: React.FC<ChipProps> = ({
     <div
       onClick={onDelete ?? onClick}
       className={c(
-        'py-1 px-3 select-none flex flex-row items-center cursor-pointer hover:brightness-125',
+        'py-1 px-3 select-none flex flex-row items-center cursor-pointer hover:brightness-105',
         rounded ? 'rounded-full' : 'rounded-md',
         variant === 'filled'
-          ? 'bg-dark-gray-400'
-          : 'border border-dark-gray-200',
+          ? 'bg-secondary'
+          : 'border border-light-gray-500 dark:border-dark-gray-200',
         deleteIcon && 'space-x-2',
         className
       )}

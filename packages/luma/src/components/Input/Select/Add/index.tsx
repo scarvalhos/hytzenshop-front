@@ -119,8 +119,8 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
               <FieldContent
                 variant={variant}
                 error={error ? 'true' : 'false'}
-                rounded={rounded ? 'true' : 'false'}
-                className="flex flex-row items-center focus-within:border-[1.5px] focus-within:border-success-300"
+                rounded={rounded}
+                className="flex flex-row items-center focus-within:border-[1.5px] focus-within:border-success-300 text-primary"
               >
                 <FieldInput
                   value={item}
@@ -133,10 +133,10 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
                 <Button
                   variant="filled"
                   onClick={handleAddItem}
-                  className="p-3 bg-[transparent] hover:bg-dark-gray-400"
+                  className="p-3 bg-secondary shadow-none text-secondary"
                   rounded
                 >
-                  <TbCirclePlus size={20} color="white" cursor="pointer" />
+                  <TbCirclePlus size={20} cursor="pointer" />
                 </Button>
               </FieldContent>
             )}

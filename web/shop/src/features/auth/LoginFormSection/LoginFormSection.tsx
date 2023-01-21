@@ -80,7 +80,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
         <form
           onSubmit={handleSubmit(handleOnSubmit)}
           className={c(
-            'flex flex-col px-8 py-8 space-y-4 rounded-md bg-dark-gray-500 bg-opacity-50 w-full max-w-md'
+            'flex flex-col px-8 py-8 space-y-4 rounded-md bg-primary w-full max-w-md'
           )}
         >
           <div className="space-y-4">
@@ -158,7 +158,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
                 className="w-full hover:underline pb-0"
               >
                 Não tem uma conta?{' '}
-                <strong className="text-light-gray-100">Cadastre-se</strong>
+                <strong className="text-primary">Cadastre-se</strong>
               </Button>
             </div>
 
@@ -166,7 +166,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
               <Button
                 onClick={() => toast.warn('Em desenvolvimento')}
                 variant="filled"
-                className="w-full bg-white text-dark-gray-500"
+                className="w-full bg-light-gray-200 shadow-md dark:shadow-none dark:bg-light-gray-100 text-dark-gray-500"
               >
                 <span className="flex flex-row items-center space-x-2">
                   <Icons.GoogleIcon className="w-6 h-6" />

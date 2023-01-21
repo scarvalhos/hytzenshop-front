@@ -14,6 +14,7 @@
     "@hytzenshop/helpers": "*",
     "@hytzenshop/services": "*",
     "@hytzenshop/types": "*",
+    "@settings/tailwind": "*",
     "@luma/ui": "*",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-switch": "^1.0.1",

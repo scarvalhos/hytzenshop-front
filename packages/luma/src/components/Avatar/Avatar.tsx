@@ -17,7 +17,7 @@ export const Avatar: React.FC<AvatarProps> = ({
 }) => {
   if (!src && !name)
     return (
-      <div className="bg-dark-gray-300 border-[1.5px] border-success-300 animate-pulse rounded-full w-12 h-12" />
+      <div className="bg-secondary border-[1.5px] border-success-300 animate-pulse rounded-full w-12 h-12" />
     )
 
   return (
@@ -26,7 +26,7 @@ export const Avatar: React.FC<AvatarProps> = ({
         src={src}
         alt={name}
         className={c(
-          'w-8 h-8 rounded-full border-[1.5px] border-success-300 bg-dark-gray-400',
+          'w-8 h-8 rounded-full border-[1.5px] dark:border-success-400 border-success-300 bg-secondary',
           imageClassName
         )}
       />
@@ -34,7 +34,7 @@ export const Avatar: React.FC<AvatarProps> = ({
       {name ? (
         <RadixAvatar.AvatarFallback
           className={c(
-            'text-light-gray-100 border border-success-300 rounded-full text-xs',
+            'text-primary border border-success-300 rounded-full text-xs',
             fallbackClassName
           )}
         >

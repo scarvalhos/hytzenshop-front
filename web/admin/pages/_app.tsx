@@ -13,7 +13,7 @@ import seo from '../next-seo.config'
 
 import 'react-toastify/dist/ReactToastify.css'
 import 'react-circular-progressbar/dist/styles.css'
-import '@styles/globals.css'
+import '@settings/tailwind/globals.css'
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
@@ -35,6 +35,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     <QueryClientProvider client={queryClient}>
       <DefaultProvider>
         <DefaultSeo {...seo} />
+
         {getLayout(<Component {...pageProps} />)}
 
         <ToastContainer

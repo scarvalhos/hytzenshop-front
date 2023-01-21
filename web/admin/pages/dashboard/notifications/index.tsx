@@ -78,8 +78,8 @@ const DashboardNotifications: NextPage = () => {
     <>
       <NextSeo title="Notificações" />
 
-      <div className="sticky top-20 mb-8 z-40 bg-black">
-        <h1 className="text-light-gray-100 py-2 bg-black font-semibold text-2xl">
+      <div className="sticky top-20 mb-8 z-40 bg">
+        <h1 className="text-primary py-2 bg font-semibold text-2xl">
           Notificações
         </h1>
       </div>
@@ -91,7 +91,7 @@ const DashboardNotifications: NextPage = () => {
             <div
               key={n?.id}
               className={c(
-                'flex justify-between items-center rounded-md bg-dark-gray-500 bg-opacity-90 hover:bg-opacity-100 px-6 py-4 transition-all'
+                'flex justify-between items-center rounded-md bg-primary bg-opacity-90 hover:bg-opacity-100 px-6 py-4 transition-all'
               )}
             >
               <div className="relative pl-3">
@@ -102,7 +102,7 @@ const DashboardNotifications: NextPage = () => {
                 <p className="text-sm">
                   {date(n.notification.createdAt, { withHour: true })}
                 </p>
-                <p className="text-light-gray-100 text-lg font-medium">
+                <p className="text-primary text-lg font-medium">
                   {n.notification.message}
                 </p>
               </div>

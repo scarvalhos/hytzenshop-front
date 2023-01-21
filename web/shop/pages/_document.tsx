@@ -47,7 +47,7 @@ export default function Document() {
         />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </Head>
-      <body>
+      <body className="bg">
         <Main />
         <NextScript />
       </body>

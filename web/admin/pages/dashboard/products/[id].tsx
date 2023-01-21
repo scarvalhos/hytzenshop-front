@@ -3,6 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { ConfigProvider } from '@contexts/ConfigContext'
 import { ProductGetDto } from '@hytzenshop/types'
 import { Button, Icons } from '@luma/ui'
+import { withSSRAuth } from '@hocs/withSSRAuth'
 import { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import { api } from '@hytzenshop/services'
@@ -72,3 +73,14 @@ ProductPage.getLayout = (page: ReactElement) => {
 }
 
 export default ProductPage
+
+export const getServerSideProps = withSSRAuth(
+  async () => {
+    return {
+      props: {},
+    }
+  },
+  {
+    isAdmin: true,
+  }
+)

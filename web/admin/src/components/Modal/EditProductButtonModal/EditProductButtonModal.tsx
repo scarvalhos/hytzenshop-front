@@ -50,7 +50,7 @@ const EditProductButtonModal: React.FC<EditProductButtonModalProps> = ({
       <BaseModal
         open={openModal}
         onClose={() => setOpenModal(false)}
-        panelClassName="bg-[#050507]"
+        panelClassName="p-0"
         customWidth="max-w-screen-md"
         glassEffect={false}
       >

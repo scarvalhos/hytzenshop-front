@@ -60,11 +60,11 @@ export const useOrdersDetails = ({ order }: OrderDetailsProps) => {
 
   const stepIcon = React.useMemo(() => {
     const icons: { [index: string]: React.ReactElement } = {
-      1: <TbClock className="text-light-gray-100" />,
-      2: <TbCreditCard className="text-light-gray-100" />,
-      3: <TbBox className="text-light-gray-100" />,
-      4: <TbTruckDelivery className="text-light-gray-100" />,
-      5: <TbCheck className="text-light-gray-100" />,
+      1: <TbClock className="text-primary" />,
+      2: <TbCreditCard className="text-primary" />,
+      3: <TbBox className="text-primary" />,
+      4: <TbTruckDelivery className="text-primary" />,
+      5: <TbCheck className="text-primary" />,
     }
 
     return icons

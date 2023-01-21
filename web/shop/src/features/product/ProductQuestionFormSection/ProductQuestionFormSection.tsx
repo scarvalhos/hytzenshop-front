@@ -30,8 +30,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
     <div className="md:max-w-screen-lg md:mx-auto space-y-2">
       {product?.questions.length === 0 && !formQuestion ? (
         <Button
-          variant="filled"
-          className="bg-warning-400 bg-opacity-10 text-warning-300 font-normal my-4 p-4 space-y-1 rounded-md text-center w-full"
+          className="bg-warning-400 bg-opacity-10 shadow-md text-warning-300 font-normal my-4 p-4 space-y-1 rounded-md text-center w-full"
           onClick={() => setFormQuestion(true)}
         >
           Esse produto ainda não possui nenhuma dúvida.{' '}
@@ -46,13 +45,11 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
             .map((q) => (
               <div
                 key={q.id}
-                className="bg-dark-gray-400 bg-opacity-50 p-4 rounded-md flex flex-col"
+                className="bg-primary-400 bg-opacity-5 shadow-md p-4 rounded-md flex flex-col"
               >
                 <div className="space-y-2">
                   <span className="flex flex-row space-x-2 items-center">
-                    <p className="text-lg text-light-gray-100 font-medium">
-                      {q.name}
-                    </p>
+                    <p className="text-lg text-primary font-medium">{q.name}</p>
                     <p>{date(q.createdAt, { withHour: true })}</p>
                   </span>
 

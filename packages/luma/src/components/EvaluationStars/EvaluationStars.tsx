@@ -19,7 +19,10 @@ const Star: React.FC<{
     filled: <MdStarRate className="text-secondary-300" size={size} />,
     half: <MdStarHalf className="text-secondary-300 -mb-[1px]" size={size} />,
     empyt: (
-      <MdStarRate className="text-dark-gray-300 brightness-125" size={size} />
+      <MdStarRate
+        className="text-light-gray-400 dark:text-dark-gray-300 brightness-125"
+        size={size}
+      />
     ),
   }
 

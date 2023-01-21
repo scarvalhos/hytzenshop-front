@@ -91,7 +91,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
               note={product?.averageRating || 0}
               totalEvaluations={product?.evaluation?.length || 0}
             />
-            <h2 className="text-2xl text-light-gray-100 font-semibold">
+            <h2 className="text-2xl text-primary font-semibold">
               {product?.title}
             </h2>
           </div>
@@ -102,7 +102,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             </p>
 
             <p className="text-sm">
-              Em até <strong style={{ color: 'white' }}>6x sem juros</strong>
+              Em até <strong className="primary">6x sem juros</strong>
             </p>
           </div>
 
@@ -110,7 +110,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
             {trucate({
               text: product?.description || '',
               etc: (
-                <a href="#description" style={{ color: 'white' }}>
+                <a href="#description" className="primary">
                   Ver tudo
                 </a>
               ),
@@ -193,7 +193,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
         id="description"
       >
         <div className="mb-10 space-y-4">
-          <h2 className="text-xl text-light-gray-100 font-medium">Descrição</h2>
+          <h2 className="text-xl text-primary font-medium">Descrição</h2>
           <p className="whitespace-pre-wrap">{product?.description}</p>
         </div>
 

@@ -17,12 +17,12 @@ const TransactionsListHeader: React.FC<TransactionsListHeaderProps> = ({
   transactions,
 }) => {
   return (
-    <div className="sticky top-20 mb-8 z-40 bg-black">
-      <h1 className="text-light-gray-100 py-2 bg-black font-semibold text-2xl">
+    <div className="sticky top-20 mb-8 z-40 bg">
+      <h1 className="text-primary py-2 bg font-semibold text-2xl">
         Transações
       </h1>
 
-      <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md">
+      <div className="bg-primary space-y-2 px-6 py-4 rounded-md">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-row items-center space-x-2">
             <Button

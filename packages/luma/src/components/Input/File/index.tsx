@@ -117,7 +117,7 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
                     isDragAccept && 'border-success-300',
                     variant === 'outlined' && !error && 'border-dark-gray-200',
                     variant === 'filled' && !error && 'border-light-gray-500',
-                    variant === 'filled' && 'bg-dark-gray-500 bg-opacity-60',
+                    variant === 'filled' && 'bg-secondary',
                     disabled && 'opacity-40 cursor-not-allowed'
                   )}
                 >

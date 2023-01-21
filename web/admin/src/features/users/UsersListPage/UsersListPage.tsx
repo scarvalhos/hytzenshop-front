@@ -39,18 +39,20 @@ const UsersListPage: React.FC = () => {
           <>
             <Button
               variant="filled"
-              className="p-3 sm:relative sm:pl-10"
+              className="p-3"
               onClick={() => push('/admin/quik/users/new-user')}
               rounded
             >
-              <TbCirclePlus size={20} className="sm:absolute sm:left-4" />
-              <span className="max-sm:hidden">Novo usuário</span>
+              <span className="flex items-center space-x-2">
+                <TbCirclePlus size={20} />
+                <span className="max-sm:hidden">Novo usuário</span>
+              </span>
             </Button>
 
             <Button
               variant="outlined"
               rounded
-              className="sm:relative sm:pl-10 max-sm:p-2.5"
+              className="max-sm:p-2.5"
               onClick={() =>
                 exportFromJSON({
                   data: data?.data.users || [],
@@ -62,8 +64,10 @@ const UsersListPage: React.FC = () => {
                 })
               }
             >
-              <TbDownload className="sm:absolute sm:left-4" />
-              <span className="max-sm:hidden">Exportar</span>
+              <span className="flex items-center space-x-2">
+                <TbDownload />
+                <p className="max-sm:hidden">Exportar</p>
+              </span>
             </Button>
           </>
         ),

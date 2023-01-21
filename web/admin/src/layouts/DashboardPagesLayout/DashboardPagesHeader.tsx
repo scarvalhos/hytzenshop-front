@@ -26,12 +26,10 @@ export const DashboardPagesHeader: React.FC<DashboardPagesHeaderProps> = ({
   title,
 }) => {
   return (
-    <div className="sticky top-20 mb-8 z-40 bg-black">
-      <h1 className="text-light-gray-100 py-2 bg-black font-semibold text-2xl">
-        {title}
-      </h1>
+    <div className="sticky top-20 mb-8 z-40 bg">
+      <h1 className="bg text-primary py-2 font-semibold text-2xl">{title}</h1>
 
-      <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md relative shadow-md shadow-black">
+      <div className="bg-primary space-y-2 px-6 py-4 rounded-md relative shadow-md">
         <div className="flex flex-row justify-between items-center">
           <div className="flex flex-row items-center space-x-2">
             {buttons && buttons({})}
@@ -48,7 +46,7 @@ export const DashboardPagesHeader: React.FC<DashboardPagesHeaderProps> = ({
       {inputsMobile &&
         inputsMobile({
           wrapper: ({ children }) => (
-            <div className="bg-dark-gray-500 bg-opacity-40 space-y-2 px-6 py-4 rounded-md mt-2 transition-all">
+            <div className="bg-primary shadow-md space-y-2 px-6 py-4 rounded-md mt-2 transition-all">
               {children}
             </div>
           ),

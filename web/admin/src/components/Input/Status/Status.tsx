@@ -1,11 +1,11 @@
 import * as React from 'react'
 
 import { Status, StatusButton, StatusOptions } from './Status.styles'
-import { DivideY, Input } from '@luma/ui'
 import { HiChevronDown } from 'react-icons/hi'
 import { Controller } from 'react-hook-form'
 import { Listbox } from '@headlessui/react'
 import { Option } from '@hytzenshop/types'
+import { Input } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 export interface StatusInputProps<T> extends Input.FieldInputProps {
@@ -67,17 +67,15 @@ const StatusInput = React.forwardRef(
             </StatusButton>
 
             <StatusOptions>
-              <DivideY dividerClassName="my-0">
-                {options?.map((v) => (
-                  <Listbox.Option
-                    key={v?.label}
-                    value={v}
-                    className="cursor-pointer list-none m-0 px-6 py-2 hover:bg-dark-gray-300"
-                  >
-                    {v?.label}
-                  </Listbox.Option>
-                ))}
-              </DivideY>
+              {options?.map((v) => (
+                <Listbox.Option
+                  key={v?.label}
+                  value={v}
+                  className="cursor-pointer list-none m-0 px-6 py-2 bg-secondary hover:bg-primary"
+                >
+                  {v?.label}
+                </Listbox.Option>
+              ))}
             </StatusOptions>
           </Listbox>
         )}
