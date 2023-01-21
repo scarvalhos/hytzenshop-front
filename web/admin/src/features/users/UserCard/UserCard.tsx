@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { TbBrandWhatsapp, TbEye, TbMailForward } from 'react-icons/tb'
+import { TbBrandWhatsapp, TbMailForward } from 'react-icons/tb'
 import { getFirstName, numonly } from '@hytzenshop/helpers'
 import { Button, Avatar } from '@luma/ui'
 import { useBreakpoint } from '@hytzenshop/hooks'

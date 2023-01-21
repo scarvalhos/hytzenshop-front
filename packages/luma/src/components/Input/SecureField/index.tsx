@@ -63,7 +63,7 @@ const SecureFieldInput: React.FC<FieldInputProps> = React.forwardRef(
               <FieldContent
                 variant={variant}
                 error={error ? 'true' : 'false'}
-                rounded={rounded ? 'true' : 'false'}
+                rounded={rounded}
                 className="flex flex-row min-h-[46px]"
               >
                 <Field

@@ -1,6 +1,5 @@
 import { IMaskInput } from 'react-imask'
 import { styled } from '@stitches/react'
-import { theme } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 export const FieldWrapper = styled('div', {
