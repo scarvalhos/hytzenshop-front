@@ -213,7 +213,7 @@ const Footer: React.FC = () => {
 
         {scroll.position >= 500 && (
           <button
-            className="bg-primary shadow-lg fixed bottom-8 right-[4.5rem] sm:right-[6.5rem] p-2 rounded-md z-[9999999] transition-all"
+            className="bg-secondary drop-shadow-lg fixed bottom-8 right-[4.5rem] sm:right-[6.5rem] p-2 rounded-md z-[9999999] transition-all"
             onClick={() => {
               document.documentElement.scrollTop = 0
             }}
@@ -226,7 +226,7 @@ const Footer: React.FC = () => {
           href={link}
           target="_blank"
           className={c(
-            'fixed bottom-8 right-8 sm:right-16 bg-success-300 p-2 rounded-md'
+            'fixed bottom-8 right-8 sm:right-16 drop-shadow-lg bg-success-300 p-2 rounded-md'
           )}
         >
           <TbBrandWhatsapp className="text-light-gray-100" size={16} />

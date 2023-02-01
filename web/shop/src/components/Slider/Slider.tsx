@@ -1,8 +1,7 @@
+import Image from 'next/image'
 import React from 'react'
 
 import { useConfig } from '@contexts/ConfigContext'
-import { styled } from '@stitches/react'
-import { theme } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
 
 interface SliderProps {
@@ -15,7 +14,7 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
 
   const { sliderImages } = useConfig()
 
-  const images = sliderImages?.map((i) => i?.url) || []
+  const images = sliderImages?.map((i) => i?.url) || ['/slider/dc-comics.png']
 
   React.useEffect(() => {
     if (images.length > 1) {
@@ -29,43 +28,23 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
     }
   }, [images?.length, slideIndex])
 
-  const Slide = styled('div', {
-    width: '100%',
-    height: '100%',
-    display: 'flex',
-
-    '&:before': {
-      content: ' ',
-
-      position: 'absolute',
-      left: 0,
-      top: 0,
-
-      width: '100%',
-      height: '100%',
-      // opacity: '0.75',
-
-      background: theme.colors['dark-gray'][400],
-      backgroundImage: `url(${imageUrl || encodeURI(images[slideIndex])})`,
-      backgroundPosition: 'top',
-      backgroundSize: 'cover',
-      backgroundRepeat: 'no-repeat',
-
-      transition: '0.2s',
-    },
-  })
-
   return (
     <div
       className={c(
         'w-full relative bg-dark-gray-500',
-        short ? 'h-[35vh]' : 'h-[50vh]'
+        short ? 'h-[40vh]' : 'h-[50vh]'
       )}
     >
-      <div className="w-full h-full flex">
-        <Slide className="items-center justify-center">
-          <div className="flex w-full max-w-screen-2xl mx-auto px-8 sm:px-16 py-8 sm:py-16 z-30" />
-        </Slide>
+      <div className="w-full h-full relative">
+        {(imageUrl || images.length) && (
+          <Image
+            src={imageUrl || encodeURI(images[slideIndex])}
+            alt={imageUrl || encodeURI(images[slideIndex])}
+            fill
+            sizes="100%"
+            className="object-cover object-top"
+          />
+        )}
       </div>
     </div>
   )
