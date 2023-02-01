@@ -4,38 +4,37 @@ import { LoadingAnimation, Pagination } from '@luma/ui'
 import { DashboardPagesHeader } from './DashboardPagesHeader'
 import { c } from '@hytzenshop/helpers'
 
+interface PaginationProps {
+  page?: number
+  limit?: number
+  totalRegisters?: number
+  onPageChange: (page: number) => void
+}
+
+interface HeaderProps {
+  buttons?: React.FC
+  inputs?: React.FC
+  inputsMobile?: (props: {
+    wrapper: (props: { children: React.ReactElement }) => React.ReactElement
+  }) => React.ReactNode
+}
+
 interface DashboardPagesLayoutProps {
   title: string
   isLoading?: boolean
   renderList: React.FC
-  pagination: {
-    page?: number
-    limit?: number
-    totalRegisters?: number
-    onPageChange: (page: number) => void
-  }
-  header: {
-    buttons?: React.FC
-    inputs?: React.FC
-    inputsMobile?: ({
-      wrapper,
-    }: {
-      wrapper: ({
-        children,
-      }: {
-        children: React.ReactElement
-      }) => React.ReactElement
-    }) => React.ReactNode
-  }
+  pagination: PaginationProps
+  header: HeaderProps
 }
 
 const DashboardPagesLayout: React.FC<DashboardPagesLayoutProps> = ({
   pagination,
+  renderList,
   isLoading,
   header,
-  renderList,
   title,
 }) => {
+  console.log(pagination.totalRegisters)
   return (
     <>
       <DashboardPagesHeader
@@ -51,7 +50,7 @@ const DashboardPagesLayout: React.FC<DashboardPagesLayoutProps> = ({
           {isLoading ? <LoadingAnimation size={160} /> : renderList({})}
         </div>
 
-        {!isLoading && (
+        {!isLoading && pagination.totalRegisters !== 0 && (
           <Pagination
             currentPage={pagination.page}
             totalCountOfRegisters={pagination.totalRegisters || 0}

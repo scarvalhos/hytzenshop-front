@@ -40,7 +40,7 @@ const UsersListPage: React.FC = () => {
             <Button
               variant="filled"
               className="p-3"
-              onClick={() => push('/admin/quik/users/new-user')}
+              onClick={() => push('/dashboard/users/new-user')}
               rounded
             >
               <span className="flex items-center space-x-2">

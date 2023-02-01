@@ -130,12 +130,7 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
                   className={c('px-4 py-3', className)}
                 />
 
-                <Button
-                  variant="filled"
-                  onClick={handleAddItem}
-                  className="p-3 bg-secondary shadow-none text-secondary"
-                  rounded
-                >
+                <Button onClick={handleAddItem} className="p-3" rounded>
                   <TbCirclePlus size={20} cursor="pointer" />
                 </Button>
               </FieldContent>

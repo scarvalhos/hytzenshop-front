@@ -3,14 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+  .button--disabled {
+    @apply cursor-not-allowed bg-[none] border border-solid border-dark-gray-200 text-dark-gray-200;
+  }
   .button {
     @apply disabled:button--disabled px-6 py-3 text-center transition-colors;
   }
-  .button--disabled {
-    @apply cursor-not-allowed bg-[none] border border-solid border-light-gray-300 dark:border-dark-gray-200 text-dark-gray-200;
-  }
   .button--filled {
-    @apply button bg-success-300 dark:bg-success-400 font-semibold text-light-gray-100 hover:brightness-110;
+    @apply button bg-success-400 disabled:bg-[none] font-semibold text-light-gray-100 hover:brightness-110;
   }
   .button--outlined {
     @apply button border border-solid border-success-300 hover:border-success-300 bg-none hover:bg-success-300 hover:bg-opacity-[0.025] font-semibold text-success-300;
@@ -23,66 +23,31 @@
   }
 
   .bg {
-    @apply bg-light-gray-200 dark:bg-black;
+    @apply bg-black;
   }
 
   .bg-primary {
-    @apply bg-light-gray-100 dark:bg-dark-gray-500 shadow-md;
+    @apply bg-dark-gray-500 shadow-md;
   }
 
   .bg-secondary {
-    @apply bg-light-gray-200 dark:bg-dark-gray-400 shadow-md dark:shadow-none;
+    @apply bg-dark-gray-400 shadow-md;
   }
 
   .bg-third {
-    @apply bg-light-gray-300 dark:bg-dark-gray-300 shadow-md dark:shadow-none;
+    @apply bg-dark-gray-300 shadow-md;
   }
 
   .bg-fourth {
-    @apply bg-light-gray-400 dark:bg-dark-gray-200 shadow-md dark:shadow-none;
+    @apply dark:bg-dark-gray-200 shadow-md;
   }
 
   .text-primary {
-    @apply dark:text-light-gray-100 text-dark-gray-500;
+    @apply text-light-gray-100;
   }
 
   .text-secondary {
-    @apply dark:text-light-gray-500 text-light-gray-500;
-  }
-
-  ::-webkit-scrollbar-track {
-    @apply bg-[#ababab] dark:bg-dark-gray-400;
-  }
-
-  ::-webkit-scrollbar {
-    @apply w-2;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-[#5b5b5b] dark:bg-[#2f2f2f] rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-[#767676] dark:bg-[#3e3e3e] rounded-full;
-  }
-
-  ::-webkit-calendar-picker-indicator {
-    color: rgba(0, 0, 0, 0);
-    opacity: 1;
-    background-image: url('/icons/calendar.png');
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-    border-radius: 50%;
-    margin-left: 0.5rem;
-    opacity: 0.6;
-    transition: all ease 0.2s;
-  }
-
-  ::-webkit-calendar-picker-indicator:hover {
-    -webkit-box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
-    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
-    opacity: 1;
+    @apply text-light-gray-500;
   }
 
   .TooltipContent {
@@ -122,37 +87,75 @@
   }
 }
 
-html,
-body {
-  padding: 0;
-  margin: 0;
-  scroll-behavior: smooth;
-  color: #a1a1b0;
-}
+@layer base {
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-gray-500;
+  }
 
-body,
-input,
-textarea,
-select,
-button {
-  font: 400 1rem 'Urbanist', sans-serif;
-}
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
 
-button {
-  cursor: pointer;
-  border: none;
-}
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#2f2f2f] rounded-full;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#3e3e3e] rounded-full;
+  }
 
-input:-webkit-autofill,
-input:-webkit-autofill:focus {
-  transition: background-color 600000s 0s, color 600000s 0s;
-}
+  ::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    background-image: url('/icons/calendar.png');
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    opacity: 0.6;
+    transition: all ease 0.2s;
+  }
 
-input[data-autocompleted] {
-  background-color: transparent !important;
+  ::-webkit-calendar-picker-indicator:hover {
+    -webkit-box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+    opacity: 1;
+  }
+
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    color: #a1a1b0;
+    font-family: 'Urbanist', system-ui, sans-serif;
+  }
+
+  body,
+  input,
+  textarea,
+  select,
+  button {
+    font: 400 1rem 'Urbanist', sans-serif;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+
+  input[data-autocompleted] {
+    background-color: transparent !important;
+  }
 }

@@ -14,7 +14,7 @@ const Settings: NextPage = () => {
     <ConfigProvider>
       <NextSeo title="Configurações" />
 
-      <div className="space-y-8 w-full mb-20 lg:w-[50%] bg-primary rounded-md p-8">
+      <div className="space-y-8 w-full mb-20 lg:w-[50%] rounded-md">
         <h1 className="text-primary font-bold text-2xl">
           Configurações do sistema
         </h1>

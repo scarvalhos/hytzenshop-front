@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "codemirror": "^6.0.1",
-    "react-codemirror2": "^7.2.1"
+    "react-codemirror2": "^7.2.1",
+    "tailwind-styled-components": "^2.2.0"
   }
 }

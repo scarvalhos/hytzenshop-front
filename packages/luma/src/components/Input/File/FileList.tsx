@@ -1,7 +1,7 @@
 import { CircularProgressbar } from 'react-circular-progressbar'
 import { MdError, MdLink } from 'react-icons/md'
+import { theme, trucate } from '@luma/ui'
 import { TbTrash } from 'react-icons/tb'
-import { theme } from '@luma/ui'
 import { Link } from '../../Link'
 import { c } from '@hytzenshop/helpers'
 
@@ -63,7 +63,8 @@ export const FileList: React.FC<FileListProps> = ({
               </div>
 
               <span className="flex items-center space-x-2">
-                <strong>{file.name}</strong>
+                <strong>{trucate({ text: file.name, line: 2 })}</strong>
+
                 <p className="text-sm pt-1.5">{file.readableSize}</p>
               </span>
             </div>

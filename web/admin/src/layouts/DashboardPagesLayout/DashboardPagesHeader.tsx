@@ -26,7 +26,7 @@ export const DashboardPagesHeader: React.FC<DashboardPagesHeaderProps> = ({
   title,
 }) => {
   return (
-    <div className="sticky top-20 mb-8 z-40 bg">
+    <div className="sticky top-0 mb-8 z-40 bg">
       <h1 className="bg text-primary py-2 font-semibold text-2xl">{title}</h1>
 
       <div className="bg-primary space-y-2 px-6 py-4 rounded-md relative shadow-md">

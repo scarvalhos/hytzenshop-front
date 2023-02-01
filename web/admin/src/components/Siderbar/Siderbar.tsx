@@ -60,9 +60,12 @@ export const Siderbar: React.FC<SiderbarProps> = (props) => {
 
   const SiderBarOpened = () => {
     return (
-      <div className="bg-black bg-opacity-30 absolute top-0 bottom-0 left-0 right-0 z-50">
+      <div
+        onClick={onClose}
+        className="bg-black bg-opacity-30 max-sm:absolute max-sm:top-0 max-sm:left-0 max-sm:right-0 max-sm:bottom-0 max-sm:backdrop-blur-sm z-50"
+      >
         <SiderBarContainer
-          className="w-52 fixed top-0 left-0 bottom-0 flex bg-light-gray-100 dark:bg-dark-gray-500z-50 transition-all drop-shadow-md"
+          className="max-sm:absolute w-52 h-[100vh] flex bg-dark-gray-500 z-50 transition-all drop-shadow-md"
           {...(sm
             ? {
                 animation: isOpen ? 'right' : 'left',
@@ -73,7 +76,7 @@ export const Siderbar: React.FC<SiderbarProps> = (props) => {
         >
           <Nav>
             <Button
-              className="absolute top-[16px] -right-[14px] p-2 bg hover:bg-secondary border border-dark-gray-300 drop-shadow-md"
+              className="absolute top-[16px] -right-[14px] p-2 bg-secondary hover:brightness-125 border border-dark-gray-300 drop-shadow-md"
               onClick={onClose}
               rounded
             >
@@ -115,8 +118,8 @@ export const Siderbar: React.FC<SiderbarProps> = (props) => {
 
   const SiderBarClosed = () => {
     return (
-      <div className="fixed top-0 left-0 bottom-0 flex flex-col justify-start items-center sm:bg-light-gray-100 dark:sm:bg-dark-gray-500 z-[999] opacity-80 hover:opacity-100 transition-opacity">
-        <div className="flex items-center max-sm:space-x-2 p-3 max-sm:mt-2">
+      <div className="max-sm:absolute w-fit h-[100vh] flex flex-col justify-start items-center sm:bg-dark-gray-500 z-[999] opacity-80 hover:opacity-100 transition-all">
+        <div className="flex items-center max-sm:space-x-2 p-3 max-sm:mt-1">
           <Button className="sm:hidden bg p-2 ml-4" rounded onClick={onOpen}>
             <TbMenu size={20} />
           </Button>

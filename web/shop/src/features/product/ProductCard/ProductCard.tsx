@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductProps> = ({
           </>,
           {
             glassEffect: !isFavorited,
-            glassClassName: 'p-2.5 rounded-full drop-shadow-md bg-opacity-30',
+            glassClassName: 'p-2.5 rounded-full shadow-sm',
             divClassName: 'p-2.5 rounded-full drop-shadow-lg bg-danger-300',
           }
         )}

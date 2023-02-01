@@ -73,6 +73,9 @@ module.exports = {
       serif: ['Urbanist', ...defaultTheme.fontFamily.serif],
     },
     extend: {
+      fontFamily: {
+        bebas: ['Bebas Neue', ...defaultTheme.fontFamily.sans],
+      },
       fontSize: {
         'caption-sm': ['10px', '16px'],
         'caption-md': ['12px', '16px'],

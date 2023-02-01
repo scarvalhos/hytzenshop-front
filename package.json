@@ -16,6 +16,8 @@
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "prepare": "husky install",
+    "format": "prettier --write \"./{web,packages}/**/*.{ts,tsx}\"",
+    "format:check": "prettier --check \"./{web,packages}/**/*.{ts,tsx,js,jsx,json}\"",
     "dev": "concurrently \"yarn workspace @hytzenshop/shop dev\" \"yarn workspace @hytzenshop/admin dev --port 3001\"",
     "shop": "yarn workspace @hytzenshop/shop",
     "adm": "yarn workspace @hytzenshop/admin",

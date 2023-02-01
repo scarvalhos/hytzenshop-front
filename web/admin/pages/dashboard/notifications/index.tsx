@@ -78,7 +78,7 @@ const DashboardNotifications: NextPage = () => {
     <>
       <NextSeo title="Notificações" />
 
-      <div className="sticky top-20 mb-8 z-40 bg">
+      <div className="sticky top-0 mb-8 z-40 bg">
         <h1 className="text-primary py-2 bg font-semibold text-2xl">
           Notificações
         </h1>

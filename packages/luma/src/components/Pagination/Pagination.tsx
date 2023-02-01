@@ -3,7 +3,7 @@ import React from 'react'
 import { TbChevronRight, TbChevronLeft } from 'react-icons/tb'
 import { PaginationItem } from './PaginationItem'
 
-interface PaginationProps {
+export interface PaginationProps {
   totalCountOfRegisters: number
   registersPerPage?: number
   currentPage?: number

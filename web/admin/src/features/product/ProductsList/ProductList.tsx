@@ -43,7 +43,7 @@ export const ProductsList: React.FC<ProductsListProps> = ({
   products,
   deleteProduct,
 }) => {
-  return (
+  return products.length ? (
     <ListCards
       rows={products}
       columns={columns}
@@ -54,5 +54,12 @@ export const ProductsList: React.FC<ProductsListProps> = ({
         deleteProduct((row as Product).id)
       }}
     />
+  ) : (
+    <div className="flex flex-col items-center justify-center h-[25vh]">
+      <p className="text-light-gray-100 font-medium text-xl">
+        Nenhum produto encontrado.
+      </p>
+      <p>Ops! Parece que nenhum produto foi encontrado aqui.</p>
+    </div>
   )
 }

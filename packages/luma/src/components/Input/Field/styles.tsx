@@ -1,22 +1,23 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IMaskInput } from 'react-imask'
 import { styled } from '@stitches/react'
-import { c } from '@hytzenshop/helpers'
 
-export const FieldWrapper = styled('div', {
-  flexDirection: 'column',
-  flex: 1,
+import tw from 'tailwind-styled-components'
 
-  variants: {
-    width: {
-      full: {
-        width: '100%',
-      },
-      fit: {
-        width: 'fit-content',
-      },
-    },
-  },
-})
+// FieldWrapper
+
+interface FieldWrapperProps {
+  width?: 'full' | 'fit'
+}
+
+export const FieldWrapper = tw.div<FieldWrapperProps>`
+  flex-col
+  flex-1
+
+  ${({ width }) => (width === 'full' ? 'w-full' : 'w-fit')}
+`
+
+// Field
 
 export const Field = styled(IMaskInput, {
   width: '100%',
@@ -52,19 +53,18 @@ export const FieldInput = styled('input', {
   },
 })
 
+//FieldLabel
+
 interface FieldLabelProps {
   children: React.ReactNode
   color?: 'error' | 'initial'
 }
 
-export const FieldLabel: React.FC<FieldLabelProps> = ({ color, children }) => {
-  const colorClassName = {
-    error: 'text-danger-300',
-    initial: 'text-primary',
-  }[String(color)]
+export const FieldLabel = tw.div<FieldLabelProps>`
+  ${({ color }) => (color === 'error' ? 'text-danger-300' : 'text-primary')}
+`
 
-  return <p className={c(colorClassName)}>{children}</p>
-}
+// FieldContent
 
 interface FieldContentProps {
   children: React.ReactNode
@@ -74,32 +74,17 @@ interface FieldContentProps {
   className?: string
 }
 
-export const FieldContent: React.FC<FieldContentProps> = ({
-  className,
-  children,
-  variant,
-  rounded,
-  error,
-}) => {
-  const variantClassName = {
-    bordeless: 'bg-[transparent]',
-    filled: 'bg-secondary border-[1.5px] border-[transparent]',
-    outlined:
-      'bg-[transparent] border-[1.5px] border-light-gray-300 dark:border-dark-gray-300',
-    disabled: 'cursor-not-allowed',
-  }[String(variant)]
-
-  return (
-    <div
-      className={c(
-        'w-full',
-        error === 'true' && 'border-[1.5px] border-danger-300',
-        rounded ? 'rounded-full' : 'rounded-md',
-        variantClassName,
-        className
-      )}
-    >
-      {children}
-    </div>
-  )
+const fieldVariantClassName = {
+  bordeless: 'bg-[transparent]',
+  filled: 'bg-secondary border-[1.5px] border-[transparent]',
+  outlined: 'bg-[transparent] border-[1.5px] border-dark-gray-300',
+  disabled: 'cursor-not-allowed',
 }
+
+export const FieldContent = tw.div<FieldContentProps>`
+  w-full
+
+  ${({ variant }) => fieldVariantClassName[variant!]}
+  ${({ error }) => error === 'true' && 'border-[1.5px] border-danger-300'}
+  ${({ rounded }) => (rounded ? 'rounded-full' : 'rounded-md')}
+`

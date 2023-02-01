@@ -14,21 +14,22 @@ const Home: NextPage = () => {
       <LoginFormSection
         containerClassName="h-[100vh] max-md:mx-8"
         title={
-          <div className="space-y-2">
+          <div className="flex space-x-6">
             <Image
               src="/icons/logo.svg"
               alt="Hytzen Shop Adm"
-              width={46}
-              height={46}
-              className="mb-6"
+              width={36}
+              height={36}
             />
 
-            <p className="text-4xl md:text-5xl text-light-gray-100 font-bold">
-              Faça login
-            </p>
-            <p className="text-xl max-w-sm text-light-gray-100 font-medium">
-              Para começar digite seu username e senha.
-            </p>
+            <div>
+              <p className="text-4xl md:text-5xl text-light-gray-100 font-bold">
+                Faça login
+              </p>
+              <p className="text-xl max-w-sm text-light-gray-100 font-medium">
+                Para começar digite seu username e senha.
+              </p>
+            </div>
           </div>
         }
       />

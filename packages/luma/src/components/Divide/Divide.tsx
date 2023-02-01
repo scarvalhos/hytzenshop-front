@@ -39,12 +39,7 @@ export const DivideY: React.FC<DivideProps> = ({
       {kids.map((node, index) => (
         <React.Fragment key={index}>
           {index > 0 && !skipIndexes.includes(index) && (
-            <hr
-              className={c(
-                'my-10 border-light-gray-300 dark:border-dark-gray-300',
-                dividerClassName
-              )}
-            />
+            <hr className={c('my-10 border-dark-gray-300', dividerClassName)} />
           )}
           {skipIndexes.includes(index) && <div className="mb-4" />}
           {node}
@@ -56,12 +51,6 @@ export const DivideY: React.FC<DivideProps> = ({
 
 export const DivideLine: React.FC<DivideProps> = ({ dividerClassName, id }) => {
   return (
-    <hr
-      id={id}
-      className={c(
-        'my-10 border-light-gray-300 dark:border-dark-gray-300',
-        dividerClassName
-      )}
-    />
+    <hr id={id} className={c('my-10 border-dark-gray-300', dividerClassName)} />
   )
 }

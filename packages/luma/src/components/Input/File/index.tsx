@@ -43,6 +43,7 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
       isFullWidth,
       containerClassName,
       variant,
+      rounded = false,
       accept = {
         'image/*': ['.pjpeg', '.jpeg', '.jpg', '.png', '.gif', '.webp'],
       },
@@ -112,20 +113,22 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
                 <div
                   {...getRootProps({ className: 'dropzone' })}
                   className={c(
-                    'border border-dashed rounded-lg cursor-pointer px-6 py-8 text-center flex flex-col items-center justify-center',
+                    'border border-dashed cursor-pointer px-6 py-8 text-center flex flex-col items-center justify-center',
                     (isDragReject || error) && 'border-danger-300',
                     isDragAccept && 'border-success-300',
                     variant === 'outlined' && !error && 'border-dark-gray-200',
                     variant === 'filled' && !error && 'border-light-gray-500',
                     variant === 'filled' && 'bg-secondary',
-                    disabled && 'opacity-40 cursor-not-allowed'
+                    disabled && 'opacity-40 cursor-not-allowed',
+                    rounded ? 'rounded-full w-32 h-w-32' : 'rounded-lg'
                   )}
                 >
                   <input {...getInputProps()} />
+
                   <TbPhoto
                     size={24}
                     className={c(
-                      'mb-4',
+                      rounded ? 'my-5' : 'mb-4',
                       isDragAccept
                         ? 'text-success-300'
                         : isDragReject || !!error
@@ -133,12 +136,14 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
                         : 'text-light-gray-500'
                     )}
                   />
-                  {renderDragMessage(
-                    isDragActive,
-                    isDragReject,
-                    isDragAccept,
-                    error
-                  )}
+
+                  {!rounded &&
+                    renderDragMessage(
+                      isDragActive,
+                      isDragReject,
+                      isDragAccept,
+                      error
+                    )}
                 </div>
               )}
             />

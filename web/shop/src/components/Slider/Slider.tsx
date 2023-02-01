@@ -1,6 +1,5 @@
 import React from 'react'
 
-import { useBreakpoint } from '@hytzenshop/hooks'
 import { useConfig } from '@contexts/ConfigContext'
 import { styled } from '@stitches/react'
 import { theme } from '@luma/ui'
@@ -14,13 +13,9 @@ interface SliderProps {
 const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
   const [slideIndex, setSlideIndex] = React.useState(0)
 
-  const { sm } = useBreakpoint()
-
   const { sliderImages } = useConfig()
 
-  const images = sliderImages?.map((i) => i?.url) || [
-    '/slider/dc-comics-02.jpg',
-  ]
+  const images = sliderImages?.map((i) => i?.url) || []
 
   React.useEffect(() => {
     if (images.length > 1) {
@@ -38,9 +33,6 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
     width: '100%',
     height: '100%',
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'column',
 
     '&:before': {
       content: ' ',
@@ -51,10 +43,10 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
 
       width: '100%',
       height: '100%',
-      opacity: '0.85',
+      opacity: '0.75',
 
       background: theme.colors['dark-gray'][400],
-      backgroundImage: `url(${imageUrl || images[slideIndex]})`,
+      backgroundImage: `url(${imageUrl || encodeURI(images[slideIndex])})`,
       backgroundPosition: 'top',
       backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
@@ -67,20 +59,14 @@ const Slider: React.FC<SliderProps> = ({ imageUrl, short = false }) => {
     <div
       className={c(
         'w-full relative bg-dark-gray-500',
-        short ? 'h-[35vh]' : 'h-[60vh]'
+        short ? 'h-[35vh]' : 'h-[50vh]'
       )}
     >
       <div className="w-full h-full flex">
-        <Slide>
-          <div
-            className="flex flex-col items-center justify-center z-30"
-            style={{
-              maxWidth: sm ? 'fit-content' : 'unset',
-              padding: sm ? '1rem 2.75rem 0rem' : 0,
-            }}
-          >
+        <Slide className="items-center justify-center">
+          <div className="flex w-full max-w-screen-2xl mx-auto px-8 sm:px-16 py-8 sm:py-16 z-30">
             {!short && (
-              <h1 className="text-center max-w-[620px] text-white text-4xl font-bold">
+              <h1 className="sm:max-w-[720px] text-light-gray-100 text-5xl sm:text-6xl font-black tracking-tighter">
                 As camisetas do seu personagem favorito você encontra aqui.
               </h1>
             )}

@@ -95,7 +95,7 @@ const AnnouncementSection: React.FC = () => {
           control={control}
           defaultValue={announcement}
           disabled={!showAnnouncement}
-          variant="filled"
+          variant="outlined"
           isFullWidth
           rounded
           {...register('announcement')}
@@ -105,7 +105,7 @@ const AnnouncementSection: React.FC = () => {
           label="Imagem"
           control={control}
           filesListDisplay="list"
-          variant="filled"
+          variant="outlined"
           listItemRounded
           isFullWidth
           maxFiles={1}
