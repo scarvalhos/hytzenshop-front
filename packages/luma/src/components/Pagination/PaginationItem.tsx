@@ -1,3 +1,5 @@
+import { c } from '@hytzenshop/helpers'
+
 import React from 'react'
 
 interface PaginationItemProps {
@@ -7,13 +9,21 @@ interface PaginationItemProps {
 }
 
 export const PaginationItem: React.FC<PaginationItemProps> = ({
+  onPageChange,
   isCurrent = false,
   number,
-  onPageChange,
 }) => {
+  const baseClassName =
+    'rounded-md w-[32px] h-[32px] p-1 text-base font-semibold shadow-md'
+
   if (isCurrent) {
     return (
-      <button className="rounded-[4px] w-[32px] h-[32px] p-1 text-base text-light-gray-100 bg-dark-gray-400 hover:bg-dark-gray-300">
+      <button
+        className={c(
+          baseClassName,
+          'text-light-gray-100 bg-success-300 hover:brightness-110'
+        )}
+      >
         {number}
       </button>
     )
@@ -21,7 +31,10 @@ export const PaginationItem: React.FC<PaginationItemProps> = ({
 
   return (
     <button
-      className="rounded-[4px] w-[32px] h-[32px] p-1 text-base text-light-gray-500 bg-dark-gray-400 hover:bg-dark-gray-300"
+      className={c(
+        baseClassName,
+        'text-secondary bg-primary bg-opacity-60 hover:bg-opacity-100'
+      )}
       onClick={() => onPageChange(number)}
     >
       {number}

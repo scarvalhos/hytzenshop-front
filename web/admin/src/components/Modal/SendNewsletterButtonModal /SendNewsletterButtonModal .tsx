@@ -60,9 +60,7 @@ const SendNewsletterButtonModal: React.FC = () => {
         glassEffect={false}
       >
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
-          <h2 className="text-2xl text-light-gray-100 font-semibold">
-            Newsletter #1
-          </h2>
+          <h2 className="text-2xl text-primary font-semibold">Newsletter #1</h2>
 
           <Input.Field
             label="Assunto"

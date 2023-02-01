@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import { SocketProvider } from '@contexts/SocketContext'
+import { ThemeProvider } from '@luma/ui'
 import { AuthProvider } from '@contexts/AuthContext'
 
 type DefaultProviderProps = {
@@ -9,9 +10,11 @@ type DefaultProviderProps = {
 
 function DefaultProvider({ children }: DefaultProviderProps) {
   return (
-    <AuthProvider>
-      <SocketProvider>{children}</SocketProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <SocketProvider>{children}</SocketProvider>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }
 

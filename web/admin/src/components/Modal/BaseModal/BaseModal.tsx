@@ -47,7 +47,7 @@ const BaseModal: React.FC<BaseModalProps> = ({
               customWidth ? customWidth : 'max-w-[500px]',
               'rounded-lg',
               panelClassName,
-              !glassEffect && 'bg-dark-gray-400 p-10'
+              !glassEffect && 'bg-primary dark:bg-opacity-100 p-10'
             )}
           >
             {withGlassEffect(

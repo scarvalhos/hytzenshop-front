@@ -19,7 +19,7 @@ const ProductSectionSkeleton: React.FC = () => {
       {indexes.map((item) => (
         <div
           key={item}
-          className="h-[100%] bg-dark-gray-400 flex-1 rounded-md animate-pulse"
+          className="h-[100%] bg-primary flex-1 rounded-md animate-pulse"
         />
       ))}
     </div>

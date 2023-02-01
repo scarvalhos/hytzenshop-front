@@ -46,11 +46,10 @@ const ShippingSimulationModal: React.FC = () => {
         open={shipping.showModal}
         panelClassName={c('backdrop-blur-[90px] max-h-[80vh] overflow-hidden')}
         onClose={() => setShipping({ ...shipping, showModal: false })}
+        glassEffect={false}
       >
         <>
-          <h2 className="text-2xl text-light-gray-100 font-semibold">
-            Simular frete
-          </h2>
+          <h2 className="text-2xl text-primary font-semibold">Simular frete</h2>
           <p>
             Para o CEP{' '}
             <strong className="text-success-300">{shipping.cep}</strong> |{' '}
@@ -70,7 +69,7 @@ const ShippingSimulationModal: React.FC = () => {
                     <span
                       key={i}
                       className={c(
-                        'w-full h-14 bg-dark-gray-400 bg-opacity-30 animate-pulse flex flex-col sm:flex-row sm:items-center rounded-md max-sm:space-y-1 px-4 py-3 cursor-pointer'
+                        'w-full h-14 bg-third animate-pulse flex flex-col sm:flex-row sm:items-center rounded-md max-sm:space-y-1 px-4 py-3 cursor-pointer'
                       )}
                     />
                   ))

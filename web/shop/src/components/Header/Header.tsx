@@ -1,8 +1,9 @@
-import { TbShoppingCart, TbHeart, TbUserCircle, TbBell } from 'react-icons/tb'
+import { TbShoppingCart, TbUserCircle, TbHeart, TbBell } from 'react-icons/tb'
 import { Badge, Button, withGlassEffect, Link } from '@luma/ui'
 import { useWishlist } from '@contexts/WishlistContext'
 import { useAuth } from '@contexts/AuthContext'
 import { useCart } from '@contexts/CartContext'
+import { c } from '@hytzenshop/helpers'
 
 import ProfilePopover from '@components/ProfilePopover'
 import React from 'react'
@@ -18,6 +19,7 @@ const Header: React.FC<HeaderProps> = ({
   renderAfterLogo,
   glassEffect,
 }) => {
+  // const { theme, setTheme } = useTheme()
   const { totalQuantity } = useCart()
   const { wishlist } = useWishlist()
   const { user } = useAuth()
@@ -33,11 +35,11 @@ const Header: React.FC<HeaderProps> = ({
   return (
     <>
       {withGlassEffect(
-        <div className="w-full max-w-screen-2xl mx-auto px-8 py-1 sm:px-16 flex flex-row items-center justify-between">
+        <div className="w-full max-w-screen-2xl mx-auto px-8 sm:px-16 flex flex-row items-center justify-between">
           <div className="flex flex-row items-center">
             <Link href="/">
-              <p className="text-white py-4 text-xl">
-                <strong className="text-success-300">Hytzen</strong>
+              <p className={c('py-4 text-2xl font-bebas text-light-gray-100')}>
+                <span className="text-success-300">Hytzen</span>
                 Shop
               </p>
             </Link>
@@ -48,6 +50,22 @@ const Header: React.FC<HeaderProps> = ({
 
           <div className="flex flex-row items-center space-x-2">
             <div className="flex flex-row items-center space-x-1">
+              {/* <Button
+                className={c(
+                  'p-1',
+                  glassEffect ? 'text-light-gray-100' : 'text-primary'
+                )}
+                onClick={() =>
+                  theme === 'dark' ? setTheme('light') : setTheme('dark')
+                }
+              >
+                {theme === 'dark' ? (
+                  <TbSun size={20} />
+                ) : (
+                  <TbMoonStars size={20} />
+                )}
+              </Button> */}
+
               <Button href="/wishlist" rounded className="p-1">
                 <Badge
                   className="bg-danger-300"
@@ -57,7 +75,12 @@ const Header: React.FC<HeaderProps> = ({
                       : undefined
                   }
                 >
-                  <TbHeart color="white" fontSize={20} />
+                  <TbHeart
+                    className={c(
+                      glassEffect ? 'text-light-gray-100' : 'text-primary'
+                    )}
+                    fontSize={20}
+                  />
                 </Badge>
               </Button>
 
@@ -66,7 +89,12 @@ const Header: React.FC<HeaderProps> = ({
                   content={totalQuantity || undefined}
                   className="bg-success-400"
                 >
-                  <TbShoppingCart color="white" fontSize={20} />
+                  <TbShoppingCart
+                    className={c(
+                      glassEffect ? 'text-light-gray-100' : 'text-primary'
+                    )}
+                    fontSize={20}
+                  />
                 </Badge>
               </Button>
 
@@ -78,7 +106,12 @@ const Header: React.FC<HeaderProps> = ({
                       (newNotifications || 0) <= 99 ? newNotifications : '+99'
                     }
                   >
-                    <TbBell color="white" size={20} />
+                    <TbBell
+                      className={c(
+                        glassEffect ? 'text-light-gray-100' : 'text-primary'
+                      )}
+                      size={20}
+                    />
                   </Badge>
                 </Button>
               )}
@@ -88,7 +121,12 @@ const Header: React.FC<HeaderProps> = ({
               <ProfilePopover />
             ) : (
               <Link href="/auth" passHref>
-                <TbUserCircle color="white" fontSize={22} />
+                <TbUserCircle
+                  className={c(
+                    glassEffect ? 'text-light-gray-100' : 'text-primary'
+                  )}
+                  fontSize={22}
+                />
               </Link>
             )}
           </div>
@@ -96,7 +134,7 @@ const Header: React.FC<HeaderProps> = ({
         {
           glassEffect,
           divClassName:
-            'fixed top-0 left-0 right-0 z-40 border-b border-opacity-20 border-light-gray-400 bg-black',
+            'fixed top-0 left-0 right-0 z-40 border-b border-opacity-20 border-light-gray-400 bg',
           glassClassName:
             'fixed top-0 left-0 right-0 z-40 border-b border-opacity-20 border-light-gray-400',
         }

@@ -39,7 +39,7 @@ const ProductCard: React.FC<ProductProps> = ({
           </>,
           {
             glassEffect: !isFavorited,
-            glassClassName: 'p-2.5 rounded-full drop-shadow-md bg-opacity-30',
+            glassClassName: 'p-2.5 rounded-full shadow-sm',
             divClassName: 'p-2.5 rounded-full drop-shadow-lg bg-danger-300',
           }
         )}
@@ -68,7 +68,7 @@ const ProductCard: React.FC<ProductProps> = ({
               show="total"
             />
 
-            <p className="text-md text-light-gray-100 capitalize">
+            <p className="text-md text-primary capitalize">
               {trucate({ text: title.toLowerCase(), line: 2 })}
             </p>
             <p className="text-lg text-success-300 font-semibold">
@@ -82,9 +82,9 @@ const ProductCard: React.FC<ProductProps> = ({
     </>,
     {
       glassClassName:
-        'text-left rounded-md relative border border-light-gray-400 hover:border-success-300 hover:border-opacity-100 border-opacity-20 transition-all',
+        'text-left rounded-md relative border border-light-gray-400 hover:border-success-300 hover:border-opacity-100 border-opacity-20',
       divClassName:
-        'text-left rounded-md bg-dark-gray-500 bg-opacity-30 relative border border-light-gray-400 hover:border-success-300 hover:border-opacity-100 border-opacity-20 transition-all shadow-lg',
+        'text-left rounded-md bg-primary relative border border-light-gray-400 hover:border-success-300 hover:border-opacity-100 border-opacity-20 shadow-lg',
       glassEffect,
     }
   )

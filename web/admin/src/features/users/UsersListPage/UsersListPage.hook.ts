@@ -44,8 +44,13 @@ export const useUsersListPage = () => {
   const { push } = useRouter()
   const { sm } = useBreakpoint()
 
+  const queryKey = React.useMemo(
+    () => ['users', state.page, state.filter],
+    [state.filter, state.page]
+  )
+
   const { data, isLoading } = useQuery(
-    ['users', state.page, state.filter],
+    queryKey,
     () =>
       getUsersList({
         filter: state.filter,
@@ -89,5 +94,6 @@ export const useUsersListPage = () => {
     isLoading,
     setPage,
     state,
+    queryKey,
   }
 }

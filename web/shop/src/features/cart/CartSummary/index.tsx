@@ -25,10 +25,8 @@ export const CartSummary: React.FC<CartSummaryProps> = ({
   }
 
   return (
-    <div className="flex flex-col space-y-8 lg:max-w-xl flex-1 h-fit bg-dark-gray-500 bg-opacity-30 px-8 py-6 rounded-md">
-      <p className="text-xl font-medium text-light-gray-100">
-        Resumo do pedido
-      </p>
+    <div className="flex flex-col space-y-8 lg:max-w-xl flex-1 h-fit bg-primary px-8 py-6 rounded-md">
+      <p className="text-xl font-medium text-primary">Resumo do pedido</p>
 
       <div className="space-y-6">
         <div className="space-y-2">

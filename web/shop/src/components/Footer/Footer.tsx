@@ -42,7 +42,7 @@ const Footer: React.FC = () => {
   return (
     <footer
       className={c(
-        'border-t border-light-gray-400 border-opacity-10 bg-dark-gray-500 bg-opacity-30'
+        'border-t border-light-gray-400 border-opacity-10 bg-primary shadow-lg'
       )}
     >
       <div
@@ -73,12 +73,12 @@ const Footer: React.FC = () => {
 
           <div className="flex flex-col">
             <p className="text-light-gray-500 text-base">CNPJ:</p>
-            <p className="text-light-gray-300 text-base">19.966.672/0001-84</p>
+            <p className="text-light-gray-500 text-base">19.966.672/0001-84</p>
           </div>
 
           <div className="flex flex-col">
             <p className="text-light-gray-500 text-base">Endereço:</p>
-            <p className="text-light-gray-300 text-base">
+            <p className="text-light-gray-500 text-base">
               Av. Coronel Mateus Cunha, 513. <br /> Sernamby - São Mateus/ER.
               <br />
               29930-510.
@@ -154,7 +154,7 @@ const Footer: React.FC = () => {
                   href="https://www.instagram.com/hytzenshop/"
                   className="flex flex-row items-center justify-center space-x-2"
                 >
-                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                  <span className="bg-secondary p-2 rounded-full">
                     <TbBrandInstagram className="text-success-300" />
                   </span>
 
@@ -167,7 +167,7 @@ const Footer: React.FC = () => {
                   href="https://api.whatsapp.com/send?phone=64986847824"
                   className="flex flex-row items-center justify-center space-x-2"
                 >
-                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                  <span className="bg-secondary p-2 rounded-full">
                     <TbBrandWhatsapp className="text-success-300" />
                   </span>
 
@@ -182,7 +182,7 @@ const Footer: React.FC = () => {
                   href="https://api.whatsapp.com/send?phone=64986847824"
                   className="flex flex-row items-center justify-center space-x-2"
                 >
-                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                  <span className="bg-secondary p-2 rounded-full">
                     <TbPhone className="text-success-300" />
                   </span>
 
@@ -198,7 +198,7 @@ const Footer: React.FC = () => {
                   className="flex flex-row items-center justify-center space-x-2"
                   target="_blank"
                 >
-                  <span className="bg-dark-gray-400 p-2 rounded-full">
+                  <span className="bg-secondary p-2 rounded-full">
                     <TbMail className="text-success-300" />
                   </span>
 
@@ -213,7 +213,7 @@ const Footer: React.FC = () => {
 
         {scroll.position >= 500 && (
           <button
-            className="bg-dark-gray-400 fixed bottom-8 right-[4.5rem] sm:right-[6.5rem] p-2 rounded-md z-[9999999] transition-all"
+            className="bg-primary shadow-lg fixed bottom-8 right-[4.5rem] sm:right-[6.5rem] p-2 rounded-md z-[9999999] transition-all"
             onClick={() => {
               document.documentElement.scrollTop = 0
             }}

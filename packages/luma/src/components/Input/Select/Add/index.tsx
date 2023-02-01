@@ -100,8 +100,11 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
 
     return (
       <FieldWrapper
-        width={isFullWidth ? 'full' : 'fit'}
-        className={c('space-y-2', containerClassName)}
+        className={c(
+          'space-y-2',
+          isFullWidth ? 'w-full' : 'w-fit',
+          containerClassName
+        )}
       >
         {label && (
           <FieldLabel color={error ? 'error' : 'initial'}>
@@ -119,8 +122,8 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
               <FieldContent
                 variant={variant}
                 error={error ? 'true' : 'false'}
-                rounded={rounded ? 'true' : 'false'}
-                className="flex flex-row items-center focus-within:border-[1.5px] focus-within:border-success-300"
+                rounded={rounded}
+                className="flex flex-row items-center focus-within:border-[1.5px] focus-within:border-success-300 text-primary"
               >
                 <FieldInput
                   value={item}
@@ -130,13 +133,8 @@ const Add: React.FC<SelectAddProps> = React.forwardRef(
                   className={c('px-4 py-3', className)}
                 />
 
-                <Button
-                  variant="filled"
-                  onClick={handleAddItem}
-                  className="p-3 bg-[transparent] hover:bg-dark-gray-400"
-                  rounded
-                >
-                  <TbCirclePlus size={20} color="white" cursor="pointer" />
+                <Button onClick={handleAddItem} className="p-3" rounded>
+                  <TbCirclePlus size={20} cursor="pointer" />
                 </Button>
               </FieldContent>
             )}

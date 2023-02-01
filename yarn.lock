@@ -3288,16 +3288,17 @@ react-lottie@^1.2.3:
     babel-runtime "^6.26.0"
     lottie-web "^5.1.3"
 
-react-minimal-gallery@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/react-minimal-gallery/-/react-minimal-gallery-1.2.3.tgz#11a2586065cf0a81640ad2742524f7435edb4b0f"
-  integrity sha512-Fu0ur2UaMvMS9NdcrORC6MppsN9gqgwdrQcM1ZxIFjhPeHVGXwJ8dIej66XJtUK6vTvudDHSguSa2aaFAiUHTg==
+react-minimal-gallery@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/react-minimal-gallery/-/react-minimal-gallery-1.2.6.tgz#eba1d839f7e6752642467412e00fdfa2c3130d93"
+  integrity sha512-h2XZti6AbWUVuyDV5fvAMuhtdBE2y+XEaaMUiFISCXBDStCEpXR4PA/TyovkjMxB9mDO3Dz9dl9Qg7KYpfnrIw==
   dependencies:
     prop-types "^15.8.1"
     react "^18.2.0"
     react-dom "^18.2.0"
     react-icons "^4.4.0"
     rollup "^2.79.1"
+    tailwind-styled-components "^2.2.0"
 
 react-remove-scroll-bar@^2.3.3:
   version "2.3.4"
@@ -3770,10 +3771,27 @@ synckit@^0.8.4:
     "@pkgr/utils" "^2.3.1"
     tslib "^2.4.0"
 
+tailwind-merge@^1.3.0:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/tailwind-merge/-/tailwind-merge-1.8.1.tgz#0e56c8afbab2491f72e06381043ffec8b720ba04"
+  integrity sha512-+fflfPxvHFr81hTJpQ3MIwtqgvefHZFUHFiIHpVIRXvG/nX9+gu2P7JNlFu2bfDMJ+uHhi/pUgzaYacMoXv+Ww==
+
 tailwind-scrollbar@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/tailwind-scrollbar/-/tailwind-scrollbar-2.0.1.tgz#f08721173d513f1406a44601640b79726e3f9728"
   integrity sha512-OcR7qHBbux4k+k6bWqnEQFYFooLK/F4dhkBz6nvswIoaA9ancZ5h20e0tyV7ifSWLDCUBtpG+1NHRA8HMRH/wg==
+
+tailwind-scrollbar@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/tailwind-scrollbar/-/tailwind-scrollbar-2.1.0.tgz#46e0b8788cef75387f9d163a5ec82b8cacd66c44"
+  integrity sha512-zpvY5mDs0130YzYjZKBiDaw32rygxk5RyJ4KmeHjGnwkvbjm/PszON1m4Bbt2DkMRIXlXsfNevykAESgURN4KA==
+
+tailwind-styled-components@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/tailwind-styled-components/-/tailwind-styled-components-2.2.0.tgz#c1f7d680a2798d3a30ec38833d3fd67166008fb8"
+  integrity sha512-Ogemwk0p69aU8WE/ooJZHjqstdJgT5R6HGU6TFz2uSnveSEtvW+C6aWOjGCvCr5H/bREv0IbbQ4yODknRrLBRQ==
+  dependencies:
+    tailwind-merge "^1.3.0"
 
 tailwindcss@^3.2.4:
   version "3.2.4"

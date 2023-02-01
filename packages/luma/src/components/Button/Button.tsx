@@ -8,7 +8,7 @@ import React from 'react'
 export const Loader: React.FC<{ className?: string }> = ({ className }) => {
   return (
     <svg
-      className={c('text-[inherit] absolute h-5 w-5 animate-spin', className)}
+      className={c('text-[inherit] h-5 w-5 animate-spin', className)}
       viewBox="0 0 24 24"
     >
       <path
@@ -97,7 +97,7 @@ const Button = React.forwardRef<any, React.PropsWithChildren<ButtonProps>>(
           variant === 'filled' && 'button--filled',
           variant === 'outlined' && 'button--outlined',
           variant === 'outlined-danger' && 'button--outlined-danger',
-          variant === 'disabled' && 'button--disabled',
+          disabled && 'button--disabled',
           rounded ? 'rounded-full' : 'rounded-[4px]',
           className
         ),
@@ -107,7 +107,7 @@ const Button = React.forwardRef<any, React.PropsWithChildren<ButtonProps>>(
       },
       <>
         {loading ? (
-          <div className="p-2 flex items-center justify-center">
+          <div className="flex items-center justify-center">
             <Loader />
           </div>
         ) : (

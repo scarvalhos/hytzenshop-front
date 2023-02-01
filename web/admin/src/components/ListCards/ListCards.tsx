@@ -55,7 +55,7 @@ const ListCards: React.FC<TableProps> = ({
       {rows.map((row, rowI) => (
         <div
           key={`r-${rowI}`}
-          className="bg-dark-gray-500 bg-opacity-50 rounded-md lg:pr-4 flex flex-col lg:flex-row lg:items-center"
+          className="bg-primary rounded-md lg:pr-4 flex flex-col lg:flex-row lg:items-center"
         >
           <div className="flex flex-row items-center justify-between max-lg:my-4 max-lg:mx-4">
             <span className="flex flex-row items-center ">
@@ -97,8 +97,8 @@ const ListCards: React.FC<TableProps> = ({
                   if (accessor === 'title') {
                     return (
                       <div key={`${cellI}-r`} className="px-4">
-                        <p>{Header}</p>
-                        <p className="text-light-gray-100 text-lg font-medium">
+                        <p className="text-secondary">{Header}</p>
+                        <p className="text-primary text-lg font-medium">
                           {text}
                         </p>
                       </div>
@@ -109,7 +109,7 @@ const ListCards: React.FC<TableProps> = ({
 
             {!lg && (
               <Button
-                className="bg-dark-gray-400 hover:bg-dark-gray-300 p-3 lg:hidden"
+                className="bd-secondary p-3 lg:hidden"
                 rounded
                 onClick={() =>
                   mobileOpenedCardsId !== (row as any).id
@@ -159,7 +159,7 @@ const ListCards: React.FC<TableProps> = ({
                       <div
                         key={`${cellI}-r`}
                         className={c(
-                          'flex max-lg:flex-row max-lg:justify-between justify-center max-lg:items-center max-lg:bg-dark-gray-500 max-lg:space-x-2 lg:space-y-1 max-lg:px-4 max-lg:py-2 max-lg:rounded-md',
+                          'flex max-lg:flex-row max-lg:justify-between justify-center max-lg:items-center max-lg:bg-third max-lg:space-x-2 lg:space-y-1 max-lg:px-4 max-lg:py-2 max-lg:rounded-md',
                           lg && align,
                           lg && display
                         )}
@@ -170,10 +170,12 @@ const ListCards: React.FC<TableProps> = ({
                             aferHeader && 'space-x-1'
                           )}
                         >
-                          <p className="max-lg:text-right">{Header}</p>
+                          <p className="max-lg:text-right text-secondary">
+                            {Header}
+                          </p>
                           {aferHeader && aferHeader()}
                         </span>
-                        <p className="text-light-gray-100 text-lg font-medium">
+                        <p className="text-primary text-lg font-medium">
                           {text}
                         </p>
                       </div>

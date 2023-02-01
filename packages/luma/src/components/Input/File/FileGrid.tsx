@@ -38,7 +38,7 @@ export const FileGrid: React.FC<FileGridProps> = ({
                 onClick={() =>
                   file.error && onError ? onError(file.id) : onDelete(file.id)
                 }
-                className="absolute -top-2 -right-2 p-2 flex bg-dark-gray-300 z-50 hover:brightness-125"
+                className="absolute -top-2 -right-2 p-2 flex bg-secondary shadow-lg z-40 hover:brightness-125"
                 rounded
               >
                 <TbTrash size={16} className="text-danger-300" />

@@ -13,7 +13,7 @@ const ProfilePopover = () => {
     <div className="flex flex-row items-center justify-center space-x-2">
       <span className="flex flex-col items-end max-sm:hidden">
         {user?.username ? (
-          <p className="text-light-gray-100 font-medium">
+          <p className="text-dark-gray-500 dark:text-light-gray-100 font-medium">
             {user?.profile?.completeName}
           </p>
         ) : (

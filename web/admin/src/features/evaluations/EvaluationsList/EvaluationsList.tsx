@@ -18,6 +18,7 @@ const EvaluationsList: React.FC<EvaluationsListProps> = ({ evaluations }) => {
           evaluation={evaluation}
           application="adm"
           queryKey={queryKey}
+          containerClassName="bg-primary"
         />
       ))}
     </>

@@ -29,7 +29,7 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
   return (
     <div
       className={c(
-        'flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 rounded-md px-4 py-4 bg-dark-gray-500'
+        'flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 rounded-md px-4 py-4 bg-primary'
       )}
     >
       <Link href={`/dashboard/products/${product?.productId}`}>
@@ -47,11 +47,10 @@ const OrderedProductPreview: React.FC<OrderedProductPreviewProps> = ({
       </Link>
 
       <div className="flex flex-col justify-center space-y-2">
-        <Link
-          href={`/dashboard/products/${product?.productId}`}
-          className="text-light-gray-100 font-medium text-base"
-        >
-          {data?.product.title}
+        <Link href={`/dashboard/products/${product?.productId}`}>
+          <p className="text-primary font-medium text-base">
+            {data?.product.title}
+          </p>
         </Link>
 
         <div className="flex flex-row flex-wrap gap-2">

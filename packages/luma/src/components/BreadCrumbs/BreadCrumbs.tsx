@@ -35,7 +35,7 @@ export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
         >
           <span className="w-fit flex items-center justify-center space-x-1">
             <Ic size={18} />
-            <p>
+            <p className="text-secondary">
               {links.length > 1
                 ? links[links.length - 2].title
                 : links[0].title}
@@ -59,7 +59,7 @@ export const BreadCrumbs: React.FC<BreadCrumbsProps> = ({
             <span
               className={c(
                 'w-fit flex items-center justify-center space-x-1',
-                index + 1 === links.length && 'text-light-gray-100'
+                index + 1 === links.length && 'text-primary'
               )}
             >
               <Icon size={18} />

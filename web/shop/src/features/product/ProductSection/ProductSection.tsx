@@ -33,7 +33,7 @@ const ProductSection: React.FC<ProductSectionProps> = ({
       <div className={c('flex flex-row items-center justify-between my-4')}>
         {title && (
           <>
-            <h4 className="text-lg text-light-gray-100 font-medium">{title}</h4>
+            <h4 className="text-lg text-primary font-medium">{title}</h4>
             {!asPath.startsWith('/category') && showSeeAll && (
               <Link href={path}>Ver tudo</Link>
             )}

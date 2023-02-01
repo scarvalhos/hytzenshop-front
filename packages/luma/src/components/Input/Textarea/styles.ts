@@ -1,4 +1,3 @@
-import { theme } from '@luma/ui'
 import { styled } from '@stitches/react'
 
 export const Field = styled('textarea', {
@@ -11,8 +10,6 @@ export const Field = styled('textarea', {
 
   fontSize: '1rem',
   display: 'inline-block',
-
-  color: theme.colors['light-gray'][100],
 
   resize: 'none',
 })

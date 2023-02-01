@@ -42,8 +42,11 @@ const SecureFieldInput: React.FC<FieldInputProps> = React.forwardRef(
 
     return (
       <FieldWrapper
-        width={isFullWidth ? 'full' : 'fit'}
-        className={c('space-y-2', containerClassName)}
+        className={c(
+          'space-y-2',
+          isFullWidth ? 'w-full' : 'w-fit',
+          containerClassName
+        )}
       >
         {label && (
           <FieldLabel color={error ? 'error' : 'initial'}>
@@ -63,7 +66,7 @@ const SecureFieldInput: React.FC<FieldInputProps> = React.forwardRef(
               <FieldContent
                 variant={variant}
                 error={error ? 'true' : 'false'}
-                rounded={rounded ? 'true' : 'false'}
+                rounded={rounded}
                 className="flex flex-row min-h-[46px]"
               >
                 <Field

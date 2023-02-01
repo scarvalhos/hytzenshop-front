@@ -1,10 +1,11 @@
 import * as React from 'react'
 
-import { TbCirclePlus, TbDownload, TbSearch } from 'react-icons/tb'
+import { TbDownload, TbSearch } from 'react-icons/tb'
 import { useUsersListPage } from './UsersListPage.hook'
 import { Button, Input } from '@luma/ui'
 import { c, date } from '@hytzenshop/helpers'
 
+import CreateUserButtonModal from '@components/Modal/CreateUserButtonModal'
 import DashboardPagesLayout from '@layouts/DashboardPagesLayout'
 import exportFromJSON from 'export-from-json'
 import UsersList from '@features/users/UsersList'
@@ -19,7 +20,6 @@ const UsersListPage: React.FC = () => {
     control,
     state,
     data,
-    push,
     sm,
   } = useUsersListPage()
 
@@ -37,20 +37,12 @@ const UsersListPage: React.FC = () => {
       header={{
         buttons: () => (
           <>
-            <Button
-              variant="filled"
-              className="p-3 sm:relative sm:pl-10"
-              onClick={() => push('/admin/quik/users/new-user')}
-              rounded
-            >
-              <TbCirclePlus size={20} className="sm:absolute sm:left-4" />
-              <span className="max-sm:hidden">Novo usuário</span>
-            </Button>
+            <CreateUserButtonModal buttonClassName="p-3" />
 
             <Button
               variant="outlined"
               rounded
-              className="sm:relative sm:pl-10 max-sm:p-2.5"
+              className="max-sm:p-2.5"
               onClick={() =>
                 exportFromJSON({
                   data: data?.data.users || [],
@@ -62,8 +54,10 @@ const UsersListPage: React.FC = () => {
                 })
               }
             >
-              <TbDownload className="sm:absolute sm:left-4" />
-              <span className="max-sm:hidden">Exportar</span>
+              <span className="flex items-center space-x-2">
+                <TbDownload />
+                <p className="max-sm:hidden">Exportar</p>
+              </span>
             </Button>
           </>
         ),

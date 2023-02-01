@@ -37,15 +37,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
   return (
     <>
       <BreadCrumbs
-        className="py-4 mb-4 sticky top-20 z-40 bg-black"
+        className="py-4 mb-4 sticky top-20 z-40 bg"
         links={breadCrumbsLinks}
       />
 
       <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-2 items-start sm:items-center justify-between">
         <div className="flex flex-row space-x-2 items-center">
-          <p className="text-xl text-light-gray-100">
-            Pedido #{order?.mpPaymentId}
-          </p>
+          <p className="text-xl text-primary">Pedido #{order?.mpPaymentId}</p>
 
           <Status
             {...register('status')}
@@ -74,11 +72,11 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
         <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 max-sm:w-full">
           <div className="flex flex-row sm:items-center justify-between sm:justify-center space-x-1 max-sm:w-full">
             <p className="text-sm">Data do pedido:</p>
-            <p className="text-light-gray-100">{date(order?.createdAt)}</p>
+            <p className="text-primary">{date(order?.createdAt)}</p>
           </div>
           <div className="flex flex-row sm:items-center justify-between sm:justify-center space-x-1 max-sm:w-full">
             <p className="text-sm">Previsão de entrega:</p>
-            <p className="text-light-gray-100">
+            <p className="text-primary">
               {order?.shipping && date(JSON.parse(order?.shipping).dtPrevEnt)}
             </p>
           </div>
@@ -86,13 +84,13 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
       </div>
 
       <div className="flex flex-col flex-1 space-y-4 mt-4">
-        <p className="text-light-gray-100">Pagamento:</p>
+        <p className="text-primary">Pagamento:</p>
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-4 bg-dark-gray-400 rounded-md px-6 py-4 flex-1 h-fit">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-4 bg-primary rounded-md px-6 py-4 flex-1 h-fit">
           <div className="flex flex-col sm:flex-row justify-between sm:space-x-8 max-sm:space-y-2">
             <div>
               <p className="text-sm">Forma de pagamento:</p>
-              <p className="text-light-gray-100 capitalize">
+              <p className="text-primary capitalize">
                 {(orderPaymentQuery.data?.response
                   .payment_method_id as string) ?? '-'}{' '}
                 {orderPaymentQuery.data?.response.payment_type_id ===
@@ -108,7 +106,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
 
             <div>
               <p className="text-sm">Total:</p>
-              <p className="text-light-gray-100">{money(order?.amount)}</p>
+              <p className="text-primary">{money(order?.amount)}</p>
             </div>
           </div>
 
@@ -119,7 +117,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
               target="_blank"
               rounded
             >
-              <span className="flex flex-row max-sm:justify-center space-x-2 text-light-gray-100">
+              <span className="flex flex-row max-sm:justify-center space-x-2">
                 <TbUpload />
                 <p>Enviar comprovante</p>
               </span>
@@ -129,17 +127,17 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
       </div>
 
       <div className="flex flex-col space-y-4 flex-1 mt-4">
-        <p className="text-light-gray-100">Dados do cliente:</p>
+        <p className="text-primary">Dados do cliente:</p>
         <UserCard
           user={order.user}
           renderInsideCard={() => (
             <div>
               <p className="text-sm">Endereço:</p>
-              <p className="text-sm text-light-gray-100">
+              <p className="text-sm text-primary">
                 {`${order?.address?.street}, ${order?.address?.number}` || '-'}{' '}
                 - {`${order?.address?.district}` || '-'}
               </p>
-              <p className="text-sm text-light-gray-100">
+              <p className="text-sm text-primary">
                 {`${order?.address?.city}/${order?.address?.uf}` || '-'} -{' '}
                 {order?.address?.cep || '-'}, {order?.address?.country || '-'}
               </p>
@@ -150,7 +148,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
 
       <div className="flex flex-col md:flex-row max-sm:space-y-4 md:space-x-4 mt-4">
         <div className="flex flex-col space-y-4 flex-1">
-          <p className="text-light-gray-100">Items do pedido:</p>
+          <p className="text-primary">Items do pedido:</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full h-fit">
             {order?.orderedProducts &&

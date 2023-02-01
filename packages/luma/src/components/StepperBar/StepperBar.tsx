@@ -35,7 +35,7 @@ export const StepperBar: React.FC<StepperBarProps> = ({
         return 'bg-warning-300'
 
       default:
-        return 'bg-dark-gray-300'
+        return 'bg-secondary'
     }
   }, [activeColor])
 
@@ -51,7 +51,7 @@ export const StepperBar: React.FC<StepperBarProps> = ({
         return 'text-warning-300'
 
       default:
-        return 'text-dark-gray-300'
+        return 'text-secondary'
     }
   }, [activeColor])
 
@@ -85,15 +85,15 @@ export const StepperBar: React.FC<StepperBarProps> = ({
             key={item}
             className={c(
               'absolute -top-3.5 h-[32px] w-[32px] border-2 border-dark-gray-400 rounded-full flex items-center justify-center',
-              (activeStep || 0) < index ? 'bg-dark-gray-300' : color
+              (activeStep || 0) < index ? 'bg-third' : color
             )}
             style={{
               left: `${(100 / (steps.length - 1)) * index}%`,
             }}
           >
-            <span className="absolute">
+            <div className="absolute text-primary">
               {stepIcon && stepIcon[(index || 0) + 1]}
-            </span>
+            </div>
 
             <p
               className={c(
@@ -109,7 +109,7 @@ export const StepperBar: React.FC<StepperBarProps> = ({
           </div>
         ))}
 
-        <div className="bg-dark-gray-300 h-[4px] w-full rounded-sm">
+        <div className="bg-secondary h-[4px] w-full rounded-sm">
           <div
             className={c(color, 'h-[4px] rounded-sm')}
             style={{

@@ -30,7 +30,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
   return (
     <div className="md:max-w-screen-lg md:mx-auto space-y-2">
       {product?.questions.length === 0 ? (
-        <div className="bg-warning-400 bg-opacity-10 text-warning-300 font-normal my-4 p-4 space-y-1 rounded-md text-center w-full">
+        <div className="bg-warning-400 bg-opacity-20 text-warning-300 font-semibold my-4 p-4 space-y-1 rounded-md text-center w-full">
           Esse produto ainda não possui nenhuma dúvida.
         </div>
       ) : product?.questions && product?.questions.length > 0 ? (
@@ -40,11 +40,11 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
             .map((q) => (
               <div
                 key={q.id}
-                className="bg-dark-gray-400 bg-opacity-50 p-4 rounded-md flex flex-col"
+                className="bg-primary-400 bg-opacity-5 p-4 rounded-md flex flex-col"
               >
                 <div className="space-y-2">
                   <span className="flex flex-row space-x-2 items-center">
-                    <p className="text-lg text-light-gray-100 font-medium">
+                    <p className="text-lg text-primary font-semibold">
                       {q.name}
                     </p>
                     <p>{date(q.createdAt, { withHour: true })}</p>
@@ -59,7 +59,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
 
                   {q.answers.length === 0 && (
                     <Button
-                      className="text-success-300"
+                      className="px-0 py-1 text-success-300"
                       onClick={() => setFormAnswerByQuestion(q.id)}
                     >
                       Responder pergunta
@@ -69,14 +69,14 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
                   {q.answers.length > 0 && seeAnswers !== q.id ? (
                     <Button
                       onClick={() => setSeeAnswers(q.id)}
-                      className="text-success-300"
+                      className="px-0 py-1 text-success-300"
                     >
                       Ver resposta
                     </Button>
                   ) : seeAnswers === q.id ? (
                     <Button
                       onClick={() => setSeeAnswers(undefined)}
-                      className="text-success-300"
+                      className="px-0 py-1 text-success-300"
                     >
                       Fechar resposta
                     </Button>
@@ -84,7 +84,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
                 </div>
 
                 {formAnswerByQuestion === q.id ? (
-                  <div className="px-6 space-y-2">
+                  <div className="py-3 space-y-2">
                     <Input.Textarea
                       placeholder="Escreva aqui..."
                       control={control}

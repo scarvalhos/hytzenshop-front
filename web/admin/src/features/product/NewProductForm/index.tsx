@@ -72,12 +72,16 @@ export const NewProductForm: React.FC<NewProductFormProps> = ({
       />
 
       <form onSubmit={handleSubmit(onSubmit)} className={formClassName}>
-        <div className={c('pb-8 space-y-4', type === 'PUT' && 'relative')}>
+        <div
+          className={c(
+            'text-primary rounded-md space-y-4',
+            type === 'PUT' ? 'relative' : 'bg-primary p-8'
+          )}
+        >
           <p
             id="modal-modal-title"
             className={c(
-              'text-light-gray-100 text-2xl font-semibold mb-6',
-              type === 'PUT' && 'sticky top-0 bg-[#050507]'
+              'sticky top-0 bg-primary shadow-none text-2xl font-semibold mb-6'
             )}
           >
             {configs.title}
@@ -206,7 +210,7 @@ export const NewProductForm: React.FC<NewProductFormProps> = ({
           <div
             className={c(
               'flex flex-col sm:flex-row pt-4 max-sm:space-y-2 sm:space-x-2 justify-end',
-              type === 'PUT' && 'sticky bottom-0 right-0 bg-[#050507]'
+              type === 'PUT' && 'sticky bottom-0 left-0 right-0 px-8 bg-primary'
             )}
           >
             <Button

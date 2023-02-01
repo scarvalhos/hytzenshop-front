@@ -5,3 +5,4 @@ module.exports = {
     autoprefixer: {},
   },
 }
+module.exports = require('@settings/tailwind/postcss.config')

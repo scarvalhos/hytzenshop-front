@@ -24,13 +24,13 @@ const CategoriesSections: React.FC = React.forwardRef((_props, ref) => {
     >
       {categories && (
         <Input.Select.Add
-          variant="filled"
+          variant="outlined"
           placeholder="Nova categoria"
           control={control}
           setValue={setValue}
           defaultValues={categories?.map((i) => i.name)}
           chipSize="medium"
-          chipVariant="filled"
+          chipVariant="outlined"
           onAdd={onAdd}
           onDelete={onDelete}
           chipDeleteIcon

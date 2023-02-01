@@ -19,7 +19,7 @@ const Announcement: React.FC = () => {
             </p>
           </div>
 
-          <div className="w-full h-full rounded-md absolute top-0 left-0 bg-gradient-to-r from-[#050505] bg-opacity-20 border-[1.5px] border-[#050505] hover:border-success-300" />
+          <div className="hidden dark:block w-full h-full rounded-md absolute top-0 left-0 bg-gradient-to-r from-[#050505] bg-opacity-20 border-[1.5px] border-[#050505] hover:border-success-300" />
         </Link>
       </div>
     </section>

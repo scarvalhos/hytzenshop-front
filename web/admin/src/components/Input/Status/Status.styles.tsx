@@ -27,6 +27,5 @@ export const StatusOptions = styled(Listbox.Options, {
   padding: '0.5rem 0px',
   minWidth: 'max-content',
   borderRadius: '6px',
-  background: theme.colors['dark-gray'][400],
   zIndex: 99999,
 })

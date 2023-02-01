@@ -1,8 +1,9 @@
 import * as React from 'react'
 
 import { FieldLabel, FieldContent, FieldWrapper } from '../../Field/styles'
-import { Error, Chip, theme } from '@luma/ui'
+import { useSelectCommons } from '../SelectCommons.hook'
 import { FieldInputProps } from '../../Field'
+import { Error, Chip } from '@luma/ui'
 import { Option } from '@hytzenshop/types'
 import { c } from '@hytzenshop/helpers'
 
@@ -38,6 +39,8 @@ const SelectMultiple = React.forwardRef(
     const [selecteds, setSelecteds] =
       React.useState<SingleValue<Option<any>>[]>(defaultValues)
 
+    const { styles } = useSelectCommons({ rounded })
+
     const deleteFromSelecteds = React.useCallback(
       (value: string) => {
         const newSelecteds = [...selecteds]
@@ -60,8 +63,11 @@ const SelectMultiple = React.forwardRef(
 
     return (
       <FieldWrapper
-        width={isFullWidth ? 'full' : 'fit'}
-        className={c('space-y-2', containerClassName)}
+        className={c(
+          'space-y-2',
+          isFullWidth ? 'w-full' : 'w-fit',
+          containerClassName
+        )}
       >
         {label && (
           <FieldLabel color={error ? 'error' : 'initial'}>
@@ -76,59 +82,12 @@ const SelectMultiple = React.forwardRef(
           <FieldContent
             variant={variant}
             error={error ? 'true' : 'false'}
-            rounded={rounded ? 'true' : 'false'}
-            className="flex flex-row py-0.5 focus-within:border-[1.5px] focus-within:border-success-300"
+            rounded={rounded}
+            className="flex flex-row border-none focus-within:border-[1.5px] focus-within:border-success-300"
           >
             <Select
               options={options as any}
-              styles={{
-                input: (style) => ({
-                  ...style,
-                  color: theme.colors['light-gray'][100],
-                }),
-                singleValue: (style) => ({
-                  ...style,
-                  fontWeight: 500,
-                  color: theme.colors['light-gray'][100],
-                }),
-                container: (style) => ({
-                  ...style,
-                  width: '100%',
-                }),
-                control: (style) => ({
-                  ...style,
-                  backgroundColor: 'transparent',
-                  color: theme.colors['light-gray'][100],
-                  border: 'none',
-                  boxShadow: 'none',
-                  outline: 'none',
-                }),
-                menuList: (style) => ({
-                  ...style,
-                  padding: 0,
-                  borderRadius: '3px',
-                  background: theme.colors['dark-gray'][500],
-                }),
-                option: (style) => ({
-                  ...style,
-                  color: theme.colors['light-gray'][100],
-                  background: theme.colors['dark-gray'][500],
-                  paddingLeft: 16,
-                  paddingRight: 16,
-                  cursor: 'pointer',
-                  fontWeight: 500,
-                  fontSize: 14,
-                  ':hover': {
-                    background: theme.colors['dark-gray'][400],
-                    filter: 'brightness(1.2)',
-                  },
-                }),
-                indicatorSeparator: () => ({}),
-                placeholder: (style) => ({
-                  ...style,
-                  color: theme.colors['light-gray'][400],
-                }),
-              }}
+              styles={styles}
               defaultValue={defaultValue}
               onChange={(e) => {
                 setSelecteds((old) => {

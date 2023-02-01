@@ -22,10 +22,10 @@ export const Tooltip: React.FC<TooltipProps> = ({
           <T.Content
             sideOffset={4}
             side={side}
-            className="rounded-md bg-dark-gray-200 px-2 py-1 select-none z-[12001] TooltipContent mx-2 text-sm"
+            className="rounded-lg text-primary bg-primary px-3 py-1 select-none z-[12001] TooltipContent mx-2 text-sm"
           >
             {content}
-            <T.Arrow className="fill-dark-gray-200" />
+            <T.Arrow className="fill-light-gray-400 opacity-10 dark:opacity-100 dark:fill-dark-gray-200" />
           </T.Content>
         </T.Portal>
       </T.Root>

@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .button--disabled {
+    @apply cursor-not-allowed bg-[none] border border-solid border-dark-gray-200 text-dark-gray-200;
+  }
+  .button {
+    @apply disabled:button--disabled px-6 py-3 text-center transition-colors;
+  }
+  .button--filled {
+    @apply button bg-success-400 disabled:bg-[none] font-semibold text-light-gray-100 hover:brightness-110;
+  }
+  .button--outlined {
+    @apply button border border-solid border-success-300 hover:border-success-300 bg-none hover:bg-success-300 hover:bg-opacity-[0.025] font-semibold text-success-300;
+  }
+  .button--outlined-secondary {
+    @apply button--outlined border-dark-gray-100 text-dark-gray-100;
+  }
+  .button--outlined-danger {
+    @apply button--outlined border-danger-300 text-danger-300 hover:border-danger-300 hover:bg-danger-500 hover:bg-opacity-10;
+  }
+
+  .bg {
+    @apply bg-black;
+  }
+
+  .bg-primary {
+    @apply bg-dark-gray-500 shadow-md;
+  }
+
+  .bg-secondary {
+    @apply bg-dark-gray-400 shadow-md;
+  }
+
+  .bg-third {
+    @apply bg-dark-gray-300 shadow-md;
+  }
+
+  .bg-fourth {
+    @apply dark:bg-dark-gray-200 shadow-md;
+  }
+
+  .text-primary {
+    @apply text-light-gray-100;
+  }
+
+  .text-secondary {
+    @apply text-light-gray-500;
+  }
+
+  .TooltipContent {
+    transform-origin: var(--radix-tooltip-content-transform-origin);
+  }
+
+  .SwitchRoot {
+    width: 42px;
+    height: 25px;
+    background-color: #202020;
+    border-radius: 9999px;
+    position: relative;
+    box-shadow: 0 2px 10px var(--blackA7);
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+  .SwitchRoot:focus {
+    box-shadow: 0 0 0 2px black;
+  }
+  .SwitchRoot[data-state='checked'] {
+    background-color: #2dc573;
+  }
+
+  .SwitchThumb {
+    display: block;
+    width: 21px;
+    height: 21px;
+    background-color: white;
+    border-radius: 9999px;
+    box-shadow: 0 2px 2px var(--blackA7);
+    transition: transform 100ms;
+    transform: translateX(2px);
+    will-change: transform;
+  }
+
+  .SwitchThumb[data-state='checked'] {
+    transform: translateX(19px);
+  }
+}
+
+@layer base {
+  ::-webkit-scrollbar-track {
+    @apply bg-dark-gray-500;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-[#2f2f2f] rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-[#3e3e3e] rounded-full;
+  }
+
+  ::-webkit-calendar-picker-indicator {
+    color: rgba(0, 0, 0, 0);
+    opacity: 1;
+    background-image: url('/icons/calendar.png');
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    border-radius: 50%;
+    margin-left: 0.5rem;
+    opacity: 0.6;
+    transition: all ease 0.2s;
+  }
+
+  ::-webkit-calendar-picker-indicator:hover {
+    -webkit-box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+    opacity: 1;
+  }
+
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    scroll-behavior: smooth;
+    color: #a1a1b0;
+    font-family: 'Urbanist', system-ui, sans-serif;
+  }
+
+  body,
+  input,
+  textarea,
+  select,
+  button {
+    font: 400 1rem 'Urbanist', sans-serif;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:focus {
+    transition: background-color 600000s 0s, color 600000s 0s;
+  }
+
+  input[data-autocompleted] {
+    background-color: transparent !important;
+  }
+}

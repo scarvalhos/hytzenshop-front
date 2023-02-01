@@ -20,7 +20,7 @@ const SiderbarLayout: React.FC<SiderbarLayout> = ({ children }) => {
   }, [])
 
   return (
-    <>
+    <div className="flex relative">
       <Siderbar
         openSiderbar={openSiderbar}
         onDrawerOpen={onDrawerOpen}
@@ -28,7 +28,7 @@ const SiderbarLayout: React.FC<SiderbarLayout> = ({ children }) => {
       />
 
       <TopMenuLayout>{children}</TopMenuLayout>
-    </>
+    </div>
   )
 }
 

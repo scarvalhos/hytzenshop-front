@@ -96,7 +96,7 @@ const RequestsServicesList: React.FC<RequestsServicesListProps> = ({
 
   return (
     <main className={c('flex flex-col w-full')}>
-      <p className="text-light-gray-100 font-semibold text-2xl mt-14 mb-6">
+      <p className="text-light-gray-100 font-semibold text-2xl my-6">
         Chamados abertos
       </p>
 

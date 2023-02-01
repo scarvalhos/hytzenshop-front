@@ -39,9 +39,9 @@ const CartCard: React.FC<CartCardProps> = ({
   })
 
   return (
-    <div className="flex relative flex-col sm:flex-row bg-dark-gray-500 bg-opacity-30 sm:pr-8 rounded-md">
+    <div className="flex relative flex-col sm:flex-row bg-primary sm:pr-8 rounded-md">
       <Link href={`/product/${productData?.id}`}>
-        <div className="relative w-full sm:w-[100px] h-[300px] sm:h-full bg-dark-gray-400 rounded-sm">
+        <div className="relative w-full sm:w-[100px] h-[300px] sm:h-full bg-third rounded-sm">
           {productData?.images[0]?.url && (
             <Image
               src={encodeURI(productData?.images[0]?.url || '')}
@@ -57,7 +57,7 @@ const CartCard: React.FC<CartCardProps> = ({
 
       <div className="flex flex-col justify-center items-start space-y-2 py-4 px-6">
         <Link href={`/product/${product?.productId}`}>
-          <p className="text-xl text-light-gray-100 font-medium">
+          <p className="text-xl text-primary font-medium">
             {productData?.title}
           </p>
         </Link>
@@ -72,12 +72,12 @@ const CartCard: React.FC<CartCardProps> = ({
                   name="decrement"
                   disabled={quant === 1}
                   onClick={decrementQuantity}
-                  className="bg-dark-gray-400 py-1 px-3 rounded-l-md disabled:cursor-not-allowed text-light-gray-100 disabled:text-light-gray-500"
+                  className="bg-secondary py-1 px-3 rounded-l-md disabled:cursor-not-allowed text-primary disabled:text-light-gray-500"
                 >
                   -
                 </button>
 
-                <span className="bg-dark-gray-500 border-none outline-none py-1 px-3 flex items-center justify-center text-light-gray-100">
+                <span className="bg-primary border-none outline-none py-1 px-3 flex items-center justify-center text-primary">
                   {quant}
                 </span>
 
@@ -85,7 +85,7 @@ const CartCard: React.FC<CartCardProps> = ({
                   name="increment"
                   disabled={quant === +(productData?.stock || '')}
                   onClick={incrementQuantity}
-                  className="bg-dark-gray-400 py-1 px-3 rounded-r-md disabled:cursor-not-allowed text-light-gray-100 disabled:text-light-gray-500"
+                  className="bg-secondary py-1 px-3 rounded-r-md disabled:cursor-not-allowed text-primary disabled:text-light-gray-500"
                 >
                   +
                 </button>
@@ -109,7 +109,7 @@ const CartCard: React.FC<CartCardProps> = ({
               onClick={() => addToWishlist(productData)}
               className={c(
                 'p-1.5 rounded-full drop-shadow-lg brightness-110',
-                isFavorited ? 'bg-danger-300' : 'bg-dark-gray-400'
+                isFavorited ? 'bg-danger-300' : 'bg-secondary'
               )}
             >
               {isFavorited ? (
@@ -122,7 +122,7 @@ const CartCard: React.FC<CartCardProps> = ({
             <button
               onClick={handleDeleteProductFromCart}
               className={c(
-                'p-1.5 rounded-full drop-shadow-lg bg-dark-gray-400 brightness-110'
+                'p-1.5 rounded-full drop-shadow-lg bg-secondary brightness-110'
               )}
             >
               <TbTrash className="text-light-gray-500" />

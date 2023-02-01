@@ -40,8 +40,11 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
   ) => {
     return (
       <FieldWrapper
-        width={isFullWidth ? 'full' : 'fit'}
-        className={c('space-y-2', containerClassName)}
+        className={c(
+          'space-y-2',
+          isFullWidth ? 'w-full' : 'w-fit',
+          containerClassName
+        )}
       >
         {label && (
           <FieldLabel color={error ? 'error' : 'initial'}>
@@ -60,7 +63,7 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
               <FieldContent
                 variant={variant}
                 error={error ? 'true' : 'false'}
-                rounded={rounded ? 'true' : 'false'}
+                rounded={rounded}
                 className="flex flex-row"
               >
                 <Field
@@ -75,10 +78,8 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
                   onFocus={onFocus}
                   className={c(
                     className,
-                    disabled
-                      ? 'cursor-not-allowed text-light-gray-500 opacity-40'
-                      : 'text-light-gray-100',
-                    'px-3 py-3'
+                    disabled && 'cursor-not-allowed opacity-40',
+                    'px-3 py-3 text-primary'
                   )}
                   {...(value !== undefined
                     ? { value }

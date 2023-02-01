@@ -82,7 +82,7 @@ const Category: NextPage<CategoryProps> = ({ name: category }) => {
 
       <Slider imageUrl={imageByCategory} short />
 
-      <TabsFilters className="px-8 sm:px-16" tabs={categoriesTabs} />
+      <TabsFilters tabs={categoriesTabs} />
 
       <main className="max-w-screen-2xl mx-auto px-8 sm:px-16 pb-10">
         <ProductSection

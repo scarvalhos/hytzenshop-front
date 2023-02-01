@@ -26,7 +26,7 @@ const Tabs: React.FC<TabsProps> = ({
   product,
 }) => {
   return (
-    <div className="flex flex-row border-b border-dark-gray-400 w-full md:max-w-screen-lg md:mx-auto">
+    <div className="flex flex-row border-b border-light-gray-300 dark:border-dark-gray-400 w-full md:max-w-screen-lg md:mx-auto">
       <Button onClick={() => setActiveTab('evaluations')} className="relative">
         <p
           className={c(
@@ -72,12 +72,11 @@ const ProductEvalutionQuestionsSection: React.FC<
     evaluations: (
       <div className="md:max-w-screen-lg md:mx-auto">
         {evaluations?.length === 0 ? (
-          <Button
-            variant="filled"
-            className="bg-dark-gray-400 bg-opacity-40 text-light-gray-500 my-4 p-4 space-y-1 rounded-md text-center w-full cursor-default"
-          >
-            Esse produto ainda não possui nenhuma avaliação.
-          </Button>
+          <div className="bg-secondary my-4 p-4 space-y-1 rounded-md text-center w-full cursor-default">
+            <p className="text-secondary font-semibold">
+              Esse produto ainda não possui nenhuma avaliação.
+            </p>
+          </div>
         ) : (
           <>
             <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-3">
@@ -107,9 +106,9 @@ const ProductEvalutionQuestionsSection: React.FC<
   return (
     <div className={c('my-20 max-w-screen-2xl mx-auto')}>
       {evaluations?.length === 0 ? null : (
-        <div className="bg-dark-gray-500 bg-opacity-50 rounded-md p-6 flex flex-col sm:flex-row justify-between sm:items-center my-4 max-sm:space-y-4">
+        <div className="bg-primary bg-opacity-50 rounded-md p-6 flex flex-col sm:flex-row justify-between sm:items-center my-4 max-sm:space-y-4">
           <div className="flex flex-col flex-1 space-y-2 items-center justify-center pr-4">
-            <p className="text-xl text-light-gray-100">Avaliação média</p>
+            <p className="text-xl text-primary">Avaliação média</p>
             <EvaluationStars
               size={32}
               noteClassname="text-2xl text-success-300 font-semibold"
@@ -126,7 +125,7 @@ const ProductEvalutionQuestionsSection: React.FC<
               .reverse()
               .map((n) => (
                 <div key={n} className="flex items-center space-x-2">
-                  <div className="bg-dark-gray-300 w-full max-w-md h-2 rounded-full relative">
+                  <div className="bg-fourth w-full max-w-md h-2 rounded-full relative">
                     <p className="absolute -left-4 -top-1 m-0">{n}</p>
                     <div
                       className="h-full bg-success-300 rounded-full transition-all"
@@ -142,7 +141,7 @@ const ProductEvalutionQuestionsSection: React.FC<
         </div>
       )}
 
-      <div className="bg-dark-gray-500 bg-opacity-50 rounded-md flex flex-col">
+      <div className="bg-primary rounded-md flex flex-col">
         <Tabs
           activeTab={activeTab}
           evaluations={evaluations}

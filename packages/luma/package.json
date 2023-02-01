@@ -15,6 +15,7 @@
     "@hytzenshop/helpers": "*",
     "@hytzenshop/hooks": "*",
     "@hytzenshop/types": "*",
+    "@settings/tailwind": "*",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
@@ -28,6 +29,7 @@
   },
   "dependencies": {
     "codemirror": "^6.0.1",
-    "react-codemirror2": "^7.2.1"
+    "react-codemirror2": "^7.2.1",
+    "tailwind-styled-components": "^2.2.0"
   }
 }

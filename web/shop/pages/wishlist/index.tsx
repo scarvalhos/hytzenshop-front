@@ -29,10 +29,8 @@ const WishlistPage: NextPage = () => {
         {wishlist?.length === 0 && (
           <div className="flex flex-col items-center justify-center mb-12 px-8 space-y-8">
             <div className="flex flex-col items-center">
-              <p className="text-4xl text-light-gray-100 font-semibold">
-                Wishlist
-              </p>
-              <p className="text-base text-light-gray-100">
+              <p className="text-4xl text-primary font-semibold">Wishlist</p>
+              <p className="text-base text-primary">
                 Sua lista de desejos está vazia.{' '}
                 <strong> Deseja salvar novos itens?</strong>
               </p>
@@ -47,7 +45,7 @@ const WishlistPage: NextPage = () => {
               />
 
               <div className="flex flex-col items-start justify-start space-y-2">
-                <p className="text-xl text-light-gray-100 font-medium">
+                <p className="text-xl text-primary font-medium">
                   Clique no coração para salvar
                 </p>
 

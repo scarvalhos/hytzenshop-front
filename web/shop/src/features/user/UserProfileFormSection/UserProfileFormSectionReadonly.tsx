@@ -32,47 +32,43 @@ const UserProfileFormSectionReadonly: React.FC<
     <div
       className={c(
         'grid grid-cols-1 gap-4 rounded-md px-8 py-8',
-        checkout && 'bg-dark-gray-500 bg-opacity-30'
+        checkout && 'bg-primary'
       )}
     >
       <div className="flex flex-row space-x-2 items-center">
-        <p className="text-xl text-light-gray-100">Dados pessoais</p>
+        <p className="text-xl text-primary">Dados pessoais</p>
       </div>
 
       <div className={c('flex flex-col')}>
         <div className={c('grid grid-cols-1 md:grid-cols-2 gap-8')}>
           <div className="col-start-1 col-end-3 md:col-end-2 space-y-1">
             <p className="text-sm">Nome completo:</p>
-            <p className="text-light-gray-100">
-              {user?.profile?.completeName || '-'}
-            </p>
+            <p className="text-primary">{user?.profile?.completeName || '-'}</p>
           </div>
 
           <div className="col-start-1 col-end-3 md:col-start-2 space-y-1">
             <p className="text-sm">Username:</p>
-            <p className="text-light-gray-100">{user?.username}</p>
+            <p className="text-primary">{user?.username}</p>
           </div>
 
           <div className="col-start-1 col-end-3 md:col-end-2 space-y-1">
             <p className="text-sm">E-mail:</p>
-            <p className="text-light-gray-100">{user?.email}</p>
+            <p className="text-primary">{user?.email}</p>
           </div>
 
           <div className="col-start-1 col-end-3 md:col-start-2 space-y-1">
             <p className="text-sm">CPF:</p>
-            <p className="text-light-gray-100">{user?.profile?.cpf || '-'}</p>
+            <p className="text-primary">{user?.profile?.cpf || '-'}</p>
           </div>
 
           <div className="col-start-1 col-end-3 md:col-end-2 space-y-1">
             <p className="text-sm">Celular:</p>
-            <p className="text-light-gray-100">{user?.profile?.phone || '-'}</p>
+            <p className="text-primary">{user?.profile?.phone || '-'}</p>
           </div>
 
           <div className="col-start-1 col-end-3 md:col-start-2 space-y-1">
             <p className="text-sm">Data de nascimento:</p>
-            <p className="text-light-gray-100">
-              {date(user?.profile?.birthDate)}
-            </p>
+            <p className="text-primary">{date(user?.profile?.birthDate)}</p>
           </div>
 
           <div className="space-y-1">
@@ -80,15 +76,15 @@ const UserProfileFormSectionReadonly: React.FC<
 
             {user?.profile?.address && (
               <>
-                <p className="text-light-gray-100">
+                <p className="text-primary">
                   {`${user?.profile?.address?.street}, ${user?.profile?.address?.number}` ||
                     '-'}
                 </p>
-                <p className="text-light-gray-100">
+                <p className="text-primary">
                   {`${user?.profile?.address?.district}, ${user?.profile?.address?.city} - ${user?.profile?.address?.uf}` ||
                     '-'}
                 </p>
-                <p className="text-light-gray-100">
+                <p className="text-primary">
                   {user?.profile?.address?.cep || '-'},{' '}
                   {user?.profile?.address?.country || '-'}.
                 </p>

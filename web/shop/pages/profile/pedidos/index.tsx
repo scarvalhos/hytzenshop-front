@@ -38,13 +38,13 @@ const ProfileOrdersPage: NextPage = () => {
       <NextSeo title="Meus pedidos" />
 
       <div className="mx-8 my-24 space-y-4 max-w-5xl lg:mx-auto">
-        {data?.data.count ? <OrdersListHeader loading={isLoading} /> : null}
+        <OrdersListHeader loading={isLoading} />
 
         <OrdersList orders={data?.data.orders} />
 
         {isLoading ? (
           <div className="flex items-center justify-center">
-            <LoadingAnimation />
+            <LoadingAnimation size={160} />
           </div>
         ) : null}
 

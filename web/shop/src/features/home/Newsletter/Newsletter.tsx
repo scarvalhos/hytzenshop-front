@@ -31,14 +31,14 @@ const Newsletter: React.FC = () => {
   }, [])
 
   return (
-    <section className="max-w-screen-2xl mx-auto px-8 sm:px-16 py-10 flex">
+    <section className="max-w-screen-2xl mx-auto px-8 sm:px-16 pt-10 pb-20 flex">
       <form
         onSubmit={handleSubmit(onNewsletterSubmit)}
-        className="bg-primary-300 bg-opacity-5 px-16 md:px-32 py-16 rounded-md flex flex-1 flex-col-reverse md:flex-row items-center justify-between gap-10"
+        className="bg-primary bg-opacity-50 px-16 md:px-32 py-16 rounded-md flex flex-1 flex-col-reverse md:flex-row items-center justify-between gap-10"
       >
         <div className="flex flex-col max-md:items-center max-md:justify-center gap-8">
           <div className="flex flex-col max-md:items-center max-md:justify-center space-y-2">
-            <p className="text-light-gray-100 text-3xl font-bold max-md:text-center">
+            <p className="text-primary text-3xl font-bold max-md:text-center">
               Assine nossa Newsletter
             </p>
 

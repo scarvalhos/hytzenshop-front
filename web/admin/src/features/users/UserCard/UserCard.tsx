@@ -1,10 +1,14 @@
 import * as React from 'react'
 
-import { TbBrandWhatsapp, TbEye, TbMailForward } from 'react-icons/tb'
-import { getFirstName, numonly } from '@hytzenshop/helpers'
-import { Button, Avatar } from '@luma/ui'
+import { TbBrandWhatsapp, TbMailForward } from 'react-icons/tb'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { c, getFirstName, numonly } from '@hytzenshop/helpers'
+import { Button, Avatar, Tooltip } from '@luma/ui'
+import { User, UserGetAllDto } from '@hytzenshop/types'
+import { useUsersListPage } from '../UsersListPage/UsersListPage.hook'
 import { useBreakpoint } from '@hytzenshop/hooks'
-import { User } from '@hytzenshop/types'
+import { RiAdminLine } from 'react-icons/ri'
+import { api } from '@hytzenshop/services'
 
 interface UserCardProps {
   user?: User
@@ -12,7 +16,10 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
+  const { queryKey } = useUsersListPage()
   const { sm } = useBreakpoint()
+
+  const queryClient = useQueryClient()
 
   const link = React.useMemo(
     () =>
@@ -30,8 +37,48 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
     [user?.email]
   )
 
+  const onSetUserAdmin = useMutation(
+    (props: { id: string; isAdmin: boolean }) => {
+      return api.patch(`/users/${props.id}`, { isAdmin: props.isAdmin })
+    },
+    {
+      onMutate: async ({ id, isAdmin }) => {
+        await queryClient.cancelQueries({ queryKey })
+
+        const previousUsers = queryClient.getQueryData<UserGetAllDto>(queryKey)
+
+        queryClient.setQueryData(queryKey, {
+          ...previousUsers,
+          data: {
+            ...previousUsers?.data,
+            users: previousUsers?.data?.users?.map((u) =>
+              u.id === id ? { ...u, isAdmin } : u
+            ),
+          },
+        })
+
+        return {
+          previousUsers,
+          data: {
+            ...previousUsers?.data,
+            users: previousUsers?.data.users.map((u) =>
+              u.id === id ? { ...u, isAdmin } : u
+            ),
+          },
+        }
+      },
+      onSettled: () => {
+        queryClient.invalidateQueries({ queryKey })
+      },
+
+      onError: (_err, _newMe, context) => {
+        queryClient.setQueryData(queryKey, context?.previousUsers)
+      },
+    }
+  ).mutateAsync
+
   return (
-    <div className="bg-dark-gray-500 px-6 py-4 rounded-md flex-1 flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-6">
+    <div className="bg-primary px-6 py-4 rounded-md flex-1 flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-6">
       <div className="flex flex-row items-center space-x-2">
         <Avatar
           src={user?.profile?.avatar || ''}
@@ -41,7 +88,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
         />
 
         <div>
-          <p className="text-light-gray-100 font-medium">
+          <p className="text-primary font-medium">
             {user?.profile?.completeName || user?.username}
           </p>
           <p className="text-sm">{user?.email}</p>
@@ -68,14 +115,25 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
           target="_blank"
           variant="filled"
           rounded
-          className="p-3 bg-light-gray-100"
+          className="p-3 bg-secondary"
         >
           <TbMailForward size={16} className="text-light-gray-500" />
         </Button>
-
-        <Button variant="outlined" rounded className="p-3">
-          <TbEye size={16} />
-        </Button>
+        <Tooltip content="Usuário administrador" className="shadow-lg">
+          <Button
+            variant={user?.isAdmin ? 'filled' : 'outlined'}
+            rounded
+            className={c('p-3')}
+            onClick={() =>
+              onSetUserAdmin({
+                id: user?.id || '',
+                isAdmin: !user?.isAdmin,
+              })
+            }
+          >
+            <RiAdminLine size={16} />
+          </Button>
+        </Tooltip>
       </div>
     </div>
   )
