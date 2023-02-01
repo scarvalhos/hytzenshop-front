@@ -67,7 +67,7 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
     >
       <div
         className={c(
-          'relative bg-[url(/slider/marvel-02.jpg)] bg-cover bg-center max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-center',
+          'relative bg-[url(/slider/star-wars.png)] bg-cover bg-center max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-center',
           bgClassName
         )}
       >
