@@ -40,7 +40,7 @@ const TextareaInput: React.FC<TextareaInputProps> = React.forwardRef(
   ) => {
     return (
       <FieldWrapper
-        width={isFullWidth ? 'full' : 'fit'}
+        isFullWidth={isFullWidth}
         className={c('space-y-2', containerClassName)}
       >
         {label && (

@@ -96,7 +96,7 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
     return (
       <>
         <FieldWrapper
-          width={isFullWidth ? 'full' : 'fit'}
+          isFullWidth={isFullWidth}
           className={c('space-y-2', containerClassName)}
         >
           {label && (

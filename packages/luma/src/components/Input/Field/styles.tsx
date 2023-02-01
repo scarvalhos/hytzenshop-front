@@ -7,14 +7,14 @@ import tw from 'tailwind-styled-components'
 // FieldWrapper
 
 interface FieldWrapperProps {
-  width?: 'full' | 'fit'
+  isFullWidth?: boolean
 }
 
 export const FieldWrapper = tw.div<FieldWrapperProps>`
   flex-col
   flex-1
 
-  ${({ width }) => (width === 'full' ? 'w-full' : 'w-fit')}
+  ${({ isFullWidth }) => (isFullWidth ? 'w-full' : 'w-fit')}
 `
 
 // Field
