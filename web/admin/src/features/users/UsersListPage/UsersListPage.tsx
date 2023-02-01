@@ -1,14 +1,14 @@
 import * as React from 'react'
 
-import { TbCirclePlus, TbDownload, TbSearch } from 'react-icons/tb'
+import { TbDownload, TbSearch } from 'react-icons/tb'
 import { useUsersListPage } from './UsersListPage.hook'
 import { Button, Input } from '@luma/ui'
 import { c, date } from '@hytzenshop/helpers'
 
+import CreateUserButtonModal from '@components/Modal/CreateUserButtonModal'
 import DashboardPagesLayout from '@layouts/DashboardPagesLayout'
 import exportFromJSON from 'export-from-json'
 import UsersList from '@features/users/UsersList'
-import CreateUserButtonModal from '@components/Modal/CreateUserButtonModal'
 
 const UsersListPage: React.FC = () => {
   const {
@@ -20,7 +20,6 @@ const UsersListPage: React.FC = () => {
     control,
     state,
     data,
-    push,
     sm,
   } = useUsersListPage()
 

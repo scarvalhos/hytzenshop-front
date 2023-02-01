@@ -1,21 +1,22 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { IMaskInput } from 'react-imask'
 import { styled } from '@stitches/react'
+import { c } from '@hytzenshop/helpers'
 
+import React from 'react'
 import tw from 'tailwind-styled-components'
 
 // FieldWrapper
 
 interface FieldWrapperProps {
-  isFullWidth?: boolean
+  children: React.ReactNode
+  className?: string
 }
 
-export const FieldWrapper = tw.div<FieldWrapperProps>`
-  flex-col
-  flex-1
-
-  ${({ isFullWidth }) => (isFullWidth ? 'w-full' : 'w-fit')}
-`
+export const FieldWrapper: React.FC<FieldWrapperProps> = ({
+  children,
+  className,
+}) => <div className={c('flex-col flex-1', className)}>{children}</div>
 
 // Field
 
@@ -81,10 +82,20 @@ const fieldVariantClassName = {
   disabled: 'cursor-not-allowed',
 }
 
-export const FieldContent = tw.div<FieldContentProps>`
-  w-full
-
-  ${({ variant }) => fieldVariantClassName[variant!]}
-  ${({ error }) => error === 'true' && 'border-[1.5px] border-danger-300'}
-  ${({ rounded }) => (rounded ? 'rounded-full' : 'rounded-md')}
-`
+export const FieldContent: React.FC<FieldContentProps> = ({
+  variant,
+  error,
+  rounded,
+  children,
+}) => (
+  <div
+    className={c(
+      'w-full',
+      fieldVariantClassName[variant!],
+      error === 'true' && 'border-[1.5px] border-danger-300',
+      rounded ? 'rounded-full' : 'rounded-md'
+    )}
+  >
+    {children}
+  </div>
+)

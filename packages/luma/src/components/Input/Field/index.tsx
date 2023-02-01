@@ -94,8 +94,11 @@ const FieldInput: React.FC<FieldInputProps> = React.forwardRef(
 
     return (
       <FieldWrapper
-        isFullWidth={isFullWidth}
-        className={c('space-y-2', containerClassName)}
+        className={c(
+          'space-y-2',
+          isFullWidth ? 'w-full' : 'w-fit',
+          containerClassName
+        )}
       >
         {label && (
           <FieldLabel color={error ? 'error' : 'initial'}>
