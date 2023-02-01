@@ -81,7 +81,7 @@ const TabsFilters: React.FC<TabsFiltersProps> = ({
 
       <div
         className={c(
-          'flex flex-row space-x-4 items-center max-md:justify-between bg-light-gray-100 shadow-md dark:bg-black dark:border-b dark:border-dark-gray-300 z-50 overflow-auto scrollbar-hide',
+          'flex flex-row space-x-4 items-center max-md:justify-between shadow-md bg-black border-b border-dark-gray-300 z-50 overflow-auto scrollbar-hide',
           className
         )}
       >
