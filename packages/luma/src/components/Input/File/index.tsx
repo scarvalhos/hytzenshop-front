@@ -10,9 +10,10 @@ import { FileList } from './FileList'
 import { TbPhoto } from 'react-icons/tb'
 import { Error } from '@luma/ui'
 import { c } from '@hytzenshop/helpers'
+import { FileRounded } from './FileRounded'
 
 interface FileInputProps extends FieldInputProps {
-  filesListDisplay?: 'list' | 'grid'
+  filesListDisplay?: 'list' | 'grid' | 'rounded'
   listItemRounded?: boolean
   multiple?: boolean
   accept?: Accept
@@ -105,7 +106,9 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
             </FieldLabel>
           )}
 
-          {((maxFiles === 1 && !uploadedFiles.length) || maxFiles !== 1) && (
+          {((maxFiles === 1 && !uploadedFiles.length) ||
+            maxFiles !== 1 ||
+            (filesListDisplay === 'rounded' && !uploadedFiles.length)) && (
             <Controller
               name={name}
               control={control}
@@ -172,6 +175,15 @@ const FileInput: React.FC<FileInputProps> = React.forwardRef(
               onDelete && onDelete(id)
               deleteFile(id)
             }}
+          />
+        )}
+
+        {!!uploadedFiles && filesListDisplay === 'rounded' && (
+          <FileRounded
+            files={uploadedFiles}
+            onError={removeFromState}
+            onDelete={(id) => onDelete && onDelete(id)}
+            containerClassName={containerClassName}
           />
         )}
       </>

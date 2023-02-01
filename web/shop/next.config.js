@@ -21,6 +21,7 @@ const nextConfig = {
       'images.pexels.com',
       'hytzenshop.s3.amazonaws.com',
       'www.kangu.com.br',
+      'github.com',
     ],
   },
 }

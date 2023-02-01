@@ -5,6 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { c, getFirstName, numonly } from '@hytzenshop/helpers'
 import { Button, Avatar, Tooltip } from '@luma/ui'
 import { User, UserGetAllDto } from '@hytzenshop/types'
+import { useUsersListPage } from '../UsersListPage/UsersListPage.hook'
 import { useBreakpoint } from '@hytzenshop/hooks'
 import { RiAdminLine } from 'react-icons/ri'
 import { api } from '@hytzenshop/services'
@@ -15,6 +16,7 @@ interface UserCardProps {
 }
 
 const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
+  const { queryKey } = useUsersListPage()
   const { sm } = useBreakpoint()
 
   const queryClient = useQueryClient()
@@ -41,15 +43,15 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
     },
     {
       onMutate: async ({ id, isAdmin }) => {
-        await queryClient.cancelQueries({ queryKey: ['users'] })
+        await queryClient.cancelQueries({ queryKey })
 
-        const previousUsers = queryClient.getQueryData<UserGetAllDto>(['users'])
+        const previousUsers = queryClient.getQueryData<UserGetAllDto>(queryKey)
 
-        queryClient.setQueryData(['users'], {
+        queryClient.setQueryData(queryKey, {
           ...previousUsers,
           data: {
             ...previousUsers?.data,
-            users: previousUsers?.data.users.map((u) =>
+            users: previousUsers?.data?.users?.map((u) =>
               u.id === id ? { ...u, isAdmin } : u
             ),
           },
@@ -66,11 +68,11 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
         }
       },
       onSettled: () => {
-        queryClient.invalidateQueries({ queryKey: ['users'] })
+        queryClient.invalidateQueries({ queryKey })
       },
 
       onError: (_err, _newMe, context) => {
-        queryClient.setQueryData(['users'], context?.previousUsers)
+        queryClient.setQueryData(queryKey, context?.previousUsers)
       },
     }
   ).mutateAsync
@@ -119,19 +121,15 @@ const UserCard: React.FC<UserCardProps> = ({ user, renderInsideCard }) => {
         </Button>
         <Tooltip content="Usuário administrador" className="shadow-lg">
           <Button
+            variant={user?.isAdmin ? 'filled' : 'outlined'}
             rounded
+            className={c('p-3')}
             onClick={() =>
               onSetUserAdmin({
                 id: user?.id || '',
                 isAdmin: !user?.isAdmin,
               })
             }
-            className={c(
-              'p-3',
-              user?.isAdmin
-                ? 'bg-primary-300 text-light-gray-100'
-                : 'border border-dark-gray-100 text-light-gray-100'
-            )}
           >
             <RiAdminLine size={16} />
           </Button>

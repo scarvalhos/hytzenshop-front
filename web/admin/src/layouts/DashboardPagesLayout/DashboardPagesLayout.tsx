@@ -34,7 +34,6 @@ const DashboardPagesLayout: React.FC<DashboardPagesLayoutProps> = ({
   header,
   title,
 }) => {
-  console.log(pagination.totalRegisters)
   return (
     <>
       <DashboardPagesHeader

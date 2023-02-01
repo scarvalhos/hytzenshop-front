@@ -30,10 +30,10 @@ const TopMenuLayout: React.FC<TopMenuLayout> = ({ children }) => {
           <Link href="/">
             <div className="flex flex-row items-center justify-center space-x-1 max-sm:ml-10">
               <span className="flex">
-                <p className="text-success-400 dark:text-success-300 font-semibold text-2xl font-bebas">
+                <p className="text-success-400 dark:text-success-300 text-2xl font-bebas">
                   {sm ? 'Hytzen' : 'H'}
                 </p>
-                <p className="text-primary font-semibold text-2xl font-bebas">
+                <p className="text-primary text-2xl font-bebas">
                   {sm ? 'Shop' : 'S'}
                 </p>
               </span>

@@ -8,6 +8,7 @@ import { c, date } from '@hytzenshop/helpers'
 import DashboardPagesLayout from '@layouts/DashboardPagesLayout'
 import exportFromJSON from 'export-from-json'
 import UsersList from '@features/users/UsersList'
+import CreateUserButtonModal from '@components/Modal/CreateUserButtonModal'
 
 const UsersListPage: React.FC = () => {
   const {
@@ -37,17 +38,7 @@ const UsersListPage: React.FC = () => {
       header={{
         buttons: () => (
           <>
-            <Button
-              variant="filled"
-              className="p-3"
-              onClick={() => push('/dashboard/users/new-user')}
-              rounded
-            >
-              <span className="flex items-center space-x-2">
-                <TbCirclePlus size={20} />
-                <span className="max-sm:hidden">Novo usuário</span>
-              </span>
-            </Button>
+            <CreateUserButtonModal buttonClassName="p-3" />
 
             <Button
               variant="outlined"
