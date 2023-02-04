@@ -26,15 +26,16 @@ const InfoCard: React.FC<InfoCardProps> = ({ renderInsideCard }) => {
   )
 
   return (
-    <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 items-center justify-between bg-dark-gray-400 rounded-md px-6 py-4 flex-1">
+    <div className="flex flex-col sm:flex-row max-sm:space-y-4 sm:space-x-4 items-center justify-between bg-dark-gray-500 rounded-md px-6 py-4 flex-1">
       {renderInsideCard && renderInsideCard()}
 
       <div className="flex flex-row items-center space-x-2 max-sm:w-full">
         <Button
           variant="filled"
-          className="max-sm:w-full bg-[#6b1bff] relative pl-10 font-medium text-sm"
+          className="max-sm:w-full relative pl-10 font-medium text-sm"
           rounded
           disabled
+          // bg-[#6b1bff] disabled:bg-none
         >
           <TbTruck className="absolute left-4" size={16} />
           Rastreie agora

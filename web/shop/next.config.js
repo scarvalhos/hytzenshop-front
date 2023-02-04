@@ -22,6 +22,8 @@ const nextConfig = {
       'hytzenshop.s3.amazonaws.com',
       'www.kangu.com.br',
       'github.com',
+      'img.playbuzz.com',
+      'wallpapercave.com',
     ],
   },
 }

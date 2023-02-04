@@ -156,7 +156,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
           <div className="flex flex-col flex-1 space-y-4 mt-4">
             <p className="text-light-gray-100">Pagamento:</p>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-4 bg-dark-gray-400 rounded-md px-6 py-4 flex-1 h-fit">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between max-sm:space-y-4 bg-dark-gray-500 rounded-md px-6 py-4 flex-1 h-fit">
               <div className="flex flex-col sm:flex-row justify-between sm:space-x-8 max-sm:space-y-2">
                 <div>
                   <p className="text-sm">Forma de pagamento:</p>

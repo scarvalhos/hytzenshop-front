@@ -27,7 +27,7 @@ const ProductQuestionFormSection: React.FC<ProductQuestionFormSectionProps> = ({
   } = useProductQuestionFormSection({ product })
 
   return (
-    <div className="md:max-w-screen-lg md:mx-auto space-y-2">
+    <div className="space-y-2">
       {product?.questions.length === 0 && !formQuestion ? (
         <Button
           className="bg-warning-400 bg-opacity-10 shadow-md text-warning-300 font-normal my-4 p-4 space-y-1 rounded-md text-center w-full"

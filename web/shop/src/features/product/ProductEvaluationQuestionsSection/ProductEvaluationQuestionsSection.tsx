@@ -26,7 +26,7 @@ const Tabs: React.FC<TabsProps> = ({
   product,
 }) => {
   return (
-    <div className="flex flex-row border-b border-light-gray-200 dark:border-dark-gray-400 w-full md:max-w-screen-lg md:mx-auto">
+    <div className="flex flex-row border-b border-light-gray-200 dark:border-dark-gray-400 w-full">
       <Button onClick={() => setActiveTab('evaluations')} className="relative">
         <p
           className={c(
@@ -70,9 +70,9 @@ const ProductEvalutionQuestionsSection: React.FC<
 
   const content = {
     evaluations: (
-      <div className="md:max-w-screen-lg md:mx-auto">
+      <div>
         {evaluations?.length === 0 ? (
-          <div className="bg-secondary text-secondary font-medium my-4 p-4 space-y-1 rounded-md text-center w-full cursor-default">
+          <div className="bg-primary text-secondary font-medium my-4 p-4 space-y-1 rounded-md text-center w-full cursor-default">
             Esse produto ainda não possui nenhuma avaliação.
           </div>
         ) : (
@@ -88,6 +88,7 @@ const ProductEvalutionQuestionsSection: React.FC<
                   />
                 ))}
             </div>
+
             <Pagination
               onPageChange={(page) => setEvaluationPage(page)}
               totalCountOfRegisters={evaluations?.length || 0}
@@ -139,14 +140,15 @@ const ProductEvalutionQuestionsSection: React.FC<
         </div>
       )}
 
-      <div className="bg-primary rounded-md flex flex-col">
+      <div className="rounded-md flex flex-col">
         <Tabs
           activeTab={activeTab}
           evaluations={evaluations}
           product={product}
           setActiveTab={setActiveTab}
         />
-        <main className="p-6">{content[activeTab]}</main>
+
+        <main className="py-6">{content[activeTab]}</main>
       </div>
     </div>
   )
