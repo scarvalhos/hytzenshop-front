@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
   const link = React.useMemo(
     () =>
       `https://api.whatsapp.com/send?phone=${numonly(
-        '27999021768'
+        '96998285212'
       )}&text=Ol%C3%A1%2C%20Hytzen!%20`,
     []
   )
@@ -79,9 +79,10 @@ const Footer: React.FC = () => {
           <div className="flex flex-col">
             <p className="text-light-gray-500 text-base">Endereço:</p>
             <p className="text-light-gray-500 text-base">
-              Av. Coronel Mateus Cunha, 513. <br /> Sernamby - São Mateus/ER.
+              Rua Caiabis, 123. <br /> Jardim Parque dos Eucalíptos - Ponta
+              Porã/MS.
               <br />
-              29930-510.
+              79901-026.
             </p>
           </div>
         </div>
