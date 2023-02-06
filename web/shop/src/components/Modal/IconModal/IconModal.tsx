@@ -40,6 +40,7 @@ const IconModal: React.FC<IconModalProps> = ({
   descriptionClassName,
   onClose,
   renderActions,
+  glassEffect,
 }) => {
   return (
     <BaseModal
@@ -47,6 +48,7 @@ const IconModal: React.FC<IconModalProps> = ({
       panelClassName={panelClassName}
       onClose={onClose}
       renderActions={renderActions}
+      glassEffect={glassEffect}
     >
       <IconModalIn
         title={title}
