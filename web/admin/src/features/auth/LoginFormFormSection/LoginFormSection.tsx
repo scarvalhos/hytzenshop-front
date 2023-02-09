@@ -60,19 +60,17 @@ export const LoginFormSection: React.FC<LoginFormSectionProps> = ({
     >
       <div
         className={c(
-          'relative bg-[url(https://shop.hytzen.com/slider/star-wars.png)] bg-cover bg-center max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-center'
+          'max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-end'
         )}
       >
         <span className="z-10">{title}</span>
-
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-60" />
       </div>
 
-      <div className="h-full w-full flex items-center justify-center px-8">
+      <div className="h-full w-full flex items-center justify-start px-8">
         <form
           onSubmit={handleSubmit(handleOnSubmit)}
           className={c(
-            'flex flex-col px-8 py-8 space-y-4 rounded-md bg-dark-gray-500 bg-opacity-30',
+            'flex flex-col px-8 py-8 space-y-4 rounded-md bg-primary',
             md ? 'w-[420px]' : 'w-[100%]'
           )}
         >

@@ -37,7 +37,7 @@ const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
   return (
     <>
       <BreadCrumbs
-        className="py-4 mb-4 sticky top-20 z-40 bg"
+        className="py-4 mb-4 sticky top-0 z-40 bg"
         links={breadCrumbsLinks}
       />
 

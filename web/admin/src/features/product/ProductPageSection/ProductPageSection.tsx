@@ -27,7 +27,7 @@ const ProductPageSection: React.FC<ProductPageSectionProps> = ({
   return (
     <>
       <BreadCrumbs
-        className="max-w-screen-2xl mx-auto px-8 md:px-16 py-4 mb-4 sticky top-20 z-40 bg"
+        className="max-w-screen-2xl mx-auto px-8 md:px-16 py-4 mb-4 sticky top-0 z-40 bg"
         links={breadCrumbsLinks}
       />
 

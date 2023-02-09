@@ -22,7 +22,6 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
   title,
   checkoutNextStep,
   containerClassName,
-  bgClassName,
 }) => {
   const [stayConnectedChecked, setStayConnectedChecked] = React.useState(true)
   const [loading, setLoading] = React.useState(false)
@@ -67,16 +66,13 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
     >
       <div
         className={c(
-          'relative bg-[url(/slider/star-wars.png)] bg-cover bg-center max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-center',
-          bgClassName
+          'max-md:pb-10 max-md:pt-28 px-8 md:h-full w-full flex items-center justify-end'
         )}
       >
         <span className="z-10">{title}</span>
-
-        <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-75" />
       </div>
 
-      <div className="h-full w-full flex items-center justify-center px-8 pb-10">
+      <div className="h-full w-full flex items-center justify-star px-8">
         <form
           onSubmit={handleSubmit(handleOnSubmit)}
           className={c(
@@ -171,16 +167,6 @@ const LoginFormSection: React.FC<LoginFormSectionProps> = ({
                 <span className="flex flex-row items-center space-x-2">
                   <Icons.GoogleIcon className="w-6 h-6" />
                   <p>Entrar com Google</p>
-                </span>
-              </Button>
-              <Button
-                onClick={() => toast.warn('Em desenvolvimento')}
-                variant="filled"
-                className="w-full bg-primary-400"
-              >
-                <span className="flex flex-row items-center space-x-2">
-                  <Icons.FacebookIcon className="w-6 h-6 text-light-gray-100" />
-                  <p>Entrar com Facebook</p>
                 </span>
               </Button>
             </div>

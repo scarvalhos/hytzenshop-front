@@ -4,8 +4,6 @@ import { LoginFormSection } from '@features/auth/LoginFormFormSection'
 import { withSSRGuest } from '@hocs/withSSRGuest'
 import { NextSeo } from 'next-seo'
 
-import Image from 'next/image'
-
 const Home: NextPage = () => {
   return (
     <>
@@ -14,22 +12,17 @@ const Home: NextPage = () => {
       <LoginFormSection
         containerClassName="h-[100vh] max-md:mx-8"
         title={
-          <div className="flex space-x-6">
-            <Image
-              src="/icons/logo.svg"
-              alt="Hytzen Shop Adm"
-              width={36}
-              height={36}
-            />
-
-            <div>
-              <p className="text-4xl md:text-5xl text-light-gray-100 font-bold">
-                Faça login
-              </p>
-              <p className="text-xl max-w-sm text-light-gray-100 font-medium">
-                Para começar digite seu username e senha.
+          <div className="space-y-8">
+            <div className="flex items-center space-x-2">
+              <p className="py-4 text-2xl font-bebas text-light-gray-100">
+                <span className="text-success-300">Hytzen</span>
+                Shop
               </p>
             </div>
+
+            <p className="text-4xl md:text-5xl max-w-sm text-light-gray-100 font-bold">
+              Faça seu login para começar
+            </p>
           </div>
         }
       />

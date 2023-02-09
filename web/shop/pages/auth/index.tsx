@@ -4,33 +4,25 @@ import { withSSRGuest } from '@hocs/withSSRGuest'
 import { NextSeo } from 'next-seo'
 
 import LoginFormSection from '@features/auth/LoginFormSection/LoginFormSection'
-import Header from '@components/Header'
-import Image from 'next/image'
 
 const SignInPage: NextPage = () => {
   return (
     <>
       <NextSeo title="Faça seu login - Hytzen Shop" />
 
-      <Header glassEffect />
-
       <LoginFormSection
         containerClassName="h-[100vh]"
         title={
-          <div className="space-y-2">
-            <Image
-              src="/icons/logo.svg"
-              alt="Hytzen Shop"
-              width={46}
-              height={46}
-              className="mb-6"
-            />
+          <div className="space-y-8">
+            <div className="flex items-center space-x-2">
+              <p className="py-4 text-2xl font-bebas text-light-gray-100">
+                <span className="text-success-300">Hytzen</span>
+                Shop
+              </p>
+            </div>
 
-            <p className="text-4xl md:text-5xl text-light-gray-100 font-bold">
-              Faça login
-            </p>
-            <p className="text-xl max-w-sm text-light-gray-100 font-medium">
-              Para começar digite seu username e senha ou efetue seu cadastro.
+            <p className="text-4xl md:text-5xl max-w-sm text-light-gray-100 font-bold">
+              Faça seu login para começar
             </p>
           </div>
         }

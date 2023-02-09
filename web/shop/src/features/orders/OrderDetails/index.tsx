@@ -104,7 +104,7 @@ export const OrderDetails: React.FC<OrderDetailsProps> = ({ order }) => {
     <div className="relative">
       <Button
         href="/profile/pedidos"
-        className="sticky top-[3.23rem] px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-50"
+        className="sticky top-[4.05rem] px-6 pt-6 hover:text-light-gray-100 bg-black w-full justify-start z-50"
       >
         <TbArrowLeft className="absolute left-0" size={16} />
         Voltar
