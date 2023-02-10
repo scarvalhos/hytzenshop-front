@@ -224,40 +224,42 @@ export interface BrasilAPICepResponse {
   location: unknown
   neighborhood: string
   service: string
-  state: typeof states[number]
+  state: (typeof states)[number]
   street: string
 }
 
-export const statesOptions: { label: string; value: typeof states[number] }[] =
-  [
-    { label: 'Acre', value: 'AC' },
-    { label: 'Alagoas', value: 'AL' },
-    { label: 'Amapá', value: 'AP' },
-    { label: 'Amazonas', value: 'AM' },
-    { label: 'Bahia', value: 'BA' },
-    { label: 'Ceará', value: 'CE' },
-    { label: 'Espirito Santo', value: 'ES' },
-    { label: 'Goiás', value: 'GO' },
-    { label: 'Maranhão', value: 'MA' },
-    { label: 'Mato Grosso', value: 'MT' },
-    { label: 'Mato Grosso do Sul', value: 'MS' },
-    { label: 'Minas Gerais', value: 'MG' },
-    { label: 'Pará', value: 'PA' },
-    { label: 'Paraíba', value: 'PB' },
-    { label: 'Paraná', value: 'PR' },
-    { label: 'Pernambuco', value: 'PB' },
-    { label: 'Piauí', value: 'PI' },
-    { label: 'Rio de Janeiro', value: 'RJ' },
-    { label: 'Rio Grande do Norte', value: 'RN' },
-    { label: 'Rio Grande do Sul', value: 'RS' },
-    { label: 'Rondônia', value: 'RO' },
-    { label: 'Roraima', value: 'RR' },
-    { label: 'Santa Catarina', value: 'SC' },
-    { label: 'São Paulo', value: 'SP' },
-    { label: 'Sergipe', value: 'SE' },
-    { label: 'Tocantins', value: 'TO' },
-    { label: 'Distrito Federal', value: 'DF' },
-  ]
+export const statesOptions: {
+  label: string
+  value: (typeof states)[number]
+}[] = [
+  { label: 'Acre', value: 'AC' },
+  { label: 'Alagoas', value: 'AL' },
+  { label: 'Amapá', value: 'AP' },
+  { label: 'Amazonas', value: 'AM' },
+  { label: 'Bahia', value: 'BA' },
+  { label: 'Ceará', value: 'CE' },
+  { label: 'Espirito Santo', value: 'ES' },
+  { label: 'Goiás', value: 'GO' },
+  { label: 'Maranhão', value: 'MA' },
+  { label: 'Mato Grosso', value: 'MT' },
+  { label: 'Mato Grosso do Sul', value: 'MS' },
+  { label: 'Minas Gerais', value: 'MG' },
+  { label: 'Pará', value: 'PA' },
+  { label: 'Paraíba', value: 'PB' },
+  { label: 'Paraná', value: 'PR' },
+  { label: 'Pernambuco', value: 'PB' },
+  { label: 'Piauí', value: 'PI' },
+  { label: 'Rio de Janeiro', value: 'RJ' },
+  { label: 'Rio Grande do Norte', value: 'RN' },
+  { label: 'Rio Grande do Sul', value: 'RS' },
+  { label: 'Rondônia', value: 'RO' },
+  { label: 'Roraima', value: 'RR' },
+  { label: 'Santa Catarina', value: 'SC' },
+  { label: 'São Paulo', value: 'SP' },
+  { label: 'Sergipe', value: 'SE' },
+  { label: 'Tocantins', value: 'TO' },
+  { label: 'Distrito Federal', value: 'DF' },
+]
 
 export interface CepResponse {
   cep: string
@@ -274,7 +276,7 @@ export interface CepResponse {
   localidade?: string
   logradouro?: string
   siafi?: string
-  uf?: typeof states[number]
+  uf?: (typeof states)[number]
 }
 
 export interface Option<T> {
@@ -284,7 +286,7 @@ export interface Option<T> {
 
 export const sizes = ['P', 'M', 'G', 'GG'] as const
 
-export type Sizes = typeof sizes[number]
+export type Sizes = (typeof sizes)[number]
 
 export const sizesOptions: Option<Sizes>[] = [
   { label: 'P', value: 'P' },
@@ -308,7 +310,7 @@ export const statusOrders = [
   'charged_back',
 ] as const
 
-export type StatusOrders = typeof statusOrders[number]
+export type StatusOrders = (typeof statusOrders)[number]
 
 export const displayStatusOrders: Record<StatusOrders, string> = {
   pending: 'Pendente',

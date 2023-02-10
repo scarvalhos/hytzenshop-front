@@ -21,7 +21,7 @@ const INPUT_TYPES = [
   'percentage',
 ] as const
 
-export type InputTypes = typeof INPUT_TYPES[number]
+export type InputTypes = (typeof INPUT_TYPES)[number]
 type Masks = Partial<Record<InputTypes, unknown>>
 
 const masks: Masks = {

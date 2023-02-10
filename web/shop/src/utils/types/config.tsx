@@ -8,7 +8,7 @@ export const useConfigTypes = () => {
 
   const categoriesConst = c?.map((category) => category.name)
 
-  const categoriesOptions: Option<typeof categoriesConst[number]>[] = [
+  const categoriesOptions: Option<(typeof categoriesConst)[number]>[] = [
     ...c.map((category) => ({
       label:
         category.name.replaceAll('-', ' ').charAt(0).toUpperCase() +

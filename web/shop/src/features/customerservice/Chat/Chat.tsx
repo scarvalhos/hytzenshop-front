@@ -34,7 +34,7 @@ const Chat: React.FC<ChatProps> = ({ id }) => {
   } = useChat({ id })
 
   const itemContent = React.useCallback(
-    (_index: number, message: typeof parsedMessages[0]) => {
+    (_index: number, message: (typeof parsedMessages)[0]) => {
       return (
         <Shared.ChatMessageCard
           id={message.id}
