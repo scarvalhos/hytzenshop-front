@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@hytzenshop/eslint": "*",
-    "concurrently": "^7.6.0",
+    "concurrently": "^8.0.1",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.2",
     "tailwind-scrollbar": "^3.0.0",
