@@ -26,7 +26,7 @@
     "@stitches/react": "^1.2.8",
     "@tanstack/react-query": "^4.16.1",
     "@tanstack/react-query-devtools": "^4.16.1",
-    "axios": "^1.1.3",
+    "axios": "^1.3.5",
     "brasilapi": "^1.0.0",
     "copy-to-clipboard": "^3.3.3",
     "cpf-cnpj-validator": "^1.0.3",
