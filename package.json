@@ -31,7 +31,7 @@
     "concurrently": "^7.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "husky": "^8.0.2",
-    "tailwind-scrollbar": "^2.1.0",
+    "tailwind-scrollbar": "^3.0.0",
     "typescript": "^4.9.3"
   }
 }
