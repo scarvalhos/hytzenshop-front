@@ -62,7 +62,7 @@
     "@types/jsonwebtoken": "^9.0.1",
     "@types/node": "18.11.9",
     "@types/object-path": "^0.11.1",
-    "@types/react": "18.0.25",
+    "@types/react": "18.0.34",
     "@types/react-dom": "18.0.9",
     "@types/react-lottie": "^1.2.6",
     "@types/react-text-truncate": "^0.14.1",
